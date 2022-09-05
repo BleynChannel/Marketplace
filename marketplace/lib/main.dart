@@ -1,7 +1,13 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 
+const kDebugMode = true;
+
 void main() {
-  runApp(const MyApp());
+  runApp(DevicePreview(
+    builder: (context) => const MyApp(),
+    enabled: kDebugMode,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,6 +31,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+
+      //DevicePreview
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
     );
   }
 }
