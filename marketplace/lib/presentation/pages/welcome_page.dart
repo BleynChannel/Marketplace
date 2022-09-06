@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/pages/login_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:wave/config.dart';
@@ -10,34 +11,43 @@ import 'package:wave/wave.dart';
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
-  void navigateToLogInPage() {}
+  void _navigateToLogInPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginPage(),
+      ),
+    );
+  }
 
-  void navigateToSignUpPage() {}
+  void _navigateToSignUpPage(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBackgroundWave(
-        context,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
-          child: Column(
-            children: [
-              const Expanded(flex: 4, child: SizedBox()),
-              Expanded(
-                flex: 3,
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    children: [
-                      _buildTitle(context),
-                      const Expanded(child: SizedBox()),
-                      _buildLogIn(context),
-                    ],
+      body: BackgroundBlur(
+        child: _buildBackgroundWave(
+          context,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+            child: Column(
+              children: [
+                const Expanded(flex: 4, child: SizedBox()),
+                Expanded(
+                  flex: 3,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      children: [
+                        _buildTitle(context),
+                        const Expanded(child: SizedBox()),
+                        _buildLogIn(context),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -47,7 +57,6 @@ class WelcomePage extends StatelessWidget {
   Widget _buildBackgroundWave(BuildContext context, {required Widget child}) {
     return Stack(
       children: [
-        const BackgroundBlur(),
         Stack(
           children: [
             RotatedBox(
@@ -92,22 +101,19 @@ class WelcomePage extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    return SizedBox(
-      width: 230,
-      child: RichText(
-        text: TextSpan(
-          text: "Game Store for ",
-          style: Theme.of(context).textTheme.headline4,
-          children: [
-            TextSpan(
-              text: "you",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+    return RichText(
+      text: TextSpan(
+        text: "Game Store\nfor ",
+        style: Theme.of(context).textTheme.headline4,
+        children: [
+          TextSpan(
+            text: "you",
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
@@ -124,13 +130,8 @@ class WelcomePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
             ),
-            child: Text(
-              "Log In",
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.75),
-              ),
-            ),
-            onPressed: () {},
+            child: const Text("Log In"),
+            onPressed: () => _navigateToLogInPage(context),
           ),
         ),
       ),
@@ -160,7 +161,8 @@ class WelcomePage extends StatelessWidget {
                       .bodyText2
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
-                  recognizer: TapGestureRecognizer()..onTap = () {},
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => _navigateToSignUpPage(context),
                 ),
               ],
             ),

@@ -26,12 +26,32 @@ class MyApp extends StatelessWidget {
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(primaryColor),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(backgroundColor),
+            overlayColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.pressed)) {
+                return primaryColor;
+              } else {
+                return Color.lerp(primaryColor, Colors.white, 0.1);
+              }
+            }),
           ),
         ),
         textTheme: TextTheme(
+          // TODO: Поменять на displayMedium
           headline4: GoogleFonts.roboto(fontSize: 44, color: Colors.white),
+          // TODO: Поменять на caption
           bodyText2: GoogleFonts.roboto(fontSize: 13),
+          bodyText1: GoogleFonts.roboto(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.white.withOpacity(0.7)),
         ),
+        fontFamily: 'Roboto',
       ),
       home: const WelcomePage(),
 
