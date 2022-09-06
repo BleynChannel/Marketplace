@@ -71,7 +71,7 @@ class WelcomePage extends StatelessWidget {
                   gradientEnd: const Alignment(-0.8, 0.2),
                 ),
                 size: const Size(double.infinity, double.infinity),
-                waveAmplitude: 80,
+                waveAmplitude: 40,
               ),
             ),
             SafeArea(
@@ -80,7 +80,7 @@ class WelcomePage extends StatelessWidget {
                 child: LottieBuilder.asset(
                   "assets/lottie/welcome_page.json",
                   fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 2.5,
                 ),
               ),
             ),
@@ -114,21 +114,24 @@ class WelcomePage extends StatelessWidget {
 
   Widget _buildLogIn(BuildContext context) {
     return Column(children: [
-      SizedBox(
-        width: double.infinity,
-        height: 40,
-        child: TextButton(
-          style: TextButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          ),
-          child: Text(
-            "Log In",
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.75),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SizedBox(
+          width: double.infinity,
+          height: 40,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
             ),
+            child: Text(
+              "Log In",
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.75),
+              ),
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
         ),
       ),
       const SizedBox(
@@ -138,24 +141,30 @@ class WelcomePage extends StatelessWidget {
       const SizedBox(
         height: 8,
       ),
-      RichText(
-        text: TextSpan(
-          text: "Don’t have an account? ",
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2
-              ?.copyWith(color: Colors.white.withOpacity(0.7)),
-          children: [
-            TextSpan(
-              text: "Sign Up",
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: SizedBox(
+          width: double.infinity,
+          child: RichText(
+            text: TextSpan(
+              text: "Don’t have an account? ",
               style: Theme.of(context)
                   .textTheme
                   .bodyText2
-                  ?.copyWith(fontWeight: FontWeight.bold),
-              mouseCursor: MaterialStateMouseCursor.clickable,
-              recognizer: TapGestureRecognizer()..onTap = () {},
+                  ?.copyWith(color: Colors.white.withOpacity(0.7)),
+              children: [
+                TextSpan(
+                  text: "Sign Up",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                  mouseCursor: MaterialStateMouseCursor.clickable,
+                  recognizer: TapGestureRecognizer()..onTap = () {},
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     ]);
