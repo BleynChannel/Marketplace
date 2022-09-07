@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           // TODO: Поменять на displayMedium
-          headline4: GoogleFonts.roboto(fontSize: 44, color: Colors.white),
+          headline4: GoogleFonts.roboto(fontSize: 38, color: Colors.white),
           // TODO: Поменять на caption
           bodyText2: GoogleFonts.roboto(fontSize: 13),
           bodyText1: GoogleFonts.roboto(

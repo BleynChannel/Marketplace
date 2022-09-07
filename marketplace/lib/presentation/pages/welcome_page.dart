@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/pages/login_page.dart';
+import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:wave/config.dart';
@@ -20,7 +21,14 @@ class WelcomePage extends StatelessWidget {
     );
   }
 
-  void _navigateToSignUpPage(BuildContext context) {}
+  void _navigateToSignUpPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignUpPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

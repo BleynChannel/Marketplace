@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/pages/login_with_email_page.dart';
+import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/login_to_button.dart';
 
@@ -46,7 +47,14 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _navigateToSignUpPage(BuildContext context) {}
+  void _navigateToSignUpPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignUpPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

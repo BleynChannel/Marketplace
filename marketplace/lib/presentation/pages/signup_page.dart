@@ -1,22 +1,22 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/presentation/pages/signup_page.dart';
+import 'package:marketplace/presentation/pages/login_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
-class LogWithEmailPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
 
-  LogWithEmailPage({Key? key}) : super(key: key);
+  SignUpPage({Key? key}) : super(key: key);
 
   void _navigateToHomePage(BuildContext context) {}
 
-  void _navigateToSignUpPage(BuildContext context) {
+  void _navigateToHomeLogInPage(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SignUpPage(),
+        builder: (context) => LoginPage(),
       ),
     );
   }
@@ -49,12 +49,12 @@ class LogWithEmailPage extends StatelessWidget {
   List<Widget> _buildTitle(BuildContext context) {
     return [
       LottieBuilder.asset(
-        "assets/lottie/login_email_page.json",
+        "assets/lottie/register_page.json",
         fit: BoxFit.cover,
         height: MediaQuery.of(context).size.height / 3.7,
       ),
       Text(
-        "Login with Email",
+        "Create new account",
         style: Theme.of(context)
             .textTheme
             .headline4
@@ -98,6 +98,23 @@ class LogWithEmailPage extends StatelessWidget {
             return 'Help';
           },
         ),
+        const SizedBox(height: 10),
+        TextFormField(
+          decoration: InputDecoration(
+            hintText: "Repeat password",
+            prefixIcon: const Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.visibility),
+              onPressed: () {},
+            ),
+          ),
+          textInputAction: TextInputAction.continueAction,
+          obscureText: true,
+          validator: (value) {
+            // TODO: Написать валидатор
+            return 'Help';
+          },
+        ),
         const SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +140,7 @@ class LogWithEmailPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
             ),
-            child: const Text("Login"),
+            child: const Text("Sign Up"),
             onPressed: () => _navigateToHomePage(context),
           ),
         ),
@@ -141,21 +158,21 @@ class LogWithEmailPage extends StatelessWidget {
           width: double.infinity,
           child: RichText(
             text: TextSpan(
-              text: "Don’t have an account? ",
+              text: "Already have an account? ",
               style: Theme.of(context)
                   .textTheme
                   .bodyText2
                   ?.copyWith(color: Colors.white.withOpacity(0.7)),
               children: [
                 TextSpan(
-                  text: "Sign Up",
+                  text: "Log In",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => _navigateToSignUpPage(context),
+                    ..onTap = () => _navigateToHomeLogInPage(context),
                 ),
               ],
             ),
