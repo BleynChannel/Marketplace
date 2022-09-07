@@ -1,50 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/presentation/pages/login_with_email_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/presentation/widgets/login_to_button.dart';
+import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
-import '../widgets/gradient_devider.dart';
+class LogWithEmailPage extends StatelessWidget {
+  final formKey = GlobalKey<FormState>();
 
-class _ContinueWith {
-  final Widget icon;
-  final String label;
-  final VoidCallback onPressed;
+  LogWithEmailPage({Key? key}) : super(key: key);
 
-  _ContinueWith(this.icon, this.label, this.onPressed);
-}
-
-class LoginPage extends StatelessWidget {
-  final _continueWithMap = [
-    _ContinueWith(
-      SvgPicture.asset("assets/icons/google.svg"),
-      'Google',
-      () {},
-    ),
-    _ContinueWith(
-      SvgPicture.asset("assets/icons/facebook.svg"),
-      'Facebook',
-      () {},
-    ),
-    _ContinueWith(
-      SvgPicture.asset("assets/icons/vk.svg"),
-      'VK',
-      () {},
-    ),
-  ];
-
-  LoginPage({Key? key}) : super(key: key);
-
-  void _navigateToLogWithEmailPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LogWithEmailPage(),
-      ),
-    );
-  }
+  void _navigateToHomePage(BuildContext context) {}
 
   void _navigateToSignUpPage(BuildContext context) {}
 
@@ -63,14 +28,9 @@ class LoginPage extends StatelessWidget {
               children: [
                 ..._buildTitle(context),
                 const Expanded(child: SizedBox()),
-                ..._buildContinueWithButtons(context, _continueWithMap),
-                const SizedBox(height: 10),
-                Text(
-                  "or",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(height: 10),
-                ..._buildLogInWithEmail(context),
+                _buildFields(context, formKey),
+                const SizedBox(height: 2),
+                ..._buildLogIn(context),
               ],
             ),
           ),
@@ -82,12 +42,12 @@ class LoginPage extends StatelessWidget {
   List<Widget> _buildTitle(BuildContext context) {
     return [
       LottieBuilder.asset(
-        "assets/lottie/login_page.json",
+        "assets/lottie/login_email_page.json",
         fit: BoxFit.cover,
         height: MediaQuery.of(context).size.height / 3.4,
       ),
       Text(
-        "Wellcome back!",
+        "Login with Email",
         style: Theme.of(context)
             .textTheme
             .headline4
@@ -96,24 +56,56 @@ class LoginPage extends StatelessWidget {
     ];
   }
 
-  List<Widget> _buildContinueWithButtons(
-      BuildContext context, List<_ContinueWith> continueWithMap) {
-    //Create a list of buttons with separators
-    return continueWithMap
-        .map((e) => LoginToButton(
-              icon: e.icon,
-              label: e.label,
-              onPressed: e.onPressed,
-            ))
-        .toList()
-        .expand((element) => [element, const SizedBox(height: 6)])
-        .toList();
+  Widget _buildFields(BuildContext context, Key formKey) {
+    return Form(
+      key: formKey,
+      child: Column(children: [
+        TextFormField(
+          decoration: const InputDecoration(
+            hintText: "Email",
+            prefixIcon: Icon(Icons.email_outlined),
+          ),
+          autofocus: true,
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.continueAction,
+          validator: (value) {
+            // TODO: Написать валидатор
+            return 'Help';
+          },
+        ),
+        const SizedBox(height: 10),
+        TextFormField(
+            decoration: InputDecoration(
+              hintText: "Password",
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.visibility),
+                onPressed: () {},
+              ),
+            ),
+            textInputAction: TextInputAction.continueAction,
+            obscureText: true,
+            validator: (value) {
+              // TODO: Написать валидатор
+              return 'Help';
+            }),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Remember me"),
+            const SizedBox(width: 4),
+            Checkbox(value: false, onChanged: (value) {}),
+          ],
+        ),
+      ]),
+    );
   }
 
-  List<Widget> _buildLogInWithEmail(BuildContext context) {
+  List<Widget> _buildLogIn(BuildContext context) {
     return [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 40),
         child: SizedBox(
           width: double.infinity,
           height: 40,
@@ -122,8 +114,8 @@ class LoginPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
             ),
-            child: const Text("Log with Email"),
-            onPressed: () => _navigateToLogWithEmailPage(context),
+            child: const Text("Login"),
+            onPressed: () => _navigateToHomePage(context),
           ),
         ),
       ),

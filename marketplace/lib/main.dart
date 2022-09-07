@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
       title: 'OLO Games',
       theme: ThemeData(
         brightness: Brightness.dark,
+        colorScheme: const ColorScheme.dark().copyWith(
+          primary: primaryColor,
+        ),
         scaffoldBackgroundColor: backgroundColor,
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
@@ -40,6 +43,29 @@ class MyApp extends StatelessWidget {
               }
             }),
           ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+            borderSide: const BorderSide(color: primaryColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+            borderSide: BorderSide(
+              color:
+                  Color.lerp(primaryColor, Colors.white, 0.2) ?? primaryColor,
+            ),
+          ),
+          constraints: const BoxConstraints(minHeight: 42, maxHeight: 42),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        ),
+        checkboxTheme: CheckboxThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          side: const BorderSide(color: primaryColor),
+          checkColor: MaterialStateProperty.all(primaryColor),
         ),
         textTheme: TextTheme(
           // TODO: Поменять на displayMedium
