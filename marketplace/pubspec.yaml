@@ -29,6 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animated_bottom_navigation_bar: ^1.1.0
   cupertino_icons: ^1.0.2
   device_preview: ^1.1.0
   flutter:
@@ -36,6 +37,8 @@ dependencies:
   flutter_svg: ^1.1.4
   google_fonts: ^3.0.1
   lottie: ^1.4.2
+  sliver_tools: ^0.2.8
+  smooth_page_indicator: ^1.0.0+2
   wave: ^0.2.2
 
 dev_dependencies:
@@ -56,6 +59,7 @@ flutter:
   assets:
     - assets/lottie/
     - assets/icons/
+    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

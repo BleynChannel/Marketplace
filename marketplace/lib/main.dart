@@ -2,6 +2,10 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/pages/home_page.dart';
+import 'package:marketplace/presentation/pages/login_page.dart';
+import 'package:marketplace/presentation/pages/login_with_email_page.dart';
+import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/pages/welcome_page.dart';
 
 const kDebugMode = true;
@@ -30,6 +34,9 @@ class MyApp extends StatelessWidget {
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(primaryColor),
             foregroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            ),
           ),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
@@ -42,6 +49,9 @@ class MyApp extends StatelessWidget {
                 return Color.lerp(primaryColor, Colors.white, 0.1);
               }
             }),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            ),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
@@ -68,8 +78,12 @@ class MyApp extends StatelessWidget {
           checkColor: MaterialStateProperty.all(primaryColor),
         ),
         textTheme: TextTheme(
-          // TODO: Поменять на displayMedium
           headline4: GoogleFonts.roboto(fontSize: 38, color: Colors.white),
+          headline5: GoogleFonts.roboto(
+            fontSize: 28,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
           // TODO: Поменять на caption
           bodyText2: GoogleFonts.roboto(fontSize: 13),
           bodyText1: GoogleFonts.roboto(
@@ -79,7 +93,14 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Roboto',
       ),
-      home: const WelcomePage(),
+      routes: {
+        '/welcome': (context) => const WelcomePage(),
+        '/login': (context) => LoginPage(),
+        '/login/email': (context) => LogWithEmailPage(),
+        '/signup': (context) => SignUpPage(),
+        '/home': (context) => HomePage(),
+      },
+      initialRoute: '/welcome',
 
       //DevicePreview
       useInheritedMediaQuery: true,

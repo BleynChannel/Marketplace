@@ -20,7 +20,6 @@ class LoginToButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
         side: const BorderSide(color: primaryColor),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
       onPressed: onPressed,
       icon: icon,

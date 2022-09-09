@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
@@ -10,15 +9,12 @@ class LogWithEmailPage extends StatelessWidget {
 
   LogWithEmailPage({Key? key}) : super(key: key);
 
-  void _navigateToHomePage(BuildContext context) {}
+  void _navigateToHomePage(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  }
 
   void _navigateToSignUpPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignUpPage(),
-      ),
-    );
+    Navigator.pushNamed(context, '/signup');
   }
 
   @override
@@ -119,10 +115,6 @@ class LogWithEmailPage extends StatelessWidget {
           width: double.infinity,
           height: 40,
           child: TextButton(
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-            ),
             child: const Text("Login"),
             onPressed: () => _navigateToHomePage(context),
           ),

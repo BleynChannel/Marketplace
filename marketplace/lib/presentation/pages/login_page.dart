@@ -2,8 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/presentation/pages/login_with_email_page.dart';
-import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/login_to_button.dart';
 
@@ -12,7 +10,7 @@ import '../widgets/gradient_devider.dart';
 class _ContinueWith {
   final Widget icon;
   final String label;
-  final VoidCallback onPressed;
+  final void Function(BuildContext context) onPressed;
 
   _ContinueWith(this.icon, this.label, this.onPressed);
 }
@@ -22,38 +20,38 @@ class LoginPage extends StatelessWidget {
     _ContinueWith(
       SvgPicture.asset("assets/icons/google.svg"),
       'Google',
-      () {},
+      (BuildContext context) {
+        _navigateToHomePage(context);
+      },
     ),
     _ContinueWith(
       SvgPicture.asset("assets/icons/facebook.svg"),
       'Facebook',
-      () {},
+      (BuildContext context) {
+        _navigateToHomePage(context);
+      },
     ),
     _ContinueWith(
       SvgPicture.asset("assets/icons/vk.svg"),
       'VK',
-      () {},
+      (BuildContext context) {
+        _navigateToHomePage(context);
+      },
     ),
   ];
 
   LoginPage({Key? key}) : super(key: key);
 
+  static void _navigateToHomePage(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  }
+
   void _navigateToLogWithEmailPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LogWithEmailPage(),
-      ),
-    );
+    Navigator.pushNamed(context, '/login/email');
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignUpPage(),
-      ),
-    );
+    Navigator.pushNamed(context, '/signup');
   }
 
   @override
@@ -111,7 +109,7 @@ class LoginPage extends StatelessWidget {
         .map((e) => LoginToButton(
               icon: e.icon,
               label: e.label,
-              onPressed: e.onPressed,
+              onPressed: () => e.onPressed(context),
             ))
         .toList()
         .expand((element) => [element, const SizedBox(height: 6)])
@@ -126,10 +124,6 @@ class LoginPage extends StatelessWidget {
           width: double.infinity,
           height: 40,
           child: TextButton(
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-            ),
             child: const Text("Log with Email"),
             onPressed: () => _navigateToLogWithEmailPage(context),
           ),
