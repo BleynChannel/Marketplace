@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/utils/utils.dart';
+import 'package:marketplace/presentation/utils/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
@@ -302,7 +302,8 @@ class _CartPageState extends State<CartPage> {
 
                     final fullSizePlatformIcons =
                         cartProduct.product.platforms.length *
-                            (iconSize + spacing);
+                                (iconSize + spacing) +
+                            spacing;
 
                     int fitPlatformCount = 0;
                     List<String> visiblePlatforms = [
@@ -322,9 +323,12 @@ class _CartPageState extends State<CartPage> {
                     return Row(
                       children: [
                         ...visiblePlatforms
-                            .map((platform) => FaIcon(
-                                  getPlatformIcon(platform),
-                                  size: iconSize,
+                            .map((platform) => Tooltip(
+                                  message: platform,
+                                  child: FaIcon(
+                                    ui_utils.getPlatformIcon(platform),
+                                    size: iconSize,
+                                  ),
                                 ))
                             .toList()
                             .expand((element) =>

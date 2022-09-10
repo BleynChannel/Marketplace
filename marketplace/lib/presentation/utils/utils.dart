@@ -8,13 +8,13 @@ IconData? getPlatformIcon(String name) {
     case 'Linux':
       return FontAwesomeIcons.linux;
     case 'MacOS':
-      return FontAwesomeIcons.a;
+      return FontAwesomeIcons.desktop;
     case 'Android':
       return FontAwesomeIcons.android;
     case 'IOS':
-      return FontAwesomeIcons.a;
+      return FontAwesomeIcons.apple;
     case 'Nintendo Switch':
-      return FontAwesomeIcons.a;
+      return FontAwesomeIcons.gamepad;
     case 'PS4':
       return FontAwesomeIcons.playstation;
     case 'Xbox One':
