@@ -4,6 +4,7 @@ class Product {
   final double price;
   final double oldPrice;
   final double discount;
+  final List<String> platforms;
 
   Product({
     required this.title,
@@ -11,5 +12,6 @@ class Product {
     required this.price,
     required this.oldPrice,
     required this.discount,
+    required this.platforms,
   });
 }

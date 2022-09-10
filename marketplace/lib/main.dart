@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/pages/cart_page.dart';
 import 'package:marketplace/presentation/pages/home_page.dart';
 import 'package:marketplace/presentation/pages/login_page.dart';
 import 'package:marketplace/presentation/pages/login_with_email_page.dart';
@@ -32,8 +33,20 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: backgroundColor,
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(primaryColor),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.disabled)) {
+                return primaryColor.withOpacity(0.5);
+              } else {
+                return primaryColor;
+              }
+            }),
+            foregroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.disabled)) {
+                return Colors.white.withOpacity(0.5);
+              } else {
+                return Colors.white;
+              }
+            }),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             ),
@@ -75,7 +88,7 @@ class MyApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           side: const BorderSide(color: primaryColor),
-          checkColor: MaterialStateProperty.all(primaryColor),
+          fillColor: MaterialStateProperty.all(primaryColor),
         ),
         textTheme: TextTheme(
           headline4: GoogleFonts.roboto(fontSize: 38, color: Colors.white),
@@ -98,7 +111,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/login/email': (context) => LogWithEmailPage(),
         '/signup': (context) => SignUpPage(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => const HomePage(),
+        '/cart': (context) => CartPage(),
       },
       initialRoute: '/welcome',
 

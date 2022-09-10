@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
       price: 999,
       oldPrice: 1999,
       discount: 0.5,
+      platforms: ['Windows', 'Linux', 'MacOS'],
     ),
     Product(
       title: 'Stray',
@@ -45,6 +46,14 @@ class _HomePageState extends State<HomePage> {
       price: 699,
       oldPrice: 699,
       discount: 0,
+      platforms: [
+        'Windows',
+        'Linux',
+        'MacOS',
+        'PS4',
+        'Xbox One',
+        'PS5',
+      ],
     ),
     Product(
       title: 'Minecraft',
@@ -52,12 +61,25 @@ class _HomePageState extends State<HomePage> {
       price: 1299,
       oldPrice: 2499,
       discount: 0.48,
+      platforms: [
+        'Windows',
+        'Linux',
+        'MacOS',
+        'Android',
+        'IOS',
+        'Nintendo Switch',
+        'PS4',
+        'Xbox One',
+        'PS5',
+      ],
     ),
   ];
 
   late Map<String, List<Product>> _debugProductList;
 
-  void _onCartClick(BuildContext context) {}
+  void _onCartClick(BuildContext context) {
+    Navigator.pushNamed(context, '/cart');
+  }
 
   void _onNotificationClick(BuildContext context) {}
 
@@ -85,9 +107,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(60)),
-            gradient: LinearGradient(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(60),
+            gradient: const LinearGradient(
               colors: [gradientStartColor, gradientStopColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -96,7 +118,7 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.all(2),
             child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(60)),
+              borderRadius: BorderRadius.circular(60),
               child: Stack(children: [
                 Image.asset(
                   "assets/images/avatar.png",
