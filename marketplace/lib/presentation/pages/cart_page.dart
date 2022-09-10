@@ -92,7 +92,12 @@ class _CartPageState extends State<CartPage> {
     _allPrice = _checkedProduct.fold(
         0.0, (sum, cartProduct) => sum + cartProduct.product.price);
     _allOldPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.oldPrice);
+        0.0,
+        (sum, cartProduct) =>
+            sum +
+            (cartProduct.product.price == cartProduct.product.oldPrice
+                ? 0
+                : cartProduct.product.oldPrice));
   }
 
   void _onAllUnchecked() {
@@ -213,13 +218,15 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          "$_allOldPrice ₽",
-                          style: GoogleFonts.roboto(
-                            fontSize: 16,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
+                        _allOldPrice != 0
+                            ? Text(
+                                "$_allOldPrice ₽",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              )
+                            : const SizedBox(),
                       ],
                     ),
                     SizedBox(
