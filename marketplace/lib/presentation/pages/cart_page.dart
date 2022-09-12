@@ -29,7 +29,11 @@ class CartPage extends StatefulWidget {
         price: 999,
         oldPrice: 1999,
         discount: 0.5,
-        platforms: ['Windows', 'Linux', 'MacOS'],
+        platforms: [
+          'Windows',
+          'Linux',
+          'MacOS',
+        ],
       ),
       count: 1,
     ),
@@ -38,7 +42,7 @@ class CartPage extends StatefulWidget {
         title: 'Stray',
         pathToImage: 'assets/images/stray.jpg',
         price: 699,
-        oldPrice: 699,
+        oldPrice: 0,
         discount: 0,
         platforms: [
           'Windows',
@@ -92,12 +96,7 @@ class _CartPageState extends State<CartPage> {
     _allPrice = _checkedProduct.fold(
         0.0, (sum, cartProduct) => sum + cartProduct.product.price);
     _allOldPrice = _checkedProduct.fold(
-        0.0,
-        (sum, cartProduct) =>
-            sum +
-            (cartProduct.product.price == cartProduct.product.oldPrice
-                ? 0
-                : cartProduct.product.oldPrice));
+        0.0, (sum, cartProduct) => sum + cartProduct.product.oldPrice);
   }
 
   void _onAllUnchecked() {
@@ -134,6 +133,8 @@ class _CartPageState extends State<CartPage> {
       _changePrice();
     });
   }
+
+  void _onProductClick(BuildContext context, CartProduct cartProduct) {}
 
   void _onCheckout() {}
 
@@ -251,33 +252,26 @@ class _CartPageState extends State<CartPage> {
       child: Row(children: [
         Expanded(
           flex: 2,
-          child: Column(
-            children: [
-              const Expanded(child: SizedBox()),
-              Expanded(
-                flex: 10,
-                child: Stack(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image:
-                            Image.asset(cartProduct.product.pathToImage).image,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+          child: AspectRatio(
+            aspectRatio: 2 / 1,
+            child: Stack(children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    image: Image.asset(cartProduct.product.pathToImage).image,
+                    fit: BoxFit.cover,
                   ),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: () {},
-                    ),
-                  ),
-                ]),
+                ),
               ),
-              const Expanded(child: SizedBox()),
-            ],
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => _onProductClick(context, cartProduct),
+                ),
+              ),
+            ]),
           ),
         ),
         const SizedBox(width: 8),
@@ -363,7 +357,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                     const SizedBox(width: 2),
-                    cartProduct.product.price != cartProduct.product.oldPrice
+                    cartProduct.product.oldPrice > 0
                         ? Text(
                             "${cartProduct.product.oldPrice.ceil()} ₽",
                             style: GoogleFonts.roboto(

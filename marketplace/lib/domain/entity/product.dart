@@ -1,5 +1,6 @@
 class Product {
   final String title;
+  //! Debug
   final String pathToImage;
   final double price;
   final double oldPrice;

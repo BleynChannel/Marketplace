@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
       title: 'Stray',
       pathToImage: 'assets/images/stray.jpg',
       price: 699,
-      oldPrice: 699,
+      oldPrice: 0,
       discount: 0,
       platforms: [
         'Windows',
@@ -81,7 +81,9 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushNamed(context, '/cart');
   }
 
-  void _onNotificationClick(BuildContext context) {}
+  void _onNotificationClick(BuildContext context) {
+    Navigator.pushNamed(context, '/notification');
+  }
 
   void _onPlatformsSelected(BuildContext context, List<String> selected) {}
 
@@ -263,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(width: 2),
-                product.price != product.oldPrice
+                product.oldPrice > 0
                     ? Text(
                         "${product.oldPrice.ceil()} ₽",
                         style: GoogleFonts.roboto(
@@ -429,7 +431,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
                                 ),
                               ),
                               const SizedBox(width: 2),
-                              product.price != product.oldPrice
+                              product.oldPrice > 0
                                   ? Text(
                                       "${product.oldPrice.ceil()} ₽",
                                       style: GoogleFonts.roboto(

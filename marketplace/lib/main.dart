@@ -6,6 +6,7 @@ import 'package:marketplace/presentation/pages/cart_page.dart';
 import 'package:marketplace/presentation/pages/home_page.dart';
 import 'package:marketplace/presentation/pages/login_page.dart';
 import 'package:marketplace/presentation/pages/login_with_email_page.dart';
+import 'package:marketplace/presentation/pages/notification_page.dart';
 import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/pages/welcome_page.dart';
 
@@ -113,6 +114,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/home': (context) => const HomePage(),
         '/cart': (context) => CartPage(),
+        '/notification': (context) => NotificationPage(),
       },
       initialRoute: '/welcome',
 
