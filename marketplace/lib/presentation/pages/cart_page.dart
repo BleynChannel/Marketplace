@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,11 +13,13 @@ class _CartAppBarAction {
   final String tooltip;
   final IconData icon;
   final void Function() onPressed;
+  final bool Function() getActive;
 
   _CartAppBarAction({
     required this.tooltip,
     required this.icon,
     required this.onPressed,
+    required this.getActive,
   });
 }
 
@@ -144,16 +147,19 @@ class _CartPageState extends State<CartPage> {
         tooltip: 'Unselected all',
         icon: Icons.block,
         onPressed: _onAllUnchecked,
+        getActive: () => _checkedProduct.isNotEmpty,
       ),
       _CartAppBarAction(
         tooltip: 'Selected all',
         icon: Icons.check,
         onPressed: _onAllChecked,
+        getActive: () => !listEquals(_checkedProduct, widget._debugProduct),
       ),
       _CartAppBarAction(
         tooltip: 'Delete selects',
         icon: Icons.delete,
         onPressed: _onDelete,
+        getActive: () => _checkedProduct.isNotEmpty,
       ),
     ];
   }
@@ -169,7 +175,7 @@ class _CartPageState extends State<CartPage> {
         actions: _actions
             .map(
               (action) => IconButton(
-                onPressed: action.onPressed,
+                onPressed: action.getActive() ? action.onPressed : null,
                 icon: Icon(action.icon),
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 constraints: const BoxConstraints(),

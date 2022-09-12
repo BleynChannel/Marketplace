@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -11,7 +12,7 @@ class HomePageView extends StatefulWidget {
     Key? key,
     required this.itemBuilder,
     required this.itemCount,
-    this.contentWidthFraction,
+    required this.contentWidthFraction,
   }) : super(key: key);
 
   @override
@@ -19,38 +20,32 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
-  PageController? pageController;
-
-  @override
-  void initState() {
-    pageController = PageController(
-      viewportFraction: widget.contentWidthFraction ?? 0.8,
-      initialPage: 1,
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    pageController?.dispose();
-    super.dispose();
-  }
+  final _carouselController = CarouselController();
+  int _activeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: PageView.builder(
-            controller: pageController,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: widget.itemBuilder,
-            itemCount: widget.itemCount,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: CarouselSlider.builder(
+              itemCount: widget.itemCount,
+              itemBuilder: (context, index, realIndex) =>
+                  widget.itemBuilder(context, index),
+              carouselController: _carouselController,
+              options: CarouselOptions(
+                autoPlay: true,
+                onPageChanged: (index, reason) =>
+                    setState(() => _activeIndex = index),
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 8),
-        SmoothPageIndicator(
-          controller: pageController!,
+        AnimatedSmoothIndicator(
+          activeIndex: _activeIndex,
           count: widget.itemCount,
           effect: WormEffect(
             activeDotColor: accentColor,
@@ -58,13 +53,10 @@ class _HomePageViewState extends State<HomePageView> {
             dotWidth: 16,
             dotHeight: 8,
           ),
-          onDotClicked: (index) {
-            pageController?.animateToPage(index,
-                duration: const Duration(
-                  milliseconds: 500,
-                ),
-                curve: Curves.easeInOut);
-          },
+          onDotClicked: (index) => setState(() {
+            _activeIndex = index;
+            _carouselController.animateToPage(index);
+          }),
         ),
       ],
     );

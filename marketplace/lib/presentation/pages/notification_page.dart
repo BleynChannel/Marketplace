@@ -55,18 +55,6 @@ class _NotificationPageState extends State<NotificationPage> {
   ) {
     return IntrinsicHeight(
       child: Row(children: [
-        Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            color: !isRead ? Colors.red : null,
-            border: Border.all(
-              color: isRead ? Colors.grey.withOpacity(0.8) : Colors.transparent,
-            ),
-          ),
-        ),
-        const SizedBox(width: 4),
         Expanded(
           flex: 2,
           child: AspectRatio(
