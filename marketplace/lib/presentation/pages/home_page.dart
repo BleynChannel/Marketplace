@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/debugData.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/custom_bottom_navigation_bar.dart';
 import 'package:marketplace/presentation/widgets/home_page_view.dart';
@@ -19,6 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //TODO: Внести в entity
   final _platformList = [
     'Windows',
     'Linux',
@@ -31,51 +33,7 @@ class _HomePageState extends State<HomePage> {
     'PS5',
   ];
 
-  final List<Product> _debugMainProductList = [
-    Product(
-      title: 'Cyberpunk 2077',
-      pathToImage: 'assets/images/cyberpunk.jpg',
-      price: 999,
-      oldPrice: 1999,
-      discount: 0.5,
-      platforms: ['Windows', 'Linux', 'MacOS'],
-    ),
-    Product(
-      title: 'Stray',
-      pathToImage: 'assets/images/stray.jpg',
-      price: 699,
-      oldPrice: 0,
-      discount: 0,
-      platforms: [
-        'Windows',
-        'Linux',
-        'MacOS',
-        'PS4',
-        'Xbox One',
-        'PS5',
-      ],
-    ),
-    Product(
-      title: 'Minecraft',
-      pathToImage: 'assets/images/minecraft.jpg',
-      price: 1299,
-      oldPrice: 2499,
-      discount: 0.48,
-      platforms: [
-        'Windows',
-        'Linux',
-        'MacOS',
-        'Android',
-        'IOS',
-        'Nintendo Switch',
-        'PS4',
-        'Xbox One',
-        'PS5',
-      ],
-    ),
-  ];
-
-  late Map<String, List<Product>> _debugProductList;
+  late Map<String, List<Product>> _debugProductMap;
 
   void _onCartClick(BuildContext context) {
     Navigator.pushNamed(context, '/cart');
@@ -87,17 +45,21 @@ class _HomePageState extends State<HomePage> {
 
   void _onPlatformsSelected(BuildContext context, List<String> selected) {}
 
-  void _onTapProfile() {}
+  void _onProductClick(BuildContext context, Product product) {}
+
+  void _onProfileTap() {
+    Navigator.pushNamed(context, '/profile');
+  }
 
   void _onBottomNavBarSelected(String pageName) {}
 
   @override
   void initState() {
-    _debugProductList = {
-      'Most Popular': _debugMainProductList,
-      'Free This Week': _debugMainProductList,
-      'Special Offers': _debugMainProductList,
-      'You will like': _debugMainProductList,
+    _debugProductMap = {
+      'Most Popular': debugProductList,
+      'Free This Week': debugProductList,
+      'Special Offers': debugProductList,
+      'You will like': debugProductList,
     };
 
     super.initState();
@@ -124,12 +86,13 @@ class _HomePageState extends State<HomePage> {
               child: Stack(children: [
                 Image.asset(
                   "assets/images/avatar.png",
+                  fit: BoxFit.fill,
                 ),
                 Positioned.fill(
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: _onTapProfile,
+                      onTap: _onProfileTap,
                     ),
                   ),
                 ),
@@ -151,9 +114,10 @@ class _HomePageState extends State<HomePage> {
                 expandedHeight: MediaQuery.of(context).size.height / 3,
                 minExpandedHeight:
                     kToolbarHeight + MediaQuery.of(context).padding.top,
-                debugProductList: _debugMainProductList,
+                debugProductList: debugProductList,
                 onCartClick: _onCartClick,
                 onNotificationClick: _onNotificationClick,
+                onProductClick: _onProductClick,
               ),
               pinned: true,
             ),
@@ -172,10 +136,10 @@ class _HomePageState extends State<HomePage> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) => _buildCategoryProducts(
                   context,
-                  title: _debugProductList.entries.elementAt(index).key,
-                  products: _debugProductList.entries.elementAt(index).value,
+                  title: _debugProductMap.entries.elementAt(index).key,
+                  products: _debugProductMap.entries.elementAt(index).value,
                 ),
-                childCount: _debugProductList.length,
+                childCount: _debugProductMap.length,
               ),
             ),
             const SliverPadding(padding: EdgeInsets.only(bottom: 80)),
@@ -198,7 +162,12 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.headline5),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headline5?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
           const SizedBox(height: 8),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -229,14 +198,25 @@ class _HomePageState extends State<HomePage> {
       height: itemHeight,
       child: Column(children: [
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: Image.asset(product.pathToImage).image,
-                fit: BoxFit.cover,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: Image.asset(product.pathToImage).image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () => _onProductClick(context, product),
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 4),
@@ -248,7 +228,7 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 product.title,
                 style: GoogleFonts.roboto(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: Colors.white.withOpacity(0.9),
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -260,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   "${product.price.ceil()} ₽",
                   style: GoogleFonts.roboto(
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -269,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                     ? Text(
                         "${product.oldPrice.ceil()} ₽",
                         style: GoogleFonts.roboto(
-                          fontSize: 10,
+                          fontSize: 12,
                           decoration: TextDecoration.lineThrough,
                         ),
                       )
@@ -279,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                     ? Text(
                         "${(product.discount * 100).ceil()}%",
                         style: GoogleFonts.roboto(
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Colors.lightGreen,
                         ),
@@ -300,6 +280,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
 
   final void Function(BuildContext context) onCartClick;
   final void Function(BuildContext context) onNotificationClick;
+  final void Function(BuildContext context, Product product) onProductClick;
 
   final List<Product> debugProductList;
 
@@ -309,6 +290,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
     required this.debugProductList,
     required this.onCartClick,
     required this.onNotificationClick,
+    required this.onProductClick,
   });
 
   @override
@@ -317,8 +299,12 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
     final progress = shrinkOffset / maxExtent;
 
     return AppBar(
-      title: const Text("Discover"),
+      title: Text(
+        "Discover",
+        style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+      ),
       backgroundColor: Colors.transparent,
+      elevation: 0,
       centerTitle: false,
       actions: [
         IconButton(
@@ -383,85 +369,95 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: Image.asset(product.pathToImage).image,
-              fit: BoxFit.cover,
+        child: Stack(children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: Image.asset(product.pathToImage).image,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Column(children: [
-            const Expanded(child: SizedBox()),
-            ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: Container(
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      spreadRadius: 12,
-                      blurRadius: 12,
-                      offset: const Offset(0, 24),
-                    ),
-                  ]),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product.title,
-                          style: GoogleFonts.roboto(
-                            fontSize: 16,
-                            color: Colors.white.withOpacity(0.9),
+            child: Column(children: [
+              const Expanded(child: SizedBox()),
+              ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                  child: Container(
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 12,
+                        blurRadius: 12,
+                        offset: const Offset(0, 24),
+                      ),
+                    ]),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.title,
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(children: [
-                              Text(
-                                "${product.price.ceil()} ₽",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(children: [
+                                Text(
+                                  "${product.price.ceil()} ₽",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 2),
-                              product.oldPrice > 0
-                                  ? Text(
-                                      "${product.oldPrice.ceil()} ₽",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 14,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                              const SizedBox(width: 2),
-                              product.discount != 0
-                                  ? Text(
-                                      "${(product.discount * 100).ceil()}%",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.lightGreen,
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                            ]),
-                          ],
-                        ),
-                      ],
+                                const SizedBox(width: 2),
+                                product.oldPrice > 0
+                                    ? Text(
+                                        "${product.oldPrice.ceil()} ₽",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 14,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                const SizedBox(width: 2),
+                                product.discount != 0
+                                    ? Text(
+                                        "${(product.discount * 100).ceil()}%",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.lightGreen,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ]),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
+            ]),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => onProductClick(context, product),
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }

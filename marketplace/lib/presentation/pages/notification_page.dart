@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:marketplace/presentation/debugData.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/domain/entity/notification.dart' as entity;
 
 class NotificationPage extends StatefulWidget {
   final Map<entity.Notification, bool> _debugNotification = {
-    entity.Notification(
-      title: "Autumn discounts",
-      pathToImage: 'assets/images/notification_discount_image.jpg',
-      description:
-          'Get a 50% discount on the purchase of mobile games bsjfhbs bf hsbfhbjbs djhfbj bdsj bfjhbsjd bjfbj bdsjb jfb jsdb jfbjs bdjb fhs jdhbfj bsdb fj',
-    ): false,
+    debugNotification[0]: false,
   };
 
   NotificationPage({Key? key}) : super(key: key);
@@ -24,7 +20,10 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notification"),
+        title: Text(
+          "Notification",
+          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -63,8 +62,7 @@ class _NotificationPageState extends State<NotificationPage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
-                  image:
-                      Image.asset(notification.pathToImage).image,
+                  image: Image.asset(notification.pathToImage).image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -87,7 +85,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 notification.description,
                 style: GoogleFonts.roboto(
                   fontSize: 14,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white70,
                 ),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,

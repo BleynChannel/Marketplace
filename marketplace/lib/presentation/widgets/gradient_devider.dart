@@ -15,8 +15,8 @@ class GradientDevider extends StatelessWidget {
       height: isHorizontal ? 1 : double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
+          begin: isHorizontal ? Alignment.centerLeft : Alignment.topCenter,
+          end: isHorizontal ? Alignment.centerRight : Alignment.bottomCenter,
           colors: [
             Colors.white.withOpacity(0),
             Colors.white,

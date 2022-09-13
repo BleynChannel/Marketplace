@@ -144,7 +144,7 @@ class WelcomePage extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyText2
-                  ?.copyWith(color: Colors.white.withOpacity(0.7)),
+                  ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: "Sign Up",

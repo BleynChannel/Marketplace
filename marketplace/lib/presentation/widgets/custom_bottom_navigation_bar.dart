@@ -16,7 +16,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  final Color defaultColor = Colors.white.withOpacity(0.8);
+  final Color defaultColor = Colors.white70;
   final Color activeColor = Colors.white;
 
   final Map<String, IconData> items = {

@@ -7,6 +7,7 @@ import 'package:marketplace/presentation/pages/home_page.dart';
 import 'package:marketplace/presentation/pages/login_page.dart';
 import 'package:marketplace/presentation/pages/login_with_email_page.dart';
 import 'package:marketplace/presentation/pages/notification_page.dart';
+import 'package:marketplace/presentation/pages/profile_page.dart';
 import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/pages/welcome_page.dart';
 
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
             }),
             foregroundColor: MaterialStateProperty.resolveWith((states) {
               if (states.contains(MaterialState.disabled)) {
-                return Colors.white.withOpacity(0.5);
+                return Colors.white54;
               } else {
                 return Colors.white;
               }
@@ -92,18 +93,27 @@ class MyApp extends StatelessWidget {
           fillColor: MaterialStateProperty.all(primaryColor),
         ),
         textTheme: TextTheme(
-          headline4: GoogleFonts.roboto(fontSize: 38, color: Colors.white),
+          headline4: GoogleFonts.roboto(
+            fontSize: 38,
+            color: Colors.white,
+          ),
           headline5: GoogleFonts.roboto(
             fontSize: 28,
             color: Colors.white,
-            fontWeight: FontWeight.bold,
+          ),
+          headline6: GoogleFonts.roboto(
+            fontSize: 18,
+            color: Colors.white,
           ),
           // TODO: Поменять на caption
-          bodyText2: GoogleFonts.roboto(fontSize: 13),
+          bodyText2: GoogleFonts.roboto(
+            fontSize: 13,
+            color: Colors.white,
+          ),
           bodyText1: GoogleFonts.roboto(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.white.withOpacity(0.7)),
+            fontSize: 14,
+            color: Colors.white70,
+          ),
         ),
         fontFamily: 'Roboto',
       ),
@@ -115,6 +125,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/cart': (context) => CartPage(),
         '/notification': (context) => NotificationPage(),
+        '/profile': (context) => const ProfilePage(),
       },
       initialRoute: '/welcome',
 

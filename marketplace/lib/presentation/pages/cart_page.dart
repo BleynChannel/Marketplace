@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
-import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/utils/utils.dart' as ui_utils;
+import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
@@ -24,63 +24,6 @@ class _CartAppBarAction {
 }
 
 class CartPage extends StatefulWidget {
-  final _debugProduct = [
-    CartProduct(
-      product: Product(
-        title: 'Cyberpunk 2077',
-        pathToImage: 'assets/images/cyberpunk.jpg',
-        price: 999,
-        oldPrice: 1999,
-        discount: 0.5,
-        platforms: [
-          'Windows',
-          'Linux',
-          'MacOS',
-        ],
-      ),
-      count: 1,
-    ),
-    CartProduct(
-      product: Product(
-        title: 'Stray',
-        pathToImage: 'assets/images/stray.jpg',
-        price: 699,
-        oldPrice: 0,
-        discount: 0,
-        platforms: [
-          'Windows',
-          'Linux',
-          'MacOS',
-          'PS4',
-          'Xbox One',
-          'PS5',
-        ],
-      ),
-      count: 1,
-    ),
-    CartProduct(
-      product: Product(
-        title: 'Minecraft',
-        pathToImage: 'assets/images/minecraft.jpg',
-        price: 1299,
-        oldPrice: 2499,
-        discount: 0.48,
-        platforms: [
-          'Windows',
-          'Linux',
-          'MacOS',
-          'Android',
-          'IOS',
-          'Nintendo Switch',
-          'PS4',
-          'Xbox One',
-          'PS5',
-        ],
-      ),
-      count: 1,
-    ),
-  ];
-
   CartPage({Key? key}) : super(key: key);
 
   @override
@@ -111,14 +54,14 @@ class _CartPageState extends State<CartPage> {
 
   void _onAllChecked() {
     setState(() {
-      _checkedProduct = [...widget._debugProduct];
+      _checkedProduct = [...debugCartProductList];
       _changePrice();
     });
   }
 
   void _onDelete() {
     setState(() {
-      widget._debugProduct
+      debugCartProductList
           .removeWhere((product) => _checkedProduct.contains(product));
       _checkedProduct.clear();
       _changePrice();
@@ -153,7 +96,8 @@ class _CartPageState extends State<CartPage> {
         tooltip: 'Selected all',
         icon: Icons.check,
         onPressed: _onAllChecked,
-        getActive: () => !listEquals(_checkedProduct, widget._debugProduct),
+        getActive: () =>
+            !listEquals(_checkedProduct, debugCartProductList),
       ),
       _CartAppBarAction(
         tooltip: 'Delete selects',
@@ -168,7 +112,10 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cart"),
+        title: Text(
+          "Cart",
+          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -193,11 +140,11 @@ class _CartPageState extends State<CartPage> {
               children: [
                 Expanded(
                   child: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        _buildProductItem(context, widget._debugProduct[index]),
+                    itemBuilder: (context, index) => _buildProductItem(
+                        context, debugCartProductList[index]),
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 8),
-                    itemCount: widget._debugProduct.length,
+                    itemCount: debugCartProductList.length,
                   ),
                 ),
                 const GradientDevider(),

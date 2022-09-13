@@ -73,7 +73,9 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   "or",
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 10),
                 ..._buildLogInWithEmail(context),
@@ -146,7 +148,7 @@ class LoginPage extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyText2
-                  ?.copyWith(color: Colors.white.withOpacity(0.7)),
+                  ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: "Sign Up",

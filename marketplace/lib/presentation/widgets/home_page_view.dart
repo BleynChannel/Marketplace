@@ -47,9 +47,9 @@ class _HomePageViewState extends State<HomePageView> {
         AnimatedSmoothIndicator(
           activeIndex: _activeIndex,
           count: widget.itemCount,
-          effect: WormEffect(
+          effect: const WormEffect(
             activeDotColor: accentColor,
-            dotColor: Colors.white.withOpacity(0.8),
+            dotColor: Colors.white70,
             dotWidth: 16,
             dotHeight: 8,
           ),

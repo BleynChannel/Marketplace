@@ -92,7 +92,7 @@ class _PlatformChipsState extends State<PlatformChips> {
         child: Text(
           title,
           style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                color: selected ? Colors.white : Colors.white.withOpacity(0.7),
+                color: selected ? Colors.white : Colors.white70,
                 fontWeight: selected ? FontWeight.bold : FontWeight.normal,
               ),
         ),
