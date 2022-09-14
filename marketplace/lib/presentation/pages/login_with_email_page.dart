@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
@@ -10,11 +12,11 @@ class LogWithEmailPage extends StatelessWidget {
   LogWithEmailPage({Key? key}) : super(key: key);
 
   void _navigateToHomePage(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    context.router.replaceAll([HomeRouth()]);
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    Navigator.pushNamed(context, '/signup');
+    context.router.navigateNamed('/signup');
   }
 
   @override

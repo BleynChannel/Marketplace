@@ -2,30 +2,25 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/pages/cart_page.dart';
-import 'package:marketplace/presentation/pages/home_page.dart';
-import 'package:marketplace/presentation/pages/login_page.dart';
-import 'package:marketplace/presentation/pages/login_with_email_page.dart';
-import 'package:marketplace/presentation/pages/notification_page.dart';
-import 'package:marketplace/presentation/pages/profile_page.dart';
-import 'package:marketplace/presentation/pages/signup_page.dart';
-import 'package:marketplace/presentation/pages/welcome_page.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 
 const kDebugMode = true;
 
 void main() {
   runApp(DevicePreview(
-    builder: (context) => const MyApp(),
+    builder: (context) => MyApp(),
     enabled: kDebugMode,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final _appRouter = AppRouter();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'OLO Games',
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -117,17 +112,9 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Roboto',
       ),
-      routes: {
-        '/welcome': (context) => const WelcomePage(),
-        '/login': (context) => LoginPage(),
-        '/login/email': (context) => LogWithEmailPage(),
-        '/signup': (context) => SignUpPage(),
-        '/home': (context) => const HomePage(),
-        '/cart': (context) => CartPage(),
-        '/notification': (context) => NotificationPage(),
-        '/profile': (context) => const ProfilePage(),
-      },
-      initialRoute: '/welcome',
+
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
 
       //DevicePreview
       useInheritedMediaQuery: true,

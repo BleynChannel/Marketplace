@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/login_to_button.dart';
 
@@ -43,15 +45,15 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   static void _navigateToHomePage(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    context.router.replaceAll([HomeRouth()]);
   }
 
   void _navigateToLogWithEmailPage(BuildContext context) {
-    Navigator.pushNamed(context, '/login/email');
+    context.router.navigateNamed('/login/email');
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    Navigator.pushNamed(context, '/signup');
+    context.router.navigateNamed('/signup');
   }
 
   @override
@@ -95,7 +97,7 @@ class LoginPage extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 3.4,
       ),
       Text(
-        "Wellcome back!",
+        "Welcome back!",
         style: Theme.of(context)
             .textTheme
             .headline4

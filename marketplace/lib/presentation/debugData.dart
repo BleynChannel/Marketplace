@@ -1,5 +1,6 @@
 import 'package:marketplace/domain/entity/achievement.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
+import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/domain/entity/notification.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/domain/entity/profile.dart';
@@ -65,6 +66,12 @@ final debugCartProductList = [
     product: debugProductList[2],
     count: 1,
   ),
+];
+
+final debugDesiredList = [
+  Desired(product: debugProductList[0]),
+  Desired(product: debugProductList[1]),
+  Desired(product: debugProductList[2]),
 ];
 
 final debugNotification = [

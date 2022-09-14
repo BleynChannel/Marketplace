@@ -2,31 +2,20 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:marketplace/presentation/colors.dart';
 
-class CustomBottomNavigationBar extends StatefulWidget {
-  final void Function(String pageName) onSelected;
+class CustomBottomNavigationBar extends StatelessWidget {
+  final Map<String, IconData> items;
+  final int currentIndex;
+  final void Function(int index) onTap;
 
   const CustomBottomNavigationBar({
     Key? key,
-    required this.onSelected,
+    required this.items,
+    required this.currentIndex,
+    required this.onTap,
   }) : super(key: key);
 
-  @override
-  State<CustomBottomNavigationBar> createState() =>
-      _CustomBottomNavigationBarState();
-}
-
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  final Color defaultColor = Colors.white70;
-  final Color activeColor = Colors.white;
-
-  final Map<String, IconData> items = {
-    'Discover': Icons.home,
-    'Search': Icons.search,
-    'Desired': Icons.bookmark_outline,
-    'Menu': Icons.menu,
-  };
-
-  int _activeIndex = 0;
+  static const Color defaultColor = Colors.white70;
+  static const Color activeColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +40,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             splashColor: activeColor,
             itemCount: items.length,
             tabBuilder: (index, isActive) => _buildItem(index, isActive),
-            activeIndex: _activeIndex,
-            onTap: (int index) => setState(() {
-              _activeIndex = index;
-              widget.onSelected(items.entries.elementAt(_activeIndex).key);
-            }),
+            activeIndex: currentIndex,
+            onTap: onTap,
           ),
         ),
         Container(

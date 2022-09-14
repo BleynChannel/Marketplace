@@ -2,20 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:marketplace/domain/entity/cart_product.dart';
+import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/debugData.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
-class _CartAppBarAction {
+class _DesiredAppBarAction {
   final String tooltip;
   final IconData icon;
   final void Function() onPressed;
   final bool Function() getActive;
 
-  _CartAppBarAction({
+  _DesiredAppBarAction({
     required this.tooltip,
     required this.icon,
     required this.onPressed,
@@ -23,86 +22,71 @@ class _CartAppBarAction {
   });
 }
 
-class CartPage extends StatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
+class DesiredPage extends StatefulWidget {
+  const DesiredPage({Key? key}) : super(key: key);
 
   @override
-  _CartPageState createState() => _CartPageState();
+  _DesiredPageState createState() => _DesiredPageState();
 }
 
-class _CartPageState extends State<CartPage> {
-  late List<_CartAppBarAction> _actions;
+class _DesiredPageState extends State<DesiredPage> {
+  late List<_DesiredAppBarAction> _actions;
 
-  List<CartProduct> _checkedProduct = [];
-
-  double _allPrice = 0.0;
-  double _allOldPrice = 0.0;
-
-  void _changePrice() {
-    _allPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.price);
-    _allOldPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.oldPrice);
-  }
+  List<Desired> _checkedDesired = [];
 
   void _onAllUnselected() {
     setState(() {
-      _checkedProduct.clear();
-      _changePrice();
+      _checkedDesired.clear();
     });
   }
 
   void _onAllSelected() {
     setState(() {
-      _checkedProduct = [...debugCartProductList];
-      _changePrice();
+      _checkedDesired = [...debugDesiredList];
     });
   }
 
   void _onDelete() {
     setState(() {
-      debugCartProductList
-          .removeWhere((product) => _checkedProduct.contains(product));
-      _checkedProduct.clear();
-      _changePrice();
+      debugDesiredList
+          .removeWhere((desired) => _checkedDesired.contains(desired));
+      _checkedDesired.clear();
     });
   }
 
-  void _onProductCheck(CartProduct product, bool value) {
+  void _onDesiredCheck(Desired desired, bool value) {
     setState(() {
       if (value) {
-        _checkedProduct.add(product);
+        _checkedDesired.add(desired);
       } else {
-        _checkedProduct.remove(product);
+        _checkedDesired.remove(desired);
       }
-
-      _changePrice();
     });
   }
 
-  void _onProductClick(BuildContext context, CartProduct cartProduct) {}
+  void _onProductClick(BuildContext context, Desired desired) {}
 
   void _onCheckout() {}
 
-  _CartPageState() {
+  _DesiredPageState() {
     _actions = [
-      _CartAppBarAction(
+      _DesiredAppBarAction(
         tooltip: 'Unselected all',
         icon: Icons.block,
         onPressed: _onAllUnselected,
-        getActive: () => _checkedProduct.isNotEmpty,
+        getActive: () => _checkedDesired.isNotEmpty,
       ),
-      _CartAppBarAction(
+      _DesiredAppBarAction(
         tooltip: 'Selected all',
         icon: Icons.check,
         onPressed: _onAllSelected,
-        getActive: () => !listEquals(_checkedProduct, debugCartProductList),
+        getActive: () => !listEquals(_checkedDesired, debugDesiredList),
       ),
-      _CartAppBarAction(
+      _DesiredAppBarAction(
         tooltip: 'Delete selects',
         icon: Icons.delete,
         onPressed: _onDelete,
-        getActive: () => _checkedProduct.isNotEmpty,
+        getActive: () => _checkedDesired.isNotEmpty,
       ),
     ];
   }
@@ -112,13 +96,13 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Cart",
+          "Desired",
           style: GoogleFonts.roboto(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: _actions
@@ -143,56 +127,11 @@ class _CartPageState extends State<CartPage> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, index) =>
-                        _buildProductItem(context, debugCartProductList[index]),
+                        _buildDesiredItem(context, debugDesiredList[index]),
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 8),
-                    itemCount: debugCartProductList.length,
+                    itemCount: debugDesiredList.length,
                   ),
-                ),
-                const GradientDevider(),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Total: ",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          "$_allPrice ₽",
-                          style: GoogleFonts.roboto(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        _allOldPrice != 0
-                            ? Text(
-                                "$_allOldPrice ₽",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: TextButton(
-                        onPressed: _checkedProduct.isEmpty ? null : _onCheckout,
-                        child: const Text("Checkout"),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -202,7 +141,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildProductItem(BuildContext context, CartProduct cartProduct) {
+  Widget _buildDesiredItem(BuildContext context, Desired desired) {
     return IntrinsicHeight(
       child: Row(children: [
         Expanded(
@@ -214,7 +153,7 @@ class _CartPageState extends State<CartPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: Image.asset(cartProduct.product.pathToImage).image,
+                    image: Image.asset(desired.product.pathToImage).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -223,7 +162,7 @@ class _CartPageState extends State<CartPage> {
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () => _onProductClick(context, cartProduct),
+                  onTap: () => _onProductClick(context, desired),
                 ),
               ),
             ]),
@@ -236,7 +175,7 @@ class _CartPageState extends State<CartPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cartProduct.product.title,
+                desired.product.title,
                 style: GoogleFonts.roboto(fontSize: 18),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -250,13 +189,13 @@ class _CartPageState extends State<CartPage> {
                     const spacing = 4.0;
 
                     final fullSizePlatformIcons =
-                        cartProduct.product.platforms.length *
+                        desired.product.platforms.length *
                                 (iconSize + spacing) +
                             spacing;
 
                     int fitPlatformCount = 0;
                     List<String> visiblePlatforms = [
-                      ...cartProduct.product.platforms
+                      ...desired.product.platforms
                     ];
 
                     if (constraints.maxWidth < fullSizePlatformIcons) {
@@ -305,16 +244,16 @@ class _CartPageState extends State<CartPage> {
                 child: Row(
                   children: [
                     Text(
-                      "${cartProduct.product.price.ceil()} ₽",
+                      "${desired.product.price.ceil()} ₽",
                       style: GoogleFonts.roboto(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(width: 2),
-                    cartProduct.product.oldPrice > 0
+                    desired.product.oldPrice > 0
                         ? Text(
-                            "${cartProduct.product.oldPrice.ceil()} ₽",
+                            "${desired.product.oldPrice.ceil()} ₽",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               decoration: TextDecoration.lineThrough,
@@ -322,9 +261,9 @@ class _CartPageState extends State<CartPage> {
                           )
                         : const SizedBox(),
                     const SizedBox(width: 2),
-                    cartProduct.product.discount != 0
+                    desired.product.discount != 0
                         ? Text(
-                            "${(cartProduct.product.discount * 100).ceil()}%",
+                            "${(desired.product.discount * 100).ceil()}%",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -335,19 +274,15 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
-              Text(
-                "${cartProduct.count} piece",
-                style: GoogleFonts.roboto(fontSize: 14),
-              ),
             ],
           ),
         ),
         const SizedBox(width: 4),
         Checkbox(
-          value: _checkedProduct.contains(cartProduct),
+          value: _checkedDesired.contains(desired),
           onChanged: (value) {
             if (value != null) {
-              _onProductCheck(cartProduct, value);
+              _onDesiredCheck(desired, value);
             }
           },
         ),
