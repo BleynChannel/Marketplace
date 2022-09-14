@@ -86,7 +86,7 @@ final debugNotification = [
 final debugProfile = Profile(
   nickname: "Adam Harris",
   pathToAvatar: "assets/images/avatar.png",
-  pathToBackgroundImage: "assets/images/wallpapers/wallpaper-6.jpg",
+  pathToBackgroundImage: "assets/images/profile_wallpaper.jpg",
   status: "Gamer",
   purchases: 21,
   desired: 15,
