@@ -21,11 +21,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
+      resizeToAvoidBottomInset: false,
       routes: const [
-        DiscoverRouth(),
-        SearchRouth(),
-        DesiredRouth(),
-        MenuRouth(),
+        DiscoverRoute(),
+        SearchEmpty(),
+        DesiredRoute(),
+        MenuRoute(),
       ],
       bottomNavigationBuilder: (context, tabsRouter) {
         return CustomBottomNavigationBar(

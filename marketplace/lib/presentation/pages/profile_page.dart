@@ -21,7 +21,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double purchasesHeaderHeight = MediaQuery.of(context).size.height / 9;
+    final purchasesHeaderHeight = MediaQuery.of(context).size.height / 9;
+
+    void _onContactClick(String contact) {}
 
     return Scaffold(
       body: BackgroundBlur(
@@ -58,8 +60,8 @@ class ProfilePage extends StatelessWidget {
                                 context,
                                 size: MediaQuery.of(context).size.width / 8,
                                 name: contact,
+                                onTap: _onContactClick,
                               ))
-                          .toList()
                           .expand(
                               (element) => [element, const SizedBox(width: 10)])
                           .toList(),
@@ -79,7 +81,6 @@ class ProfilePage extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 2,
                                 achievement: achievement,
                               ))
-                          .toList()
                           .expand(
                               (element) => [element, const SizedBox(width: 10)])
                           .toList(),
@@ -99,7 +100,6 @@ class ProfilePage extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 2,
                                 product: product,
                               ))
-                          .toList()
                           .expand(
                               (element) => [element, const SizedBox(width: 10)])
                           .toList(),
@@ -148,6 +148,7 @@ class ProfilePage extends StatelessWidget {
     BuildContext context, {
     required double size,
     required String name,
+    required void Function(String contact) onTap,
   }) {
     return Container(
       width: size,
@@ -163,13 +164,26 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SvgPicture.asset(
-          getPathToSvgIconsContacts(name) ?? "",
-          fit: BoxFit.contain,
+      child: Stack(children: [
+        SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: SvgPicture.asset(
+              getPathToSvgIconsContacts(name) ?? "",
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
-      ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(size / 4),
+            onTap: () => onTap(name),
+          ),
+        ),
+      ]),
     );
   }
 
@@ -301,7 +315,6 @@ class ProfilePage extends StatelessWidget {
               ),
             ]);
           })
-          .toList()
           .expand((element) => [element, const SizedBox(height: 4)])
           .toList(),
     );
@@ -495,7 +508,6 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                             ),
                           );
                         })
-                        .toList()
                         .expand((element) => [
                               element,
                               const Padding(

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
@@ -119,6 +120,7 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
         centerTitle: true,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: _actions
@@ -279,10 +281,8 @@ class _CartPageState extends State<CartPage> {
                                     size: iconSize,
                                   ),
                                 ))
-                            .toList()
                             .expand((element) =>
-                                [element, const SizedBox(width: spacing)])
-                            .toList(),
+                                [element, const SizedBox(width: spacing)]),
                         constraints.maxWidth < fullSizePlatformIcons
                             ? Center(
                                 child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/debugData.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
@@ -27,6 +28,7 @@ class _NotificationPageState extends State<NotificationPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,

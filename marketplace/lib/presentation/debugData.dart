@@ -5,6 +5,22 @@ import 'package:marketplace/domain/entity/notification.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/domain/entity/profile.dart';
 
+//TODO: Внести в entity
+final debugPlatformsList = [
+  'Windows',
+  'Linux',
+  'MacOS',
+  'Android',
+  'IOS',
+  'Nintendo Switch',
+  'PS4',
+  'Xbox One',
+  'PS5',
+  'Oculus Rift',
+  'HTC Vive',
+  'Valve Index',
+];
+
 final debugProductList = [
   Product(
     title: 'Cyberpunk 2077',
@@ -12,10 +28,21 @@ final debugProductList = [
     price: 999,
     oldPrice: 1999,
     discount: 0.5,
+    releaseDate: DateTime.now(),
+    genre: [
+      'Shooters',
+      'Adventure',
+    ],
+    stylistics: [
+      'Realistic',
+    ],
     platforms: [
       'Windows',
       'Linux',
       'MacOS',
+    ],
+    multiplayer: [
+      'Single-player',
     ],
   ),
   Product(
@@ -24,6 +51,16 @@ final debugProductList = [
     price: 699,
     oldPrice: 0,
     discount: 0,
+    releaseDate: DateTime.now(),
+    genre: [
+      'Simulation',
+      'Puzzlers',
+      'Adventure',
+      'Platformer',
+    ],
+    stylistics: [
+      'Realistic',
+    ],
     platforms: [
       'Windows',
       'Linux',
@@ -32,6 +69,7 @@ final debugProductList = [
       'Xbox One',
       'PS5',
     ],
+    multiplayer: ['Single-player'],
   ),
   Product(
     title: 'Minecraft',
@@ -39,6 +77,16 @@ final debugProductList = [
     price: 1299,
     oldPrice: 2499,
     discount: 0.48,
+    releaseDate: DateTime.now(),
+    genre: [
+      'Sandbox',
+      'Simulation',
+      'Survival',
+      'Adventure',
+    ],
+    stylistics: [
+      'Fantasy',
+    ],
     platforms: [
       'Windows',
       'Linux',
@@ -49,6 +97,15 @@ final debugProductList = [
       'PS4',
       'Xbox One',
       'PS5',
+    ],
+    multiplayer: [
+      'Single-player',
+      'Multi-player',
+      'LAN',
+      'Online',
+      'PvP',
+      'Co-op',
+      'Cross-Platform',
     ],
   ),
 ];
@@ -78,8 +135,7 @@ final debugNotification = [
   Notification(
     title: "Autumn discounts",
     pathToImage: 'assets/images/notification_discount_image.jpg',
-    description:
-        'Get a 50% discount on the purchase of mobile games.',
+    description: 'Get a 50% discount on the purchase of mobile games.',
   ),
 ];
 
@@ -113,3 +169,36 @@ final debugProfile = Profile(
   registrationDate: DateTime(2022, 4, 28, 18, 44),
   lastActivity: DateTime(2022, 7, 17, 23, 6),
 );
+
+final debugFilterGenre = [
+  'Sandbox',
+  'Strategy',
+  'Shooters',
+  'Simulation',
+  'Puzzlers',
+  'Survival',
+  'Horror',
+  'Adventure',
+  'Platformer',
+  'Battle Royale',
+];
+
+final debugFilterStylistics = [
+  'Anime',
+  'Cartoon',
+  'Realistic',
+  'Fantasy',
+];
+
+final debugFilterPlatforms = debugPlatformsList;
+
+final debugFilterMultiplayer = [
+  'Single-player',
+  'Multi-player',
+  'LAN',
+  'Online',
+  'PvP',
+  'Co-op',
+  'Shared/Split Screen',
+  'Cross-Platform',
+];

@@ -20,19 +20,6 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
-  //TODO: Внести в entity
-  final _platformList = [
-    'Windows',
-    'Linux',
-    'MacOS',
-    'Android',
-    'IOS',
-    'Nintendo Switch',
-    'PS4',
-    'Xbox One',
-    'PS5',
-  ];
-
   late Map<String, List<Product>> _debugProductMap;
 
   void _onCartClick(BuildContext context) {
@@ -82,7 +69,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 padding: const EdgeInsets.only(left: 4, top: 4, bottom: 4),
                 color: backgroundColor.withOpacity(0.8),
                 child: PlatformChips(
-                  platforms: _platformList,
+                  platforms: debugPlatformsList,
                   onSelected: (selected) =>
                       _onPlatformsSelected(context, selected),
                 ),
@@ -134,7 +121,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         itemHeight: itemHeight,
                         product: product,
                       ))
-                  .toList()
                   .expand((element) => [element, const SizedBox(width: 10)])
                   .toList(),
             ),

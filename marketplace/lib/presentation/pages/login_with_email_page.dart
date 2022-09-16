@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
@@ -12,7 +13,7 @@ class LogWithEmailPage extends StatelessWidget {
   LogWithEmailPage({Key? key}) : super(key: key);
 
   void _navigateToHomePage(BuildContext context) {
-    context.router.replaceAll([HomeRouth()]);
+    context.router.replaceAll([HomeRoute()]);
   }
 
   void _navigateToSignUpPage(BuildContext context) {
@@ -23,6 +24,7 @@ class LogWithEmailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),

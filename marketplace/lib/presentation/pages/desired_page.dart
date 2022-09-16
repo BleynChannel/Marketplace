@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/desired.dart';
@@ -103,6 +104,8 @@ class _DesiredPageState extends State<DesiredPage> {
           ),
         ),
         centerTitle: false,
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: _actions
@@ -125,13 +128,13 @@ class _DesiredPageState extends State<DesiredPage> {
             child: Column(
               children: [
                 Expanded(
-                  child: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        _buildDesiredItem(context, debugDesiredList[index]),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 8),
-                    itemCount: debugDesiredList.length,
-                  ),
+                  child: ListView(children: [
+                    ...debugDesiredList
+                        .map((desired) => _buildDesiredItem(context, desired))
+                        .expand(
+                            (element) => [element, const SizedBox(height: 8)]),
+                    const SizedBox(height: 20),
+                  ]),
                 ),
               ],
             ),
@@ -218,10 +221,8 @@ class _DesiredPageState extends State<DesiredPage> {
                                     size: iconSize,
                                   ),
                                 ))
-                            .toList()
                             .expand((element) =>
-                                [element, const SizedBox(width: spacing)])
-                            .toList(),
+                                [element, const SizedBox(width: spacing)]),
                         constraints.maxWidth < fullSizePlatformIcons
                             ? Center(
                                 child: Text(

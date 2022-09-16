@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
@@ -45,7 +46,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   static void _navigateToHomePage(BuildContext context) {
-    context.router.replaceAll([HomeRouth()]);
+    context.router.replaceAll([HomeRoute()]);
   }
 
   void _navigateToLogWithEmailPage(BuildContext context) {
@@ -60,6 +61,8 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -106,7 +109,7 @@ class LoginPage extends StatelessWidget {
     ];
   }
 
-  List<Widget> _buildContinueWithButtons(
+  Iterable<Widget> _buildContinueWithButtons(
       BuildContext context, List<_ContinueWith> continueWithMap) {
     //Create a list of buttons with separators
     return continueWithMap
@@ -115,9 +118,7 @@ class LoginPage extends StatelessWidget {
               label: e.label,
               onPressed: () => e.onPressed(context),
             ))
-        .toList()
-        .expand((element) => [element, const SizedBox(height: 6)])
-        .toList();
+        .expand((element) => [element, const SizedBox(height: 6)]);
   }
 
   List<Widget> _buildLogInWithEmail(BuildContext context) {

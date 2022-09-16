@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:marketplace/domain/entity/filter.dart';
+import 'package:marketplace/domain/entity/product.dart';
 
 IconData? getPlatformIcon(String name) {
   switch (name) {
@@ -52,7 +54,43 @@ String? getPathToSvgIconsContacts(String name) {
   }
 }
 
-String _addNullWithTime(int time) => time < 10 ? "0$time" : "$time";
+String _addNullWithTime(int time) => time < 10 ? '0$time' : '$time';
 
 String dateTimeToString(DateTime dateTime) =>
     '${_addNullWithTime(dateTime.hour)}:${_addNullWithTime(dateTime.minute)} ${_addNullWithTime(dateTime.day)}.${_addNullWithTime(dateTime.month)}.${dateTime.year}';
+
+bool isCorrectFilter(Product product, Filter filter) {
+  bool isCorrectTitle =
+      product.title.toLowerCase().contains(filter.title.toLowerCase());
+
+  bool isCorrectPrice =
+      (filter.minPrice <= product.price) && (filter.maxPrice >= product.price);
+
+  bool isCorrectReleaseDate =
+      (filter.minYearOfRelease.floor() <= product.releaseDate.year) &&
+          (filter.maxYearOfRelease.floor() >= product.releaseDate.year);
+
+  bool isCorrectGenre = product.genre
+      .where((element) => filter.genre.contains(element))
+      .isNotEmpty || filter.genre.isEmpty;
+
+  bool isCorrectStylistics = product.stylistics
+      .where((element) => filter.stylistics.contains(element))
+      .isNotEmpty || filter.stylistics.isEmpty;
+
+  bool isCorrectPlatforms = product.platforms
+      .where((element) => filter.platforms.contains(element))
+      .isNotEmpty || filter.platforms.isEmpty;
+
+  bool isCorrectMultiplayer = product.multiplayer
+      .where((element) => filter.multiplayer.contains(element))
+      .isNotEmpty || filter.multiplayer.isEmpty;
+
+  return isCorrectTitle &&
+      isCorrectPrice &&
+      isCorrectReleaseDate &&
+      isCorrectGenre &&
+      isCorrectStylistics &&
+      isCorrectPlatforms &&
+      isCorrectMultiplayer;
+}
