@@ -67,8 +67,6 @@ class _DesiredPageState extends State<DesiredPage> {
 
   void _onProductClick(BuildContext context, Desired desired) {}
 
-  void _onCheckout() {}
-
   _DesiredPageState() {
     _actions = [
       _DesiredAppBarAction(

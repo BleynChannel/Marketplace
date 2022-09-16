@@ -1,5 +1,3 @@
-import 'package:marketplace/presentation/debugData.dart';
-
 class Filter {
   late String title;
   late double minPrice;

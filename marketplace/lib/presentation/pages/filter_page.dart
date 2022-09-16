@@ -8,16 +8,11 @@ import 'package:marketplace/presentation/debugData.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/custom_range_slider.dart';
 
-class FilterPage extends StatefulWidget {
+class FilterPage extends StatelessWidget {
   final Filter filter;
 
   const FilterPage({Key? key, required this.filter}) : super(key: key);
 
-  @override
-  State<FilterPage> createState() => _FilterPageState();
-}
-
-class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     final Map<String, Widget> filterCategory = {
@@ -62,12 +57,12 @@ class _FilterPageState extends State<FilterPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: FilterRangeSlider(
-        values: RangeValues(widget.filter.minPrice, widget.filter.maxPrice),
+        values: RangeValues(filter.minPrice, filter.maxPrice),
         constrainValue: const RangeValues(0, 100000),
         postfixText: '\$',
         onChanged: (value) {
-          widget.filter.minPrice = value.start;
-          widget.filter.maxPrice = value.end;
+          filter.minPrice = value.start;
+          filter.maxPrice = value.end;
         },
       ),
     );
@@ -77,12 +72,12 @@ class _FilterPageState extends State<FilterPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: FilterRangeSlider(
-        values: RangeValues(
-            widget.filter.minYearOfRelease, widget.filter.maxYearOfRelease),
+        values: RangeValues(filter.minYearOfRelease, filter.maxYearOfRelease),
         constrainValue: RangeValues(1967, DateTime.now().year.toDouble()),
+        fixedDecimalField: 0,
         onChanged: (value) {
-          widget.filter.minYearOfRelease = value.start;
-          widget.filter.maxYearOfRelease = value.end;
+          filter.minYearOfRelease = value.start;
+          filter.maxYearOfRelease = value.end;
         },
       ),
     );
@@ -94,8 +89,8 @@ class _FilterPageState extends State<FilterPage> {
       child: FilterChips(
         //! Необходимо сравнивать с текущими фильтрами и закидовать список с выбранными элементами
         items: debugFilterGenre,
-        selectedItems: widget.filter.genre,
-        onSelected: (selected) => widget.filter.genre = selected,
+        selectedItems: filter.genre,
+        onSelected: (selected) => filter.genre = selected,
       ),
     );
   }
@@ -105,8 +100,8 @@ class _FilterPageState extends State<FilterPage> {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: FilterChips(
         items: debugFilterStylistics,
-        selectedItems: widget.filter.stylistics,
-        onSelected: (selected) => widget.filter.stylistics = selected,
+        selectedItems: filter.stylistics,
+        onSelected: (selected) => filter.stylistics = selected,
       ),
     );
   }
@@ -116,8 +111,8 @@ class _FilterPageState extends State<FilterPage> {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: FilterChips(
         items: debugFilterPlatforms,
-        selectedItems: widget.filter.platforms,
-        onSelected: (selected) => widget.filter.platforms = selected,
+        selectedItems: filter.platforms,
+        onSelected: (selected) => filter.platforms = selected,
       ),
     );
   }
@@ -127,8 +122,8 @@ class _FilterPageState extends State<FilterPage> {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: FilterChips(
         items: debugFilterMultiplayer,
-        selectedItems: widget.filter.multiplayer,
-        onSelected: (selected) => widget.filter.multiplayer = selected,
+        selectedItems: filter.multiplayer,
+        onSelected: (selected) => filter.multiplayer = selected,
       ),
     );
   }
@@ -140,6 +135,7 @@ class FilterRangeSlider extends StatefulWidget {
   final Function(RangeValues)? onChanged;
   final String? postfixText;
   final String? suffixText;
+  final int fixedDecimalField;
 
   const FilterRangeSlider({
     Key? key,
@@ -148,6 +144,7 @@ class FilterRangeSlider extends StatefulWidget {
     required this.onChanged,
     this.postfixText,
     this.suffixText,
+    this.fixedDecimalField = 2,
   }) : super(key: key);
 
   @override
@@ -164,8 +161,10 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
     setState(() {
       _values = values;
 
-      _minTextFieldController.text = _values.start.toStringAsFixed(2);
-      _maxTextFieldController.text = _values.end.toStringAsFixed(2);
+      _minTextFieldController.text =
+          _values.start.toStringAsFixed(widget.fixedDecimalField);
+      _maxTextFieldController.text =
+          _values.end.toStringAsFixed(widget.fixedDecimalField);
     });
 
     widget.onChanged!(_values);
@@ -176,10 +175,10 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
     _values = widget.values;
 
     _minTextFieldController = TextEditingController(
-      text: _values.start.toStringAsFixed(2),
+      text: _values.start.toStringAsFixed(widget.fixedDecimalField),
     );
     _maxTextFieldController = TextEditingController(
-      text: _values.end.toStringAsFixed(2),
+      text: _values.end.toStringAsFixed(widget.fixedDecimalField),
     );
 
     _minTextFieldController.addListener(() {
@@ -251,15 +250,12 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: [
-                NumericalRangeFormatter(
-                  min: widget.constrainValue.start,
-                  max: widget.constrainValue.end,
-                ),
+                NumericalRangeFormatter(max: widget.constrainValue.end),
               ],
               onEditingComplete: () {
                 setState(() {
                   _minTextFieldController.text =
-                      _values.start.toStringAsFixed(2);
+                      _values.start.toStringAsFixed(widget.fixedDecimalField);
                 });
               },
             ),
@@ -272,14 +268,12 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                   const TextInputType.numberWithOptions(decimal: true),
               textInputAction: TextInputAction.continueAction,
               inputFormatters: [
-                NumericalRangeFormatter(
-                  min: widget.constrainValue.start,
-                  max: widget.constrainValue.end,
-                ),
+                NumericalRangeFormatter(max: widget.constrainValue.end),
               ],
               onEditingComplete: () {
                 setState(() {
-                  _maxTextFieldController.text = _values.end.toStringAsFixed(2);
+                  _maxTextFieldController.text =
+                      _values.end.toStringAsFixed(widget.fixedDecimalField);
                 });
               },
             ),
@@ -291,21 +285,15 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
 }
 
 class NumericalRangeFormatter extends TextInputFormatter {
-  final double min;
   final double max;
 
-  NumericalRangeFormatter({
-    required this.min,
-    required this.max,
-  });
+  NumericalRangeFormatter({required this.max});
 
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text == '') {
       return newValue;
-    } else if ((double.tryParse(newValue.text) ?? 0) < min) {
-      return const TextEditingValue().copyWith(text: min.toStringAsFixed(2));
     } else {
       return (double.tryParse(newValue.text) ?? 0) > max ? oldValue : newValue;
     }
