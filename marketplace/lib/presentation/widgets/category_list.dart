@@ -17,8 +17,8 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     Text titleWidget = Text(
       title,
-      style: Theme.of(context).textTheme.headline5?.copyWith(
-            fontWeight: FontWeight.bold,
+      style: Theme.of(context).textTheme.headline6?.copyWith(
+            fontWeight: FontWeight.w700,
           ),
       overflow: TextOverflow.ellipsis,
     );
@@ -28,6 +28,7 @@ class CategoryList extends StatelessWidget {
             title: titleWidget,
             expandedAlignment: Alignment.topLeft,
             initiallyExpanded: true,
+            childrenPadding: const EdgeInsets.symmetric(vertical: 12),
             children: [child],
           )
         : ListTile(

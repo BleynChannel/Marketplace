@@ -87,6 +87,30 @@ class MyApp extends StatelessWidget {
           side: const BorderSide(color: primaryColor),
           fillColor: MaterialStateProperty.all(primaryColor),
         ),
+        switchTheme: SwitchThemeData(
+          trackColor: MaterialStateProperty.resolveWith((states) {
+            Color trackColor = states.contains(MaterialState.selected)
+                ? primaryColor
+                : Colors.grey;
+
+            if (states.contains(MaterialState.hovered)) {
+              return Color.lerp(trackColor, Colors.white, 0.2);
+            } else {
+              return trackColor;
+            }
+          }),
+          thumbColor: MaterialStateProperty.resolveWith((states) {
+            Color thumbColor = states.contains(MaterialState.selected)
+                ? accentColor
+                : Colors.white;
+
+            if (states.contains(MaterialState.hovered)) {
+              return Color.lerp(thumbColor, Colors.white, 0.2);
+            } else {
+              return thumbColor;
+            }
+          }),
+        ),
         textTheme: TextTheme(
           headline4: GoogleFonts.roboto(
             fontSize: 38,
