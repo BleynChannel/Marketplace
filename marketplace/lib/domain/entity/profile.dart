@@ -1,30 +1,28 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
-import 'package:marketplace/domain/entity/product.dart';
+import 'package:marketplace/domain/entity/compact_product.dart';
+import 'package:marketplace/domain/entity/media.dart';
+import 'package:marketplace/domain/entity/user.dart';
 
-class Profile {
-  final String nickname;
-  final String pathToAvatar;
-  final String pathToBackgroundImage;
-  final String status;
-  final int purchases;
-  final int desired;
-  final List<String> contacts;
-  final List<Achievement> achievements;
-  final List<Product> favoriteGames;
-  final DateTime registrationDate;
-  final DateTime lastActivity;
+part 'profile.freezed.dart';
 
-  Profile({
-    required this.nickname,
-    required this.pathToAvatar,
-    required this.pathToBackgroundImage,
-    required this.status,
-    required this.purchases,
-    required this.desired,
-    required this.contacts,
-    required this.achievements,
-    required this.favoriteGames,
-    required this.registrationDate,
-    required this.lastActivity,
-  });
+@freezed
+class Profile with _$Profile {
+  const Profile._();
+
+  const factory Profile({
+    required String nickname,
+    required Media avatar,
+    required Media backgroundImage,
+    required String status,
+    required int purchases,
+    required int desired,
+    required List<String> contacts,
+    required List<Achievement> achievements,
+    required List<CompactProduct> favoriteGames,
+    required DateTime registrationDate,
+    required DateTime lastActivity,
+  }) = _Profile;
+
+  User toUser() => User(nickname: nickname, avatar: avatar);
 }

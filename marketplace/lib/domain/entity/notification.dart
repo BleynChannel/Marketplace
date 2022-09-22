@@ -1,12 +1,12 @@
-class Notification {
-  final String title;
-  //! Debug
-  final String pathToImage;
-  final String description;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Notification({
-    required this.title,
-    required this.pathToImage,
-    required this.description,
-  });
+part 'notification.freezed.dart';
+
+@freezed
+class Notification with _$Notification {
+  const factory Notification({
+    required String title,
+    required String pathToImage,
+    required String description,
+  }) = _Notification;
 }

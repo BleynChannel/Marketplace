@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 
-const kDebugMode = true;
+const kDebugMode = false;
 
 void main() {
   runApp(DevicePreview(

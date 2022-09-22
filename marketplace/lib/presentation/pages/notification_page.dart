@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/domain/entity/notification.dart' as entity;
 

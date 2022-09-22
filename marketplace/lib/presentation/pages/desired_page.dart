@@ -1,11 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/desired.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 
@@ -65,7 +68,9 @@ class _DesiredPageState extends State<DesiredPage> {
     });
   }
 
-  void _onProductClick(BuildContext context, Desired desired) {}
+  void _onProductClick(BuildContext context, Desired desired) {
+    context.router.push(ProductRoute(product: desired.product.toProduct()));
+  }
 
   _DesiredPageState() {
     _actions = [
@@ -154,7 +159,7 @@ class _DesiredPageState extends State<DesiredPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: Image.asset(desired.product.pathToImage).image,
+                    image: Image.asset(desired.product.banner.path).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -195,7 +200,7 @@ class _DesiredPageState extends State<DesiredPage> {
                             spacing;
 
                     int fitPlatformCount = 0;
-                    List<String> visiblePlatforms = [
+                    List<Platform> visiblePlatforms = [
                       ...desired.product.platforms
                     ];
 
@@ -213,9 +218,9 @@ class _DesiredPageState extends State<DesiredPage> {
                       children: [
                         ...visiblePlatforms
                             .map((platform) => Tooltip(
-                                  message: platform,
+                                  message: ui_utils.platformToName(platform),
                                   child: FaIcon(
-                                    ui_utils.getPlatformIcon(platform),
+                                    ui_utils.platformToIcon(platform),
                                     size: iconSize,
                                   ),
                                 ))
@@ -243,16 +248,16 @@ class _DesiredPageState extends State<DesiredPage> {
                 child: Row(
                   children: [
                     Text(
-                      "${desired.product.price.ceil()} ₽",
+                      "${desired.product.price.price.ceil()} ₽",
                       style: GoogleFonts.roboto(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(width: 2),
-                    desired.product.oldPrice > 0
+                    desired.product.price.oldPrice > 0
                         ? Text(
-                            "${desired.product.oldPrice.ceil()} ₽",
+                            "${desired.product.price.oldPrice.ceil()} ₽",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               decoration: TextDecoration.lineThrough,
@@ -260,9 +265,9 @@ class _DesiredPageState extends State<DesiredPage> {
                           )
                         : const SizedBox(),
                     const SizedBox(width: 2),
-                    desired.product.discount != 0
+                    desired.product.price.discount != 0
                         ? Text(
-                            "${(desired.product.discount * 100).ceil()}%",
+                            "${(desired.product.price.discount * 100).ceil()}%",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,

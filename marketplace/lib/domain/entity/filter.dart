@@ -1,3 +1,5 @@
+import 'package:marketplace/domain/entity/platform.dart';
+
 class Filter {
   late String title;
   late double minPrice;
@@ -6,7 +8,7 @@ class Filter {
   late double maxYearOfRelease;
   late List<String> genre;
   late List<String> stylistics;
-  late List<String> platforms;
+  late List<Platform> platforms;
   late List<String> multiplayer;
 
   Filter() {

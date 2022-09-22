@@ -1,11 +1,12 @@
-import 'package:marketplace/domain/entity/product.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:marketplace/domain/entity/compact_product.dart';
 
-class CartProduct {
-  final Product product;
-  final int count;
+part 'cart_product.freezed.dart';
 
-  const CartProduct({
-    required this.product,
-    required this.count,
-  });
+@freezed
+class CartProduct with _$CartProduct {
+  const factory CartProduct({
+    required CompactProduct product,
+    required int count,
+  }) = _CartProduct;
 }

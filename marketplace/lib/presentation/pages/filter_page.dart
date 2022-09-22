@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/filter.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/custom_range_slider.dart';
+import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 class FilterPage extends StatelessWidget {
   final Filter filter;
@@ -110,9 +112,11 @@ class FilterPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: FilterChips(
-        items: debugFilterPlatforms,
-        selectedItems: filter.platforms,
-        onSelected: (selected) => filter.platforms = selected,
+        items: Platform.values.map((e) => ui_utils.platformToName(e)).toList(),
+        selectedItems:
+            filter.platforms.map((e) => ui_utils.platformToName(e)).toList(),
+        onSelected: (selected) => filter.platforms =
+            selected.map((e) => ui_utils.platformFromName(e)).toList(),
       ),
     );
   }

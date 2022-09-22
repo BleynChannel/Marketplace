@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/custom_bottom_navigation_bar.dart';
 
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(60),
               child: Stack(children: [
                 Image.asset(
-                  "assets/images/avatar.png",
+                  debugProfile.avatar.path,
                   fit: BoxFit.fill,
                 ),
                 Positioned.fill(

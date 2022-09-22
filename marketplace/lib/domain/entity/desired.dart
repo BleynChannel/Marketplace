@@ -1,7 +1,11 @@
-import 'package:marketplace/domain/entity/product.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:marketplace/domain/entity/compact_product.dart';
 
-class Desired {
-  final Product product;
+part 'desired.freezed.dart';
 
-  Desired({required this.product});
+@freezed
+class Desired with _$Desired {
+  const factory Desired({
+    required CompactProduct product,
+  }) = _Desired;
 }

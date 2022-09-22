@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace/presentation/colors.dart';
 
+//TODO: Перенести в login_page.dart
 class LoginToButton extends StatelessWidget {
   final Widget icon;
   final String label;

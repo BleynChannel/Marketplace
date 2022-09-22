@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 //TODO: Поменять всем, кто использует собственное создание категорий
 class CategoryList extends StatelessWidget {
   final String title;
+  final TextStyle? titleStyle;
   final Widget child;
   final bool isHidingEnabled;
 
   const CategoryList({
     Key? key,
     required this.title,
+    this.titleStyle,
     required this.child,
     this.isHidingEnabled = false,
   }) : super(key: key);
@@ -17,9 +19,10 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     Text titleWidget = Text(
       title,
-      style: Theme.of(context).textTheme.headline6?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+      style: titleStyle ??
+          Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
       overflow: TextOverflow.ellipsis,
     );
 
@@ -32,14 +35,19 @@ class CategoryList extends StatelessWidget {
             children: [child],
           )
         : ListTile(
-            title: Column(children: [
-              SizedBox(
-                width: double.infinity,
-                child: titleWidget,
-              ),
-              const SizedBox(height: 8),
-              child,
-            ]),
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: titleWidget,
+                ),
+                const SizedBox(height: 8),
+                child,
+              ],
+            ),
+            contentPadding: EdgeInsets.zero,
           );
   }
 }

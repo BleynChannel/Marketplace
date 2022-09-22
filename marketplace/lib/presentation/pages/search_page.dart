@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/filter.dart';
-import 'package:marketplace/domain/entity/product.dart';
+import 'package:marketplace/domain/entity/compact_product.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
-import 'package:marketplace/presentation/utils.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
@@ -20,11 +20,12 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   late Filter _filter;
-  late List<Product> _filterList;
+  late List<CompactProduct> _filterList;
 
   void _onChangeFilterList() {
     _filterList = debugProductList
-        .where((product) => isCorrectFilter(product, _filter))
+        .where((product) => ui_utils.isCorrectFilter(product, _filter))
+        .map((product) => product.toCompactProduct())
         .toList();
   }
 
@@ -43,12 +44,14 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  void _onProductClick(BuildContext context, Product product) {}
+  void _onProductClick(BuildContext context, CompactProduct product) {
+    context.router.push(ProductRoute(product: product.toProduct()));
+  }
 
   @override
   void initState() {
     _filter = Filter();
-    _filterList = debugProductList;
+    _filterList = debugCompactProductList;
 
     super.initState();
   }
@@ -103,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
     ]);
   }
 
-  Widget _buildProductItem(BuildContext context, Product product) {
+  Widget _buildProductItem(BuildContext context, CompactProduct product) {
     return IntrinsicHeight(
       child: Row(children: [
         Expanded(
@@ -115,7 +118,7 @@ class _SearchPageState extends State<SearchPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: Image.asset(product.pathToImage).image,
+                    image: Image.asset(product.banner.path).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -155,7 +158,7 @@ class _SearchPageState extends State<SearchPage> {
                             spacing;
 
                     int fitPlatformCount = 0;
-                    List<String> visiblePlatforms = [...product.platforms];
+                    List<Platform> visiblePlatforms = [...product.platforms];
 
                     if (constraints.maxWidth < fullSizePlatformIcons) {
                       double fitPlatformSize =
@@ -171,9 +174,9 @@ class _SearchPageState extends State<SearchPage> {
                       children: [
                         ...visiblePlatforms
                             .map((platform) => Tooltip(
-                                  message: platform,
+                                  message: ui_utils.platformToName(platform),
                                   child: FaIcon(
-                                    ui_utils.getPlatformIcon(platform),
+                                    ui_utils.platformToIcon(platform),
                                     size: iconSize,
                                   ),
                                 ))
@@ -201,16 +204,16 @@ class _SearchPageState extends State<SearchPage> {
                 child: Row(
                   children: [
                     Text(
-                      "${product.price.ceil()} ₽",
+                      "${product.price.price.ceil()} ₽",
                       style: GoogleFonts.roboto(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(width: 2),
-                    product.oldPrice > 0
+                    product.price.oldPrice > 0
                         ? Text(
-                            "${product.oldPrice.ceil()} ₽",
+                            "${product.price.oldPrice.ceil()} ₽",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               decoration: TextDecoration.lineThrough,
@@ -218,9 +221,9 @@ class _SearchPageState extends State<SearchPage> {
                           )
                         : const SizedBox(),
                     const SizedBox(width: 2),
-                    product.discount != 0
+                    product.price.discount != 0
                         ? Text(
-                            "${(product.discount * 100).ceil()}%",
+                            "${(product.price.discount * 100).ceil()}%",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,

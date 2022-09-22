@@ -9,6 +9,7 @@ import 'package:marketplace/presentation/pages/login_page.dart';
 import 'package:marketplace/presentation/pages/login_with_email_page.dart';
 import 'package:marketplace/presentation/pages/menu_page.dart';
 import 'package:marketplace/presentation/pages/notification_page.dart';
+import 'package:marketplace/presentation/pages/product_page.dart';
 import 'package:marketplace/presentation/pages/profile_page.dart';
 import 'package:marketplace/presentation/pages/search_page.dart';
 import 'package:marketplace/presentation/pages/signup_page.dart';
@@ -20,7 +21,7 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
       path: '/welcome',
       name: 'WelcomeRoute',
       page: WelcomePage,
-      //Debug
+      //TODO: Менять когда пользователь уже заходил в приложение
       initial: true,
     ),
     AutoRoute(
@@ -57,22 +58,21 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
           initial: true,
         ),
         AutoRoute(
-          path: 'search',
-          name: 'SearchEmpty',
-          page: EmptyRouterPage,
-          children: [
-            AutoRoute(
-              path: '',
-              name: 'SearchRoute',
-              page: SearchPage,
-            ),
-            AutoRoute(
-              path: 'filter',
-              name: 'FilterRoute',
-              page: FilterPage,
-            )
-          ]
-        ),
+            path: 'search',
+            name: 'SearchEmpty',
+            page: EmptyRouterPage,
+            children: [
+              AutoRoute(
+                path: '',
+                name: 'SearchRoute',
+                page: SearchPage,
+              ),
+              AutoRoute(
+                path: 'filter',
+                name: 'FilterRoute',
+                page: FilterPage,
+              )
+            ]),
         AutoRoute(
           path: 'desired',
           name: 'DesiredRoute',
@@ -99,6 +99,11 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
       path: '/profile',
       name: 'ProfileRoute',
       page: ProfilePage,
+    ),
+    AutoRoute(
+      path: '/product',
+      name: 'ProductRoute',
+      page: ProductPage,
     ),
   ],
 )

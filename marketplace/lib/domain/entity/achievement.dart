@@ -1,11 +1,12 @@
-class Achievement {
-  final String title;
-  final String description;
-  final String pathToIcon;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Achievement({
-    required this.title,
-    required this.description,
-    required this.pathToIcon,
-  });
+part 'achievement.freezed.dart';
+
+@freezed
+class Achievement with _$Achievement {
+  const factory Achievement({
+    required String title,
+    required String description,
+    required String icon,
+  }) = _Achievement;
 }

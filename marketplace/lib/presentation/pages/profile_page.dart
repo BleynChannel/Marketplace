@@ -1,21 +1,27 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
-import 'package:marketplace/domain/entity/product.dart';
+import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
 class ProfilePage extends StatelessWidget {
-  void _onMenuClick(BuildContext context) {}
+  void _onMenuClick(BuildContext context) {
+    context.router.navigateNamed('/home/menu');
+  }
 
-  void _onProductClick(BuildContext context, Product product) {}
+  void _onProductClick(BuildContext context, CompactProduct product) {
+    context.router.push(ProductRoute(product: product.toProduct()));
+  }
 
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -27,99 +33,97 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       body: BackgroundBlur(
-        child: SafeArea(
-          top: false,
-          child: CustomScrollView(slivers: [
-            SliverPersistentHeader(
-              delegate: _ProfileSliverAppBar(
-                expandedAppBarHeight: MediaQuery.of(context).size.height / 2.6,
-                minExpandedHeight:
-                    kToolbarHeight + MediaQuery.of(context).padding.top,
-                expandedPurchasesHeaderHeight: purchasesHeaderHeight,
-                nickname: debugProfile.nickname,
-                pathToAvatar: debugProfile.pathToAvatar,
-                pathToBackgroundImage: debugProfile.pathToBackgroundImage,
-                status: debugProfile.status,
-                onMenuActionClick: _onMenuClick,
-                purchases: debugProfile.purchases,
-                desired: debugProfile.desired,
+        child: CustomScrollView(slivers: [
+          SliverPersistentHeader(
+            delegate: _ProfileSliverAppBar(
+              expandedAppBarHeight: MediaQuery.of(context).size.height / 2.6,
+              minExpandedHeight:
+                  kToolbarHeight + MediaQuery.of(context).padding.top,
+              expandedPurchasesHeaderHeight: purchasesHeaderHeight,
+              nickname: debugProfile.nickname,
+              pathToAvatar: debugProfile.avatar.path,
+              pathToBackgroundImage: debugProfile.backgroundImage.path,
+              status: debugProfile.status,
+              onMenuActionClick: _onMenuClick,
+              purchases: debugProfile.purchases,
+              desired: debugProfile.desired,
+            ),
+            pinned: true,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const SizedBox(height: 10),
+              _buildCategory(
+                context,
+                title: "Contact",
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: debugProfile.contacts
+                        .map((contact) => _buildContactItem(
+                              context,
+                              size: MediaQuery.of(context).size.width / 8,
+                              name: contact,
+                              onTap: _onContactClick,
+                            ))
+                        .expand(
+                            (element) => [element, const SizedBox(width: 10)])
+                        .toList(),
+                  ),
+                ),
               ),
-              pinned: true,
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                const SizedBox(height: 10),
-                _buildCategory(
-                  context,
-                  title: "Contact",
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: debugProfile.contacts
-                          .map((contact) => _buildContactItem(
-                                context,
-                                size: MediaQuery.of(context).size.width / 8,
-                                name: contact,
-                                onTap: _onContactClick,
-                              ))
-                          .expand(
-                              (element) => [element, const SizedBox(width: 10)])
-                          .toList(),
-                    ),
+              const SizedBox(height: 10),
+              _buildCategory(
+                context,
+                title: "Achievements",
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: debugProfile.achievements
+                        .map((achievement) => _buildAchievementItem(
+                              context,
+                              width: MediaQuery.of(context).size.width / 2,
+                              achievement: achievement,
+                            ))
+                        .expand(
+                            (element) => [element, const SizedBox(width: 10)])
+                        .toList(),
                   ),
                 ),
-                const SizedBox(height: 10),
-                _buildCategory(
-                  context,
-                  title: "Achievements",
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: debugProfile.achievements
-                          .map((achievement) => _buildAchievementItem(
-                                context,
-                                width: MediaQuery.of(context).size.width / 2,
-                                achievement: achievement,
-                              ))
-                          .expand(
-                              (element) => [element, const SizedBox(width: 10)])
-                          .toList(),
-                    ),
+              ),
+              const SizedBox(height: 10),
+              _buildCategory(
+                context,
+                title: "Favorite Games",
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: debugProfile.favoriteGames
+                        .map((product) => _buildFavoriteGameItem(
+                              context,
+                              width: MediaQuery.of(context).size.width / 2,
+                              product: product,
+                            ))
+                        .expand(
+                            (element) => [element, const SizedBox(width: 10)])
+                        .toList(),
                   ),
                 ),
-                const SizedBox(height: 10),
-                _buildCategory(
+              ),
+              const SizedBox(height: 10),
+              _buildCategory(
+                context,
+                title: "Other Information",
+                child: _buildOtherInformationList(
                   context,
-                  title: "Favorite Games",
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: debugProfile.favoriteGames
-                          .map((product) => _buildFavoriteGameItem(
-                                context,
-                                width: MediaQuery.of(context).size.width / 2,
-                                product: product,
-                              ))
-                          .expand(
-                              (element) => [element, const SizedBox(width: 10)])
-                          .toList(),
-                    ),
-                  ),
+                  registrationDate: debugProfile.registrationDate,
+                  lastActivity: debugProfile.lastActivity,
                 ),
-                const SizedBox(height: 10),
-                _buildCategory(
-                  context,
-                  title: "Other Information",
-                  child: _buildOtherInformationList(
-                    context,
-                    registrationDate: debugProfile.registrationDate,
-                    lastActivity: debugProfile.lastActivity,
-                  ),
-                )
-              ]),
-            ),
-          ]),
-        ),
+              )
+            ]),
+          ),
+          const SliverPadding(padding: EdgeInsets.only(bottom: 40)),
+        ]),
       ),
     );
   }
@@ -171,7 +175,7 @@ class ProfilePage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: SvgPicture.asset(
-              getPathToSvgIconsContacts(name) ?? "",
+              contactsToPathToSvgIcons(name),
               fit: BoxFit.contain,
             ),
           ),
@@ -215,7 +219,7 @@ class ProfilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              achievement.pathToIcon,
+              achievement.icon,
               fit: BoxFit.contain,
             ),
             const Expanded(child: SizedBox()),
@@ -243,44 +247,47 @@ class ProfilePage extends StatelessWidget {
   Widget _buildFavoriteGameItem(
     BuildContext context, {
     required double width,
-    required Product product,
+    required CompactProduct product,
   }) {
     final double height = width / 1.5;
 
     return SizedBox(
       width: width,
       height: height,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-          child: Stack(children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: Image.asset(product.pathToImage).image,
-                  fit: BoxFit.cover,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Stack(children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: Image.asset(product.banner.path).image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(20),
-                onTap: () => _onProductClick(context, product),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () => _onProductClick(context, product),
+                ),
               ),
-            ),
-          ]),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          product.title,
-          style: GoogleFonts.roboto(
-            fontSize: 14,
-            color: Colors.white.withOpacity(0.9),
+            ]),
           ),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ]),
+          const SizedBox(height: 4),
+          Text(
+            product.title,
+            style: GoogleFonts.roboto(
+              fontSize: 14,
+              color: Colors.white.withOpacity(0.9),
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 
@@ -371,7 +378,6 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
           child: AppBar(
             backgroundColor: Color.lerp(
                 Colors.black.withOpacity(0), backgroundColor, progress),
-            centerTitle: false,
             actions: [
               IconButton(
                 onPressed: () => onMenuActionClick(context),
@@ -440,7 +446,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       letterSpacing: 1,
-                                      color: getStatusColor(status),
+                                      color: statusToColor(status),
                                     ),
                           ),
                         ],
@@ -463,61 +469,59 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
           child: Opacity(
             opacity:
                 clampDouble(1 - (shrinkOffset / (maxExtent - minExtent)), 0, 1),
-            child: SizedBox(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: const LinearGradient(
-                      colors: [gradientStartColor, gradientStopColor],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(4, 4),
-                        color: Colors.black.withOpacity(0.5),
-                        blurRadius: 8,
-                      )
-                    ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  gradient: const LinearGradient(
+                    colors: [gradientStartColor, gradientStopColor],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  child: Row(
-                    children: _purchasesMap.entries
-                        .map((e) {
-                          return Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  e.value.toString(),
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 24,
-                                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(4, 4),
+                      color: Colors.black.withOpacity(0.5),
+                      blurRadius: 8,
+                    )
+                  ],
+                ),
+                child: Row(
+                  children: _purchasesMap.entries
+                      .map((e) {
+                        return Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                e.value.toString(),
+                                style: GoogleFonts.roboto(
+                                  fontSize: 24,
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  e.key,
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    color: Colors.white70,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        })
-                        .expand((element) => [
-                              element,
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: GradientDevider(isHorizontal: false),
                               ),
-                            ])
-                        .take(_purchasesMap.length * 2 - 1)
-                        .toList(),
-                  ),
+                              const SizedBox(height: 2),
+                              Text(
+                                e.key,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      })
+                      .expand((element) => [
+                            element,
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: GradientDevider(isHorizontal: false),
+                            ),
+                          ])
+                      .take(_purchasesMap.length * 2 - 1)
+                      .toList(),
                 ),
               ),
             ),

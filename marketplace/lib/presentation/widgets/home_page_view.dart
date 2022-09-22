@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+//TODO: Перенести в home_page.dart
 class HomePageView extends StatefulWidget {
   final int itemCount;
   final Widget Function(BuildContext context, int index) itemBuilder;
-  final double? contentWidthFraction;
 
   const HomePageView({
     Key? key,
     required this.itemBuilder,
     required this.itemCount,
-    required this.contentWidthFraction,
   }) : super(key: key);
 
   @override
@@ -36,6 +35,8 @@ class _HomePageViewState extends State<HomePageView> {
                   widget.itemBuilder(context, index),
               carouselController: _carouselController,
               options: CarouselOptions(
+                enlargeCenterPage: true,
+                viewportFraction: 0.75,
                 autoPlay: true,
                 onPageChanged: (index, reason) =>
                     setState(() => _activeIndex = index),
@@ -47,15 +48,20 @@ class _HomePageViewState extends State<HomePageView> {
         AnimatedSmoothIndicator(
           activeIndex: _activeIndex,
           count: widget.itemCount,
-          effect: const WormEffect(
+          effect: const ExpandingDotsEffect(
             activeDotColor: accentColor,
             dotColor: Colors.white70,
             dotWidth: 16,
             dotHeight: 8,
+            expansionFactor: 2,
           ),
           onDotClicked: (index) => setState(() {
             _activeIndex = index;
-            _carouselController.animateToPage(index);
+            _carouselController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
           }),
         ),
       ],

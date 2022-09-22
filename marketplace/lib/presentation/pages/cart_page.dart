@@ -1,11 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debugData.dart';
+import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
@@ -41,9 +44,9 @@ class _CartPageState extends State<CartPage> {
 
   void _changePrice() {
     _allPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.price);
+        0.0, (sum, cartProduct) => sum + cartProduct.product.price.price);
     _allOldPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.oldPrice);
+        0.0, (sum, cartProduct) => sum + cartProduct.product.price.oldPrice);
   }
 
   void _onAllUnselected() {
@@ -81,7 +84,9 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  void _onProductClick(BuildContext context, CartProduct cartProduct) {}
+  void _onProductClick(BuildContext context, CartProduct cartProduct) {
+    context.router.push(ProductRoute(product: cartProduct.product.toProduct()));
+  }
 
   void _onCheckout() {}
 
@@ -120,7 +125,8 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
         centerTitle: true,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: _actions
@@ -216,7 +222,7 @@ class _CartPageState extends State<CartPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: Image.asset(cartProduct.product.pathToImage).image,
+                    image: Image.asset(cartProduct.product.banner.path).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -257,7 +263,7 @@ class _CartPageState extends State<CartPage> {
                             spacing;
 
                     int fitPlatformCount = 0;
-                    List<String> visiblePlatforms = [
+                    List<Platform> visiblePlatforms = [
                       ...cartProduct.product.platforms
                     ];
 
@@ -275,9 +281,9 @@ class _CartPageState extends State<CartPage> {
                       children: [
                         ...visiblePlatforms
                             .map((platform) => Tooltip(
-                                  message: platform,
+                                  message: ui_utils.platformToName(platform),
                                   child: FaIcon(
-                                    ui_utils.getPlatformIcon(platform),
+                                    ui_utils.platformToIcon(platform),
                                     size: iconSize,
                                   ),
                                 ))
@@ -305,16 +311,16 @@ class _CartPageState extends State<CartPage> {
                 child: Row(
                   children: [
                     Text(
-                      "${cartProduct.product.price.ceil()} ₽",
+                      "${cartProduct.product.price.price.ceil()} ₽",
                       style: GoogleFonts.roboto(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(width: 2),
-                    cartProduct.product.oldPrice > 0
+                    cartProduct.product.price.oldPrice > 0
                         ? Text(
-                            "${cartProduct.product.oldPrice.ceil()} ₽",
+                            "${cartProduct.product.price.oldPrice.ceil()} ₽",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               decoration: TextDecoration.lineThrough,
@@ -322,9 +328,9 @@ class _CartPageState extends State<CartPage> {
                           )
                         : const SizedBox(),
                     const SizedBox(width: 2),
-                    cartProduct.product.discount != 0
+                    cartProduct.product.price.discount != 0
                         ? Text(
-                            "${(cartProduct.product.discount * 100).ceil()}%",
+                            "${(cartProduct.product.price.discount * 100).ceil()}%",
                             style: GoogleFonts.roboto(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
