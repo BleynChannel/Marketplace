@@ -23,6 +23,7 @@ class _PlatformChipsState extends State<PlatformChips> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       child: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Row(children: [
@@ -90,7 +91,7 @@ class _PlatformChipsState extends State<PlatformChips> {
         ),
         child: Text(
           title,
-          style: Theme.of(context).textTheme.bodyText2?.copyWith(
+          style: Theme.of(context).textTheme.caption?.copyWith(
                 color: selected ? Colors.white : Colors.white70,
                 fontWeight: selected ? FontWeight.bold : FontWeight.normal,
               ),

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Notification {
   String get title => throw _privateConstructorUsedError;
-  String get pathToImage => throw _privateConstructorUsedError;
+  Media get banner => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,9 @@ abstract class $NotificationCopyWith<$Res> {
   factory $NotificationCopyWith(
           Notification value, $Res Function(Notification) then) =
       _$NotificationCopyWithImpl<$Res>;
-  $Res call({String title, String pathToImage, String description});
+  $Res call({String title, Media banner, String description});
+
+  $MediaCopyWith<$Res> get banner;
 }
 
 /// @nodoc
@@ -44,7 +46,7 @@ class _$NotificationCopyWithImpl<$Res> implements $NotificationCopyWith<$Res> {
   @override
   $Res call({
     Object? title = freezed,
-    Object? pathToImage = freezed,
+    Object? banner = freezed,
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
@@ -52,15 +54,22 @@ class _$NotificationCopyWithImpl<$Res> implements $NotificationCopyWith<$Res> {
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      pathToImage: pathToImage == freezed
-          ? _value.pathToImage
-          : pathToImage // ignore: cast_nullable_to_non_nullable
-              as String,
+      banner: banner == freezed
+          ? _value.banner
+          : banner // ignore: cast_nullable_to_non_nullable
+              as Media,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
     ));
+  }
+
+  @override
+  $MediaCopyWith<$Res> get banner {
+    return $MediaCopyWith<$Res>(_value.banner, (value) {
+      return _then(_value.copyWith(banner: value));
+    });
   }
 }
 
@@ -71,7 +80,10 @@ abstract class _$$_NotificationCopyWith<$Res>
           _$_Notification value, $Res Function(_$_Notification) then) =
       __$$_NotificationCopyWithImpl<$Res>;
   @override
-  $Res call({String title, String pathToImage, String description});
+  $Res call({String title, Media banner, String description});
+
+  @override
+  $MediaCopyWith<$Res> get banner;
 }
 
 /// @nodoc
@@ -88,7 +100,7 @@ class __$$_NotificationCopyWithImpl<$Res>
   @override
   $Res call({
     Object? title = freezed,
-    Object? pathToImage = freezed,
+    Object? banner = freezed,
     Object? description = freezed,
   }) {
     return _then(_$_Notification(
@@ -96,10 +108,10 @@ class __$$_NotificationCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      pathToImage: pathToImage == freezed
-          ? _value.pathToImage
-          : pathToImage // ignore: cast_nullable_to_non_nullable
-              as String,
+      banner: banner == freezed
+          ? _value.banner
+          : banner // ignore: cast_nullable_to_non_nullable
+              as Media,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -112,20 +124,18 @@ class __$$_NotificationCopyWithImpl<$Res>
 
 class _$_Notification implements _Notification {
   const _$_Notification(
-      {required this.title,
-      required this.pathToImage,
-      required this.description});
+      {required this.title, required this.banner, required this.description});
 
   @override
   final String title;
   @override
-  final String pathToImage;
+  final Media banner;
   @override
   final String description;
 
   @override
   String toString() {
-    return 'Notification(title: $title, pathToImage: $pathToImage, description: $description)';
+    return 'Notification(title: $title, banner: $banner, description: $description)';
   }
 
   @override
@@ -134,8 +144,7 @@ class _$_Notification implements _Notification {
         (other.runtimeType == runtimeType &&
             other is _$_Notification &&
             const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality()
-                .equals(other.pathToImage, pathToImage) &&
+            const DeepCollectionEquality().equals(other.banner, banner) &&
             const DeepCollectionEquality()
                 .equals(other.description, description));
   }
@@ -144,7 +153,7 @@ class _$_Notification implements _Notification {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(pathToImage),
+      const DeepCollectionEquality().hash(banner),
       const DeepCollectionEquality().hash(description));
 
   @JsonKey(ignore: true)
@@ -156,13 +165,13 @@ class _$_Notification implements _Notification {
 abstract class _Notification implements Notification {
   const factory _Notification(
       {required final String title,
-      required final String pathToImage,
+      required final Media banner,
       required final String description}) = _$_Notification;
 
   @override
   String get title;
   @override
-  String get pathToImage;
+  Media get banner;
   @override
   String get description;
   @override

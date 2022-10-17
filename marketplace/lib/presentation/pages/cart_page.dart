@@ -1,17 +1,21 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/platform.dart';
+import 'package:marketplace/presentation/bloc/cart/cart_bloc.dart';
+import 'package:marketplace/presentation/bloc/cart/cart_event.dart';
+import 'package:marketplace/presentation/bloc/cart/cart_state.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
+import 'package:marketplace/presentation/widgets/price_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
 class _CartAppBarAction {
   final String tooltip;
@@ -35,9 +39,12 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  late List<_CartAppBarAction> _actions;
+  static const int _shimerProductCount = 6;
 
-  List<CartProduct> _checkedProduct = [];
+  late CartBloc bloc;
+
+  late List<CartProduct> _checkedProduct;
+  List<CartProduct>? _cartProductList;
 
   double _allPrice = 0.0;
   double _allOldPrice = 0.0;
@@ -46,7 +53,12 @@ class _CartPageState extends State<CartPage> {
     _allPrice = _checkedProduct.fold(
         0.0, (sum, cartProduct) => sum + cartProduct.product.price.price);
     _allOldPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.price.oldPrice);
+        0.0,
+        (sum, cartProduct) =>
+            sum +
+            (cartProduct.product.price.oldPrice > 0
+                ? cartProduct.product.price.oldPrice
+                : cartProduct.product.price.price));
   }
 
   void _onAllUnselected() {
@@ -58,15 +70,18 @@ class _CartPageState extends State<CartPage> {
 
   void _onAllSelected() {
     setState(() {
-      _checkedProduct = [...debugCartProductList];
+      _checkedProduct = [...(_cartProductList ?? [])];
       _changePrice();
     });
   }
 
   void _onDelete() {
     setState(() {
-      debugCartProductList
-          .removeWhere((product) => _checkedProduct.contains(product));
+      //TODO: Вызвать событие удаления продукта
+
+      _cartProductList
+          ?.removeWhere((product) => _checkedProduct.contains(product));
+
       _checkedProduct.clear();
       _changePrice();
     });
@@ -85,13 +100,64 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _onProductClick(BuildContext context, CartProduct cartProduct) {
-    context.router.push(ProductRoute(product: cartProduct.product.toProduct()));
+    context.router.push(ProductRoute(compactProduct: cartProduct.product));
   }
 
   void _onCheckout() {}
 
-  _CartPageState() {
-    _actions = [
+  @override
+  void initState() {
+    _checkedProduct = [];
+
+    bloc = CartBloc()..add(const CartEvent.onLoaded());
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return state.when<Widget>(
+          load: () => _buildMain(context, products: null),
+          loading: (products) => _buildMain(context, products: products),
+          error: () => _buildError(context, message: 'Error loading products'),
+          noNetwork: () => _buildError(context, message: 'No network'),
+        );
+      },
+    );
+  }
+
+  Widget _buildError(BuildContext context, {required String message}) {
+    //TODO: Добавить circular progress для обновления состаяния
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: BackgroundBlur(
+        child: Center(
+          child: Text(message),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMain(BuildContext context,
+      {required List<CartProduct>? products}) {
+    if (_cartProductList == null && products != null) {
+      _cartProductList = [...products];
+    }
+
+    List<_CartAppBarAction> actions = [
       _CartAppBarAction(
         tooltip: 'Unselected all',
         icon: Icons.block,
@@ -101,20 +167,19 @@ class _CartPageState extends State<CartPage> {
       _CartAppBarAction(
         tooltip: 'Selected all',
         icon: Icons.check,
-        onPressed: _onAllSelected,
-        getActive: () => !listEquals(_checkedProduct, debugCartProductList),
+        onPressed: () => _onAllSelected(),
+        getActive: () =>
+            _checkedProduct.length !=
+            (_cartProductList?.length ?? _checkedProduct.length),
       ),
       _CartAppBarAction(
         tooltip: 'Delete selects',
         icon: Icons.delete,
-        onPressed: _onDelete,
+        onPressed: () => _onDelete(),
         getActive: () => _checkedProduct.isNotEmpty,
       ),
     ];
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -129,15 +194,14 @@ class _CartPageState extends State<CartPage> {
             const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: _actions
+        actions: actions
             .map(
               (action) => IconButton(
                 onPressed: action.getActive() ? action.onPressed : null,
                 icon: Icon(action.icon),
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 constraints: const BoxConstraints(),
-                // TODO: Добавить всем нуждающимся виджетам tooltip
-                // tooltip: action.tooltip,
+                tooltip: action.tooltip,
               ),
             )
             .toList(),
@@ -150,11 +214,12 @@ class _CartPageState extends State<CartPage> {
               children: [
                 Expanded(
                   child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) =>
-                        _buildProductItem(context, debugCartProductList[index]),
+                        _buildProductItem(context, _cartProductList?[index]),
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 8),
-                    itemCount: debugCartProductList.length,
+                    itemCount: _cartProductList?.length ?? _shimerProductCount,
                   ),
                 ),
                 const GradientDevider(),
@@ -182,7 +247,7 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        _allOldPrice != 0
+                        _allOldPrice != 0 && _allOldPrice != _allPrice
                             ? Text(
                                 "$_allOldPrice ₽",
                                 style: GoogleFonts.roboto(
@@ -210,31 +275,44 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildProductItem(BuildContext context, CartProduct cartProduct) {
+  Widget _buildProductItem(BuildContext context, CartProduct? cartProduct) {
     return IntrinsicHeight(
       child: Row(children: [
         Expanded(
           flex: 2,
           child: AspectRatio(
             aspectRatio: 2 / 1,
-            child: Stack(children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image: Image.asset(cartProduct.product.banner.path).image,
-                    fit: BoxFit.cover,
+            child: cartProduct != null
+                ? Stack(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: Image.memory(
+                            cartProduct.product.banner.data.toImage(),
+                          ).image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () => _onProductClick(context, cartProduct),
+                      ),
+                    ),
+                  ])
+                : Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(12),
-                  onTap: () => _onProductClick(context, cartProduct),
-                ),
-              ),
-            ]),
           ),
         ),
         const SizedBox(width: 8),
@@ -243,120 +321,149 @@ class _CartPageState extends State<CartPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                cartProduct.product.title,
-                style: GoogleFonts.roboto(fontSize: 18),
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 2),
-              SizedBox(
-                width: double.infinity,
-                height: 16,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    const iconSize = 16.0;
-                    const spacing = 4.0;
-
-                    final fullSizePlatformIcons =
-                        cartProduct.product.platforms.length *
-                                (iconSize + spacing) +
-                            spacing;
-
-                    int fitPlatformCount = 0;
-                    List<Platform> visiblePlatforms = [
-                      ...cartProduct.product.platforms
-                    ];
-
-                    if (constraints.maxWidth < fullSizePlatformIcons) {
-                      double fitPlatformSize =
-                          fullSizePlatformIcons - constraints.maxWidth;
-                      fitPlatformCount =
-                          (fitPlatformSize / (iconSize + spacing)).ceil() + 1;
-                      visiblePlatforms.removeRange(
-                          visiblePlatforms.length - fitPlatformCount,
-                          visiblePlatforms.length);
-                    }
-
-                    return Row(
-                      children: [
-                        ...visiblePlatforms
-                            .map((platform) => Tooltip(
-                                  message: ui_utils.platformToName(platform),
-                                  child: FaIcon(
-                                    ui_utils.platformToIcon(platform),
-                                    size: iconSize,
-                                  ),
-                                ))
-                            .expand((element) =>
-                                [element, const SizedBox(width: spacing)]),
-                        constraints.maxWidth < fullSizePlatformIcons
-                            ? Center(
-                                child: Text(
-                                  "+$fitPlatformCount",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: accentColor,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 2),
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Text(
-                      "${cartProduct.product.price.price.ceil()} ₽",
-                      style: GoogleFonts.roboto(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+              cartProduct != null
+                  ? Text(
+                      cartProduct.product.title,
+                      style: GoogleFonts.roboto(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 2),
-                    cartProduct.product.price.oldPrice > 0
-                        ? Text(
-                            "${cartProduct.product.price.oldPrice.ceil()} ₽",
-                            style: GoogleFonts.roboto(
-                              fontSize: 14,
-                              decoration: TextDecoration.lineThrough,
+              const SizedBox(height: 2),
+              cartProduct != null
+                  ? SizedBox(
+                      width: double.infinity,
+                      height: 16,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          const iconSize = 16.0;
+                          const spacing = 4.0;
+
+                          final fullSizePlatformIcons =
+                              cartProduct.product.platforms.length *
+                                      (iconSize + spacing) +
+                                  spacing;
+
+                          int fitPlatformCount = 0;
+                          List<Platform> visiblePlatforms = [
+                            ...cartProduct.product.platforms
+                          ];
+
+                          if (constraints.maxWidth < fullSizePlatformIcons) {
+                            double fitPlatformSize =
+                                fullSizePlatformIcons - constraints.maxWidth;
+                            fitPlatformCount =
+                                (fitPlatformSize / (iconSize + spacing))
+                                        .ceil() +
+                                    1;
+                            visiblePlatforms.removeRange(
+                                visiblePlatforms.length - fitPlatformCount,
+                                visiblePlatforms.length);
+                          }
+
+                          return Row(
+                            children: [
+                              ...visiblePlatforms
+                                  .map((platform) => Tooltip(
+                                        message:
+                                            ui_utils.platformToName(platform),
+                                        child: FaIcon(
+                                          ui_utils.platformToIcon(platform),
+                                          size: iconSize,
+                                        ),
+                                      ))
+                                  .expand((element) => [
+                                        element,
+                                        const SizedBox(width: spacing)
+                                      ]),
+                              constraints.maxWidth < fullSizePlatformIcons
+                                  ? Center(
+                                      child: Text(
+                                        "+$fitPlatformCount",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: accentColor,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  : Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                          )
-                        : const SizedBox(),
-                    const SizedBox(width: 2),
-                    cartProduct.product.price.discount != 0
-                        ? Text(
-                            "${(cartProduct.product.price.discount * 100).ceil()}%",
-                            style: GoogleFonts.roboto(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.lightGreen,
+                          ),
+                        ),
+                      ),
+                    ),
+              const SizedBox(height: 2),
+              cartProduct != null
+                  ? IntrinsicHeight(
+                      child: PriceWidget(
+                        price: cartProduct.product.price,
+                        fontSize: 14,
+                      ),
+                    )
+                  : Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
-              ),
-              Text(
-                "${cartProduct.count} piece",
-                style: GoogleFonts.roboto(fontSize: 14),
-              ),
+                          ),
+                        ),
+                      ),
+                    ),
+              cartProduct != null
+                  ? Text(
+                      "${cartProduct.count} piece",
+                      style: GoogleFonts.roboto(fontSize: 14),
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),
         const SizedBox(width: 4),
-        Checkbox(
-          value: _checkedProduct.contains(cartProduct),
-          onChanged: (value) {
-            if (value != null) {
-              _onProductCheck(cartProduct, value);
-            }
-          },
-        ),
+        cartProduct != null
+            ? Checkbox(
+                value: _checkedProduct.contains(cartProduct),
+                onChanged: (value) {
+                  if (value != null) {
+                    _onProductCheck(cartProduct, value);
+                  }
+                },
+              )
+            : const SizedBox(),
       ]),
     );
   }

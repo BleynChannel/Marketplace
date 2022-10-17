@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/price.dart';
 
-//TODO: Сделать отдельный виджет для указания цены товара
 class PriceWidget extends StatelessWidget {
   final Price price;
 
   final double fontSize;
-  late TextStyle priceStyle;
-  late TextStyle oldPriceStyle;
-  late TextStyle discontStyle;
+  late TextStyle? _priceStyle;
+  late TextStyle? _oldPriceStyle;
+  late TextStyle? _discontStyle;
 
   final double spacing;
   final TextDirection textDirection;
@@ -18,22 +17,30 @@ class PriceWidget extends StatelessWidget {
     Key? key,
     required this.price,
     required this.fontSize,
-    this.priceStyle = const TextStyle(
-      fontWeight: FontWeight.bold,
-    ),
-    this.oldPriceStyle = const TextStyle(
-      decoration: TextDecoration.lineThrough,
-    ),
-    this.discontStyle = const TextStyle(
-      fontWeight: FontWeight.bold,
-      color: Colors.lightGreen,
-    ),
+    TextStyle? priceStyle,
+    TextStyle? oldPriceStyle,
+    TextStyle? discontStyle,
     this.spacing = 2.0,
     this.textDirection = TextDirection.ltr,
   }) : super(key: key) {
-    priceStyle = GoogleFonts.roboto(fontSize: fontSize).merge(priceStyle);
-    oldPriceStyle = GoogleFonts.roboto(fontSize: fontSize).merge(oldPriceStyle);
-    discontStyle = GoogleFonts.roboto(fontSize: fontSize).merge(discontStyle);
+    _priceStyle = priceStyle ??
+        const TextStyle(
+          fontWeight: FontWeight.bold,
+        );
+    _oldPriceStyle = oldPriceStyle ??
+        const TextStyle(
+          decoration: TextDecoration.lineThrough,
+        );
+    _discontStyle = discontStyle ??
+        const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.lightGreen,
+        );
+
+    _priceStyle = GoogleFonts.roboto(fontSize: fontSize).merge(_priceStyle);
+    _oldPriceStyle =
+        GoogleFonts.roboto(fontSize: fontSize).merge(_oldPriceStyle);
+    _discontStyle = GoogleFonts.roboto(fontSize: fontSize).merge(_discontStyle);
   }
 
   @override
@@ -43,20 +50,20 @@ class PriceWidget extends StatelessWidget {
       children: [
         Text(
           "${price.price.ceil()} ₽",
-          style: priceStyle,
+          style: _priceStyle,
         ),
         SizedBox(width: spacing),
         price.oldPrice > 0.0
             ? Text(
                 "${price.oldPrice.ceil()} ₽",
-                style: oldPriceStyle,
+                style: _oldPriceStyle,
               )
             : const SizedBox(),
         SizedBox(width: spacing),
         price.discount != 0.0
             ? Text(
                 "-${(price.discount * 100.0).round()}%",
-                style: discontStyle,
+                style: _discontStyle,
               )
             : const SizedBox(),
       ],

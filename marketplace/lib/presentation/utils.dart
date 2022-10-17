@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:marketplace/domain/entity/filter.dart';
+import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
+
+String? isEmailValid(String text) {
+  return RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$")
+          .hasMatch(text)
+      ? null
+      : 'Enter a valid email';
+}
+
+String? isPasswordValid(String text) {
+  return RegExp(r"^[a-zA-Z0-9.!#$%&№'*+-/=?^_`(){|}~]+.{7,}$").hasMatch(text)
+      ? null
+      : 'Enter a valid password';
+
+  //The password must contain lowercase letters, uppercase letters, .!#\$%&№\'*+-/=?^_`(){|}~ characters and have a length of at least 8
+}
 
 const _platformsList = [
   'Windows',
@@ -98,4 +115,42 @@ String getCompactCount(int value) {
   } else {
     return value.toString();
   }
+}
+
+Future<Media> getMediaImage({
+  required String path,
+  required MediaLocation mediaLocation,
+}) async {
+  MediaData? data;
+  if (mediaLocation == MediaLocation.local) {
+    data = MediaData(data: (await rootBundle.load(path)).buffer.asUint8List());
+  } else {
+    //TODO: Загружать картинку через базу данных
+    data = MediaData(data: (await rootBundle.load(path)).buffer.asUint8List());
+  }
+
+  return Future.value(Media(
+    type: MediaType.image,
+    location: mediaLocation,
+    data: data,
+  ));
+}
+
+Future<Media> getMediaVideo({
+  required String path,
+  required MediaLocation mediaLocation,
+}) async {
+  MediaData? data;
+  if (mediaLocation == MediaLocation.local) {
+    data = MediaData(data: path);
+  } else {
+    //TODO: Загружать видео через базу данных
+    data = MediaData(data: path);
+  }
+
+  return Future.value(Media(
+    type: MediaType.video,
+    location: mediaLocation,
+    data: data,
+  ));
 }

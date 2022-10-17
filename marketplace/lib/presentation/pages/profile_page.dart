@@ -3,15 +3,22 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
+import 'package:marketplace/domain/entity/media.dart';
+import 'package:marketplace/domain/entity/profile.dart';
+import 'package:marketplace/presentation/bloc/profile/profile_bloc.dart';
+import 'package:marketplace/presentation/bloc/profile/profile_event.dart';
+import 'package:marketplace/presentation/bloc/profile/profile_state.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
-import 'package:marketplace/presentation/utils.dart';
+import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
+import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -20,16 +27,71 @@ class ProfilePage extends StatelessWidget {
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.push(ProductRoute(product: product.toProduct()));
+    context.router.push(ProductRoute(compactProduct: product));
   }
+
+  void _onContactClick(BuildContext context, String contact) {}
 
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final purchasesHeaderHeight = MediaQuery.of(context).size.height / 9;
+    return BlocProvider<ProfileBloc>(
+      create: (context) => ProfileBloc()..add(const ProfileEvent.onLoaded()),
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          return state.when<Widget>(
+            load: () => _buildLoaded(context),
+            loading: (profile) => _buildMain(context, profile: profile),
+            error: () =>
+                _buildError(context, message: 'Error loading products'),
+            noNetwork: () => _buildError(context, message: 'No network'),
+          );
+        },
+      ),
+    );
+  }
 
-    void _onContactClick(String contact) {}
+  Widget _buildError(BuildContext context, {required String message}) {
+    //TODO: Добавить circular progress для обновления состаяния
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: BackgroundBlur(
+        child: Center(
+          child: Text(message),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoaded(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: BackgroundBlur(
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 3,
+            child: const AspectRatio(
+              aspectRatio: 1,
+              child: LoadingIndicator(
+                indicatorType: Indicator.pacman,
+                colors: [primaryColor, accentColor],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMain(BuildContext context, {required Profile profile}) {
+    final purchasesHeaderHeight = MediaQuery.of(context).size.height / 9;
 
     return Scaffold(
       body: BackgroundBlur(
@@ -40,13 +102,13 @@ class ProfilePage extends StatelessWidget {
               minExpandedHeight:
                   kToolbarHeight + MediaQuery.of(context).padding.top,
               expandedPurchasesHeaderHeight: purchasesHeaderHeight,
-              nickname: debugProfile.nickname,
-              pathToAvatar: debugProfile.avatar.path,
-              pathToBackgroundImage: debugProfile.backgroundImage.path,
-              status: debugProfile.status,
+              nickname: profile.nickname,
+              avatar: profile.avatar,
+              backgroundImage: profile.backgroundImage,
+              status: profile.status,
               onMenuActionClick: _onMenuClick,
-              purchases: debugProfile.purchases,
-              desired: debugProfile.desired,
+              purchases: profile.purchases,
+              desired: profile.desired,
             ),
             pinned: true,
           ),
@@ -58,13 +120,16 @@ class ProfilePage extends StatelessWidget {
                 title: "Contact",
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
                   child: Row(
-                    children: debugProfile.contacts
+                    children: profile.contacts
                         .map((contact) => _buildContactItem(
                               context,
                               size: MediaQuery.of(context).size.width / 8,
                               name: contact,
-                              onTap: _onContactClick,
+                              onTap: (contact) =>
+                                  _onContactClick(context, contact),
+                              tooltip: contact,
                             ))
                         .expand(
                             (element) => [element, const SizedBox(width: 10)])
@@ -78,8 +143,9 @@ class ProfilePage extends StatelessWidget {
                 title: "Achievements",
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
                   child: Row(
-                    children: debugProfile.achievements
+                    children: profile.achievements
                         .map((achievement) => _buildAchievementItem(
                               context,
                               width: MediaQuery.of(context).size.width / 2,
@@ -97,8 +163,9 @@ class ProfilePage extends StatelessWidget {
                 title: "Favorite Games",
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
                   child: Row(
-                    children: debugProfile.favoriteGames
+                    children: profile.favoriteGames
                         .map((product) => _buildFavoriteGameItem(
                               context,
                               width: MediaQuery.of(context).size.width / 2,
@@ -116,8 +183,8 @@ class ProfilePage extends StatelessWidget {
                 title: "Other Information",
                 child: _buildOtherInformationList(
                   context,
-                  registrationDate: debugProfile.registrationDate,
-                  lastActivity: debugProfile.lastActivity,
+                  registrationDate: profile.registrationDate,
+                  lastActivity: profile.lastActivity,
                 ),
               )
             ]),
@@ -135,16 +202,15 @@ class ProfilePage extends StatelessWidget {
   }) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
+      child: CategoryList(
+        title: Text(
           title,
           style: Theme.of(context).textTheme.headline5?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
-        const SizedBox(height: 8),
-        child,
-      ]),
+        child: child,
+      ),
     );
   }
 
@@ -153,41 +219,45 @@ class ProfilePage extends StatelessWidget {
     required double size,
     required String name,
     required void Function(String contact) onTap,
+    String? tooltip,
   }) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.circular(size / 4),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(4, 4),
-            blurRadius: 8,
-            color: Colors.black.withOpacity(0.25),
-          ),
-        ],
-      ),
-      child: Stack(children: [
-        SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: SvgPicture.asset(
-              contactsToPathToSvgIcons(name),
-              fit: BoxFit.contain,
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.circular(size / 4),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(4, 4),
+              blurRadius: 8,
+              color: Colors.black.withOpacity(0.25),
+            ),
+          ],
+        ),
+        child: Stack(children: [
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: SvgPicture.asset(
+                ui_utils.contactsToPathToSvgIcons(name),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-        ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(size / 4),
-            onTap: () => onTap(name),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(size / 4),
+              onTap: () => onTap(name),
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
@@ -263,7 +333,7 @@ class ProfilePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: Image.asset(product.banner.path).image,
+                    image: Image.memory(product.banner.data.toImage()).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -297,8 +367,8 @@ class ProfilePage extends StatelessWidget {
     required DateTime lastActivity,
   }) {
     final informations = {
-      'Registration date': dateTimeToString(registrationDate),
-      'Last activity': dateTimeToString(lastActivity),
+      'Registration date': ui_utils.dateTimeToString(registrationDate),
+      'Last activity': ui_utils.dateTimeToString(lastActivity),
     };
 
     return Column(
@@ -336,8 +406,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedPurchasesHeaderHeight;
 
   final String nickname;
-  final String pathToAvatar;
-  final String pathToBackgroundImage;
+  final Media avatar;
+  final Media backgroundImage;
   final String status;
 
   final int purchases;
@@ -350,8 +420,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
     required this.minExpandedHeight,
     required this.expandedPurchasesHeaderHeight,
     required this.nickname,
-    required this.pathToAvatar,
-    required this.pathToBackgroundImage,
+    required this.avatar,
+    required this.backgroundImage,
     required this.status,
     required this.onMenuActionClick,
     required this.purchases,
@@ -382,6 +452,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
               IconButton(
                 onPressed: () => onMenuActionClick(context),
                 icon: const Icon(Icons.menu),
+                tooltip: 'Menu',
               ),
             ],
             flexibleSpace: Stack(children: [
@@ -394,7 +465,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: Image.asset(pathToBackgroundImage).image,
+                        image:
+                            Image.memory(backgroundImage.data.toImage()).image,
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -424,8 +496,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                                 padding: const EdgeInsets.all(2),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(60),
-                                  child: Image.asset(
-                                    pathToAvatar,
+                                  child: Image.memory(
+                                    avatar.data.toImage(),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -446,7 +518,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       letterSpacing: 1,
-                                      color: statusToColor(status),
+                                      color: ui_utils.statusToColor(status),
                                     ),
                           ),
                         ],

@@ -4,8 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:marketplace/domain/entity/bundle.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/media.dart';
@@ -13,6 +15,9 @@ import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/domain/entity/product_dlc.dart';
 import 'package:marketplace/domain/entity/product_review.dart';
 import 'package:marketplace/domain/entity/system_requirement.dart';
+import 'package:marketplace/presentation/bloc/product/product_bloc.dart';
+import 'package:marketplace/presentation/bloc/product/product_event.dart';
+import 'package:marketplace/presentation/bloc/product/product_state.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
@@ -25,45 +30,35 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ProductPage extends StatefulWidget {
-  final Product product;
+  final CompactProduct compactProduct;
 
   const ProductPage({
     Key? key,
-    required this.product,
+    required this.compactProduct,
   }) : super(key: key);
 
   @override
   _ProductPageState createState() => _ProductPageState();
 }
 
-class _ProductYoutubePlayer {
-  final int position;
-  final YoutubePlayerController controller;
-  YoutubePlayer? player;
-
-  _ProductYoutubePlayer({
-    required this.position,
-    required this.controller,
-  });
-}
-
 class _ProductPageState extends State<ProductPage> {
-  late List<_ProductYoutubePlayer> _players;
-  int currentPlayerIndex = 0;
+  late ProductBloc bloc;
+
+  late final List<YoutubePlayerController> _controllers;
+  YoutubePlayer? _currentPlayer;
 
   void _fillPlayerControllers(List<Media> media) {
+    if (_controllers.isNotEmpty) return;
+
     for (var i = 0; i < media.length; i++) {
       if (media[i].type == MediaType.video) {
-        _players.add(
-          _ProductYoutubePlayer(
-            position: i,
-            controller: YoutubePlayerController(
-              initialVideoId: YoutubePlayer.convertUrlToId(media[i].path)!,
-              flags: const YoutubePlayerFlags(
-                autoPlay: false,
-                mute: true,
-                disableDragSeek: true,
-              ),
+        _controllers.add(
+          YoutubePlayerController(
+            initialVideoId:
+                YoutubePlayer.convertUrlToId(media[i].data.toVideo())!,
+            flags: const YoutubePlayerFlags(
+              autoPlay: false,
+              disableDragSeek: true,
             ),
           ),
         );
@@ -71,25 +66,17 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
-  void _fillPlayers() {
-    for (var player in _players) {
-      player.player = YoutubePlayer(
-        controller: player.controller,
-      );
-    }
-  }
-
-  void _onChangePlayer(int playerIndex) {
+  void _onChangeCurrentPlayer(YoutubePlayer player) {
     setState(() {
-      currentPlayerIndex = playerIndex;
+      _currentPlayer = player;
     });
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.push(ProductRoute(product: product.toProduct()));
+    context.router.push(ProductRoute(compactProduct: product));
   }
 
-  void _onBundleCartClick(BuildContext context, Bundle bundle) {}
+  void _onBundleProductClick(BuildContext context, Bundle bundle) {}
 
   void _onBundleDesiredClick(BuildContext context, Bundle bundle) {}
 
@@ -99,138 +86,202 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   void initState() {
-    _players = [];
-    _fillPlayerControllers(widget.product.media);
+    _controllers = [];
+
+    bloc = ProductBloc()..add(ProductEvent.onLoaded(widget.compactProduct));
 
     super.initState();
   }
 
   @override
   void dispose() {
-    for (var player in _players) {
-      player.controller.dispose();
+    for (var controller in _controllers) {
+      controller.dispose();
     }
+
+    bloc.close();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _fillPlayers();
+    return BlocBuilder<ProductBloc, ProductState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return state.when<Widget>(
+          load: () => _buildLoaded(context),
+          loading: (product) => _buildMain(context, product: product),
+          error: () => _buildError(context, message: 'Error loading products'),
+          noNetwork: () => _buildError(context, message: 'No network'),
+        );
+      },
+    );
+  }
+
+  Widget _buildError(BuildContext context, {required String message}) {
+    //TODO: Добавить circular progress для обновления состаяния
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: BackgroundBlur(
+        child: Center(
+          child: Text(message),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoaded(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: BackgroundBlur(
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 3,
+            child: const AspectRatio(
+              aspectRatio: 1,
+              child: LoadingIndicator(
+                indicatorType: Indicator.pacman,
+                colors: [primaryColor, accentColor],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMain(BuildContext context, {required Product product}) {
+    _fillPlayerControllers(product.media);
 
     return _buildYoutubeBuilder(
       context,
       child: Scaffold(
         body: BackgroundBlur(
-          child: Stack(children: [
-            CustomScrollView(slivers: [
-              SliverPersistentHeader(
-                delegate: _ProductSliverAppBar(
-                  expandedHeight: MediaQuery.of(context).size.height / 3.6,
-                  minExpandedHeight:
-                      kToolbarHeight + MediaQuery.of(context).padding.top,
-                  clipRadius: 30,
-                  players: _players,
-                  onChangePlayer: _onChangePlayer,
-                  title: widget.product.title,
-                  media: widget.product.media,
-                ),
-                pinned: true,
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(left: 10, bottom: 60),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    const SizedBox(height: 10),
-                    _buildMainTitle(context),
-                    _buildTagsAndPlatforms(context),
-                    const SizedBox(height: 10),
-                    _ProductTabBar(
-                      product: widget.product,
-                      onProductClick: _onProductClick,
-                      onBundleCartClick: _onBundleCartClick,
-                      onBundleDesiredClick: _onBundleDesiredClick,
+          child: Stack(
+            children: [
+              CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    SliverPersistentHeader(
+                      delegate: _ProductSliverAppBar(
+                        expandedHeight:
+                            MediaQuery.of(context).size.height / 3.6,
+                        minExpandedHeight:
+                            kToolbarHeight + MediaQuery.of(context).padding.top,
+                        clipRadius: 30,
+                        controllers: _controllers,
+                        onChangeCurrentPlayer: _onChangeCurrentPlayer,
+                        title: product.title,
+                        media: product.media,
+                      ),
+                      pinned: true,
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 60),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                          const SizedBox(height: 10),
+                          _buildMainTitle(context, product: product),
+                          _buildTagsAndPlatforms(context, product: product),
+                          const SizedBox(height: 10),
+                          _ProductTabBar(
+                            product: product,
+                            onProductClick: _onProductClick,
+                            onBundleProductClick: _onBundleProductClick,
+                            onBundleDesiredClick: _onBundleDesiredClick,
+                          ),
+                        ]),
+                      ),
                     ),
                   ]),
-                ),
-              ),
-            ]),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 20,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    gradientStartColor,
-                                    gradientStopColor
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.transparent),
-                                  padding: MaterialStateProperty.all(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 2),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 20,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      gradientStartColor,
+                                      gradientStopColor
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
                                 ),
-                                onPressed: () => _onCartClick(context),
-                                child: const Text(
-                                  'Add to Cart',
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.transparent),
+                                    padding: MaterialStateProperty.all(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 2),
+                                    ),
+                                  ),
+                                  onPressed: () => _onCartClick(context),
+                                  child: const Text(
+                                    'Add to Cart',
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        IntrinsicHeight(
-                          child: SizedBox.square(
-                            dimension: MediaQuery.of(context).size.height / 20,
-                            child: TextButton(
-                              onPressed: () => _onDesiredClick(context),
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                    const EdgeInsets.all(0)),
+                          const SizedBox(width: 8),
+                          IntrinsicHeight(
+                            child: SizedBox.square(
+                              dimension:
+                                  MediaQuery.of(context).size.height / 20,
+                              child: Tooltip(
+                                message: 'Add to Desired',
+                                child: TextButton(
+                                  onPressed: () => _onDesiredClick(context),
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        const EdgeInsets.all(0)),
+                                  ),
+                                  child: const Icon(Icons.bookmark_outline,
+                                      size: 20),
+                                ),
                               ),
-                              child:
-                                  const Icon(Icons.bookmark_outline, size: 20),
                             ),
                           ),
-                        ),
-                      ]),
+                        ]),
+                  ),
                 ),
-              ),
-            )
-          ]),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildYoutubeBuilder(BuildContext context, {required Widget child}) {
-    return _players.isNotEmpty
+    return _currentPlayer != null
         ? YoutubePlayerBuilder(
-            player: _players[currentPlayerIndex].player!,
+            player: _currentPlayer!,
             builder: (context, _) => child,
           )
         : child;
   }
 
   //Main information title
-  Widget _buildMainTitle(BuildContext context) {
+  Widget _buildMainTitle(BuildContext context, {required Product product}) {
     return Row(children: [
       Expanded(
         child: AspectRatio(
@@ -253,7 +304,7 @@ class _ProductPageState extends State<ProductPage> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                      image: Image.asset(widget.product.icon.path).image,
+                      image: Image.memory(product.icon.data.toImage()).image,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -271,7 +322,7 @@ class _ProductPageState extends State<ProductPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              widget.product.title,
+              product.title,
               style: GoogleFonts.roboto(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -282,16 +333,15 @@ class _ProductPageState extends State<ProductPage> {
             Wrap(
               spacing: 8,
               children: {
-                widget.product.rating.toStringAsFixed(1): const Icon(
+                product.rating.toStringAsFixed(1): const Icon(
                   Icons.star,
                   color: Colors.amber,
                 ),
-                ui_utils.getCompactCount(widget.product.countBuy): const Icon(
+                ui_utils.getCompactCount(product.countBuy): const Icon(
                   Icons.shopping_bag_outlined,
                   color: Colors.lightGreen,
                 ),
-                ui_utils.releaseDateToString(widget.product.releaseDate):
-                    const Icon(
+                ui_utils.releaseDateToString(product.releaseDate): const Icon(
                   Icons.schedule,
                   color: Colors.grey,
                 ),
@@ -314,7 +364,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
             const SizedBox(height: 2),
             PriceWidget(
-              price: widget.product.price,
+              price: product.price,
               fontSize: 18,
               spacing: 4,
             ),
@@ -325,15 +375,16 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   //Tags and Platforms
-  Widget _buildTagsAndPlatforms(BuildContext context) {
+  Widget _buildTagsAndPlatforms(BuildContext context,
+      {required Product product}) {
     final Map<String, Map<List<String>, VoidCallback>> tagsAndPlatforms = {
       'Tags': {
-        widget.product.genre: () {},
-        widget.product.stylistics: () {},
-        widget.product.multiplayer: () {},
+        product.genre: () {},
+        product.stylistics: () {},
+        product.multiplayer: () {},
       },
       'Platforms': {
-        widget.product.platforms
+        product.platforms
             .map((platform) => ui_utils.platformToName(platform))
             .toList(): () {}
       },
@@ -368,9 +419,16 @@ class _ProductPageState extends State<ProductPage> {
         .toList();
 
     return CategoryList(
-      title: title,
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.headline6?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+        overflow: TextOverflow.ellipsis,
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
         child: Row(
           children: chips
               .expand((element) => [element, const SizedBox(width: 8)])
@@ -388,7 +446,7 @@ class _ProductPageState extends State<ProductPage> {
     return ActionChip(
       label: Text(
         title,
-        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+        style: Theme.of(context).textTheme.caption?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -409,30 +467,28 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
   final double minExpandedHeight;
   final double clipRadius;
 
-  final List<_ProductYoutubePlayer>? players;
-  final void Function(int playerIndex) onChangePlayer;
+  final List<YoutubePlayerController> controllers;
+  final void Function(YoutubePlayer) onChangeCurrentPlayer;
 
   final String title;
-  final List<Media> media;
+  late final List<Media> _media;
+
+  // void _onPageChanged(int index) {
+  //   if (_media[index].type == MediaType.video) {
+  //     onChangeCurrentPlayer(players[index]);
+  //   }
+  // }
 
   _ProductSliverAppBar({
     required this.expandedHeight,
     required this.minExpandedHeight,
     required this.clipRadius,
-    required this.players,
-    required this.onChangePlayer,
+    required this.controllers,
+    required this.onChangeCurrentPlayer,
     required this.title,
-    required this.media,
-  });
-
-  void _changePlayer(int mediaIndex) {
-    if (media[mediaIndex].type == MediaType.video) {
-      final playerIndex =
-          players?.indexWhere((player) => player.position == mediaIndex) ?? -1;
-
-      onChangePlayer(playerIndex);
-    }
-  }
+    required List<Media> media,
+  }) : _media = [...media.reversed]
+          ..sort((a, b) => a.type == MediaType.video ? -1 : 1);
 
   @override
   Widget build(
@@ -472,11 +528,11 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
                     clipRadius: clipRadius,
                     itemBuilder: (context, index) => _buildMediaItem(
                       context,
-                      media[index],
-                      index,
+                      mediaItem: _media[index],
+                      index: index,
                     ),
-                    itemCount: media.length,
-                    onPageChanged: _changePlayer,
+                    itemCount: _media.length,
+                    // onPageChanged: _onPageChanged,
                   ),
                 ),
               ),
@@ -509,18 +565,58 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget _buildMediaItem(BuildContext context, Media mediaItem, int index) {
+  Widget _buildMediaItem(
+    BuildContext context, {
+    required Media mediaItem,
+    required int index,
+  }) {
     switch (mediaItem.type) {
       case MediaType.image:
-        return Image.asset(
-          mediaItem.path,
+        return Image.memory(
+          mediaItem.data.toImage(),
           fit: BoxFit.fitHeight,
         );
       case MediaType.video:
+        final controller = controllers[index];
+        late YoutubePlayer player;
+
+        player = YoutubePlayer(
+          key: ObjectKey(controller),
+          controller: controller,
+          bottomActions: [
+            const SizedBox(width: 14.0),
+            CurrentPosition(),
+            const SizedBox(width: 8.0),
+            ProgressBar(
+              isExpanded: true,
+              colors: const ProgressBarColors(
+                backgroundColor: primaryColor,
+                handleColor: accentColor,
+                playedColor: accentColor,
+              ),
+            ),
+            RemainingDuration(),
+            const PlaybackSpeedButton(),
+            IconButton(
+              icon: Icon(
+                controller.value.isFullScreen
+                    ? Icons.fullscreen_exit
+                    : Icons.fullscreen,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                if (!controller.value.isFullScreen) {
+                  onChangeCurrentPlayer(player);
+                }
+                controller.toggleFullScreenMode();
+              },
+            ),
+          ],
+        );
+
         return Padding(
           padding: EdgeInsets.only(bottom: clipRadius),
-          child:
-              players?.firstWhere((player) => player.position == index).player,
+          child: player,
         );
     }
   }
@@ -572,7 +668,6 @@ class _ProductPageView extends StatefulWidget {
   final double clipRadius;
   final int itemCount;
   final Widget Function(BuildContext context, int index) itemBuilder;
-  final void Function(int index) onPageChanged;
 
   const _ProductPageView({
     Key? key,
@@ -580,7 +675,6 @@ class _ProductPageView extends StatefulWidget {
     required this.itemBuilder,
     required this.itemCount,
     required this.clipRadius,
-    required this.onPageChanged,
   }) : super(key: key);
 
   @override
@@ -607,7 +701,6 @@ class _ProductPageViewState extends State<_ProductPageView> {
           autoPlay: false,
           onPageChanged: (index, reason) {
             setState(() => _activeIndex = index);
-            widget.onPageChanged(_activeIndex);
           },
         ),
       ),
@@ -632,8 +725,6 @@ class _ProductPageViewState extends State<_ProductPageView> {
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
               );
-
-              widget.onPageChanged(_activeIndex);
             }),
           ),
         ),
@@ -646,14 +737,14 @@ class _ProductTabBar extends StatefulWidget {
   final Product product;
   final void Function(BuildContext context, CompactProduct product)
       onProductClick;
-  final void Function(BuildContext context, Bundle bundle) onBundleCartClick;
+  final void Function(BuildContext context, Bundle bundle) onBundleProductClick;
   final void Function(BuildContext context, Bundle bundle) onBundleDesiredClick;
 
   const _ProductTabBar({
     Key? key,
     required this.product,
     required this.onProductClick,
-    required this.onBundleCartClick,
+    required this.onBundleProductClick,
     required this.onBundleDesiredClick,
   }) : super(key: key);
 
@@ -723,7 +814,8 @@ class _ProductTabBarState extends State<_ProductTabBar>
             .toList(),
       ),
       Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(
+            top: 10, bottom: MediaQuery.of(context).padding.bottom),
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: IndexedStack(
@@ -745,19 +837,43 @@ class _ProductTabBarState extends State<_ProductTabBar>
   Widget _buildInformation(BuildContext context) {
     return Column(children: [
       CategoryList(
-        title: 'Description',
+        title: Text(
+          'Description',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
         child: _buildInformationDescription(context),
       ),
       CategoryList(
-        title: 'Localization',
+        title: Text(
+          'Localization',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
         child: _buildInformationLocalization(context),
       ),
       CategoryList(
-        title: 'Other Informations',
+        title: Text(
+          'Other Informations',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
         child: _buildInformationOther(context),
       ),
       CategoryList(
-        title: 'Links',
+        title: Text(
+          'Links',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
         child: _buildInformationLinks(context),
       ),
     ]);
@@ -850,6 +966,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
 
   Widget _buildInformationLinks(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Row(
         children: widget.product.links
             .map((link) => TextButton(
@@ -870,9 +987,27 @@ class _ProductTabBarState extends State<_ProductTabBar>
   //DLC and Bundles
   Widget _buildDLCAndBundles(BuildContext context) {
     return Column(children: [
-      CategoryList(title: 'DLC', child: _buildDLC(context)),
+      CategoryList(
+        title: Text(
+          'DLC',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        child: _buildDLC(context),
+      ),
       const SizedBox(height: 10),
-      CategoryList(title: 'Bundles', child: _buildBundles(context)),
+      CategoryList(
+        title: Text(
+          'Bundles',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        child: _buildBundles(context),
+      ),
     ]);
   }
 
@@ -925,16 +1060,19 @@ class _ProductTabBarState extends State<_ProductTabBar>
       children: widget.product.bundles
           .map(
             (bundle) => CategoryList(
-              title: bundle.title,
-              titleStyle: GoogleFonts.roboto(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+              title: Text(
+                bundle.title,
+                style: GoogleFonts.roboto(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
                     child: Row(
                       children: bundle.products
                           .map((product) => _buildBundleProduct(
@@ -960,10 +1098,10 @@ class _ProductTabBarState extends State<_ProductTabBar>
                           spacing: 4,
                         ),
                         const SizedBox(width: 8),
-                        _buildBundleAddToCart(
+                        _buildBundleAddToProduct(
                           context,
-                          onCartClick: () =>
-                              widget.onBundleCartClick(context, bundle),
+                          onProductClick: () =>
+                              widget.onBundleProductClick(context, bundle),
                           onDesiredClick: () =>
                               widget.onBundleDesiredClick(context, bundle),
                         ),
@@ -1005,7 +1143,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: Image.asset(product.banner.path).image,
+                    image: Image.memory(product.banner.data.toImage()).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1045,23 +1183,23 @@ class _ProductTabBarState extends State<_ProductTabBar>
     );
   }
 
-  Widget _buildBundleAddToCart(
+  Widget _buildBundleAddToProduct(
     BuildContext context, {
-    required void Function() onCartClick,
+    required void Function() onProductClick,
     required void Function() onDesiredClick,
   }) {
     return Row(children: [
       SizedBox(
         height: 36,
         child: TextButton(
-          onPressed: onCartClick,
+          onPressed: onProductClick,
           style: ButtonStyle(
             padding: MaterialStateProperty.all(
               const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
             ),
           ),
           child: const Text(
-            'Add to Cart',
+            'Add to Product',
           ),
         ),
       ),
@@ -1070,12 +1208,15 @@ class _ProductTabBarState extends State<_ProductTabBar>
         height: 36,
         child: AspectRatio(
           aspectRatio: 1,
-          child: TextButton(
-            onPressed: onDesiredClick,
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+          child: Tooltip(
+            message: 'Add to Desired',
+            child: TextButton(
+              onPressed: onDesiredClick,
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+              ),
+              child: const Icon(Icons.bookmark_outline, size: 20),
             ),
-            child: const Icon(Icons.bookmark_outline, size: 20),
           ),
         ),
       ),
@@ -1098,7 +1239,13 @@ class _ProductTabBarState extends State<_ProductTabBar>
       child: Column(
           children: systemRequirements.entries
               .map((e) => CategoryList(
-                    title: e.key,
+                    title: Text(
+                      e.key,
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     child: Column(
                         children: e.value
                             .map((sysReq) => _buildSystemRequirement(context,
@@ -1115,11 +1262,13 @@ class _ProductTabBarState extends State<_ProductTabBar>
     required SystemRequirement sysReq,
   }) {
     return CategoryList(
-        title: ui_utils.platformToName(sysReq.platform),
-        titleStyle: GoogleFonts.roboto(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: primaryColor,
+        title: Text(
+          ui_utils.platformToName(sysReq.platform),
+          style: GoogleFonts.roboto(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: primaryColor,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 8),
@@ -1200,8 +1349,9 @@ class _ProductTabBarState extends State<_ProductTabBar>
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       image: DecorationImage(
-                        image:
-                            Image.asset(productReview.user.avatar.path).image,
+                        image: Image.memory(
+                          productReview.user.avatar.data.toImage(),
+                        ).image,
                         fit: BoxFit.fill,
                       ),
                     ),

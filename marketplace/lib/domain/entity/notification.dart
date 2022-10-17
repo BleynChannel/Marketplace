@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:marketplace/domain/entity/media.dart';
 
 part 'notification.freezed.dart';
 
@@ -6,7 +7,7 @@ part 'notification.freezed.dart';
 class Notification with _$Notification {
   const factory Notification({
     required String title,
-    required String pathToImage,
+    required Media banner,
     required String description,
   }) = _Notification;
 }

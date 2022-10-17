@@ -55,7 +55,6 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
           path: 'discover',
           name: 'DiscoverRoute',
           page: DiscoverPage,
-          initial: true,
         ),
         AutoRoute(
             path: 'search',

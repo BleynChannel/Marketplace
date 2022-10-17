@@ -38,6 +38,7 @@ class HomePage extends StatelessWidget {
       },
       floatingActionButton: FloatingActionButton(
         onPressed: null,
+        tooltip: 'Profile',
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(60),
@@ -52,8 +53,8 @@ class HomePage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(60),
               child: Stack(children: [
-                Image.asset(
-                  debugProfile.avatar.path,
+                Image.memory(
+                  debugProfile.avatar.data.toImage(),
                   fit: BoxFit.fill,
                 ),
                 Positioned.fill(

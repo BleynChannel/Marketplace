@@ -58,16 +58,25 @@ class _MenuPageState extends State<MenuPage> {
         elevation: 0,
       ),
       body: BackgroundBlur(
-        child: ListView(children: [
-          ...menuCategory.entries
-              .map((category) => CategoryList(
-                    isHidingEnabled: true,
-                    title: category.key,
-                    child: category.value,
-                  ))
-              .expand((element) => [element, const SizedBox(height: 10)]),
-          const SizedBox(height: 30),
-        ]),
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            ...menuCategory.entries
+                .map((category) => CategoryList(
+                      isHidingEnabled: true,
+                      title: Text(
+                        category.key,
+                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      child: category.value,
+                    ))
+                .expand((element) => [element, const SizedBox(height: 10)]),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }
@@ -156,7 +165,14 @@ class _MenuPageState extends State<MenuPage> {
     return _buildBackgroundCategory(context, children: [
       _buildInkListTile(
         title: const Text("Change language"),
-        subTitle: const Text("English"),
+        subTitle: Text(
+          "English",
+          style: GoogleFonts.roboto(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: Colors.white70,
+          ),
+        ),
         leading: const Icon(Icons.language),
         onTap: () => _onChangeLanguage(context),
       ),

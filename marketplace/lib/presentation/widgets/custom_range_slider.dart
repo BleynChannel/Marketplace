@@ -60,7 +60,7 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
                   child: const SizedBox(),
                 ),
                 SizedBox(
-                  width: 54,
+                  width: 60,
                   child: Text(
                     '${widget.postfixText ?? ''}${_values.start.round()}${widget.suffixText ?? ''}',
                     textAlign: TextAlign.center,
@@ -79,7 +79,7 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
                   child: const SizedBox(),
                 ),
                 SizedBox(
-                  width: 54,
+                  width: 60,
                   child: Text(
                     '${widget.postfixText ?? ''}${_values.end.round()}${widget.suffixText ?? ''}',
                     textAlign: TextAlign.center,

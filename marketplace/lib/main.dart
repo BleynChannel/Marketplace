@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 
 const kDebugMode = false;
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugInit().then((value) => null);
+
     return MaterialApp.router(
       title: 'OLO Games',
       theme: ThemeData(
@@ -67,18 +70,21 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(40),
-            borderSide: const BorderSide(color: primaryColor),
+            borderSide: BorderSide(color: Colors.grey[400]!),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(40),
-            borderSide: BorderSide(
-              color:
-                  Color.lerp(primaryColor, Colors.white, 0.2) ?? primaryColor,
-            ),
+            borderSide: const BorderSide(color: primaryColor),
           ),
-          constraints: const BoxConstraints(minHeight: 42, maxHeight: 42),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+            borderSide: BorderSide(color: Colors.grey[400]!),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+            borderSide: const BorderSide(color: primaryColor),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
         ),
         checkboxTheme: CheckboxThemeData(
           shape: RoundedRectangleBorder(
@@ -111,6 +117,12 @@ class MyApp extends StatelessWidget {
             }
           }),
         ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: Color.lerp(backgroundColor, Colors.white, 0.025),
+          contentTextStyle: TextStyle(
+            color: ThemeData().errorColor,
+          ),
+        ),
         textTheme: TextTheme(
           headline4: GoogleFonts.roboto(
             fontSize: 38,
@@ -124,8 +136,7 @@ class MyApp extends StatelessWidget {
             fontSize: 18,
             color: Colors.white,
           ),
-          // TODO: Поменять на caption
-          bodyText2: GoogleFonts.roboto(
+          caption: GoogleFonts.roboto(
             fontSize: 13,
             color: Colors.white,
           ),

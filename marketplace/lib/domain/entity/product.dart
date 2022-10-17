@@ -9,6 +9,7 @@ import 'package:marketplace/domain/entity/price.dart';
 import 'package:marketplace/domain/entity/product_dlc.dart';
 import 'package:marketplace/domain/entity/product_review.dart';
 import 'package:marketplace/domain/entity/system_requirement.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 
 part 'product.freezed.dart';
 
@@ -41,10 +42,11 @@ class Product with _$Product {
 
   CompactProduct toCompactProduct() => CompactProduct(
         title: title,
-        //TODO: Если вдруг не будет картинки - менять на пустышку
         banner: media
-            .where((element) => element.type == MediaType.image)
-            .toList()[0],
+                .where((element) => element.type == MediaType.image)
+                .isNotEmpty
+            ? media.where((element) => element.type == MediaType.image).first
+            : debugNoImage,
         price: price,
         platforms: platforms,
       );

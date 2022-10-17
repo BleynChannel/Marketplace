@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/presentation/widgets/login_to_button.dart';
 
 import '../widgets/gradient_devider.dart';
 
@@ -150,14 +150,14 @@ class LoginPage extends StatelessWidget {
               text: "Don’t have an account? ",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2
+                  .caption
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: "Sign Up",
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .caption
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()
@@ -169,5 +169,42 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     ];
+  }
+}
+
+class LoginToButton extends StatelessWidget {
+  final Widget icon;
+  final String label;
+
+  final VoidCallback onPressed;
+
+  const LoginToButton({
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+        side: const BorderSide(color: primaryColor),
+      ),
+      onPressed: onPressed,
+      icon: icon,
+      label: RichText(
+        text: TextSpan(
+          text: "Continue with ",
+          children: [
+            TextSpan(
+              text: label,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -144,14 +144,14 @@ class WelcomePage extends StatelessWidget {
               text: "Don’t have an account? ",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2
+                  .caption
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: "Sign Up",
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .caption
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()
