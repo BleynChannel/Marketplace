@@ -4,18 +4,19 @@ import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/presentation/bloc/search/search_event.dart';
 import 'package:marketplace/presentation/bloc/search/search_state.dart';
 import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   static bool debugIsNoNetwork = false;
   static bool debugIsError = false;
 
   Future<List<CompactProduct>> debugGetProduct(Filter filter) async {
-    // _filterList = debugProductList
-    //     .where((product) => ui_utils.isCorrectFilter(product, _filter))
-    //     .map((product) => product.toCompactProduct())
-    //     .toList();
+    return Future.value(debugProductList
+        .where((product) => ui_utils.isCorrectFilter(product, filter))
+        .map((product) => product.toCompactProduct())
+        .toList());
 
-    return Future.value(debugCompactProductList);
+    // return Future.value(debugCompactProductList);
   }
 
   SearchBloc() : super(const SearchState.load()) {

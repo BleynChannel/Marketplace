@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -104,7 +106,7 @@ bool isCorrectFilter(Product product, Filter filter) {
         filter.multiplayer.isEmpty,
   ];
 
-  return isCorrect.any((element) => element == true);
+  return isCorrect.every((element) => element == true);
 }
 
 String getCompactCount(int value) {
