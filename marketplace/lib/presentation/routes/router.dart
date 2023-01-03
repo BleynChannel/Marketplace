@@ -21,7 +21,6 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
       path: '/welcome',
       name: 'WelcomeRoute',
       page: WelcomePage,
-      //TODO: Менять когда пользователь уже заходил в приложение
       initial: true,
     ),
     AutoRoute(

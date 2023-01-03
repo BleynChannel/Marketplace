@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 
@@ -19,6 +22,11 @@ class _MenuPageState extends State<MenuPage> {
   void _onChangeNickname(BuildContext context) {}
 
   void _onChangePassword(BuildContext context) {}
+
+  Future _onSignOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    context.router.replaceAll([const WelcomeRoute()]);
+  }
 
   void _onChangeLanguage(BuildContext context) {}
 
@@ -157,6 +165,11 @@ class _MenuPageState extends State<MenuPage> {
         title: const Text("Change password"),
         leading: const Icon(Icons.lock_outline),
         onTap: () => _onChangePassword(context),
+      ),
+      ListTile(
+        title: const Text("Sign Out"),
+        leading: const Icon(Icons.exit_to_app, color: Colors.red),
+        onTap: () async => await _onSignOut(context),
       ),
     ]);
   }

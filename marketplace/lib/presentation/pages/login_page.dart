@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
@@ -13,7 +15,7 @@ import '../widgets/gradient_devider.dart';
 class _ContinueWith {
   final Widget icon;
   final String label;
-  final void Function(BuildContext context) onPressed;
+  final Future Function(BuildContext context) onPressed;
 
   _ContinueWith(this.icon, this.label, this.onPressed);
 }
@@ -21,33 +23,50 @@ class _ContinueWith {
 class LoginPage extends StatelessWidget {
   final _continueWithMap = [
     _ContinueWith(
-      SvgPicture.asset("assets/icons/google.svg"),
+      SvgPicture.asset("assets/icons/social/google.svg"),
       'Google',
-      (BuildContext context) {
-        _navigateToHomePage(context);
+      (BuildContext context) async {
+        try {
+          final googleUser = await GoogleSignIn().signIn();
+          final googleAuth = await googleUser?.authentication;
+
+          final credential = GoogleAuthProvider.credential(
+            idToken: googleAuth?.idToken,
+            accessToken: googleAuth?.accessToken,
+          );
+
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+          context.router.replaceAll([HomeRoute()]);
+        } on FirebaseAuthException catch (_) {
+          final scaffoldMessenger = ScaffoldMessenger.of(context);
+          scaffoldMessenger.hideCurrentSnackBar();
+          scaffoldMessenger.showSnackBar(const SnackBar(
+            content: Text('Error Google auth'),
+          ));
+        }
       },
     ),
     _ContinueWith(
-      SvgPicture.asset("assets/icons/facebook.svg"),
-      'Facebook',
-      (BuildContext context) {
-        _navigateToHomePage(context);
-      },
-    ),
-    _ContinueWith(
-      SvgPicture.asset("assets/icons/vk.svg"),
-      'VK',
-      (BuildContext context) {
-        _navigateToHomePage(context);
+      SvgPicture.asset("assets/icons/social/github.svg"),
+      'GitHub',
+      (BuildContext context) async {
+        try {
+          await FirebaseAuth.instance.signInWithProvider(GithubAuthProvider());
+
+          context.router.replaceAll([HomeRoute()]);
+        } on FirebaseAuthException catch (_) {
+          final scaffoldMessenger = ScaffoldMessenger.of(context);
+          scaffoldMessenger.hideCurrentSnackBar();
+          scaffoldMessenger.showSnackBar(const SnackBar(
+            content: Text('Error GitHub auth'),
+          ));
+        }
       },
     ),
   ];
 
   LoginPage({Key? key}) : super(key: key);
-
-  static void _navigateToHomePage(BuildContext context) {
-    context.router.replaceAll([HomeRoute()]);
-  }
 
   void _navigateToLogWithEmailPage(BuildContext context) {
     context.router.navigateNamed('/login/email');
@@ -116,7 +135,7 @@ class LoginPage extends StatelessWidget {
         .map((e) => LoginToButton(
               icon: e.icon,
               label: e.label,
-              onPressed: () => e.onPressed(context),
+              onPressed: () async => await e.onPressed(context),
             ))
         .expand((element) => [element, const SizedBox(height: 6)]);
   }

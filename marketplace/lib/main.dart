@@ -1,13 +1,24 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 
 const kDebugMode = false;
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyD9R7dUTtIEBG6aHpuvChwPkLM9usdK4ik',
+      appId: '1:427207769604:android:3b827967f1cfca98597f51',
+      messagingSenderId: '427207769604',
+      projectId: 'olo-games-31060',
+      // storageBucket: 'olo-games-31060.appspot.com'
+    ),
+  );
+
   runApp(DevicePreview(
     builder: (context) => MyApp(),
     enabled: kDebugMode,
@@ -21,8 +32,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugInit().then((value) => null);
-
     return MaterialApp.router(
       title: 'OLO Games',
       theme: ThemeData(

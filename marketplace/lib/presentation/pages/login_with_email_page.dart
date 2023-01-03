@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,31 +21,47 @@ class LogWithEmailPage extends StatefulWidget {
 class _LogWithEmailPageState extends State<LogWithEmailPage> {
   final _formKey = GlobalKey<CustomFormState>();
 
-  late bool _saveData;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
 
-  void _navigateToHomePage(BuildContext context) {
+  bool _loginButtonEnabled = true;
+
+  Future _login(BuildContext context) async {
     //TODO: Сделать сохранение данных
 
-    String? errorTooltipMessage;
+    String? errorMessage;
+
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      //TODO: Проверять данные с сервера
-      if (errorTooltipMessage != null) {
-        scaffoldMessenger.hideCurrentSnackBar();
-        scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(errorTooltipMessage),
-        ));
-      } else {
-        context.router.replaceAll([HomeRoute()]);
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } on FirebaseAuthException catch (_) {
+        errorMessage =
+            'Such a user does not exist or the username or password is entered incorrectly';
       }
     } else {
-      scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Enter a valid data'),
-      ));
+      errorMessage = 'Enter a valid data';
     }
+
+    if (errorMessage != null) {
+      scaffoldMessenger.hideCurrentSnackBar();
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(errorMessage),
+      ));
+
+      setState(() {
+        _loginButtonEnabled = true;
+      });
+    }
+  }
+
+  void _navigateToResetPassword(BuildContext context) {
+    //TODO: Добавить сброс пароля
   }
 
   void _navigateToSignUpPage(BuildContext context) {
@@ -53,9 +70,18 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
 
   @override
   void initState() {
-    _saveData = false;
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -69,19 +95,29 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
         backgroundColor: Colors.transparent,
       ),
       body: BackgroundBlur(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildTitle(context),
-              const Expanded(child: SizedBox()),
-              Column(children: [
-                _buildFields(context),
-                ..._buildLogIn(context),
-              ]),
-            ],
-          ),
+        child: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              context.router.replaceAll([HomeRoute()]);
+            }
+
+            return Padding(
+              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildTitle(context),
+                  const Expanded(child: SizedBox()),
+                  Column(children: [
+                    _buildFields(context),
+                    const SizedBox(height: 10),
+                    ..._buildLogIn(context),
+                  ]),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -129,6 +165,7 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
       key: _formKey,
       child: Column(children: [
         CustomTextFormField(
+          controller: _emailController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
           autofocus: true,
@@ -136,23 +173,36 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
+          controller: _passwordController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.password,
-          helpText: passwordTooltipText,
+          questionText: passwordTooltipText,
           maxLength: 15,
-          validator: (value) => ui_utils.isPasswordValid(value ?? ''),
-        ),
-        const SizedBox(height: 2),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Remember me"),
-            const SizedBox(width: 4),
-            Checkbox(
-              value: _saveData,
-              onChanged: (value) => setState(() => _saveData = value!),
+          helperText: Padding(
+            padding: const EdgeInsets.only(left: 8, top: 8),
+            child: RichText(
+              text: TextSpan(
+                text: "Forgot your password? ",
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    ?.copyWith(color: Colors.white70),
+                children: [
+                  TextSpan(
+                    text: "Reset password",
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                    mouseCursor: MaterialStateMouseCursor.clickable,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => _navigateToResetPassword(context),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
+          validator: (value) => ui_utils.isPasswordValid(value ?? ''),
         ),
       ]),
     );
@@ -166,18 +216,21 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
           width: double.infinity,
           height: 40,
           child: TextButton(
-            child: const Text("Login"),
-            onPressed: () => _navigateToHomePage(context),
-          ),
+              onPressed: _loginButtonEnabled
+                  ? () {
+                      setState(() {
+                        _loginButtonEnabled = false;
+                      });
+
+                      _login(context);
+                    }
+                  : null,
+              child: const Text("Login")),
         ),
       ),
-      const SizedBox(
-        height: 8,
-      ),
+      const SizedBox(height: 8),
       const GradientDevider(isHorizontal: true),
-      const SizedBox(
-        height: 8,
-      ),
+      const SizedBox(height: 8),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SizedBox(

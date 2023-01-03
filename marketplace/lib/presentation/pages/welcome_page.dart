@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:wave/config.dart';
@@ -21,33 +24,52 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BackgroundBlur(
-        child: _buildBackgroundWave(
-          context,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
-            child: Column(
-              children: [
-                const Expanded(flex: 4, child: SizedBox()),
-                Expanded(
-                  flex: 3,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      children: [
-                        _buildTitle(context),
-                        const Expanded(child: SizedBox()),
-                        _buildLogIn(context),
-                      ],
-                    ),
+    return FutureBuilder(
+      future: debugInit(),
+      builder: (context, snapshot) {
+        bool isLoadUser = false;
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (FirebaseAuth.instance.currentUser != null) {
+            isLoadUser = true;
+            context.router.replaceAll([HomeRoute()]);
+          }
+        }
+
+        if (!isLoadUser) {
+          return Scaffold(
+            body: BackgroundBlur(
+              child: _buildBackgroundWave(
+                context,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+                  child: Column(
+                    children: [
+                      const Expanded(flex: 4, child: SizedBox()),
+                      Expanded(
+                        flex: 3,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            children: [
+                              _buildTitle(context),
+                              const Expanded(child: SizedBox()),
+                              _buildLogIn(context),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+        }
+
+        return const SizedBox();
+      },
     );
   }
 

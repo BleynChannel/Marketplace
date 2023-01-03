@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,31 +21,45 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<CustomFormState>();
 
-  late bool _saveData;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
   late String _password;
 
-  void _navigateToHomePage(BuildContext context) {
+  bool _signupButtonEnabled = true;
+
+  Future _signup(BuildContext context) async {
     //TODO: Сделать сохранение данных
 
-    String? errorTooltipMessage = 'Error';
+    String? errorMessage;
+
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      //TODO: Проверять данные с сервера
-      if (errorTooltipMessage != null) {
-        scaffoldMessenger.hideCurrentSnackBar();
-        scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(errorTooltipMessage),
-        ));
-      } else {
-        context.router.replaceAll([HomeRoute()]);
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } on FirebaseAuthException catch (e) {
+        errorMessage = e.code == 'email-already-in-use'
+            ? 'An account with this email already exists'
+            : 'Account creation error. Try again later';
       }
     } else {
+      errorMessage = 'Enter a valid data';
+    }
+
+    if (errorMessage != null) {
       scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Enter a valid data'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(errorMessage),
       ));
+
+      setState(() {
+        _signupButtonEnabled = true;
+      });
     }
   }
 
@@ -54,10 +69,20 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void initState() {
-    _saveData = false;
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+
     _password = '';
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -71,19 +96,29 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: Colors.transparent,
       ),
       body: BackgroundBlur(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildTitle(context),
-              const Expanded(child: SizedBox()),
-              Column(children: [
-                _buildFields(context),
-                ..._buildLogIn(context),
-              ]),
-            ],
-          ),
+        child: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              context.router.replaceAll([HomeRoute()]);
+            }
+
+            return Padding(
+              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildTitle(context),
+                  const Expanded(child: SizedBox()),
+                  Column(children: [
+                    _buildFields(context),
+                    const SizedBox(height: 10),
+                    ..._buildLogIn(context),
+                  ]),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -131,6 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
       key: _formKey,
       child: Column(children: [
         CustomTextFormField(
+          controller: _emailController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
           autofocus: true,
@@ -138,9 +174,10 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
+          controller: _passwordController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.password,
-          helpText: passwordTooltipText,
+          questionText: passwordTooltipText,
           maxLength: 15,
           validator: (value) => ui_utils.isPasswordValid(value ?? ''),
           onChanged: (value) => _password = value,
@@ -150,22 +187,10 @@ class _SignUpPageState extends State<SignUpPage> {
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.password,
           hintText: "Repeat password",
-          helpText: passwordTooltipText,
+          questionText: passwordTooltipText,
           maxLength: 15,
           validator: (value) =>
               value == _password ? null : "Repeat the password correctly",
-        ),
-        const SizedBox(height: 2),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Remember me"),
-            const SizedBox(width: 4),
-            Checkbox(
-              value: _saveData,
-              onChanged: (value) => setState(() => _saveData = value!),
-            ),
-          ],
         ),
       ]),
     );
@@ -179,8 +204,16 @@ class _SignUpPageState extends State<SignUpPage> {
           width: double.infinity,
           height: 40,
           child: TextButton(
+            onPressed: _signupButtonEnabled
+                ? () {
+                    setState(() {
+                      _signupButtonEnabled = false;
+                    });
+
+                    _signup(context);
+                  }
+                : null,
             child: const Text("Sign Up"),
-            onPressed: () => _navigateToHomePage(context),
           ),
         ),
       ),

@@ -10,23 +10,27 @@ enum CustomTextFormFieldType {
 class CustomTextFormField extends StatefulWidget {
   final CustomTextFormFieldType type;
   final String? hintText;
+  final Widget? helperText;
   final bool autofocus;
   final int? maxLength;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final double? fieldHeight;
-  final String? helpText;
+  final String? questionText;
+  final TextEditingController? controller;
 
   const CustomTextFormField({
     Key? key,
     required this.type,
     this.hintText,
+    this.helperText,
     this.autofocus = false,
     this.maxLength,
     this.validator,
     this.onChanged,
     this.fieldHeight,
-    this.helpText,
+    this.questionText,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -132,6 +136,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
         SizedBox(
           height: widget.fieldHeight,
           child: TextFormField(
+            controller: widget.controller,
             decoration: InputDecoration(
               hintText: _hintText,
               prefixIcon: _prefixIcon,
@@ -141,7 +146,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _suffixIcon ?? const SizedBox(),
-                    widget.helpText != null
+                    widget.questionText != null
                         ? Tooltip(
                             decoration: BoxDecoration(
                               color: theme.inputDecorationTheme.focusedBorder
@@ -162,7 +167,8 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
                               fontSize: 16,
                             ),
                             margin: const EdgeInsets.symmetric(horizontal: 24),
-                            message: widget.helpText,
+                            triggerMode: TooltipTriggerMode.tap,
+                            message: widget.questionText,
                             child: const Icon(Icons.help_outline_rounded),
                           )
                         : const SizedBox(),
@@ -194,44 +200,36 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
         Row(children: [
           Expanded(
             child: _validateText.isNotEmpty
-                ? Semantics(
-                    container: true,
-                    liveRegion: true,
-                    child: FadeTransition(
-                      opacity: _controller,
-                      child: FractionalTranslation(
-                        translation: Tween<Offset>(
-                          begin: const Offset(0.0, -0.25),
-                          end: Offset.zero,
-                        ).evaluate(_controller.view),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 8, right: 8, top: 8),
-                          child: Text(
-                            _validateText,
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(color: Theme.of(context).errorColor),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                ? FadeTransition(
+                    opacity: _controller,
+                    child: FractionalTranslation(
+                      translation: Tween<Offset>(
+                        begin: const Offset(0.0, -0.25),
+                        end: Offset.zero,
+                      ).evaluate(_controller.view),
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        child: Text(
+                          _validateText,
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption!
+                              .copyWith(color: Theme.of(context).errorColor),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
                   )
-                : const SizedBox(),
+                : (widget.helperText ?? const SizedBox()),
           ),
           _counter.isNotEmpty
-              ? Semantics(
-                  container: true,
-                  liveRegion: true,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-                    child: Text(
-                      _counter,
-                      style: Theme.of(context).textTheme.caption!.copyWith(
-                          color: Colors.grey, fontWeight: FontWeight.bold),
-                    ),
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                  child: Text(
+                    _counter,
+                    style: Theme.of(context).textTheme.caption!.copyWith(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
                 )
               : const SizedBox(),

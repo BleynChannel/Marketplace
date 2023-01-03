@@ -70,7 +70,7 @@ class FilterPage extends StatelessWidget {
       child: FilterRangeSlider(
         values: RangeValues(filter.minPrice, filter.maxPrice),
         constrainValue: const RangeValues(0, 100000),
-        postfixText: '\$',
+        postfixText: '₽',
         onChanged: (value) {
           filter.minPrice = value.start;
           filter.maxPrice = value.end;

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "427207769604",
+    "project_id": "olo-games-31060",
+    "storage_bucket": "olo-games-31060.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427207769604:android:3b827967f1cfca98597f51",
+        "android_client_info": {
+          "package_name": "com.bleyn.marketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427207769604-ila16ll2tmd1mtuglfl6ejj8i0d8uq3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bleyn.marketplace",
+            "certificate_hash": "0a21d0b9da07f724cc172cb352aa4501bee6f021"
+          }
+        },
+        {
+          "client_id": "427207769604-glpe84vdfvejsp7p6sq7o7mrbnuhf660.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9R7dUTtIEBG6aHpuvChwPkLM9usdK4ik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427207769604-glpe84vdfvejsp7p6sq7o7mrbnuhf660.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

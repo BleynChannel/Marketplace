@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -63,11 +61,10 @@ const Map<String, Color> _statusMap = {
 Color statusToColor(String status) => _statusMap[status]!;
 
 const _pathToSvgIconsContactsMap = {
-  'Steam': 'assets/icons/steam.svg',
-  'Epic Games': 'assets/icons/epic_games.svg',
-  'Discord': 'assets/icons/discord.svg',
-  'Facebook': 'assets/icons/facebook.svg',
-  'VK': 'assets/icons/vk.svg',
+  'Steam': 'assets/icons/social/steam.svg',
+  'Epic Games': 'assets/icons/social/epic_games.svg',
+  'Discord': 'assets/icons/social/discord.svg',
+  'GitHub': 'assets/icons/social/github.svg',
 };
 
 String contactsToPathToSvgIcons(String name) =>
