@@ -1,16 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:marketplace/core/error/user/discover_get_products_failure.dart';
-import 'package:marketplace/core/error/user/get_cart_products_failure.dart';
-import 'package:marketplace/core/error/user/get_desired_failure.dart';
-import 'package:marketplace/core/error/user/get_notifications_failure.dart';
-import 'package:marketplace/core/error/user/get_product_failure.dart';
-import 'package:marketplace/core/error/user/search_products_failure.dart';
+import 'package:marketplace/core/error/product/discover_get_products_failure.dart';
+import 'package:marketplace/core/error/product/get_cart_products_failure.dart';
+import 'package:marketplace/core/error/product/get_desired_failure.dart';
+import 'package:marketplace/core/error/product/get_product_failure.dart';
+import 'package:marketplace/core/error/product/search_products_failure.dart';
 import 'package:marketplace/data/datasource/product/product_remote_data_source.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/domain/entity/filter.dart';
-import 'package:marketplace/domain/entity/notification.dart';
 import 'package:marketplace/domain/entity/product.dart';
 
 class ProductRepository {
@@ -42,16 +40,6 @@ class ProductRepository {
       return Right(result);
     } catch (_) {
       return const Left(GetDesiredFailure.unknown());
-    }
-  }
-
-  Future<Either<GetNotificationsFailure, List<Notification>>>
-      getNotifications() async {
-    try {
-      final result = await _remoteDataSource.getNotifications();
-      return Right(result);
-    } catch (_) {
-      return const Left(GetNotificationsFailure.unknown());
     }
   }
 

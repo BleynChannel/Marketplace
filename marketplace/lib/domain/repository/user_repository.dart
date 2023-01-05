@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:marketplace/core/error/user/get_notifications_failure.dart';
 import 'package:marketplace/core/error/user/get_profile_failure.dart';
 import 'package:marketplace/core/error/user/login_github_failure.dart';
 import 'package:marketplace/core/error/user/login_google_failure.dart';
@@ -7,6 +8,7 @@ import 'package:marketplace/core/error/user/login_with_email_failure.dart';
 import 'package:marketplace/core/error/user/signup_failure.dart';
 import 'package:marketplace/data/datasource/user/user_remote_data_source.dart';
 import 'package:marketplace/domain/entity/login.dart';
+import 'package:marketplace/domain/entity/notification.dart';
 import 'package:marketplace/domain/entity/profile.dart';
 import 'package:marketplace/domain/entity/signup.dart';
 
@@ -111,6 +113,16 @@ class UserRepository {
       return Right(result);
     } catch (_) {
       return const Left(GetProfileFailure.unknown());
+    }
+  }
+
+  Future<Either<GetNotificationsFailure, List<Notification>>>
+      getNotifications() async {
+    try {
+      final result = await _remoteDataSource.getNotifications();
+      return Right(result);
+    } catch (_) {
+      return const Left(GetNotificationsFailure.unknown());
     }
   }
 }

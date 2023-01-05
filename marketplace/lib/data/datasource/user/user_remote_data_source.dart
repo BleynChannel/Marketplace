@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:marketplace/domain/entity/login.dart';
+import 'package:marketplace/domain/entity/notification.dart';
 import 'package:marketplace/domain/entity/profile.dart';
 import 'package:marketplace/domain/entity/signup.dart';
 import 'package:marketplace/presentation/debug_data.dart';
@@ -40,5 +41,9 @@ class UserRemoteDataSource {
 
   Future<Profile> getProfile() async {
     return Future.value(debugProfile);
+  }
+
+  Future<List<Notification>> getNotifications() async {
+    return Future.value(debugNotification);
   }
 }
