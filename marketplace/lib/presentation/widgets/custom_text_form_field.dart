@@ -11,6 +11,8 @@ class CustomTextFormField extends StatefulWidget {
   final CustomTextFormFieldType type;
   final String? hintText;
   final Widget? helperText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final bool autofocus;
   final int? maxLength;
   final String? Function(String?)? validator;
@@ -24,6 +26,8 @@ class CustomTextFormField extends StatefulWidget {
     required this.type,
     this.hintText,
     this.helperText,
+    this.prefixIcon,
+    this.suffixIcon,
     this.autofocus = false,
     this.maxLength,
     this.validator,
@@ -113,6 +117,8 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
     }
 
     _hintText = widget.hintText ?? _hintText;
+    _prefixIcon = widget.prefixIcon ?? _prefixIcon;
+    _suffixIcon = widget.suffixIcon ?? _suffixIcon;
     _counter = widget.maxLength != null ? '0/${widget.maxLength}' : "";
 
     super.initState();

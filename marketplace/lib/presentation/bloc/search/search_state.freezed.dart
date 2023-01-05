@@ -20,23 +20,23 @@ mixin _$SearchState {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CompactProduct> filterProducts) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CompactProduct> filterProducts)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) =>
@@ -51,10 +51,10 @@ mixin _$SearchState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchStateLoad value)? load,
-    TResult Function(SearchStateLoading value)? loading,
-    TResult Function(SearchStateError value)? error,
-    TResult Function(SearchStateNoNetwork value)? noNetwork,
+    TResult? Function(SearchStateLoad value)? load,
+    TResult? Function(SearchStateLoading value)? loading,
+    TResult? Function(SearchStateError value)? error,
+    TResult? Function(SearchStateNoNetwork value)? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,16 +72,18 @@ mixin _$SearchState {
 abstract class $SearchStateCopyWith<$Res> {
   factory $SearchStateCopyWith(
           SearchState value, $Res Function(SearchState) then) =
-      _$SearchStateCopyWithImpl<$Res>;
+      _$SearchStateCopyWithImpl<$Res, SearchState>;
 }
 
 /// @nodoc
-class _$SearchStateCopyWithImpl<$Res> implements $SearchStateCopyWith<$Res> {
+class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
+    implements $SearchStateCopyWith<$Res> {
   _$SearchStateCopyWithImpl(this._value, this._then);
 
-  final SearchState _value;
   // ignore: unused_field
-  final $Res Function(SearchState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -93,14 +95,11 @@ abstract class _$$SearchStateLoadCopyWith<$Res> {
 
 /// @nodoc
 class __$$SearchStateLoadCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res, _$SearchStateLoad>
     implements _$$SearchStateLoadCopyWith<$Res> {
   __$$SearchStateLoadCopyWithImpl(
       _$SearchStateLoad _value, $Res Function(_$SearchStateLoad) _then)
-      : super(_value, (v) => _then(v as _$SearchStateLoad));
-
-  @override
-  _$SearchStateLoad get _value => super._value as _$SearchStateLoad;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -127,7 +126,7 @@ class _$SearchStateLoad implements SearchStateLoad {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CompactProduct> filterProducts) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return load();
@@ -136,10 +135,10 @@ class _$SearchStateLoad implements SearchStateLoad {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CompactProduct> filterProducts)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return load?.call();
   }
@@ -149,7 +148,7 @@ class _$SearchStateLoad implements SearchStateLoad {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -173,10 +172,10 @@ class _$SearchStateLoad implements SearchStateLoad {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchStateLoad value)? load,
-    TResult Function(SearchStateLoading value)? loading,
-    TResult Function(SearchStateError value)? error,
-    TResult Function(SearchStateNoNetwork value)? noNetwork,
+    TResult? Function(SearchStateLoad value)? load,
+    TResult? Function(SearchStateLoading value)? loading,
+    TResult? Function(SearchStateError value)? error,
+    TResult? Function(SearchStateNoNetwork value)? noNetwork,
   }) {
     return load?.call(this);
   }
@@ -206,26 +205,25 @@ abstract class _$$SearchStateLoadingCopyWith<$Res> {
   factory _$$SearchStateLoadingCopyWith(_$SearchStateLoading value,
           $Res Function(_$SearchStateLoading) then) =
       __$$SearchStateLoadingCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<CompactProduct> filterProducts});
 }
 
 /// @nodoc
 class __$$SearchStateLoadingCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res, _$SearchStateLoading>
     implements _$$SearchStateLoadingCopyWith<$Res> {
   __$$SearchStateLoadingCopyWithImpl(
       _$SearchStateLoading _value, $Res Function(_$SearchStateLoading) _then)
-      : super(_value, (v) => _then(v as _$SearchStateLoading));
+      : super(_value, _then);
 
-  @override
-  _$SearchStateLoading get _value => super._value as _$SearchStateLoading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filterProducts = freezed,
+    Object? filterProducts = null,
   }) {
     return _then(_$SearchStateLoading(
-      filterProducts: filterProducts == freezed
+      filterProducts: null == filterProducts
           ? _value._filterProducts
           : filterProducts // ignore: cast_nullable_to_non_nullable
               as List<CompactProduct>,
@@ -267,6 +265,7 @@ class _$SearchStateLoading implements SearchStateLoading {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SearchStateLoadingCopyWith<_$SearchStateLoading> get copyWith =>
       __$$SearchStateLoadingCopyWithImpl<_$SearchStateLoading>(
           this, _$identity);
@@ -276,7 +275,7 @@ class _$SearchStateLoading implements SearchStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CompactProduct> filterProducts) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return loading(filterProducts);
@@ -285,10 +284,10 @@ class _$SearchStateLoading implements SearchStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CompactProduct> filterProducts)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return loading?.call(filterProducts);
   }
@@ -298,7 +297,7 @@ class _$SearchStateLoading implements SearchStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -322,10 +321,10 @@ class _$SearchStateLoading implements SearchStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchStateLoad value)? load,
-    TResult Function(SearchStateLoading value)? loading,
-    TResult Function(SearchStateError value)? error,
-    TResult Function(SearchStateNoNetwork value)? noNetwork,
+    TResult? Function(SearchStateLoad value)? load,
+    TResult? Function(SearchStateLoading value)? loading,
+    TResult? Function(SearchStateError value)? error,
+    TResult? Function(SearchStateNoNetwork value)? noNetwork,
   }) {
     return loading?.call(this);
   }
@@ -362,59 +361,82 @@ abstract class _$$SearchStateErrorCopyWith<$Res> {
   factory _$$SearchStateErrorCopyWith(
           _$SearchStateError value, $Res Function(_$SearchStateError) then) =
       __$$SearchStateErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
 class __$$SearchStateErrorCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res, _$SearchStateError>
     implements _$$SearchStateErrorCopyWith<$Res> {
   __$$SearchStateErrorCopyWithImpl(
       _$SearchStateError _value, $Res Function(_$SearchStateError) _then)
-      : super(_value, (v) => _then(v as _$SearchStateError));
+      : super(_value, _then);
 
+  @pragma('vm:prefer-inline')
   @override
-  _$SearchStateError get _value => super._value as _$SearchStateError;
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$SearchStateError(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$SearchStateError implements SearchStateError {
-  const _$SearchStateError();
+  const _$SearchStateError({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'SearchState.error()';
+    return 'SearchState.error(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SearchStateError);
+        (other.runtimeType == runtimeType &&
+            other is _$SearchStateError &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchStateErrorCopyWith<_$SearchStateError> get copyWith =>
+      __$$SearchStateErrorCopyWithImpl<_$SearchStateError>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CompactProduct> filterProducts) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CompactProduct> filterProducts)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -422,12 +444,12 @@ class _$SearchStateError implements SearchStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -446,10 +468,10 @@ class _$SearchStateError implements SearchStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchStateLoad value)? load,
-    TResult Function(SearchStateLoading value)? loading,
-    TResult Function(SearchStateError value)? error,
-    TResult Function(SearchStateNoNetwork value)? noNetwork,
+    TResult? Function(SearchStateLoad value)? load,
+    TResult? Function(SearchStateLoading value)? loading,
+    TResult? Function(SearchStateError value)? error,
+    TResult? Function(SearchStateNoNetwork value)? noNetwork,
   }) {
     return error?.call(this);
   }
@@ -471,7 +493,13 @@ class _$SearchStateError implements SearchStateError {
 }
 
 abstract class SearchStateError implements SearchState {
-  const factory SearchStateError() = _$SearchStateError;
+  const factory SearchStateError({required final String message}) =
+      _$SearchStateError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$SearchStateErrorCopyWith<_$SearchStateError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -483,14 +511,11 @@ abstract class _$$SearchStateNoNetworkCopyWith<$Res> {
 
 /// @nodoc
 class __$$SearchStateNoNetworkCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res, _$SearchStateNoNetwork>
     implements _$$SearchStateNoNetworkCopyWith<$Res> {
   __$$SearchStateNoNetworkCopyWithImpl(_$SearchStateNoNetwork _value,
       $Res Function(_$SearchStateNoNetwork) _then)
-      : super(_value, (v) => _then(v as _$SearchStateNoNetwork));
-
-  @override
-  _$SearchStateNoNetwork get _value => super._value as _$SearchStateNoNetwork;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -517,7 +542,7 @@ class _$SearchStateNoNetwork implements SearchStateNoNetwork {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CompactProduct> filterProducts) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return noNetwork();
@@ -526,10 +551,10 @@ class _$SearchStateNoNetwork implements SearchStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CompactProduct> filterProducts)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return noNetwork?.call();
   }
@@ -539,7 +564,7 @@ class _$SearchStateNoNetwork implements SearchStateNoNetwork {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CompactProduct> filterProducts)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -563,10 +588,10 @@ class _$SearchStateNoNetwork implements SearchStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchStateLoad value)? load,
-    TResult Function(SearchStateLoading value)? loading,
-    TResult Function(SearchStateError value)? error,
-    TResult Function(SearchStateNoNetwork value)? noNetwork,
+    TResult? Function(SearchStateLoad value)? load,
+    TResult? Function(SearchStateLoading value)? loading,
+    TResult? Function(SearchStateError value)? error,
+    TResult? Function(SearchStateNoNetwork value)? noNetwork,
   }) {
     return noNetwork?.call(this);
   }

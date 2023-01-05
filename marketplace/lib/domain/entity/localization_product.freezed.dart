@@ -30,7 +30,8 @@ mixin _$LocalizationProduct {
 abstract class $LocalizationProductCopyWith<$Res> {
   factory $LocalizationProductCopyWith(
           LocalizationProduct value, $Res Function(LocalizationProduct) then) =
-      _$LocalizationProductCopyWithImpl<$Res>;
+      _$LocalizationProductCopyWithImpl<$Res, LocalizationProduct>;
+  @useResult
   $Res call(
       {String language,
       bool enabledSound,
@@ -39,39 +40,41 @@ abstract class $LocalizationProductCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LocalizationProductCopyWithImpl<$Res>
+class _$LocalizationProductCopyWithImpl<$Res, $Val extends LocalizationProduct>
     implements $LocalizationProductCopyWith<$Res> {
   _$LocalizationProductCopyWithImpl(this._value, this._then);
 
-  final LocalizationProduct _value;
   // ignore: unused_field
-  final $Res Function(LocalizationProduct) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? language = freezed,
-    Object? enabledSound = freezed,
-    Object? enabledInterface = freezed,
-    Object? enabledSubtitles = freezed,
+    Object? language = null,
+    Object? enabledSound = null,
+    Object? enabledInterface = null,
+    Object? enabledSubtitles = null,
   }) {
     return _then(_value.copyWith(
-      language: language == freezed
+      language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as String,
-      enabledSound: enabledSound == freezed
+      enabledSound: null == enabledSound
           ? _value.enabledSound
           : enabledSound // ignore: cast_nullable_to_non_nullable
               as bool,
-      enabledInterface: enabledInterface == freezed
+      enabledInterface: null == enabledInterface
           ? _value.enabledInterface
           : enabledInterface // ignore: cast_nullable_to_non_nullable
               as bool,
-      enabledSubtitles: enabledSubtitles == freezed
+      enabledSubtitles: null == enabledSubtitles
           ? _value.enabledSubtitles
           : enabledSubtitles // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 }
 
@@ -82,6 +85,7 @@ abstract class _$$_LocalizationProductCopyWith<$Res>
           $Res Function(_$_LocalizationProduct) then) =
       __$$_LocalizationProductCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String language,
       bool enabledSound,
@@ -91,36 +95,34 @@ abstract class _$$_LocalizationProductCopyWith<$Res>
 
 /// @nodoc
 class __$$_LocalizationProductCopyWithImpl<$Res>
-    extends _$LocalizationProductCopyWithImpl<$Res>
+    extends _$LocalizationProductCopyWithImpl<$Res, _$_LocalizationProduct>
     implements _$$_LocalizationProductCopyWith<$Res> {
   __$$_LocalizationProductCopyWithImpl(_$_LocalizationProduct _value,
       $Res Function(_$_LocalizationProduct) _then)
-      : super(_value, (v) => _then(v as _$_LocalizationProduct));
+      : super(_value, _then);
 
-  @override
-  _$_LocalizationProduct get _value => super._value as _$_LocalizationProduct;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? language = freezed,
-    Object? enabledSound = freezed,
-    Object? enabledInterface = freezed,
-    Object? enabledSubtitles = freezed,
+    Object? language = null,
+    Object? enabledSound = null,
+    Object? enabledInterface = null,
+    Object? enabledSubtitles = null,
   }) {
     return _then(_$_LocalizationProduct(
-      language: language == freezed
+      language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as String,
-      enabledSound: enabledSound == freezed
+      enabledSound: null == enabledSound
           ? _value.enabledSound
           : enabledSound // ignore: cast_nullable_to_non_nullable
               as bool,
-      enabledInterface: enabledInterface == freezed
+      enabledInterface: null == enabledInterface
           ? _value.enabledInterface
           : enabledInterface // ignore: cast_nullable_to_non_nullable
               as bool,
-      enabledSubtitles: enabledSubtitles == freezed
+      enabledSubtitles: null == enabledSubtitles
           ? _value.enabledSubtitles
           : enabledSubtitles // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -156,25 +158,23 @@ class _$_LocalizationProduct implements _LocalizationProduct {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_LocalizationProduct &&
-            const DeepCollectionEquality().equals(other.language, language) &&
-            const DeepCollectionEquality()
-                .equals(other.enabledSound, enabledSound) &&
-            const DeepCollectionEquality()
-                .equals(other.enabledInterface, enabledInterface) &&
-            const DeepCollectionEquality()
-                .equals(other.enabledSubtitles, enabledSubtitles));
+            (identical(other.language, language) ||
+                other.language == language) &&
+            (identical(other.enabledSound, enabledSound) ||
+                other.enabledSound == enabledSound) &&
+            (identical(other.enabledInterface, enabledInterface) ||
+                other.enabledInterface == enabledInterface) &&
+            (identical(other.enabledSubtitles, enabledSubtitles) ||
+                other.enabledSubtitles == enabledSubtitles));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(language),
-      const DeepCollectionEquality().hash(enabledSound),
-      const DeepCollectionEquality().hash(enabledInterface),
-      const DeepCollectionEquality().hash(enabledSubtitles));
+      runtimeType, language, enabledSound, enabledInterface, enabledSubtitles);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_LocalizationProductCopyWith<_$_LocalizationProduct> get copyWith =>
       __$$_LocalizationProductCopyWithImpl<_$_LocalizationProduct>(
           this, _$identity);

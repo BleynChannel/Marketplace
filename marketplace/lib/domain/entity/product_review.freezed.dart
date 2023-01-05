@@ -29,47 +29,51 @@ mixin _$ProductReview {
 abstract class $ProductReviewCopyWith<$Res> {
   factory $ProductReviewCopyWith(
           ProductReview value, $Res Function(ProductReview) then) =
-      _$ProductReviewCopyWithImpl<$Res>;
+      _$ProductReviewCopyWithImpl<$Res, ProductReview>;
+  @useResult
   $Res call({User user, double rating, String description});
 
   $UserCopyWith<$Res> get user;
 }
 
 /// @nodoc
-class _$ProductReviewCopyWithImpl<$Res>
+class _$ProductReviewCopyWithImpl<$Res, $Val extends ProductReview>
     implements $ProductReviewCopyWith<$Res> {
   _$ProductReviewCopyWithImpl(this._value, this._then);
 
-  final ProductReview _value;
   // ignore: unused_field
-  final $Res Function(ProductReview) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
-    Object? rating = freezed,
-    Object? description = freezed,
+    Object? user = null,
+    Object? rating = null,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
-      user: user == freezed
+      user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      rating: rating == freezed
+      rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $UserCopyWith<$Res> get user {
     return $UserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value));
+      return _then(_value.copyWith(user: value) as $Val);
     });
   }
 }
@@ -81,6 +85,7 @@ abstract class _$$_ProductReviewCopyWith<$Res>
           _$_ProductReview value, $Res Function(_$_ProductReview) then) =
       __$$_ProductReviewCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({User user, double rating, String description});
 
   @override
@@ -89,31 +94,29 @@ abstract class _$$_ProductReviewCopyWith<$Res>
 
 /// @nodoc
 class __$$_ProductReviewCopyWithImpl<$Res>
-    extends _$ProductReviewCopyWithImpl<$Res>
+    extends _$ProductReviewCopyWithImpl<$Res, _$_ProductReview>
     implements _$$_ProductReviewCopyWith<$Res> {
   __$$_ProductReviewCopyWithImpl(
       _$_ProductReview _value, $Res Function(_$_ProductReview) _then)
-      : super(_value, (v) => _then(v as _$_ProductReview));
+      : super(_value, _then);
 
-  @override
-  _$_ProductReview get _value => super._value as _$_ProductReview;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
-    Object? rating = freezed,
-    Object? description = freezed,
+    Object? user = null,
+    Object? rating = null,
+    Object? description = null,
   }) {
     return _then(_$_ProductReview(
-      user: user == freezed
+      user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      rating: rating == freezed
+      rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
@@ -144,21 +147,18 @@ class _$_ProductReview implements _ProductReview {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ProductReview &&
-            const DeepCollectionEquality().equals(other.user, user) &&
-            const DeepCollectionEquality().equals(other.rating, rating) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(rating),
-      const DeepCollectionEquality().hash(description));
+  int get hashCode => Object.hash(runtimeType, user, rating, description);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ProductReviewCopyWith<_$_ProductReview> get copyWith =>
       __$$_ProductReviewCopyWithImpl<_$_ProductReview>(this, _$identity);
 }

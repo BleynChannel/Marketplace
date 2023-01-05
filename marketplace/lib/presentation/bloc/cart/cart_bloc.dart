@@ -1,30 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marketplace/const.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_state.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_event.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  static bool debugIsNoNetwork = false;
-  static bool debugIsError = false;
-
   CartBloc() : super(const CartState.load()) {
     on<CartOnLoaded>((event, emit) async {
-      //? Есть ли подключение к интернету?
-      if (!debugIsNoNetwork) {
-        emit(const CartState.load());
-      } else {
+      if (!debugIsNetwork) {
         emit(const CartState.noNetwork());
+        return;
       }
 
-      //TODO: Получать данные с репозитория
-      var products = debugCartProductList;
+      emit(const CartState.load());
+
+      var result = await productRepository.getCartProducts();
       await Future.delayed(const Duration(milliseconds: 2000));
 
-      if (!debugIsError) {
-        emit(CartState.loading(products: products));
-      } else {
-        emit(const CartState.error());
-      }
+      result.fold((failure) {
+        String message = '';
+
+        failure.when(
+          unknown: () => message = 'Unknown error',
+        );
+
+        emit(CartState.error(message: message));
+      }, (data) => emit(CartState.loading(products: data)));
     });
   }
 }

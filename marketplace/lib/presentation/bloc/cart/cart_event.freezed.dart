@@ -23,7 +23,7 @@ mixin _$CartEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,7 +39,7 @@ mixin _$CartEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartOnLoaded value)? onLoaded,
+    TResult? Function(CartOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,16 +53,18 @@ mixin _$CartEvent {
 /// @nodoc
 abstract class $CartEventCopyWith<$Res> {
   factory $CartEventCopyWith(CartEvent value, $Res Function(CartEvent) then) =
-      _$CartEventCopyWithImpl<$Res>;
+      _$CartEventCopyWithImpl<$Res, CartEvent>;
 }
 
 /// @nodoc
-class _$CartEventCopyWithImpl<$Res> implements $CartEventCopyWith<$Res> {
+class _$CartEventCopyWithImpl<$Res, $Val extends CartEvent>
+    implements $CartEventCopyWith<$Res> {
   _$CartEventCopyWithImpl(this._value, this._then);
 
-  final CartEvent _value;
   // ignore: unused_field
-  final $Res Function(CartEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -73,14 +75,12 @@ abstract class _$$CartOnLoadedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$CartOnLoadedCopyWithImpl<$Res> extends _$CartEventCopyWithImpl<$Res>
+class __$$CartOnLoadedCopyWithImpl<$Res>
+    extends _$CartEventCopyWithImpl<$Res, _$CartOnLoaded>
     implements _$$CartOnLoadedCopyWith<$Res> {
   __$$CartOnLoadedCopyWithImpl(
       _$CartOnLoaded _value, $Res Function(_$CartOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$CartOnLoaded));
-
-  @override
-  _$CartOnLoaded get _value => super._value as _$CartOnLoaded;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -113,7 +113,7 @@ class _$CartOnLoaded implements CartOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) {
     return onLoaded?.call();
   }
@@ -141,7 +141,7 @@ class _$CartOnLoaded implements CartOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartOnLoaded value)? onLoaded,
+    TResult? Function(CartOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

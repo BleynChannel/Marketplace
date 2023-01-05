@@ -1,30 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marketplace/const.dart';
 import 'package:marketplace/presentation/bloc/notification/notification_event.dart';
 import 'package:marketplace/presentation/bloc/notification/notification_state.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  static bool debugIsNoNetwork = false;
-  static bool debugIsError = false;
-
   NotificationBloc() : super(const NotificationState.load()) {
     on<NotificationOnLoaded>((event, emit) async {
-      //? Есть ли подключение к интернету?
-      if (!debugIsNoNetwork) {
-        emit(const NotificationState.load());
-      } else {
+      if (!debugIsNetwork) {
         emit(const NotificationState.noNetwork());
+        return;
       }
 
-      //TODO: Получать данные с репозитория
-      var notifications = debugNotification;
+      emit(const NotificationState.load());
+
+      var result = await productRepository.getNotifications();
       await Future.delayed(const Duration(milliseconds: 1000));
 
-      if (!debugIsError) {
-        emit(NotificationState.loading(notifications: notifications));
-      } else {
-        emit(const NotificationState.error());
-      }
+      result.fold((failure) {
+        String message = '';
+
+        failure.when(
+          unknown: () => message = 'Unknown error',
+        );
+
+        emit(NotificationState.error(message: message));
+      }, (data) => emit(NotificationState.loading(notifications: data)));
     });
   }
 }

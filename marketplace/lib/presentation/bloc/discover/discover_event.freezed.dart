@@ -23,7 +23,7 @@ mixin _$DiscoverEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,7 +39,7 @@ mixin _$DiscoverEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverOnLoaded value)? onLoaded,
+    TResult? Function(DiscoverOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,17 +54,18 @@ mixin _$DiscoverEvent {
 abstract class $DiscoverEventCopyWith<$Res> {
   factory $DiscoverEventCopyWith(
           DiscoverEvent value, $Res Function(DiscoverEvent) then) =
-      _$DiscoverEventCopyWithImpl<$Res>;
+      _$DiscoverEventCopyWithImpl<$Res, DiscoverEvent>;
 }
 
 /// @nodoc
-class _$DiscoverEventCopyWithImpl<$Res>
+class _$DiscoverEventCopyWithImpl<$Res, $Val extends DiscoverEvent>
     implements $DiscoverEventCopyWith<$Res> {
   _$DiscoverEventCopyWithImpl(this._value, this._then);
 
-  final DiscoverEvent _value;
   // ignore: unused_field
-  final $Res Function(DiscoverEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -76,14 +77,11 @@ abstract class _$$DiscoverOnLoadedCopyWith<$Res> {
 
 /// @nodoc
 class __$$DiscoverOnLoadedCopyWithImpl<$Res>
-    extends _$DiscoverEventCopyWithImpl<$Res>
+    extends _$DiscoverEventCopyWithImpl<$Res, _$DiscoverOnLoaded>
     implements _$$DiscoverOnLoadedCopyWith<$Res> {
   __$$DiscoverOnLoadedCopyWithImpl(
       _$DiscoverOnLoaded _value, $Res Function(_$DiscoverOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$DiscoverOnLoaded));
-
-  @override
-  _$DiscoverOnLoaded get _value => super._value as _$DiscoverOnLoaded;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -116,7 +114,7 @@ class _$DiscoverOnLoaded implements DiscoverOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) {
     return onLoaded?.call();
   }
@@ -144,7 +142,7 @@ class _$DiscoverOnLoaded implements DiscoverOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverOnLoaded value)? onLoaded,
+    TResult? Function(DiscoverOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

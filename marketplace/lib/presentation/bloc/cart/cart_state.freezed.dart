@@ -20,23 +20,23 @@ mixin _$CartState {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CartProduct> products) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CartProduct> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) =>
@@ -51,10 +51,10 @@ mixin _$CartState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartStateLoad value)? load,
-    TResult Function(CartStateLoading value)? loading,
-    TResult Function(CartStateError value)? error,
-    TResult Function(CartStateNoNetwork value)? noNetwork,
+    TResult? Function(CartStateLoad value)? load,
+    TResult? Function(CartStateLoading value)? loading,
+    TResult? Function(CartStateError value)? error,
+    TResult? Function(CartStateNoNetwork value)? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -71,16 +71,18 @@ mixin _$CartState {
 /// @nodoc
 abstract class $CartStateCopyWith<$Res> {
   factory $CartStateCopyWith(CartState value, $Res Function(CartState) then) =
-      _$CartStateCopyWithImpl<$Res>;
+      _$CartStateCopyWithImpl<$Res, CartState>;
 }
 
 /// @nodoc
-class _$CartStateCopyWithImpl<$Res> implements $CartStateCopyWith<$Res> {
+class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
+    implements $CartStateCopyWith<$Res> {
   _$CartStateCopyWithImpl(this._value, this._then);
 
-  final CartState _value;
   // ignore: unused_field
-  final $Res Function(CartState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -91,14 +93,12 @@ abstract class _$$CartStateLoadCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$CartStateLoadCopyWithImpl<$Res> extends _$CartStateCopyWithImpl<$Res>
+class __$$CartStateLoadCopyWithImpl<$Res>
+    extends _$CartStateCopyWithImpl<$Res, _$CartStateLoad>
     implements _$$CartStateLoadCopyWith<$Res> {
   __$$CartStateLoadCopyWithImpl(
       _$CartStateLoad _value, $Res Function(_$CartStateLoad) _then)
-      : super(_value, (v) => _then(v as _$CartStateLoad));
-
-  @override
-  _$CartStateLoad get _value => super._value as _$CartStateLoad;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -125,7 +125,7 @@ class _$CartStateLoad implements CartStateLoad {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CartProduct> products) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return load();
@@ -134,10 +134,10 @@ class _$CartStateLoad implements CartStateLoad {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CartProduct> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return load?.call();
   }
@@ -147,7 +147,7 @@ class _$CartStateLoad implements CartStateLoad {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -171,10 +171,10 @@ class _$CartStateLoad implements CartStateLoad {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartStateLoad value)? load,
-    TResult Function(CartStateLoading value)? loading,
-    TResult Function(CartStateError value)? error,
-    TResult Function(CartStateNoNetwork value)? noNetwork,
+    TResult? Function(CartStateLoad value)? load,
+    TResult? Function(CartStateLoading value)? loading,
+    TResult? Function(CartStateError value)? error,
+    TResult? Function(CartStateNoNetwork value)? noNetwork,
   }) {
     return load?.call(this);
   }
@@ -204,26 +204,25 @@ abstract class _$$CartStateLoadingCopyWith<$Res> {
   factory _$$CartStateLoadingCopyWith(
           _$CartStateLoading value, $Res Function(_$CartStateLoading) then) =
       __$$CartStateLoadingCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<CartProduct> products});
 }
 
 /// @nodoc
 class __$$CartStateLoadingCopyWithImpl<$Res>
-    extends _$CartStateCopyWithImpl<$Res>
+    extends _$CartStateCopyWithImpl<$Res, _$CartStateLoading>
     implements _$$CartStateLoadingCopyWith<$Res> {
   __$$CartStateLoadingCopyWithImpl(
       _$CartStateLoading _value, $Res Function(_$CartStateLoading) _then)
-      : super(_value, (v) => _then(v as _$CartStateLoading));
+      : super(_value, _then);
 
-  @override
-  _$CartStateLoading get _value => super._value as _$CartStateLoading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? products = freezed,
+    Object? products = null,
   }) {
     return _then(_$CartStateLoading(
-      products: products == freezed
+      products: null == products
           ? _value._products
           : products // ignore: cast_nullable_to_non_nullable
               as List<CartProduct>,
@@ -263,6 +262,7 @@ class _$CartStateLoading implements CartStateLoading {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$CartStateLoadingCopyWith<_$CartStateLoading> get copyWith =>
       __$$CartStateLoadingCopyWithImpl<_$CartStateLoading>(this, _$identity);
 
@@ -271,7 +271,7 @@ class _$CartStateLoading implements CartStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CartProduct> products) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return loading(products);
@@ -280,10 +280,10 @@ class _$CartStateLoading implements CartStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CartProduct> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return loading?.call(products);
   }
@@ -293,7 +293,7 @@ class _$CartStateLoading implements CartStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -317,10 +317,10 @@ class _$CartStateLoading implements CartStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartStateLoad value)? load,
-    TResult Function(CartStateLoading value)? loading,
-    TResult Function(CartStateError value)? error,
-    TResult Function(CartStateNoNetwork value)? noNetwork,
+    TResult? Function(CartStateLoad value)? load,
+    TResult? Function(CartStateLoading value)? loading,
+    TResult? Function(CartStateError value)? error,
+    TResult? Function(CartStateNoNetwork value)? noNetwork,
   }) {
     return loading?.call(this);
   }
@@ -356,58 +356,82 @@ abstract class _$$CartStateErrorCopyWith<$Res> {
   factory _$$CartStateErrorCopyWith(
           _$CartStateError value, $Res Function(_$CartStateError) then) =
       __$$CartStateErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
-class __$$CartStateErrorCopyWithImpl<$Res> extends _$CartStateCopyWithImpl<$Res>
+class __$$CartStateErrorCopyWithImpl<$Res>
+    extends _$CartStateCopyWithImpl<$Res, _$CartStateError>
     implements _$$CartStateErrorCopyWith<$Res> {
   __$$CartStateErrorCopyWithImpl(
       _$CartStateError _value, $Res Function(_$CartStateError) _then)
-      : super(_value, (v) => _then(v as _$CartStateError));
+      : super(_value, _then);
 
+  @pragma('vm:prefer-inline')
   @override
-  _$CartStateError get _value => super._value as _$CartStateError;
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$CartStateError(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$CartStateError implements CartStateError {
-  const _$CartStateError();
+  const _$CartStateError({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'CartState.error()';
+    return 'CartState.error(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$CartStateError);
+        (other.runtimeType == runtimeType &&
+            other is _$CartStateError &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CartStateErrorCopyWith<_$CartStateError> get copyWith =>
+      __$$CartStateErrorCopyWithImpl<_$CartStateError>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CartProduct> products) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CartProduct> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -415,12 +439,12 @@ class _$CartStateError implements CartStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -439,10 +463,10 @@ class _$CartStateError implements CartStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartStateLoad value)? load,
-    TResult Function(CartStateLoading value)? loading,
-    TResult Function(CartStateError value)? error,
-    TResult Function(CartStateNoNetwork value)? noNetwork,
+    TResult? Function(CartStateLoad value)? load,
+    TResult? Function(CartStateLoading value)? loading,
+    TResult? Function(CartStateError value)? error,
+    TResult? Function(CartStateNoNetwork value)? noNetwork,
   }) {
     return error?.call(this);
   }
@@ -464,7 +488,13 @@ class _$CartStateError implements CartStateError {
 }
 
 abstract class CartStateError implements CartState {
-  const factory CartStateError() = _$CartStateError;
+  const factory CartStateError({required final String message}) =
+      _$CartStateError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$CartStateErrorCopyWith<_$CartStateError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -476,14 +506,11 @@ abstract class _$$CartStateNoNetworkCopyWith<$Res> {
 
 /// @nodoc
 class __$$CartStateNoNetworkCopyWithImpl<$Res>
-    extends _$CartStateCopyWithImpl<$Res>
+    extends _$CartStateCopyWithImpl<$Res, _$CartStateNoNetwork>
     implements _$$CartStateNoNetworkCopyWith<$Res> {
   __$$CartStateNoNetworkCopyWithImpl(
       _$CartStateNoNetwork _value, $Res Function(_$CartStateNoNetwork) _then)
-      : super(_value, (v) => _then(v as _$CartStateNoNetwork));
-
-  @override
-  _$CartStateNoNetwork get _value => super._value as _$CartStateNoNetwork;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -510,7 +537,7 @@ class _$CartStateNoNetwork implements CartStateNoNetwork {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<CartProduct> products) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return noNetwork();
@@ -519,10 +546,10 @@ class _$CartStateNoNetwork implements CartStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<CartProduct> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return noNetwork?.call();
   }
@@ -532,7 +559,7 @@ class _$CartStateNoNetwork implements CartStateNoNetwork {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<CartProduct> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -556,10 +583,10 @@ class _$CartStateNoNetwork implements CartStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(CartStateLoad value)? load,
-    TResult Function(CartStateLoading value)? loading,
-    TResult Function(CartStateError value)? error,
-    TResult Function(CartStateNoNetwork value)? noNetwork,
+    TResult? Function(CartStateLoad value)? load,
+    TResult? Function(CartStateLoading value)? loading,
+    TResult? Function(CartStateError value)? error,
+    TResult? Function(CartStateNoNetwork value)? noNetwork,
   }) {
     return noNetwork?.call(this);
   }

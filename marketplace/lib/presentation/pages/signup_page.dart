@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:marketplace/domain/entity/signup.dart';
+import 'package:marketplace/presentation/bloc/signup/signup_bloc.dart';
+import 'package:marketplace/presentation/bloc/signup/signup_event.dart';
+import 'package:marketplace/presentation/bloc/signup/signup_state.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
@@ -19,8 +23,11 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  late SignUpBloc bloc;
+
   final _formKey = GlobalKey<CustomFormState>();
 
+  late TextEditingController _nicknameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
@@ -28,38 +35,26 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool _signupButtonEnabled = true;
 
-  Future _signup(BuildContext context) async {
+  void _signup(BuildContext context) {
     //TODO: Сделать сохранение данных
-
-    String? errorMessage;
-
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
-      } on FirebaseAuthException catch (e) {
-        errorMessage = e.code == 'email-already-in-use'
-            ? 'An account with this email already exists'
-            : 'Account creation error. Try again later';
-      }
-    } else {
-      errorMessage = 'Enter a valid data';
-    }
+      final signUp = SignUp(
+        nickname: _nicknameController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-    if (errorMessage != null) {
+      bloc.add(SignUpEvent.onSignUp(signUp));
+    } else {
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
       scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(SnackBar(
-        content: Text(errorMessage),
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text('Enter a valid data'),
       ));
 
-      setState(() {
-        _signupButtonEnabled = true;
-      });
+      setState(() => _signupButtonEnabled = true);
     }
   }
 
@@ -69,6 +64,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void initState() {
+    bloc = SignUpBloc();
+
+    _nicknameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
 
@@ -79,8 +77,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void dispose() {
+    _nicknameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+
+    bloc.close();
 
     super.dispose();
   }
@@ -96,29 +97,43 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: Colors.transparent,
       ),
       body: BackgroundBlur(
-        child: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              context.router.replaceAll([HomeRoute()]);
-            }
+        child: BlocListener<SignUpBloc, SignUpState>(
+          bloc: bloc,
+          listener: (context, state) => state.when<void>(
+            empty: () {},
+            success: () => context.router.replaceAll([HomeRoute()]),
+            error: (message) {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              scaffoldMessenger.hideCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
 
-            return Padding(
-              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildTitle(context),
-                  const Expanded(child: SizedBox()),
-                  Column(children: [
-                    _buildFields(context),
-                    const SizedBox(height: 10),
-                    ..._buildLogIn(context),
-                  ]),
-                ],
-              ),
-            );
-          },
+              setState(() => _signupButtonEnabled = true);
+            },
+            noNetwork: () {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              scaffoldMessenger.hideCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(const SnackBar(
+                content: Text('No internet connection'),
+              ));
+
+              setState(() => _signupButtonEnabled = true);
+            },
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildTitle(context),
+                const Expanded(child: SizedBox()),
+                Column(children: [
+                  _buildFields(context),
+                  const SizedBox(height: 10),
+                  ..._buildLogIn(context),
+                ]),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -166,10 +181,18 @@ class _SignUpPageState extends State<SignUpPage> {
       key: _formKey,
       child: Column(children: [
         CustomTextFormField(
+          controller: _nicknameController,
+          fieldHeight: MediaQuery.of(context).size.height / 16,
+          type: CustomTextFormFieldType.none,
+          hintText: "Nickname",
+          prefixIcon: const Icon(Icons.person),
+          autofocus: true,
+        ),
+        const SizedBox(height: 10),
+        CustomTextFormField(
           controller: _emailController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
-          autofocus: true,
           validator: (value) => ui_utils.isEmailValid(value ?? ''),
         ),
         const SizedBox(height: 10),

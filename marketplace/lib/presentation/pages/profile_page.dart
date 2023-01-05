@@ -43,8 +43,7 @@ class ProfilePage extends StatelessWidget {
           return state.when<Widget>(
             load: () => _buildLoaded(context),
             loading: (profile) => _buildMain(context, profile: profile),
-            error: () =>
-                _buildError(context, message: 'Error loading products'),
+            error: (message) => _buildError(context, message: message),
             noNetwork: () => _buildError(context, message: 'No network'),
           );
         },

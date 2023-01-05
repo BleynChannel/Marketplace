@@ -20,23 +20,23 @@ mixin _$ProfileState {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(Profile profile) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Profile profile)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Profile profile)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Profile profile)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) =>
@@ -51,10 +51,10 @@ mixin _$ProfileState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileStateLoad value)? load,
-    TResult Function(ProfileStateLoading value)? loading,
-    TResult Function(ProfileStateError value)? error,
-    TResult Function(ProfileStateNoNetwork value)? noNetwork,
+    TResult? Function(ProfileStateLoad value)? load,
+    TResult? Function(ProfileStateLoading value)? loading,
+    TResult? Function(ProfileStateError value)? error,
+    TResult? Function(ProfileStateNoNetwork value)? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,16 +72,18 @@ mixin _$ProfileState {
 abstract class $ProfileStateCopyWith<$Res> {
   factory $ProfileStateCopyWith(
           ProfileState value, $Res Function(ProfileState) then) =
-      _$ProfileStateCopyWithImpl<$Res>;
+      _$ProfileStateCopyWithImpl<$Res, ProfileState>;
 }
 
 /// @nodoc
-class _$ProfileStateCopyWithImpl<$Res> implements $ProfileStateCopyWith<$Res> {
+class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
+    implements $ProfileStateCopyWith<$Res> {
   _$ProfileStateCopyWithImpl(this._value, this._then);
 
-  final ProfileState _value;
   // ignore: unused_field
-  final $Res Function(ProfileState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -93,14 +95,11 @@ abstract class _$$ProfileStateLoadCopyWith<$Res> {
 
 /// @nodoc
 class __$$ProfileStateLoadCopyWithImpl<$Res>
-    extends _$ProfileStateCopyWithImpl<$Res>
+    extends _$ProfileStateCopyWithImpl<$Res, _$ProfileStateLoad>
     implements _$$ProfileStateLoadCopyWith<$Res> {
   __$$ProfileStateLoadCopyWithImpl(
       _$ProfileStateLoad _value, $Res Function(_$ProfileStateLoad) _then)
-      : super(_value, (v) => _then(v as _$ProfileStateLoad));
-
-  @override
-  _$ProfileStateLoad get _value => super._value as _$ProfileStateLoad;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -127,7 +126,7 @@ class _$ProfileStateLoad implements ProfileStateLoad {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(Profile profile) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return load();
@@ -136,10 +135,10 @@ class _$ProfileStateLoad implements ProfileStateLoad {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Profile profile)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Profile profile)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return load?.call();
   }
@@ -149,7 +148,7 @@ class _$ProfileStateLoad implements ProfileStateLoad {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Profile profile)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -173,10 +172,10 @@ class _$ProfileStateLoad implements ProfileStateLoad {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileStateLoad value)? load,
-    TResult Function(ProfileStateLoading value)? loading,
-    TResult Function(ProfileStateError value)? error,
-    TResult Function(ProfileStateNoNetwork value)? noNetwork,
+    TResult? Function(ProfileStateLoad value)? load,
+    TResult? Function(ProfileStateLoading value)? loading,
+    TResult? Function(ProfileStateError value)? error,
+    TResult? Function(ProfileStateNoNetwork value)? noNetwork,
   }) {
     return load?.call(this);
   }
@@ -206,6 +205,7 @@ abstract class _$$ProfileStateLoadingCopyWith<$Res> {
   factory _$$ProfileStateLoadingCopyWith(_$ProfileStateLoading value,
           $Res Function(_$ProfileStateLoading) then) =
       __$$ProfileStateLoadingCopyWithImpl<$Res>;
+  @useResult
   $Res call({Profile profile});
 
   $ProfileCopyWith<$Res> get profile;
@@ -213,21 +213,19 @@ abstract class _$$ProfileStateLoadingCopyWith<$Res> {
 
 /// @nodoc
 class __$$ProfileStateLoadingCopyWithImpl<$Res>
-    extends _$ProfileStateCopyWithImpl<$Res>
+    extends _$ProfileStateCopyWithImpl<$Res, _$ProfileStateLoading>
     implements _$$ProfileStateLoadingCopyWith<$Res> {
   __$$ProfileStateLoadingCopyWithImpl(
       _$ProfileStateLoading _value, $Res Function(_$ProfileStateLoading) _then)
-      : super(_value, (v) => _then(v as _$ProfileStateLoading));
+      : super(_value, _then);
 
-  @override
-  _$ProfileStateLoading get _value => super._value as _$ProfileStateLoading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? profile = freezed,
+    Object? profile = null,
   }) {
     return _then(_$ProfileStateLoading(
-      profile: profile == freezed
+      profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
               as Profile,
@@ -235,6 +233,7 @@ class __$$ProfileStateLoadingCopyWithImpl<$Res>
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $ProfileCopyWith<$Res> get profile {
     return $ProfileCopyWith<$Res>(_value.profile, (value) {
       return _then(_value.copyWith(profile: value));
@@ -260,15 +259,15 @@ class _$ProfileStateLoading implements ProfileStateLoading {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProfileStateLoading &&
-            const DeepCollectionEquality().equals(other.profile, profile));
+            (identical(other.profile, profile) || other.profile == profile));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(profile));
+  int get hashCode => Object.hash(runtimeType, profile);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ProfileStateLoadingCopyWith<_$ProfileStateLoading> get copyWith =>
       __$$ProfileStateLoadingCopyWithImpl<_$ProfileStateLoading>(
           this, _$identity);
@@ -278,7 +277,7 @@ class _$ProfileStateLoading implements ProfileStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(Profile profile) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return loading(profile);
@@ -287,10 +286,10 @@ class _$ProfileStateLoading implements ProfileStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Profile profile)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Profile profile)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return loading?.call(profile);
   }
@@ -300,7 +299,7 @@ class _$ProfileStateLoading implements ProfileStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Profile profile)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -324,10 +323,10 @@ class _$ProfileStateLoading implements ProfileStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileStateLoad value)? load,
-    TResult Function(ProfileStateLoading value)? loading,
-    TResult Function(ProfileStateError value)? error,
-    TResult Function(ProfileStateNoNetwork value)? noNetwork,
+    TResult? Function(ProfileStateLoad value)? load,
+    TResult? Function(ProfileStateLoading value)? loading,
+    TResult? Function(ProfileStateError value)? error,
+    TResult? Function(ProfileStateNoNetwork value)? noNetwork,
   }) {
     return loading?.call(this);
   }
@@ -363,59 +362,82 @@ abstract class _$$ProfileStateErrorCopyWith<$Res> {
   factory _$$ProfileStateErrorCopyWith(
           _$ProfileStateError value, $Res Function(_$ProfileStateError) then) =
       __$$ProfileStateErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
 class __$$ProfileStateErrorCopyWithImpl<$Res>
-    extends _$ProfileStateCopyWithImpl<$Res>
+    extends _$ProfileStateCopyWithImpl<$Res, _$ProfileStateError>
     implements _$$ProfileStateErrorCopyWith<$Res> {
   __$$ProfileStateErrorCopyWithImpl(
       _$ProfileStateError _value, $Res Function(_$ProfileStateError) _then)
-      : super(_value, (v) => _then(v as _$ProfileStateError));
+      : super(_value, _then);
 
+  @pragma('vm:prefer-inline')
   @override
-  _$ProfileStateError get _value => super._value as _$ProfileStateError;
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$ProfileStateError(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$ProfileStateError implements ProfileStateError {
-  const _$ProfileStateError();
+  const _$ProfileStateError({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'ProfileState.error()';
+    return 'ProfileState.error(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProfileStateError);
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileStateError &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileStateErrorCopyWith<_$ProfileStateError> get copyWith =>
+      __$$ProfileStateErrorCopyWithImpl<_$ProfileStateError>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(Profile profile) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Profile profile)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Profile profile)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -423,12 +445,12 @@ class _$ProfileStateError implements ProfileStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Profile profile)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -447,10 +469,10 @@ class _$ProfileStateError implements ProfileStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileStateLoad value)? load,
-    TResult Function(ProfileStateLoading value)? loading,
-    TResult Function(ProfileStateError value)? error,
-    TResult Function(ProfileStateNoNetwork value)? noNetwork,
+    TResult? Function(ProfileStateLoad value)? load,
+    TResult? Function(ProfileStateLoading value)? loading,
+    TResult? Function(ProfileStateError value)? error,
+    TResult? Function(ProfileStateNoNetwork value)? noNetwork,
   }) {
     return error?.call(this);
   }
@@ -472,7 +494,13 @@ class _$ProfileStateError implements ProfileStateError {
 }
 
 abstract class ProfileStateError implements ProfileState {
-  const factory ProfileStateError() = _$ProfileStateError;
+  const factory ProfileStateError({required final String message}) =
+      _$ProfileStateError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$ProfileStateErrorCopyWith<_$ProfileStateError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -484,14 +512,11 @@ abstract class _$$ProfileStateNoNetworkCopyWith<$Res> {
 
 /// @nodoc
 class __$$ProfileStateNoNetworkCopyWithImpl<$Res>
-    extends _$ProfileStateCopyWithImpl<$Res>
+    extends _$ProfileStateCopyWithImpl<$Res, _$ProfileStateNoNetwork>
     implements _$$ProfileStateNoNetworkCopyWith<$Res> {
   __$$ProfileStateNoNetworkCopyWithImpl(_$ProfileStateNoNetwork _value,
       $Res Function(_$ProfileStateNoNetwork) _then)
-      : super(_value, (v) => _then(v as _$ProfileStateNoNetwork));
-
-  @override
-  _$ProfileStateNoNetwork get _value => super._value as _$ProfileStateNoNetwork;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -518,7 +543,7 @@ class _$ProfileStateNoNetwork implements ProfileStateNoNetwork {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(Profile profile) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return noNetwork();
@@ -527,10 +552,10 @@ class _$ProfileStateNoNetwork implements ProfileStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Profile profile)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Profile profile)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return noNetwork?.call();
   }
@@ -540,7 +565,7 @@ class _$ProfileStateNoNetwork implements ProfileStateNoNetwork {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Profile profile)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -564,10 +589,10 @@ class _$ProfileStateNoNetwork implements ProfileStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileStateLoad value)? load,
-    TResult Function(ProfileStateLoading value)? loading,
-    TResult Function(ProfileStateError value)? error,
-    TResult Function(ProfileStateNoNetwork value)? noNetwork,
+    TResult? Function(ProfileStateLoad value)? load,
+    TResult? Function(ProfileStateLoading value)? loading,
+    TResult? Function(ProfileStateError value)? error,
+    TResult? Function(ProfileStateNoNetwork value)? noNetwork,
   }) {
     return noNetwork?.call(this);
   }

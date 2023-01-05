@@ -402,8 +402,6 @@ Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adip
       'Steam',
       'Epic Games',
       'Discord',
-      'Facebook',
-      'VK',
     ],
     achievements: [
       const Achievement(

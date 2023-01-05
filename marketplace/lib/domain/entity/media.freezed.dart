@@ -26,28 +26,32 @@ mixin _$MediaData {
 /// @nodoc
 abstract class $MediaDataCopyWith<$Res> {
   factory $MediaDataCopyWith(MediaData value, $Res Function(MediaData) then) =
-      _$MediaDataCopyWithImpl<$Res>;
+      _$MediaDataCopyWithImpl<$Res, MediaData>;
+  @useResult
   $Res call({dynamic data});
 }
 
 /// @nodoc
-class _$MediaDataCopyWithImpl<$Res> implements $MediaDataCopyWith<$Res> {
+class _$MediaDataCopyWithImpl<$Res, $Val extends MediaData>
+    implements $MediaDataCopyWith<$Res> {
   _$MediaDataCopyWithImpl(this._value, this._then);
 
-  final MediaData _value;
   // ignore: unused_field
-  final $Res Function(MediaData) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as dynamic,
-    ));
+    ) as $Val);
   }
 }
 
@@ -57,25 +61,25 @@ abstract class _$$_MediaDataCopyWith<$Res> implements $MediaDataCopyWith<$Res> {
           _$_MediaData value, $Res Function(_$_MediaData) then) =
       __$$_MediaDataCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({dynamic data});
 }
 
 /// @nodoc
-class __$$_MediaDataCopyWithImpl<$Res> extends _$MediaDataCopyWithImpl<$Res>
+class __$$_MediaDataCopyWithImpl<$Res>
+    extends _$MediaDataCopyWithImpl<$Res, _$_MediaData>
     implements _$$_MediaDataCopyWith<$Res> {
   __$$_MediaDataCopyWithImpl(
       _$_MediaData _value, $Res Function(_$_MediaData) _then)
-      : super(_value, (v) => _then(v as _$_MediaData));
+      : super(_value, _then);
 
-  @override
-  _$_MediaData get _value => super._value as _$_MediaData;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
     return _then(_$_MediaData(
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -85,15 +89,23 @@ class __$$_MediaDataCopyWithImpl<$Res> extends _$MediaDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MediaData extends _MediaData {
+class _$_MediaData extends _MediaData with DiagnosticableTreeMixin {
   const _$_MediaData({required this.data}) : super._();
 
   @override
   final dynamic data;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'MediaData(data: $data)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'MediaData'))
+      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -110,6 +122,7 @@ class _$_MediaData extends _MediaData {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MediaDataCopyWith<_$_MediaData> get copyWith =>
       __$$_MediaDataCopyWithImpl<_$_MediaData>(this, _$identity);
 }
@@ -139,46 +152,51 @@ mixin _$Media {
 /// @nodoc
 abstract class $MediaCopyWith<$Res> {
   factory $MediaCopyWith(Media value, $Res Function(Media) then) =
-      _$MediaCopyWithImpl<$Res>;
+      _$MediaCopyWithImpl<$Res, Media>;
+  @useResult
   $Res call({MediaType type, MediaLocation location, MediaData data});
 
   $MediaDataCopyWith<$Res> get data;
 }
 
 /// @nodoc
-class _$MediaCopyWithImpl<$Res> implements $MediaCopyWith<$Res> {
+class _$MediaCopyWithImpl<$Res, $Val extends Media>
+    implements $MediaCopyWith<$Res> {
   _$MediaCopyWithImpl(this._value, this._then);
 
-  final Media _value;
   // ignore: unused_field
-  final $Res Function(Media) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? location = freezed,
-    Object? data = freezed,
+    Object? type = null,
+    Object? location = null,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MediaType,
-      location: location == freezed
+      location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as MediaLocation,
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as MediaData,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $MediaDataCopyWith<$Res> get data {
     return $MediaDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value));
+      return _then(_value.copyWith(data: value) as $Val);
     });
   }
 }
@@ -188,6 +206,7 @@ abstract class _$$_MediaCopyWith<$Res> implements $MediaCopyWith<$Res> {
   factory _$$_MediaCopyWith(_$_Media value, $Res Function(_$_Media) then) =
       __$$_MediaCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({MediaType type, MediaLocation location, MediaData data});
 
   @override
@@ -195,30 +214,28 @@ abstract class _$$_MediaCopyWith<$Res> implements $MediaCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MediaCopyWithImpl<$Res> extends _$MediaCopyWithImpl<$Res>
+class __$$_MediaCopyWithImpl<$Res> extends _$MediaCopyWithImpl<$Res, _$_Media>
     implements _$$_MediaCopyWith<$Res> {
   __$$_MediaCopyWithImpl(_$_Media _value, $Res Function(_$_Media) _then)
-      : super(_value, (v) => _then(v as _$_Media));
+      : super(_value, _then);
 
-  @override
-  _$_Media get _value => super._value as _$_Media;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? location = freezed,
-    Object? data = freezed,
+    Object? type = null,
+    Object? location = null,
+    Object? data = null,
   }) {
     return _then(_$_Media(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MediaType,
-      location: location == freezed
+      location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as MediaLocation,
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as MediaData,
@@ -228,7 +245,7 @@ class __$$_MediaCopyWithImpl<$Res> extends _$MediaCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Media implements _Media {
+class _$_Media with DiagnosticableTreeMixin implements _Media {
   const _$_Media(
       {required this.type, required this.location, required this.data});
 
@@ -240,8 +257,18 @@ class _$_Media implements _Media {
   final MediaData data;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Media(type: $type, location: $location, data: $data)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Media'))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('location', location))
+      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -249,20 +276,18 @@ class _$_Media implements _Media {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Media &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.location, location) &&
-            const DeepCollectionEquality().equals(other.data, data));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(location),
-      const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(runtimeType, type, location, data);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MediaCopyWith<_$_Media> get copyWith =>
       __$$_MediaCopyWithImpl<_$_Media>(this, _$identity);
 }

@@ -9,6 +9,6 @@ class ProductState with _$ProductState {
   const factory ProductState.loading({
     required Product product,
   }) = ProductStateLoading;
-  const factory ProductState.error() = ProductStateError;
+  const factory ProductState.error({required String message}) = ProductStateError;
   const factory ProductState.noNetwork() = ProductStateNoNetwork;
 }

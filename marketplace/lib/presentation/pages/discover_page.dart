@@ -74,8 +74,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             return state.when<Widget>(
               load: () => _buildMain(context, products: null),
               loading: (products) => _buildMain(context, products: products),
-              error: () =>
-                  _buildError(context, message: 'Error loading products'),
+              error: (message) => _buildError(context, message: message),
               noNetwork: () => _buildError(context, message: 'No network'),
             );
           },

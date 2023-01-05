@@ -9,6 +9,6 @@ class SearchState with _$SearchState {
   const factory SearchState.loading({
     required List<CompactProduct> filterProducts,
   }) = SearchStateLoading;
-  const factory SearchState.error() = SearchStateError;
+  const factory SearchState.error({required String message}) = SearchStateError;
   const factory SearchState.noNetwork() = SearchStateNoNetwork;
 }

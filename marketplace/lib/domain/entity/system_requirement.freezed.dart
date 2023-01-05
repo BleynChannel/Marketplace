@@ -29,40 +29,43 @@ mixin _$SystemRequirement {
 abstract class $SystemRequirementCopyWith<$Res> {
   factory $SystemRequirementCopyWith(
           SystemRequirement value, $Res Function(SystemRequirement) then) =
-      _$SystemRequirementCopyWithImpl<$Res>;
+      _$SystemRequirementCopyWithImpl<$Res, SystemRequirement>;
+  @useResult
   $Res call(
       {SystemRequirementType type, Platform platform, List<String> params});
 }
 
 /// @nodoc
-class _$SystemRequirementCopyWithImpl<$Res>
+class _$SystemRequirementCopyWithImpl<$Res, $Val extends SystemRequirement>
     implements $SystemRequirementCopyWith<$Res> {
   _$SystemRequirementCopyWithImpl(this._value, this._then);
 
-  final SystemRequirement _value;
   // ignore: unused_field
-  final $Res Function(SystemRequirement) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? platform = freezed,
-    Object? params = freezed,
+    Object? type = null,
+    Object? platform = null,
+    Object? params = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as SystemRequirementType,
-      platform: platform == freezed
+      platform: null == platform
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
               as Platform,
-      params: params == freezed
+      params: null == params
           ? _value.params
           : params // ignore: cast_nullable_to_non_nullable
               as List<String>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -73,37 +76,36 @@ abstract class _$$_SystemRequirementCopyWith<$Res>
           $Res Function(_$_SystemRequirement) then) =
       __$$_SystemRequirementCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {SystemRequirementType type, Platform platform, List<String> params});
 }
 
 /// @nodoc
 class __$$_SystemRequirementCopyWithImpl<$Res>
-    extends _$SystemRequirementCopyWithImpl<$Res>
+    extends _$SystemRequirementCopyWithImpl<$Res, _$_SystemRequirement>
     implements _$$_SystemRequirementCopyWith<$Res> {
   __$$_SystemRequirementCopyWithImpl(
       _$_SystemRequirement _value, $Res Function(_$_SystemRequirement) _then)
-      : super(_value, (v) => _then(v as _$_SystemRequirement));
+      : super(_value, _then);
 
-  @override
-  _$_SystemRequirement get _value => super._value as _$_SystemRequirement;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? platform = freezed,
-    Object? params = freezed,
+    Object? type = null,
+    Object? platform = null,
+    Object? params = null,
   }) {
     return _then(_$_SystemRequirement(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as SystemRequirementType,
-      platform: platform == freezed
+      platform: null == platform
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
               as Platform,
-      params: params == freezed
+      params: null == params
           ? _value._params
           : params // ignore: cast_nullable_to_non_nullable
               as List<String>,
@@ -141,20 +143,19 @@ class _$_SystemRequirement implements _SystemRequirement {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SystemRequirement &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.platform, platform) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.platform, platform) ||
+                other.platform == platform) &&
             const DeepCollectionEquality().equals(other._params, _params));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(platform),
+  int get hashCode => Object.hash(runtimeType, type, platform,
       const DeepCollectionEquality().hash(_params));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SystemRequirementCopyWith<_$_SystemRequirement> get copyWith =>
       __$$_SystemRequirementCopyWithImpl<_$_SystemRequirement>(
           this, _$identity);

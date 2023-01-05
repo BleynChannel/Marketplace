@@ -9,6 +9,7 @@ class DesiredState with _$DesiredState {
   const factory DesiredState.loading({
     required List<Desired> desireds,
   }) = DesiredStateLoading;
-  const factory DesiredState.error() = DesiredStateError;
+  const factory DesiredState.error({required String message}) =
+      DesiredStateError;
   const factory DesiredState.noNetwork() = DesiredStateNoNetwork;
 }

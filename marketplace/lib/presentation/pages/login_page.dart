@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
+import 'package:marketplace/presentation/bloc/login/login_bloc.dart';
+import 'package:marketplace/presentation/bloc/login/login_event.dart';
+import 'package:marketplace/presentation/bloc/login/login_state.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
@@ -15,7 +17,7 @@ import '../widgets/gradient_devider.dart';
 class _ContinueWith {
   final Widget icon;
   final String label;
-  final Future Function(BuildContext context) onPressed;
+  final void Function(BuildContext context, LoginBloc bloc) onPressed;
 
   _ContinueWith(this.icon, this.label, this.onPressed);
 }
@@ -25,43 +27,15 @@ class LoginPage extends StatelessWidget {
     _ContinueWith(
       SvgPicture.asset("assets/icons/social/google.svg"),
       'Google',
-      (BuildContext context) async {
-        try {
-          final googleUser = await GoogleSignIn().signIn();
-          final googleAuth = await googleUser?.authentication;
-
-          final credential = GoogleAuthProvider.credential(
-            idToken: googleAuth?.idToken,
-            accessToken: googleAuth?.accessToken,
-          );
-
-          await FirebaseAuth.instance.signInWithCredential(credential);
-
-          context.router.replaceAll([HomeRoute()]);
-        } on FirebaseAuthException catch (_) {
-          final scaffoldMessenger = ScaffoldMessenger.of(context);
-          scaffoldMessenger.hideCurrentSnackBar();
-          scaffoldMessenger.showSnackBar(const SnackBar(
-            content: Text('Error Google auth'),
-          ));
-        }
+      (BuildContext context, LoginBloc bloc) {
+        bloc.add(const LoginEvent.onGoogleLogin());
       },
     ),
     _ContinueWith(
       SvgPicture.asset("assets/icons/social/github.svg"),
       'GitHub',
-      (BuildContext context) async {
-        try {
-          await FirebaseAuth.instance.signInWithProvider(GithubAuthProvider());
-
-          context.router.replaceAll([HomeRoute()]);
-        } on FirebaseAuthException catch (_) {
-          final scaffoldMessenger = ScaffoldMessenger.of(context);
-          scaffoldMessenger.hideCurrentSnackBar();
-          scaffoldMessenger.showSnackBar(const SnackBar(
-            content: Text('Error GitHub auth'),
-          ));
-        }
+      (BuildContext context, LoginBloc bloc) {
+        bloc.add(const LoginEvent.onGitHubLogin());
       },
     ),
   ];
@@ -78,6 +52,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = LoginBloc();
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle:
@@ -86,24 +62,45 @@ class LoginPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
       ),
       body: BackgroundBlur(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
-          child: Center(
-            child: Column(
-              children: [
-                ..._buildTitle(context),
-                const Expanded(child: SizedBox()),
-                ..._buildContinueWithButtons(context, _continueWithMap),
-                const SizedBox(height: 10),
-                Text(
-                  "or",
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 10),
-                ..._buildLogInWithEmail(context),
-              ],
+        child: BlocListener<LoginBloc, LoginState>(
+          bloc: bloc,
+          listener: (context, state) => state.when<void>(
+            empty: () {},
+            success: () => context.router.replaceAll([HomeRoute()]),
+            error: (message) {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              scaffoldMessenger.hideCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(SnackBar(
+                content: Text(message),
+              ));
+            },
+            noNetwork: () {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              scaffoldMessenger.hideCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(const SnackBar(
+                content: Text('No internet connection'),
+              ));
+            },
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
+            child: Center(
+              child: Column(
+                children: [
+                  ..._buildTitle(context),
+                  const Expanded(child: SizedBox()),
+                  ..._buildContinueWithButtons(context, _continueWithMap, bloc),
+                  const SizedBox(height: 10),
+                  Text(
+                    "or",
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  ..._buildLogInWithEmail(context),
+                ],
+              ),
             ),
           ),
         ),
@@ -128,14 +125,14 @@ class LoginPage extends StatelessWidget {
     ];
   }
 
-  Iterable<Widget> _buildContinueWithButtons(
-      BuildContext context, List<_ContinueWith> continueWithMap) {
+  Iterable<Widget> _buildContinueWithButtons(BuildContext context,
+      List<_ContinueWith> continueWithMap, LoginBloc bloc) {
     //Create a list of buttons with separators
     return continueWithMap
         .map((e) => LoginToButton(
               icon: e.icon,
               label: e.label,
-              onPressed: () async => await e.onPressed(context),
+              onPressed: () => e.onPressed(context, bloc),
             ))
         .expand((element) => [element, const SizedBox(height: 6)]);
   }

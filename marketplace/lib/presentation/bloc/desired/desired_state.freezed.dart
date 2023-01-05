@@ -20,23 +20,23 @@ mixin _$DesiredState {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Desired> desireds) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Desired> desireds)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) =>
@@ -51,10 +51,10 @@ mixin _$DesiredState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredStateLoad value)? load,
-    TResult Function(DesiredStateLoading value)? loading,
-    TResult Function(DesiredStateError value)? error,
-    TResult Function(DesiredStateNoNetwork value)? noNetwork,
+    TResult? Function(DesiredStateLoad value)? load,
+    TResult? Function(DesiredStateLoading value)? loading,
+    TResult? Function(DesiredStateError value)? error,
+    TResult? Function(DesiredStateNoNetwork value)? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,16 +72,18 @@ mixin _$DesiredState {
 abstract class $DesiredStateCopyWith<$Res> {
   factory $DesiredStateCopyWith(
           DesiredState value, $Res Function(DesiredState) then) =
-      _$DesiredStateCopyWithImpl<$Res>;
+      _$DesiredStateCopyWithImpl<$Res, DesiredState>;
 }
 
 /// @nodoc
-class _$DesiredStateCopyWithImpl<$Res> implements $DesiredStateCopyWith<$Res> {
+class _$DesiredStateCopyWithImpl<$Res, $Val extends DesiredState>
+    implements $DesiredStateCopyWith<$Res> {
   _$DesiredStateCopyWithImpl(this._value, this._then);
 
-  final DesiredState _value;
   // ignore: unused_field
-  final $Res Function(DesiredState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -93,14 +95,11 @@ abstract class _$$DesiredStateLoadCopyWith<$Res> {
 
 /// @nodoc
 class __$$DesiredStateLoadCopyWithImpl<$Res>
-    extends _$DesiredStateCopyWithImpl<$Res>
+    extends _$DesiredStateCopyWithImpl<$Res, _$DesiredStateLoad>
     implements _$$DesiredStateLoadCopyWith<$Res> {
   __$$DesiredStateLoadCopyWithImpl(
       _$DesiredStateLoad _value, $Res Function(_$DesiredStateLoad) _then)
-      : super(_value, (v) => _then(v as _$DesiredStateLoad));
-
-  @override
-  _$DesiredStateLoad get _value => super._value as _$DesiredStateLoad;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -127,7 +126,7 @@ class _$DesiredStateLoad implements DesiredStateLoad {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Desired> desireds) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return load();
@@ -136,10 +135,10 @@ class _$DesiredStateLoad implements DesiredStateLoad {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Desired> desireds)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return load?.call();
   }
@@ -149,7 +148,7 @@ class _$DesiredStateLoad implements DesiredStateLoad {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -173,10 +172,10 @@ class _$DesiredStateLoad implements DesiredStateLoad {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredStateLoad value)? load,
-    TResult Function(DesiredStateLoading value)? loading,
-    TResult Function(DesiredStateError value)? error,
-    TResult Function(DesiredStateNoNetwork value)? noNetwork,
+    TResult? Function(DesiredStateLoad value)? load,
+    TResult? Function(DesiredStateLoading value)? loading,
+    TResult? Function(DesiredStateError value)? error,
+    TResult? Function(DesiredStateNoNetwork value)? noNetwork,
   }) {
     return load?.call(this);
   }
@@ -206,26 +205,25 @@ abstract class _$$DesiredStateLoadingCopyWith<$Res> {
   factory _$$DesiredStateLoadingCopyWith(_$DesiredStateLoading value,
           $Res Function(_$DesiredStateLoading) then) =
       __$$DesiredStateLoadingCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<Desired> desireds});
 }
 
 /// @nodoc
 class __$$DesiredStateLoadingCopyWithImpl<$Res>
-    extends _$DesiredStateCopyWithImpl<$Res>
+    extends _$DesiredStateCopyWithImpl<$Res, _$DesiredStateLoading>
     implements _$$DesiredStateLoadingCopyWith<$Res> {
   __$$DesiredStateLoadingCopyWithImpl(
       _$DesiredStateLoading _value, $Res Function(_$DesiredStateLoading) _then)
-      : super(_value, (v) => _then(v as _$DesiredStateLoading));
+      : super(_value, _then);
 
-  @override
-  _$DesiredStateLoading get _value => super._value as _$DesiredStateLoading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? desireds = freezed,
+    Object? desireds = null,
   }) {
     return _then(_$DesiredStateLoading(
-      desireds: desireds == freezed
+      desireds: null == desireds
           ? _value._desireds
           : desireds // ignore: cast_nullable_to_non_nullable
               as List<Desired>,
@@ -265,6 +263,7 @@ class _$DesiredStateLoading implements DesiredStateLoading {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$DesiredStateLoadingCopyWith<_$DesiredStateLoading> get copyWith =>
       __$$DesiredStateLoadingCopyWithImpl<_$DesiredStateLoading>(
           this, _$identity);
@@ -274,7 +273,7 @@ class _$DesiredStateLoading implements DesiredStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Desired> desireds) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return loading(desireds);
@@ -283,10 +282,10 @@ class _$DesiredStateLoading implements DesiredStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Desired> desireds)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return loading?.call(desireds);
   }
@@ -296,7 +295,7 @@ class _$DesiredStateLoading implements DesiredStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -320,10 +319,10 @@ class _$DesiredStateLoading implements DesiredStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredStateLoad value)? load,
-    TResult Function(DesiredStateLoading value)? loading,
-    TResult Function(DesiredStateError value)? error,
-    TResult Function(DesiredStateNoNetwork value)? noNetwork,
+    TResult? Function(DesiredStateLoad value)? load,
+    TResult? Function(DesiredStateLoading value)? loading,
+    TResult? Function(DesiredStateError value)? error,
+    TResult? Function(DesiredStateNoNetwork value)? noNetwork,
   }) {
     return loading?.call(this);
   }
@@ -359,59 +358,82 @@ abstract class _$$DesiredStateErrorCopyWith<$Res> {
   factory _$$DesiredStateErrorCopyWith(
           _$DesiredStateError value, $Res Function(_$DesiredStateError) then) =
       __$$DesiredStateErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
 class __$$DesiredStateErrorCopyWithImpl<$Res>
-    extends _$DesiredStateCopyWithImpl<$Res>
+    extends _$DesiredStateCopyWithImpl<$Res, _$DesiredStateError>
     implements _$$DesiredStateErrorCopyWith<$Res> {
   __$$DesiredStateErrorCopyWithImpl(
       _$DesiredStateError _value, $Res Function(_$DesiredStateError) _then)
-      : super(_value, (v) => _then(v as _$DesiredStateError));
+      : super(_value, _then);
 
+  @pragma('vm:prefer-inline')
   @override
-  _$DesiredStateError get _value => super._value as _$DesiredStateError;
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DesiredStateError(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$DesiredStateError implements DesiredStateError {
-  const _$DesiredStateError();
+  const _$DesiredStateError({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'DesiredState.error()';
+    return 'DesiredState.error(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DesiredStateError);
+        (other.runtimeType == runtimeType &&
+            other is _$DesiredStateError &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DesiredStateErrorCopyWith<_$DesiredStateError> get copyWith =>
+      __$$DesiredStateErrorCopyWithImpl<_$DesiredStateError>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Desired> desireds) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Desired> desireds)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -419,12 +441,12 @@ class _$DesiredStateError implements DesiredStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -443,10 +465,10 @@ class _$DesiredStateError implements DesiredStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredStateLoad value)? load,
-    TResult Function(DesiredStateLoading value)? loading,
-    TResult Function(DesiredStateError value)? error,
-    TResult Function(DesiredStateNoNetwork value)? noNetwork,
+    TResult? Function(DesiredStateLoad value)? load,
+    TResult? Function(DesiredStateLoading value)? loading,
+    TResult? Function(DesiredStateError value)? error,
+    TResult? Function(DesiredStateNoNetwork value)? noNetwork,
   }) {
     return error?.call(this);
   }
@@ -468,7 +490,13 @@ class _$DesiredStateError implements DesiredStateError {
 }
 
 abstract class DesiredStateError implements DesiredState {
-  const factory DesiredStateError() = _$DesiredStateError;
+  const factory DesiredStateError({required final String message}) =
+      _$DesiredStateError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$DesiredStateErrorCopyWith<_$DesiredStateError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -480,14 +508,11 @@ abstract class _$$DesiredStateNoNetworkCopyWith<$Res> {
 
 /// @nodoc
 class __$$DesiredStateNoNetworkCopyWithImpl<$Res>
-    extends _$DesiredStateCopyWithImpl<$Res>
+    extends _$DesiredStateCopyWithImpl<$Res, _$DesiredStateNoNetwork>
     implements _$$DesiredStateNoNetworkCopyWith<$Res> {
   __$$DesiredStateNoNetworkCopyWithImpl(_$DesiredStateNoNetwork _value,
       $Res Function(_$DesiredStateNoNetwork) _then)
-      : super(_value, (v) => _then(v as _$DesiredStateNoNetwork));
-
-  @override
-  _$DesiredStateNoNetwork get _value => super._value as _$DesiredStateNoNetwork;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -514,7 +539,7 @@ class _$DesiredStateNoNetwork implements DesiredStateNoNetwork {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Desired> desireds) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return noNetwork();
@@ -523,10 +548,10 @@ class _$DesiredStateNoNetwork implements DesiredStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Desired> desireds)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return noNetwork?.call();
   }
@@ -536,7 +561,7 @@ class _$DesiredStateNoNetwork implements DesiredStateNoNetwork {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Desired> desireds)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -560,10 +585,10 @@ class _$DesiredStateNoNetwork implements DesiredStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredStateLoad value)? load,
-    TResult Function(DesiredStateLoading value)? loading,
-    TResult Function(DesiredStateError value)? error,
-    TResult Function(DesiredStateNoNetwork value)? noNetwork,
+    TResult? Function(DesiredStateLoad value)? load,
+    TResult? Function(DesiredStateLoading value)? loading,
+    TResult? Function(DesiredStateError value)? error,
+    TResult? Function(DesiredStateNoNetwork value)? noNetwork,
   }) {
     return noNetwork?.call(this);
   }

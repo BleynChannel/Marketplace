@@ -27,38 +27,42 @@ mixin _$Price {
 /// @nodoc
 abstract class $PriceCopyWith<$Res> {
   factory $PriceCopyWith(Price value, $Res Function(Price) then) =
-      _$PriceCopyWithImpl<$Res>;
+      _$PriceCopyWithImpl<$Res, Price>;
+  @useResult
   $Res call({double price, double oldPrice, double discount});
 }
 
 /// @nodoc
-class _$PriceCopyWithImpl<$Res> implements $PriceCopyWith<$Res> {
+class _$PriceCopyWithImpl<$Res, $Val extends Price>
+    implements $PriceCopyWith<$Res> {
   _$PriceCopyWithImpl(this._value, this._then);
 
-  final Price _value;
   // ignore: unused_field
-  final $Res Function(Price) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? price = freezed,
-    Object? oldPrice = freezed,
-    Object? discount = freezed,
+    Object? price = null,
+    Object? oldPrice = null,
+    Object? discount = null,
   }) {
     return _then(_value.copyWith(
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      oldPrice: oldPrice == freezed
+      oldPrice: null == oldPrice
           ? _value.oldPrice
           : oldPrice // ignore: cast_nullable_to_non_nullable
               as double,
-      discount: discount == freezed
+      discount: null == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
               as double,
-    ));
+    ) as $Val);
   }
 }
 
@@ -67,34 +71,33 @@ abstract class _$$_PriceCopyWith<$Res> implements $PriceCopyWith<$Res> {
   factory _$$_PriceCopyWith(_$_Price value, $Res Function(_$_Price) then) =
       __$$_PriceCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({double price, double oldPrice, double discount});
 }
 
 /// @nodoc
-class __$$_PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res>
+class __$$_PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res, _$_Price>
     implements _$$_PriceCopyWith<$Res> {
   __$$_PriceCopyWithImpl(_$_Price _value, $Res Function(_$_Price) _then)
-      : super(_value, (v) => _then(v as _$_Price));
+      : super(_value, _then);
 
-  @override
-  _$_Price get _value => super._value as _$_Price;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? price = freezed,
-    Object? oldPrice = freezed,
-    Object? discount = freezed,
+    Object? price = null,
+    Object? oldPrice = null,
+    Object? discount = null,
   }) {
     return _then(_$_Price(
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      oldPrice: oldPrice == freezed
+      oldPrice: null == oldPrice
           ? _value.oldPrice
           : oldPrice // ignore: cast_nullable_to_non_nullable
               as double,
-      discount: discount == freezed
+      discount: null == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
               as double,
@@ -125,20 +128,19 @@ class _$_Price implements _Price {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Price &&
-            const DeepCollectionEquality().equals(other.price, price) &&
-            const DeepCollectionEquality().equals(other.oldPrice, oldPrice) &&
-            const DeepCollectionEquality().equals(other.discount, discount));
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.oldPrice, oldPrice) ||
+                other.oldPrice == oldPrice) &&
+            (identical(other.discount, discount) ||
+                other.discount == discount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(price),
-      const DeepCollectionEquality().hash(oldPrice),
-      const DeepCollectionEquality().hash(discount));
+  int get hashCode => Object.hash(runtimeType, price, oldPrice, discount);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_PriceCopyWith<_$_Price> get copyWith =>
       __$$_PriceCopyWithImpl<_$_Price>(this, _$identity);
 }

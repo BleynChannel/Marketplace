@@ -23,7 +23,7 @@ mixin _$DesiredEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,7 +39,7 @@ mixin _$DesiredEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredOnLoaded value)? onLoaded,
+    TResult? Function(DesiredOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,16 +54,18 @@ mixin _$DesiredEvent {
 abstract class $DesiredEventCopyWith<$Res> {
   factory $DesiredEventCopyWith(
           DesiredEvent value, $Res Function(DesiredEvent) then) =
-      _$DesiredEventCopyWithImpl<$Res>;
+      _$DesiredEventCopyWithImpl<$Res, DesiredEvent>;
 }
 
 /// @nodoc
-class _$DesiredEventCopyWithImpl<$Res> implements $DesiredEventCopyWith<$Res> {
+class _$DesiredEventCopyWithImpl<$Res, $Val extends DesiredEvent>
+    implements $DesiredEventCopyWith<$Res> {
   _$DesiredEventCopyWithImpl(this._value, this._then);
 
-  final DesiredEvent _value;
   // ignore: unused_field
-  final $Res Function(DesiredEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -75,14 +77,11 @@ abstract class _$$DesiredOnLoadedCopyWith<$Res> {
 
 /// @nodoc
 class __$$DesiredOnLoadedCopyWithImpl<$Res>
-    extends _$DesiredEventCopyWithImpl<$Res>
+    extends _$DesiredEventCopyWithImpl<$Res, _$DesiredOnLoaded>
     implements _$$DesiredOnLoadedCopyWith<$Res> {
   __$$DesiredOnLoadedCopyWithImpl(
       _$DesiredOnLoaded _value, $Res Function(_$DesiredOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$DesiredOnLoaded));
-
-  @override
-  _$DesiredOnLoaded get _value => super._value as _$DesiredOnLoaded;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -115,7 +114,7 @@ class _$DesiredOnLoaded implements DesiredOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) {
     return onLoaded?.call();
   }
@@ -143,7 +142,7 @@ class _$DesiredOnLoaded implements DesiredOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DesiredOnLoaded value)? onLoaded,
+    TResult? Function(DesiredOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

@@ -24,7 +24,7 @@ mixin _$ProductEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(CompactProduct compactProduct)? onLoaded,
+    TResult? Function(CompactProduct compactProduct)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +40,7 @@ mixin _$ProductEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProductOnLoaded value)? onLoaded,
+    TResult? Function(ProductOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,36 +59,41 @@ mixin _$ProductEvent {
 abstract class $ProductEventCopyWith<$Res> {
   factory $ProductEventCopyWith(
           ProductEvent value, $Res Function(ProductEvent) then) =
-      _$ProductEventCopyWithImpl<$Res>;
+      _$ProductEventCopyWithImpl<$Res, ProductEvent>;
+  @useResult
   $Res call({CompactProduct compactProduct});
 
   $CompactProductCopyWith<$Res> get compactProduct;
 }
 
 /// @nodoc
-class _$ProductEventCopyWithImpl<$Res> implements $ProductEventCopyWith<$Res> {
+class _$ProductEventCopyWithImpl<$Res, $Val extends ProductEvent>
+    implements $ProductEventCopyWith<$Res> {
   _$ProductEventCopyWithImpl(this._value, this._then);
 
-  final ProductEvent _value;
   // ignore: unused_field
-  final $Res Function(ProductEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? compactProduct = freezed,
+    Object? compactProduct = null,
   }) {
     return _then(_value.copyWith(
-      compactProduct: compactProduct == freezed
+      compactProduct: null == compactProduct
           ? _value.compactProduct
           : compactProduct // ignore: cast_nullable_to_non_nullable
               as CompactProduct,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $CompactProductCopyWith<$Res> get compactProduct {
     return $CompactProductCopyWith<$Res>(_value.compactProduct, (value) {
-      return _then(_value.copyWith(compactProduct: value));
+      return _then(_value.copyWith(compactProduct: value) as $Val);
     });
   }
 }
@@ -100,6 +105,7 @@ abstract class _$$ProductOnLoadedCopyWith<$Res>
           _$ProductOnLoaded value, $Res Function(_$ProductOnLoaded) then) =
       __$$ProductOnLoadedCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({CompactProduct compactProduct});
 
   @override
@@ -108,21 +114,19 @@ abstract class _$$ProductOnLoadedCopyWith<$Res>
 
 /// @nodoc
 class __$$ProductOnLoadedCopyWithImpl<$Res>
-    extends _$ProductEventCopyWithImpl<$Res>
+    extends _$ProductEventCopyWithImpl<$Res, _$ProductOnLoaded>
     implements _$$ProductOnLoadedCopyWith<$Res> {
   __$$ProductOnLoadedCopyWithImpl(
       _$ProductOnLoaded _value, $Res Function(_$ProductOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$ProductOnLoaded));
+      : super(_value, _then);
 
-  @override
-  _$ProductOnLoaded get _value => super._value as _$ProductOnLoaded;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? compactProduct = freezed,
+    Object? compactProduct = null,
   }) {
     return _then(_$ProductOnLoaded(
-      compactProduct == freezed
+      null == compactProduct
           ? _value.compactProduct
           : compactProduct // ignore: cast_nullable_to_non_nullable
               as CompactProduct,
@@ -148,16 +152,16 @@ class _$ProductOnLoaded implements ProductOnLoaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProductOnLoaded &&
-            const DeepCollectionEquality()
-                .equals(other.compactProduct, compactProduct));
+            (identical(other.compactProduct, compactProduct) ||
+                other.compactProduct == compactProduct));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(compactProduct));
+  int get hashCode => Object.hash(runtimeType, compactProduct);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$ProductOnLoadedCopyWith<_$ProductOnLoaded> get copyWith =>
       __$$ProductOnLoadedCopyWithImpl<_$ProductOnLoaded>(this, _$identity);
 
@@ -172,7 +176,7 @@ class _$ProductOnLoaded implements ProductOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(CompactProduct compactProduct)? onLoaded,
+    TResult? Function(CompactProduct compactProduct)? onLoaded,
   }) {
     return onLoaded?.call(compactProduct);
   }
@@ -200,7 +204,7 @@ class _$ProductOnLoaded implements ProductOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProductOnLoaded value)? onLoaded,
+    TResult? Function(ProductOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

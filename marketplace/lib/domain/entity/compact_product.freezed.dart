@@ -30,7 +30,8 @@ mixin _$CompactProduct {
 abstract class $CompactProductCopyWith<$Res> {
   factory $CompactProductCopyWith(
           CompactProduct value, $Res Function(CompactProduct) then) =
-      _$CompactProductCopyWithImpl<$Res>;
+      _$CompactProductCopyWithImpl<$Res, CompactProduct>;
+  @useResult
   $Res call(
       {String title, Media banner, Price price, List<Platform> platforms});
 
@@ -39,52 +40,56 @@ abstract class $CompactProductCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CompactProductCopyWithImpl<$Res>
+class _$CompactProductCopyWithImpl<$Res, $Val extends CompactProduct>
     implements $CompactProductCopyWith<$Res> {
   _$CompactProductCopyWithImpl(this._value, this._then);
 
-  final CompactProduct _value;
   // ignore: unused_field
-  final $Res Function(CompactProduct) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? banner = freezed,
-    Object? price = freezed,
-    Object? platforms = freezed,
+    Object? title = null,
+    Object? banner = null,
+    Object? price = null,
+    Object? platforms = null,
   }) {
     return _then(_value.copyWith(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: banner == freezed
+      banner: null == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
               as Media,
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as Price,
-      platforms: platforms == freezed
+      platforms: null == platforms
           ? _value.platforms
           : platforms // ignore: cast_nullable_to_non_nullable
               as List<Platform>,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $MediaCopyWith<$Res> get banner {
     return $MediaCopyWith<$Res>(_value.banner, (value) {
-      return _then(_value.copyWith(banner: value));
+      return _then(_value.copyWith(banner: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $PriceCopyWith<$Res> get price {
     return $PriceCopyWith<$Res>(_value.price, (value) {
-      return _then(_value.copyWith(price: value));
+      return _then(_value.copyWith(price: value) as $Val);
     });
   }
 }
@@ -96,6 +101,7 @@ abstract class _$$_CompactProductCopyWith<$Res>
           _$_CompactProduct value, $Res Function(_$_CompactProduct) then) =
       __$$_CompactProductCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String title, Media banner, Price price, List<Platform> platforms});
 
@@ -107,36 +113,34 @@ abstract class _$$_CompactProductCopyWith<$Res>
 
 /// @nodoc
 class __$$_CompactProductCopyWithImpl<$Res>
-    extends _$CompactProductCopyWithImpl<$Res>
+    extends _$CompactProductCopyWithImpl<$Res, _$_CompactProduct>
     implements _$$_CompactProductCopyWith<$Res> {
   __$$_CompactProductCopyWithImpl(
       _$_CompactProduct _value, $Res Function(_$_CompactProduct) _then)
-      : super(_value, (v) => _then(v as _$_CompactProduct));
+      : super(_value, _then);
 
-  @override
-  _$_CompactProduct get _value => super._value as _$_CompactProduct;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? banner = freezed,
-    Object? price = freezed,
-    Object? platforms = freezed,
+    Object? title = null,
+    Object? banner = null,
+    Object? price = null,
+    Object? platforms = null,
   }) {
     return _then(_$_CompactProduct(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: banner == freezed
+      banner: null == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
               as Media,
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as Price,
-      platforms: platforms == freezed
+      platforms: null == platforms
           ? _value._platforms
           : platforms // ignore: cast_nullable_to_non_nullable
               as List<Platform>,
@@ -178,23 +182,20 @@ class _$_CompactProduct extends _CompactProduct {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CompactProduct &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.banner, banner) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.banner, banner) || other.banner == banner) &&
+            (identical(other.price, price) || other.price == price) &&
             const DeepCollectionEquality()
                 .equals(other._platforms, _platforms));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(banner),
-      const DeepCollectionEquality().hash(price),
+  int get hashCode => Object.hash(runtimeType, title, banner, price,
       const DeepCollectionEquality().hash(_platforms));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CompactProductCopyWith<_$_CompactProduct> get copyWith =>
       __$$_CompactProductCopyWithImpl<_$_CompactProduct>(this, _$identity);
 }

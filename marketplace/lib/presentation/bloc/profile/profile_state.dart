@@ -9,6 +9,6 @@ class ProfileState with _$ProfileState {
   const factory ProfileState.loading({
     required Profile profile,
   }) = ProfileStateLoading;
-  const factory ProfileState.error() = ProfileStateError;
+  const factory ProfileState.error({required String message}) = ProfileStateError;
   const factory ProfileState.noNetwork() = ProfileStateNoNetwork;
 }

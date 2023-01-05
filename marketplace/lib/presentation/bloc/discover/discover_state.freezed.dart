@@ -21,23 +21,23 @@ mixin _$DiscoverState {
     required TResult Function() load,
     required TResult Function(Map<String, List<CompactProduct>> products)
         loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Map<String, List<CompactProduct>> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) =>
@@ -52,10 +52,10 @@ mixin _$DiscoverState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverStateLoad value)? load,
-    TResult Function(DiscoverStateLoading value)? loading,
-    TResult Function(DiscoverStateError value)? error,
-    TResult Function(DiscoverStateNoNetwork value)? noNetwork,
+    TResult? Function(DiscoverStateLoad value)? load,
+    TResult? Function(DiscoverStateLoading value)? loading,
+    TResult? Function(DiscoverStateError value)? error,
+    TResult? Function(DiscoverStateNoNetwork value)? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -73,17 +73,18 @@ mixin _$DiscoverState {
 abstract class $DiscoverStateCopyWith<$Res> {
   factory $DiscoverStateCopyWith(
           DiscoverState value, $Res Function(DiscoverState) then) =
-      _$DiscoverStateCopyWithImpl<$Res>;
+      _$DiscoverStateCopyWithImpl<$Res, DiscoverState>;
 }
 
 /// @nodoc
-class _$DiscoverStateCopyWithImpl<$Res>
+class _$DiscoverStateCopyWithImpl<$Res, $Val extends DiscoverState>
     implements $DiscoverStateCopyWith<$Res> {
   _$DiscoverStateCopyWithImpl(this._value, this._then);
 
-  final DiscoverState _value;
   // ignore: unused_field
-  final $Res Function(DiscoverState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -95,14 +96,11 @@ abstract class _$$DiscoverStateLoadCopyWith<$Res> {
 
 /// @nodoc
 class __$$DiscoverStateLoadCopyWithImpl<$Res>
-    extends _$DiscoverStateCopyWithImpl<$Res>
+    extends _$DiscoverStateCopyWithImpl<$Res, _$DiscoverStateLoad>
     implements _$$DiscoverStateLoadCopyWith<$Res> {
   __$$DiscoverStateLoadCopyWithImpl(
       _$DiscoverStateLoad _value, $Res Function(_$DiscoverStateLoad) _then)
-      : super(_value, (v) => _then(v as _$DiscoverStateLoad));
-
-  @override
-  _$DiscoverStateLoad get _value => super._value as _$DiscoverStateLoad;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -130,7 +128,7 @@ class _$DiscoverStateLoad implements DiscoverStateLoad {
     required TResult Function() load,
     required TResult Function(Map<String, List<CompactProduct>> products)
         loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return load();
@@ -139,10 +137,10 @@ class _$DiscoverStateLoad implements DiscoverStateLoad {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Map<String, List<CompactProduct>> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return load?.call();
   }
@@ -152,7 +150,7 @@ class _$DiscoverStateLoad implements DiscoverStateLoad {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -176,10 +174,10 @@ class _$DiscoverStateLoad implements DiscoverStateLoad {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverStateLoad value)? load,
-    TResult Function(DiscoverStateLoading value)? loading,
-    TResult Function(DiscoverStateError value)? error,
-    TResult Function(DiscoverStateNoNetwork value)? noNetwork,
+    TResult? Function(DiscoverStateLoad value)? load,
+    TResult? Function(DiscoverStateLoading value)? loading,
+    TResult? Function(DiscoverStateError value)? error,
+    TResult? Function(DiscoverStateNoNetwork value)? noNetwork,
   }) {
     return load?.call(this);
   }
@@ -209,26 +207,25 @@ abstract class _$$DiscoverStateLoadingCopyWith<$Res> {
   factory _$$DiscoverStateLoadingCopyWith(_$DiscoverStateLoading value,
           $Res Function(_$DiscoverStateLoading) then) =
       __$$DiscoverStateLoadingCopyWithImpl<$Res>;
+  @useResult
   $Res call({Map<String, List<CompactProduct>> products});
 }
 
 /// @nodoc
 class __$$DiscoverStateLoadingCopyWithImpl<$Res>
-    extends _$DiscoverStateCopyWithImpl<$Res>
+    extends _$DiscoverStateCopyWithImpl<$Res, _$DiscoverStateLoading>
     implements _$$DiscoverStateLoadingCopyWith<$Res> {
   __$$DiscoverStateLoadingCopyWithImpl(_$DiscoverStateLoading _value,
       $Res Function(_$DiscoverStateLoading) _then)
-      : super(_value, (v) => _then(v as _$DiscoverStateLoading));
+      : super(_value, _then);
 
-  @override
-  _$DiscoverStateLoading get _value => super._value as _$DiscoverStateLoading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? products = freezed,
+    Object? products = null,
   }) {
     return _then(_$DiscoverStateLoading(
-      products: products == freezed
+      products: null == products
           ? _value._products
           : products // ignore: cast_nullable_to_non_nullable
               as Map<String, List<CompactProduct>>,
@@ -269,6 +266,7 @@ class _$DiscoverStateLoading implements DiscoverStateLoading {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$DiscoverStateLoadingCopyWith<_$DiscoverStateLoading> get copyWith =>
       __$$DiscoverStateLoadingCopyWithImpl<_$DiscoverStateLoading>(
           this, _$identity);
@@ -279,7 +277,7 @@ class _$DiscoverStateLoading implements DiscoverStateLoading {
     required TResult Function() load,
     required TResult Function(Map<String, List<CompactProduct>> products)
         loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return loading(products);
@@ -288,10 +286,10 @@ class _$DiscoverStateLoading implements DiscoverStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Map<String, List<CompactProduct>> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return loading?.call(products);
   }
@@ -301,7 +299,7 @@ class _$DiscoverStateLoading implements DiscoverStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -325,10 +323,10 @@ class _$DiscoverStateLoading implements DiscoverStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverStateLoad value)? load,
-    TResult Function(DiscoverStateLoading value)? loading,
-    TResult Function(DiscoverStateError value)? error,
-    TResult Function(DiscoverStateNoNetwork value)? noNetwork,
+    TResult? Function(DiscoverStateLoad value)? load,
+    TResult? Function(DiscoverStateLoading value)? loading,
+    TResult? Function(DiscoverStateError value)? error,
+    TResult? Function(DiscoverStateNoNetwork value)? noNetwork,
   }) {
     return loading?.call(this);
   }
@@ -365,38 +363,62 @@ abstract class _$$DiscoverStateErrorCopyWith<$Res> {
   factory _$$DiscoverStateErrorCopyWith(_$DiscoverStateError value,
           $Res Function(_$DiscoverStateError) then) =
       __$$DiscoverStateErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
 class __$$DiscoverStateErrorCopyWithImpl<$Res>
-    extends _$DiscoverStateCopyWithImpl<$Res>
+    extends _$DiscoverStateCopyWithImpl<$Res, _$DiscoverStateError>
     implements _$$DiscoverStateErrorCopyWith<$Res> {
   __$$DiscoverStateErrorCopyWithImpl(
       _$DiscoverStateError _value, $Res Function(_$DiscoverStateError) _then)
-      : super(_value, (v) => _then(v as _$DiscoverStateError));
+      : super(_value, _then);
 
+  @pragma('vm:prefer-inline')
   @override
-  _$DiscoverStateError get _value => super._value as _$DiscoverStateError;
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DiscoverStateError(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$DiscoverStateError implements DiscoverStateError {
-  const _$DiscoverStateError();
+  const _$DiscoverStateError({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'DiscoverState.error()';
+    return 'DiscoverState.error(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DiscoverStateError);
+        (other.runtimeType == runtimeType &&
+            other is _$DiscoverStateError &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DiscoverStateErrorCopyWith<_$DiscoverStateError> get copyWith =>
+      __$$DiscoverStateErrorCopyWithImpl<_$DiscoverStateError>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -404,21 +426,21 @@ class _$DiscoverStateError implements DiscoverStateError {
     required TResult Function() load,
     required TResult Function(Map<String, List<CompactProduct>> products)
         loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Map<String, List<CompactProduct>> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -426,12 +448,12 @@ class _$DiscoverStateError implements DiscoverStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -450,10 +472,10 @@ class _$DiscoverStateError implements DiscoverStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverStateLoad value)? load,
-    TResult Function(DiscoverStateLoading value)? loading,
-    TResult Function(DiscoverStateError value)? error,
-    TResult Function(DiscoverStateNoNetwork value)? noNetwork,
+    TResult? Function(DiscoverStateLoad value)? load,
+    TResult? Function(DiscoverStateLoading value)? loading,
+    TResult? Function(DiscoverStateError value)? error,
+    TResult? Function(DiscoverStateNoNetwork value)? noNetwork,
   }) {
     return error?.call(this);
   }
@@ -475,7 +497,13 @@ class _$DiscoverStateError implements DiscoverStateError {
 }
 
 abstract class DiscoverStateError implements DiscoverState {
-  const factory DiscoverStateError() = _$DiscoverStateError;
+  const factory DiscoverStateError({required final String message}) =
+      _$DiscoverStateError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$DiscoverStateErrorCopyWith<_$DiscoverStateError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -487,15 +515,11 @@ abstract class _$$DiscoverStateNoNetworkCopyWith<$Res> {
 
 /// @nodoc
 class __$$DiscoverStateNoNetworkCopyWithImpl<$Res>
-    extends _$DiscoverStateCopyWithImpl<$Res>
+    extends _$DiscoverStateCopyWithImpl<$Res, _$DiscoverStateNoNetwork>
     implements _$$DiscoverStateNoNetworkCopyWith<$Res> {
   __$$DiscoverStateNoNetworkCopyWithImpl(_$DiscoverStateNoNetwork _value,
       $Res Function(_$DiscoverStateNoNetwork) _then)
-      : super(_value, (v) => _then(v as _$DiscoverStateNoNetwork));
-
-  @override
-  _$DiscoverStateNoNetwork get _value =>
-      super._value as _$DiscoverStateNoNetwork;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -523,7 +547,7 @@ class _$DiscoverStateNoNetwork implements DiscoverStateNoNetwork {
     required TResult Function() load,
     required TResult Function(Map<String, List<CompactProduct>> products)
         loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return noNetwork();
@@ -532,10 +556,10 @@ class _$DiscoverStateNoNetwork implements DiscoverStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(Map<String, List<CompactProduct>> products)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return noNetwork?.call();
   }
@@ -545,7 +569,7 @@ class _$DiscoverStateNoNetwork implements DiscoverStateNoNetwork {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(Map<String, List<CompactProduct>> products)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -569,10 +593,10 @@ class _$DiscoverStateNoNetwork implements DiscoverStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(DiscoverStateLoad value)? load,
-    TResult Function(DiscoverStateLoading value)? loading,
-    TResult Function(DiscoverStateError value)? error,
-    TResult Function(DiscoverStateNoNetwork value)? noNetwork,
+    TResult? Function(DiscoverStateLoad value)? load,
+    TResult? Function(DiscoverStateLoading value)? loading,
+    TResult? Function(DiscoverStateError value)? error,
+    TResult? Function(DiscoverStateNoNetwork value)? noNetwork,
   }) {
     return noNetwork?.call(this);
   }

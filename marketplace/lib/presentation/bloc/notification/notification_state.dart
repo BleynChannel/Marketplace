@@ -9,6 +9,7 @@ class NotificationState with _$NotificationState {
   const factory NotificationState.loading({
     required List<Notification> notifications,
   }) = NotificationStateLoading;
-  const factory NotificationState.error() = NotificationStateError;
+  const factory NotificationState.error({required String message}) =
+      NotificationStateError;
   const factory NotificationState.noNetwork() = NotificationStateNoNetwork;
 }

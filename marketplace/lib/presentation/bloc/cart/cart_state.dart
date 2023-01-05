@@ -9,6 +9,6 @@ class CartState with _$CartState {
   const factory CartState.loading({
     required List<CartProduct> products,
   }) = CartStateLoading;
-  const factory CartState.error() = CartStateError;
+  const factory CartState.error({required String message}) = CartStateError;
   const factory CartState.noNetwork() = CartStateNoNetwork;
 }

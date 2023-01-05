@@ -13,11 +13,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i16;
 import 'package:auto_route/empty_router_widgets.dart' as _i2;
-import 'package:flutter/foundation.dart' as _i18;
 import 'package:flutter/material.dart' as _i17;
 
-import '../../domain/entity/compact_product.dart' as _i19;
-import '../../domain/entity/filter.dart' as _i20;
+import '../../domain/entity/compact_product.dart' as _i18;
+import '../../domain/entity/filter.dart' as _i19;
 import '../pages/cart_page.dart' as _i5;
 import '../pages/desired_page.dart' as _i12;
 import '../pages/discover_page.dart' as _i11;
@@ -188,13 +187,6 @@ class AppRouter extends _i16.RootStackRouter {
           path: '/home',
           children: [
             _i16.RouteConfig(
-              '#redirect',
-              path: '',
-              parent: HomeRoute.name,
-              redirectTo: 'discover',
-              fullMatch: true,
-            ),
-            _i16.RouteConfig(
               DiscoverRoute.name,
               path: 'discover',
               parent: HomeRoute.name,
@@ -288,7 +280,7 @@ class SignUpRoute extends _i16.PageRouteInfo<void> {
 /// [_i4.HomePage]
 class HomeRoute extends _i16.PageRouteInfo<HomeRouteArgs> {
   HomeRoute({
-    _i18.Key? key,
+    _i17.Key? key,
     List<_i16.PageRouteInfo>? children,
   }) : super(
           HomeRoute.name,
@@ -303,7 +295,7 @@ class HomeRoute extends _i16.PageRouteInfo<HomeRouteArgs> {
 class HomeRouteArgs {
   const HomeRouteArgs({this.key});
 
-  final _i18.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {
@@ -351,8 +343,8 @@ class ProfileRoute extends _i16.PageRouteInfo<void> {
 /// [_i8.ProductPage]
 class ProductRoute extends _i16.PageRouteInfo<ProductRouteArgs> {
   ProductRoute({
-    _i18.Key? key,
-    required _i19.CompactProduct compactProduct,
+    _i17.Key? key,
+    required _i18.CompactProduct compactProduct,
   }) : super(
           ProductRoute.name,
           path: '/product',
@@ -371,9 +363,9 @@ class ProductRouteArgs {
     required this.compactProduct,
   });
 
-  final _i18.Key? key;
+  final _i17.Key? key;
 
-  final _i19.CompactProduct compactProduct;
+  final _i18.CompactProduct compactProduct;
 
   @override
   String toString() {
@@ -384,7 +376,7 @@ class ProductRouteArgs {
 /// generated route for
 /// [_i9.LoginPage]
 class LoginRoute extends _i16.PageRouteInfo<LoginRouteArgs> {
-  LoginRoute({_i18.Key? key})
+  LoginRoute({_i17.Key? key})
       : super(
           LoginRoute.name,
           path: '',
@@ -397,7 +389,7 @@ class LoginRoute extends _i16.PageRouteInfo<LoginRouteArgs> {
 class LoginRouteArgs {
   const LoginRouteArgs({this.key});
 
-  final _i18.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {
@@ -469,7 +461,7 @@ class MenuRoute extends _i16.PageRouteInfo<void> {
 /// generated route for
 /// [_i14.SearchPage]
 class SearchRoute extends _i16.PageRouteInfo<SearchRouteArgs> {
-  SearchRoute({_i18.Key? key})
+  SearchRoute({_i17.Key? key})
       : super(
           SearchRoute.name,
           path: '',
@@ -482,7 +474,7 @@ class SearchRoute extends _i16.PageRouteInfo<SearchRouteArgs> {
 class SearchRouteArgs {
   const SearchRouteArgs({this.key});
 
-  final _i18.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {
@@ -494,8 +486,8 @@ class SearchRouteArgs {
 /// [_i15.FilterPage]
 class FilterRoute extends _i16.PageRouteInfo<FilterRouteArgs> {
   FilterRoute({
-    _i18.Key? key,
-    required _i20.Filter filter,
+    _i17.Key? key,
+    required _i19.Filter filter,
   }) : super(
           FilterRoute.name,
           path: 'filter',
@@ -514,9 +506,9 @@ class FilterRouteArgs {
     required this.filter,
   });
 
-  final _i18.Key? key;
+  final _i17.Key? key;
 
-  final _i20.Filter filter;
+  final _i19.Filter filter;
 
   @override
   String toString() {

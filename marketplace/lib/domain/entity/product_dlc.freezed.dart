@@ -28,41 +28,46 @@ mixin _$ProductDLC {
 abstract class $ProductDLCCopyWith<$Res> {
   factory $ProductDLCCopyWith(
           ProductDLC value, $Res Function(ProductDLC) then) =
-      _$ProductDLCCopyWithImpl<$Res>;
+      _$ProductDLCCopyWithImpl<$Res, ProductDLC>;
+  @useResult
   $Res call({String title, Price price});
 
   $PriceCopyWith<$Res> get price;
 }
 
 /// @nodoc
-class _$ProductDLCCopyWithImpl<$Res> implements $ProductDLCCopyWith<$Res> {
+class _$ProductDLCCopyWithImpl<$Res, $Val extends ProductDLC>
+    implements $ProductDLCCopyWith<$Res> {
   _$ProductDLCCopyWithImpl(this._value, this._then);
 
-  final ProductDLC _value;
   // ignore: unused_field
-  final $Res Function(ProductDLC) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? price = freezed,
+    Object? title = null,
+    Object? price = null,
   }) {
     return _then(_value.copyWith(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as Price,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $PriceCopyWith<$Res> get price {
     return $PriceCopyWith<$Res>(_value.price, (value) {
-      return _then(_value.copyWith(price: value));
+      return _then(_value.copyWith(price: value) as $Val);
     });
   }
 }
@@ -74,6 +79,7 @@ abstract class _$$_ProductDLCCopyWith<$Res>
           _$_ProductDLC value, $Res Function(_$_ProductDLC) then) =
       __$$_ProductDLCCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String title, Price price});
 
   @override
@@ -81,26 +87,25 @@ abstract class _$$_ProductDLCCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ProductDLCCopyWithImpl<$Res> extends _$ProductDLCCopyWithImpl<$Res>
+class __$$_ProductDLCCopyWithImpl<$Res>
+    extends _$ProductDLCCopyWithImpl<$Res, _$_ProductDLC>
     implements _$$_ProductDLCCopyWith<$Res> {
   __$$_ProductDLCCopyWithImpl(
       _$_ProductDLC _value, $Res Function(_$_ProductDLC) _then)
-      : super(_value, (v) => _then(v as _$_ProductDLC));
+      : super(_value, _then);
 
-  @override
-  _$_ProductDLC get _value => super._value as _$_ProductDLC;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? price = freezed,
+    Object? title = null,
+    Object? price = null,
   }) {
     return _then(_$_ProductDLC(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as Price,
@@ -128,18 +133,16 @@ class _$_ProductDLC implements _ProductDLC {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ProductDLC &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.price, price));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.price, price) || other.price == price));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(price));
+  int get hashCode => Object.hash(runtimeType, title, price);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ProductDLCCopyWith<_$_ProductDLC> get copyWith =>
       __$$_ProductDLCCopyWithImpl<_$_ProductDLC>(this, _$identity);
 }

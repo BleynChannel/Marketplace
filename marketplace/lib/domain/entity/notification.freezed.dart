@@ -29,46 +29,51 @@ mixin _$Notification {
 abstract class $NotificationCopyWith<$Res> {
   factory $NotificationCopyWith(
           Notification value, $Res Function(Notification) then) =
-      _$NotificationCopyWithImpl<$Res>;
+      _$NotificationCopyWithImpl<$Res, Notification>;
+  @useResult
   $Res call({String title, Media banner, String description});
 
   $MediaCopyWith<$Res> get banner;
 }
 
 /// @nodoc
-class _$NotificationCopyWithImpl<$Res> implements $NotificationCopyWith<$Res> {
+class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
+    implements $NotificationCopyWith<$Res> {
   _$NotificationCopyWithImpl(this._value, this._then);
 
-  final Notification _value;
   // ignore: unused_field
-  final $Res Function(Notification) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? banner = freezed,
-    Object? description = freezed,
+    Object? title = null,
+    Object? banner = null,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: banner == freezed
+      banner: null == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
               as Media,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $MediaCopyWith<$Res> get banner {
     return $MediaCopyWith<$Res>(_value.banner, (value) {
-      return _then(_value.copyWith(banner: value));
+      return _then(_value.copyWith(banner: value) as $Val);
     });
   }
 }
@@ -80,6 +85,7 @@ abstract class _$$_NotificationCopyWith<$Res>
           _$_Notification value, $Res Function(_$_Notification) then) =
       __$$_NotificationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String title, Media banner, String description});
 
   @override
@@ -88,31 +94,29 @@ abstract class _$$_NotificationCopyWith<$Res>
 
 /// @nodoc
 class __$$_NotificationCopyWithImpl<$Res>
-    extends _$NotificationCopyWithImpl<$Res>
+    extends _$NotificationCopyWithImpl<$Res, _$_Notification>
     implements _$$_NotificationCopyWith<$Res> {
   __$$_NotificationCopyWithImpl(
       _$_Notification _value, $Res Function(_$_Notification) _then)
-      : super(_value, (v) => _then(v as _$_Notification));
+      : super(_value, _then);
 
-  @override
-  _$_Notification get _value => super._value as _$_Notification;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? banner = freezed,
-    Object? description = freezed,
+    Object? title = null,
+    Object? banner = null,
+    Object? description = null,
   }) {
     return _then(_$_Notification(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: banner == freezed
+      banner: null == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
               as Media,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
@@ -143,21 +147,18 @@ class _$_Notification implements _Notification {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Notification &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.banner, banner) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.banner, banner) || other.banner == banner) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(banner),
-      const DeepCollectionEquality().hash(description));
+  int get hashCode => Object.hash(runtimeType, title, banner, description);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_NotificationCopyWith<_$_Notification> get copyWith =>
       __$$_NotificationCopyWithImpl<_$_Notification>(this, _$identity);
 }

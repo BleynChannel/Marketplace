@@ -29,38 +29,42 @@ mixin _$Achievement {
 abstract class $AchievementCopyWith<$Res> {
   factory $AchievementCopyWith(
           Achievement value, $Res Function(Achievement) then) =
-      _$AchievementCopyWithImpl<$Res>;
+      _$AchievementCopyWithImpl<$Res, Achievement>;
+  @useResult
   $Res call({String title, String description, String icon});
 }
 
 /// @nodoc
-class _$AchievementCopyWithImpl<$Res> implements $AchievementCopyWith<$Res> {
+class _$AchievementCopyWithImpl<$Res, $Val extends Achievement>
+    implements $AchievementCopyWith<$Res> {
   _$AchievementCopyWithImpl(this._value, this._then);
 
-  final Achievement _value;
   // ignore: unused_field
-  final $Res Function(Achievement) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? description = freezed,
-    Object? icon = freezed,
+    Object? title = null,
+    Object? description = null,
+    Object? icon = null,
   }) {
     return _then(_value.copyWith(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      icon: icon == freezed
+      icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -71,35 +75,35 @@ abstract class _$$_AchievementCopyWith<$Res>
           _$_Achievement value, $Res Function(_$_Achievement) then) =
       __$$_AchievementCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String title, String description, String icon});
 }
 
 /// @nodoc
-class __$$_AchievementCopyWithImpl<$Res> extends _$AchievementCopyWithImpl<$Res>
+class __$$_AchievementCopyWithImpl<$Res>
+    extends _$AchievementCopyWithImpl<$Res, _$_Achievement>
     implements _$$_AchievementCopyWith<$Res> {
   __$$_AchievementCopyWithImpl(
       _$_Achievement _value, $Res Function(_$_Achievement) _then)
-      : super(_value, (v) => _then(v as _$_Achievement));
+      : super(_value, _then);
 
-  @override
-  _$_Achievement get _value => super._value as _$_Achievement;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? description = freezed,
-    Object? icon = freezed,
+    Object? title = null,
+    Object? description = null,
+    Object? icon = null,
   }) {
     return _then(_$_Achievement(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      icon: icon == freezed
+      icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
@@ -130,21 +134,18 @@ class _$_Achievement implements _Achievement {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Achievement &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.icon, icon));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.icon, icon) || other.icon == icon));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(icon));
+  int get hashCode => Object.hash(runtimeType, title, description, icon);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AchievementCopyWith<_$_Achievement> get copyWith =>
       __$$_AchievementCopyWithImpl<_$_Achievement>(this, _$identity);
 }

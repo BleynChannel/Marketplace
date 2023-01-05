@@ -35,7 +35,8 @@ mixin _$Profile {
 /// @nodoc
 abstract class $ProfileCopyWith<$Res> {
   factory $ProfileCopyWith(Profile value, $Res Function(Profile) then) =
-      _$ProfileCopyWithImpl<$Res>;
+      _$ProfileCopyWithImpl<$Res, Profile>;
+  @useResult
   $Res call(
       {String nickname,
       Media avatar,
@@ -54,86 +55,91 @@ abstract class $ProfileCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ProfileCopyWithImpl<$Res> implements $ProfileCopyWith<$Res> {
+class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
+    implements $ProfileCopyWith<$Res> {
   _$ProfileCopyWithImpl(this._value, this._then);
 
-  final Profile _value;
   // ignore: unused_field
-  final $Res Function(Profile) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nickname = freezed,
-    Object? avatar = freezed,
-    Object? backgroundImage = freezed,
-    Object? status = freezed,
-    Object? purchases = freezed,
-    Object? desired = freezed,
-    Object? contacts = freezed,
-    Object? achievements = freezed,
-    Object? favoriteGames = freezed,
-    Object? registrationDate = freezed,
-    Object? lastActivity = freezed,
+    Object? nickname = null,
+    Object? avatar = null,
+    Object? backgroundImage = null,
+    Object? status = null,
+    Object? purchases = null,
+    Object? desired = null,
+    Object? contacts = null,
+    Object? achievements = null,
+    Object? favoriteGames = null,
+    Object? registrationDate = null,
+    Object? lastActivity = null,
   }) {
     return _then(_value.copyWith(
-      nickname: nickname == freezed
+      nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: avatar == freezed
+      avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as Media,
-      backgroundImage: backgroundImage == freezed
+      backgroundImage: null == backgroundImage
           ? _value.backgroundImage
           : backgroundImage // ignore: cast_nullable_to_non_nullable
               as Media,
-      status: status == freezed
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      purchases: purchases == freezed
+      purchases: null == purchases
           ? _value.purchases
           : purchases // ignore: cast_nullable_to_non_nullable
               as int,
-      desired: desired == freezed
+      desired: null == desired
           ? _value.desired
           : desired // ignore: cast_nullable_to_non_nullable
               as int,
-      contacts: contacts == freezed
+      contacts: null == contacts
           ? _value.contacts
           : contacts // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      achievements: achievements == freezed
+      achievements: null == achievements
           ? _value.achievements
           : achievements // ignore: cast_nullable_to_non_nullable
               as List<Achievement>,
-      favoriteGames: favoriteGames == freezed
+      favoriteGames: null == favoriteGames
           ? _value.favoriteGames
           : favoriteGames // ignore: cast_nullable_to_non_nullable
               as List<CompactProduct>,
-      registrationDate: registrationDate == freezed
+      registrationDate: null == registrationDate
           ? _value.registrationDate
           : registrationDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      lastActivity: lastActivity == freezed
+      lastActivity: null == lastActivity
           ? _value.lastActivity
           : lastActivity // ignore: cast_nullable_to_non_nullable
               as DateTime,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $MediaCopyWith<$Res> get avatar {
     return $MediaCopyWith<$Res>(_value.avatar, (value) {
-      return _then(_value.copyWith(avatar: value));
+      return _then(_value.copyWith(avatar: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $MediaCopyWith<$Res> get backgroundImage {
     return $MediaCopyWith<$Res>(_value.backgroundImage, (value) {
-      return _then(_value.copyWith(backgroundImage: value));
+      return _then(_value.copyWith(backgroundImage: value) as $Val);
     });
   }
 }
@@ -144,6 +150,7 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
           _$_Profile value, $Res Function(_$_Profile) then) =
       __$$_ProfileCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String nickname,
       Media avatar,
@@ -164,70 +171,69 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ProfileCopyWithImpl<$Res> extends _$ProfileCopyWithImpl<$Res>
+class __$$_ProfileCopyWithImpl<$Res>
+    extends _$ProfileCopyWithImpl<$Res, _$_Profile>
     implements _$$_ProfileCopyWith<$Res> {
   __$$_ProfileCopyWithImpl(_$_Profile _value, $Res Function(_$_Profile) _then)
-      : super(_value, (v) => _then(v as _$_Profile));
+      : super(_value, _then);
 
-  @override
-  _$_Profile get _value => super._value as _$_Profile;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nickname = freezed,
-    Object? avatar = freezed,
-    Object? backgroundImage = freezed,
-    Object? status = freezed,
-    Object? purchases = freezed,
-    Object? desired = freezed,
-    Object? contacts = freezed,
-    Object? achievements = freezed,
-    Object? favoriteGames = freezed,
-    Object? registrationDate = freezed,
-    Object? lastActivity = freezed,
+    Object? nickname = null,
+    Object? avatar = null,
+    Object? backgroundImage = null,
+    Object? status = null,
+    Object? purchases = null,
+    Object? desired = null,
+    Object? contacts = null,
+    Object? achievements = null,
+    Object? favoriteGames = null,
+    Object? registrationDate = null,
+    Object? lastActivity = null,
   }) {
     return _then(_$_Profile(
-      nickname: nickname == freezed
+      nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: avatar == freezed
+      avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as Media,
-      backgroundImage: backgroundImage == freezed
+      backgroundImage: null == backgroundImage
           ? _value.backgroundImage
           : backgroundImage // ignore: cast_nullable_to_non_nullable
               as Media,
-      status: status == freezed
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      purchases: purchases == freezed
+      purchases: null == purchases
           ? _value.purchases
           : purchases // ignore: cast_nullable_to_non_nullable
               as int,
-      desired: desired == freezed
+      desired: null == desired
           ? _value.desired
           : desired // ignore: cast_nullable_to_non_nullable
               as int,
-      contacts: contacts == freezed
+      contacts: null == contacts
           ? _value._contacts
           : contacts // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      achievements: achievements == freezed
+      achievements: null == achievements
           ? _value._achievements
           : achievements // ignore: cast_nullable_to_non_nullable
               as List<Achievement>,
-      favoriteGames: favoriteGames == freezed
+      favoriteGames: null == favoriteGames
           ? _value._favoriteGames
           : favoriteGames // ignore: cast_nullable_to_non_nullable
               as List<CompactProduct>,
-      registrationDate: registrationDate == freezed
+      registrationDate: null == registrationDate
           ? _value.registrationDate
           : registrationDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      lastActivity: lastActivity == freezed
+      lastActivity: null == lastActivity
           ? _value.lastActivity
           : lastActivity // ignore: cast_nullable_to_non_nullable
               as DateTime,
@@ -303,41 +309,44 @@ class _$_Profile extends _Profile {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Profile &&
-            const DeepCollectionEquality().equals(other.nickname, nickname) &&
-            const DeepCollectionEquality().equals(other.avatar, avatar) &&
-            const DeepCollectionEquality()
-                .equals(other.backgroundImage, backgroundImage) &&
-            const DeepCollectionEquality().equals(other.status, status) &&
-            const DeepCollectionEquality().equals(other.purchases, purchases) &&
-            const DeepCollectionEquality().equals(other.desired, desired) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.backgroundImage, backgroundImage) ||
+                other.backgroundImage == backgroundImage) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.purchases, purchases) ||
+                other.purchases == purchases) &&
+            (identical(other.desired, desired) || other.desired == desired) &&
             const DeepCollectionEquality().equals(other._contacts, _contacts) &&
             const DeepCollectionEquality()
                 .equals(other._achievements, _achievements) &&
             const DeepCollectionEquality()
                 .equals(other._favoriteGames, _favoriteGames) &&
-            const DeepCollectionEquality()
-                .equals(other.registrationDate, registrationDate) &&
-            const DeepCollectionEquality()
-                .equals(other.lastActivity, lastActivity));
+            (identical(other.registrationDate, registrationDate) ||
+                other.registrationDate == registrationDate) &&
+            (identical(other.lastActivity, lastActivity) ||
+                other.lastActivity == lastActivity));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(nickname),
-      const DeepCollectionEquality().hash(avatar),
-      const DeepCollectionEquality().hash(backgroundImage),
-      const DeepCollectionEquality().hash(status),
-      const DeepCollectionEquality().hash(purchases),
-      const DeepCollectionEquality().hash(desired),
+      nickname,
+      avatar,
+      backgroundImage,
+      status,
+      purchases,
+      desired,
       const DeepCollectionEquality().hash(_contacts),
       const DeepCollectionEquality().hash(_achievements),
       const DeepCollectionEquality().hash(_favoriteGames),
-      const DeepCollectionEquality().hash(registrationDate),
-      const DeepCollectionEquality().hash(lastActivity));
+      registrationDate,
+      lastActivity);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ProfileCopyWith<_$_Profile> get copyWith =>
       __$$_ProfileCopyWithImpl<_$_Profile>(this, _$identity);
 }

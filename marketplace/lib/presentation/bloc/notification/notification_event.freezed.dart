@@ -23,7 +23,7 @@ mixin _$NotificationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,7 +39,7 @@ mixin _$NotificationEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationOnLoaded value)? onLoaded,
+    TResult? Function(NotificationOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,17 +54,18 @@ mixin _$NotificationEvent {
 abstract class $NotificationEventCopyWith<$Res> {
   factory $NotificationEventCopyWith(
           NotificationEvent value, $Res Function(NotificationEvent) then) =
-      _$NotificationEventCopyWithImpl<$Res>;
+      _$NotificationEventCopyWithImpl<$Res, NotificationEvent>;
 }
 
 /// @nodoc
-class _$NotificationEventCopyWithImpl<$Res>
+class _$NotificationEventCopyWithImpl<$Res, $Val extends NotificationEvent>
     implements $NotificationEventCopyWith<$Res> {
   _$NotificationEventCopyWithImpl(this._value, this._then);
 
-  final NotificationEvent _value;
   // ignore: unused_field
-  final $Res Function(NotificationEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -76,14 +77,11 @@ abstract class _$$NotificationOnLoadedCopyWith<$Res> {
 
 /// @nodoc
 class __$$NotificationOnLoadedCopyWithImpl<$Res>
-    extends _$NotificationEventCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res, _$NotificationOnLoaded>
     implements _$$NotificationOnLoadedCopyWith<$Res> {
   __$$NotificationOnLoadedCopyWithImpl(_$NotificationOnLoaded _value,
       $Res Function(_$NotificationOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$NotificationOnLoaded));
-
-  @override
-  _$NotificationOnLoaded get _value => super._value as _$NotificationOnLoaded;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -116,7 +114,7 @@ class _$NotificationOnLoaded implements NotificationOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) {
     return onLoaded?.call();
   }
@@ -144,7 +142,7 @@ class _$NotificationOnLoaded implements NotificationOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationOnLoaded value)? onLoaded,
+    TResult? Function(NotificationOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

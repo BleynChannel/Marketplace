@@ -27,46 +27,51 @@ mixin _$Bundle {
 /// @nodoc
 abstract class $BundleCopyWith<$Res> {
   factory $BundleCopyWith(Bundle value, $Res Function(Bundle) then) =
-      _$BundleCopyWithImpl<$Res>;
+      _$BundleCopyWithImpl<$Res, Bundle>;
+  @useResult
   $Res call({String title, Price price, List<CompactProduct> products});
 
   $PriceCopyWith<$Res> get price;
 }
 
 /// @nodoc
-class _$BundleCopyWithImpl<$Res> implements $BundleCopyWith<$Res> {
+class _$BundleCopyWithImpl<$Res, $Val extends Bundle>
+    implements $BundleCopyWith<$Res> {
   _$BundleCopyWithImpl(this._value, this._then);
 
-  final Bundle _value;
   // ignore: unused_field
-  final $Res Function(Bundle) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? price = freezed,
-    Object? products = freezed,
+    Object? title = null,
+    Object? price = null,
+    Object? products = null,
   }) {
     return _then(_value.copyWith(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as Price,
-      products: products == freezed
+      products: null == products
           ? _value.products
           : products // ignore: cast_nullable_to_non_nullable
               as List<CompactProduct>,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $PriceCopyWith<$Res> get price {
     return $PriceCopyWith<$Res>(_value.price, (value) {
-      return _then(_value.copyWith(price: value));
+      return _then(_value.copyWith(price: value) as $Val);
     });
   }
 }
@@ -76,6 +81,7 @@ abstract class _$$_BundleCopyWith<$Res> implements $BundleCopyWith<$Res> {
   factory _$$_BundleCopyWith(_$_Bundle value, $Res Function(_$_Bundle) then) =
       __$$_BundleCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String title, Price price, List<CompactProduct> products});
 
   @override
@@ -83,30 +89,29 @@ abstract class _$$_BundleCopyWith<$Res> implements $BundleCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BundleCopyWithImpl<$Res> extends _$BundleCopyWithImpl<$Res>
+class __$$_BundleCopyWithImpl<$Res>
+    extends _$BundleCopyWithImpl<$Res, _$_Bundle>
     implements _$$_BundleCopyWith<$Res> {
   __$$_BundleCopyWithImpl(_$_Bundle _value, $Res Function(_$_Bundle) _then)
-      : super(_value, (v) => _then(v as _$_Bundle));
+      : super(_value, _then);
 
-  @override
-  _$_Bundle get _value => super._value as _$_Bundle;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? price = freezed,
-    Object? products = freezed,
+    Object? title = null,
+    Object? price = null,
+    Object? products = null,
   }) {
     return _then(_$_Bundle(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      price: price == freezed
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as Price,
-      products: products == freezed
+      products: null == products
           ? _value._products
           : products // ignore: cast_nullable_to_non_nullable
               as List<CompactProduct>,
@@ -144,20 +149,18 @@ class _$_Bundle implements _Bundle {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Bundle &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.price, price) || other.price == price) &&
             const DeepCollectionEquality().equals(other._products, _products));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(price),
+  int get hashCode => Object.hash(runtimeType, title, price,
       const DeepCollectionEquality().hash(_products));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_BundleCopyWith<_$_Bundle> get copyWith =>
       __$$_BundleCopyWithImpl<_$_Bundle>(this, _$identity);
 }

@@ -112,7 +112,7 @@ class _ProductPageState extends State<ProductPage> {
         return state.when<Widget>(
           load: () => _buildLoaded(context),
           loading: (product) => _buildMain(context, product: product),
-          error: () => _buildError(context, message: 'Error loading products'),
+          error: (message) => _buildError(context, message: message),
           noNetwork: () => _buildError(context, message: 'No network'),
         );
       },

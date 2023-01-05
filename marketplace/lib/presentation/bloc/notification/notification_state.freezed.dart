@@ -20,23 +20,23 @@ mixin _$NotificationState {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Notification> notifications) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Notification> notifications)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) =>
@@ -51,10 +51,10 @@ mixin _$NotificationState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationStateLoad value)? load,
-    TResult Function(NotificationStateLoading value)? loading,
-    TResult Function(NotificationStateError value)? error,
-    TResult Function(NotificationStateNoNetwork value)? noNetwork,
+    TResult? Function(NotificationStateLoad value)? load,
+    TResult? Function(NotificationStateLoading value)? loading,
+    TResult? Function(NotificationStateError value)? error,
+    TResult? Function(NotificationStateNoNetwork value)? noNetwork,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,17 +72,18 @@ mixin _$NotificationState {
 abstract class $NotificationStateCopyWith<$Res> {
   factory $NotificationStateCopyWith(
           NotificationState value, $Res Function(NotificationState) then) =
-      _$NotificationStateCopyWithImpl<$Res>;
+      _$NotificationStateCopyWithImpl<$Res, NotificationState>;
 }
 
 /// @nodoc
-class _$NotificationStateCopyWithImpl<$Res>
+class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
     implements $NotificationStateCopyWith<$Res> {
   _$NotificationStateCopyWithImpl(this._value, this._then);
 
-  final NotificationState _value;
   // ignore: unused_field
-  final $Res Function(NotificationState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -94,14 +95,11 @@ abstract class _$$NotificationStateLoadCopyWith<$Res> {
 
 /// @nodoc
 class __$$NotificationStateLoadCopyWithImpl<$Res>
-    extends _$NotificationStateCopyWithImpl<$Res>
+    extends _$NotificationStateCopyWithImpl<$Res, _$NotificationStateLoad>
     implements _$$NotificationStateLoadCopyWith<$Res> {
   __$$NotificationStateLoadCopyWithImpl(_$NotificationStateLoad _value,
       $Res Function(_$NotificationStateLoad) _then)
-      : super(_value, (v) => _then(v as _$NotificationStateLoad));
-
-  @override
-  _$NotificationStateLoad get _value => super._value as _$NotificationStateLoad;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -128,7 +126,7 @@ class _$NotificationStateLoad implements NotificationStateLoad {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Notification> notifications) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return load();
@@ -137,10 +135,10 @@ class _$NotificationStateLoad implements NotificationStateLoad {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Notification> notifications)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return load?.call();
   }
@@ -150,7 +148,7 @@ class _$NotificationStateLoad implements NotificationStateLoad {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -174,10 +172,10 @@ class _$NotificationStateLoad implements NotificationStateLoad {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationStateLoad value)? load,
-    TResult Function(NotificationStateLoading value)? loading,
-    TResult Function(NotificationStateError value)? error,
-    TResult Function(NotificationStateNoNetwork value)? noNetwork,
+    TResult? Function(NotificationStateLoad value)? load,
+    TResult? Function(NotificationStateLoading value)? loading,
+    TResult? Function(NotificationStateError value)? error,
+    TResult? Function(NotificationStateNoNetwork value)? noNetwork,
   }) {
     return load?.call(this);
   }
@@ -207,27 +205,25 @@ abstract class _$$NotificationStateLoadingCopyWith<$Res> {
   factory _$$NotificationStateLoadingCopyWith(_$NotificationStateLoading value,
           $Res Function(_$NotificationStateLoading) then) =
       __$$NotificationStateLoadingCopyWithImpl<$Res>;
+  @useResult
   $Res call({List<Notification> notifications});
 }
 
 /// @nodoc
 class __$$NotificationStateLoadingCopyWithImpl<$Res>
-    extends _$NotificationStateCopyWithImpl<$Res>
+    extends _$NotificationStateCopyWithImpl<$Res, _$NotificationStateLoading>
     implements _$$NotificationStateLoadingCopyWith<$Res> {
   __$$NotificationStateLoadingCopyWithImpl(_$NotificationStateLoading _value,
       $Res Function(_$NotificationStateLoading) _then)
-      : super(_value, (v) => _then(v as _$NotificationStateLoading));
+      : super(_value, _then);
 
-  @override
-  _$NotificationStateLoading get _value =>
-      super._value as _$NotificationStateLoading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? notifications = freezed,
+    Object? notifications = null,
   }) {
     return _then(_$NotificationStateLoading(
-      notifications: notifications == freezed
+      notifications: null == notifications
           ? _value._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as List<Notification>,
@@ -269,6 +265,7 @@ class _$NotificationStateLoading implements NotificationStateLoading {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$NotificationStateLoadingCopyWith<_$NotificationStateLoading>
       get copyWith =>
           __$$NotificationStateLoadingCopyWithImpl<_$NotificationStateLoading>(
@@ -279,7 +276,7 @@ class _$NotificationStateLoading implements NotificationStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Notification> notifications) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return loading(notifications);
@@ -288,10 +285,10 @@ class _$NotificationStateLoading implements NotificationStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Notification> notifications)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return loading?.call(notifications);
   }
@@ -301,7 +298,7 @@ class _$NotificationStateLoading implements NotificationStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -325,10 +322,10 @@ class _$NotificationStateLoading implements NotificationStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationStateLoad value)? load,
-    TResult Function(NotificationStateLoading value)? loading,
-    TResult Function(NotificationStateError value)? error,
-    TResult Function(NotificationStateNoNetwork value)? noNetwork,
+    TResult? Function(NotificationStateLoad value)? load,
+    TResult? Function(NotificationStateLoading value)? loading,
+    TResult? Function(NotificationStateError value)? error,
+    TResult? Function(NotificationStateNoNetwork value)? noNetwork,
   }) {
     return loading?.call(this);
   }
@@ -365,60 +362,83 @@ abstract class _$$NotificationStateErrorCopyWith<$Res> {
   factory _$$NotificationStateErrorCopyWith(_$NotificationStateError value,
           $Res Function(_$NotificationStateError) then) =
       __$$NotificationStateErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
 class __$$NotificationStateErrorCopyWithImpl<$Res>
-    extends _$NotificationStateCopyWithImpl<$Res>
+    extends _$NotificationStateCopyWithImpl<$Res, _$NotificationStateError>
     implements _$$NotificationStateErrorCopyWith<$Res> {
   __$$NotificationStateErrorCopyWithImpl(_$NotificationStateError _value,
       $Res Function(_$NotificationStateError) _then)
-      : super(_value, (v) => _then(v as _$NotificationStateError));
+      : super(_value, _then);
 
+  @pragma('vm:prefer-inline')
   @override
-  _$NotificationStateError get _value =>
-      super._value as _$NotificationStateError;
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$NotificationStateError(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$NotificationStateError implements NotificationStateError {
-  const _$NotificationStateError();
+  const _$NotificationStateError({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'NotificationState.error()';
+    return 'NotificationState.error(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NotificationStateError);
+        (other.runtimeType == runtimeType &&
+            other is _$NotificationStateError &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NotificationStateErrorCopyWith<_$NotificationStateError> get copyWith =>
+      __$$NotificationStateErrorCopyWithImpl<_$NotificationStateError>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Notification> notifications) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Notification> notifications)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -426,12 +446,12 @@ class _$NotificationStateError implements NotificationStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -450,10 +470,10 @@ class _$NotificationStateError implements NotificationStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationStateLoad value)? load,
-    TResult Function(NotificationStateLoading value)? loading,
-    TResult Function(NotificationStateError value)? error,
-    TResult Function(NotificationStateNoNetwork value)? noNetwork,
+    TResult? Function(NotificationStateLoad value)? load,
+    TResult? Function(NotificationStateLoading value)? loading,
+    TResult? Function(NotificationStateError value)? error,
+    TResult? Function(NotificationStateNoNetwork value)? noNetwork,
   }) {
     return error?.call(this);
   }
@@ -475,7 +495,13 @@ class _$NotificationStateError implements NotificationStateError {
 }
 
 abstract class NotificationStateError implements NotificationState {
-  const factory NotificationStateError() = _$NotificationStateError;
+  const factory NotificationStateError({required final String message}) =
+      _$NotificationStateError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$NotificationStateErrorCopyWith<_$NotificationStateError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -488,16 +514,12 @@ abstract class _$$NotificationStateNoNetworkCopyWith<$Res> {
 
 /// @nodoc
 class __$$NotificationStateNoNetworkCopyWithImpl<$Res>
-    extends _$NotificationStateCopyWithImpl<$Res>
+    extends _$NotificationStateCopyWithImpl<$Res, _$NotificationStateNoNetwork>
     implements _$$NotificationStateNoNetworkCopyWith<$Res> {
   __$$NotificationStateNoNetworkCopyWithImpl(
       _$NotificationStateNoNetwork _value,
       $Res Function(_$NotificationStateNoNetwork) _then)
-      : super(_value, (v) => _then(v as _$NotificationStateNoNetwork));
-
-  @override
-  _$NotificationStateNoNetwork get _value =>
-      super._value as _$NotificationStateNoNetwork;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -525,7 +547,7 @@ class _$NotificationStateNoNetwork implements NotificationStateNoNetwork {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function(List<Notification> notifications) loading,
-    required TResult Function() error,
+    required TResult Function(String message) error,
     required TResult Function() noNetwork,
   }) {
     return noNetwork();
@@ -534,10 +556,10 @@ class _$NotificationStateNoNetwork implements NotificationStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? load,
-    TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
-    TResult Function()? noNetwork,
+    TResult? Function()? load,
+    TResult? Function(List<Notification> notifications)? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? noNetwork,
   }) {
     return noNetwork?.call();
   }
@@ -547,7 +569,7 @@ class _$NotificationStateNoNetwork implements NotificationStateNoNetwork {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function(List<Notification> notifications)? loading,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     TResult Function()? noNetwork,
     required TResult orElse(),
   }) {
@@ -571,10 +593,10 @@ class _$NotificationStateNoNetwork implements NotificationStateNoNetwork {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(NotificationStateLoad value)? load,
-    TResult Function(NotificationStateLoading value)? loading,
-    TResult Function(NotificationStateError value)? error,
-    TResult Function(NotificationStateNoNetwork value)? noNetwork,
+    TResult? Function(NotificationStateLoad value)? load,
+    TResult? Function(NotificationStateLoading value)? loading,
+    TResult? Function(NotificationStateError value)? error,
+    TResult? Function(NotificationStateNoNetwork value)? noNetwork,
   }) {
     return noNetwork?.call(this);
   }

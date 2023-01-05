@@ -24,7 +24,7 @@ mixin _$SearchEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Filter filter)? onLoaded,
+    TResult? Function(Filter filter)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +40,7 @@ mixin _$SearchEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchOnLoaded value)? onLoaded,
+    TResult? Function(SearchOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,28 +59,32 @@ mixin _$SearchEvent {
 abstract class $SearchEventCopyWith<$Res> {
   factory $SearchEventCopyWith(
           SearchEvent value, $Res Function(SearchEvent) then) =
-      _$SearchEventCopyWithImpl<$Res>;
+      _$SearchEventCopyWithImpl<$Res, SearchEvent>;
+  @useResult
   $Res call({Filter filter});
 }
 
 /// @nodoc
-class _$SearchEventCopyWithImpl<$Res> implements $SearchEventCopyWith<$Res> {
+class _$SearchEventCopyWithImpl<$Res, $Val extends SearchEvent>
+    implements $SearchEventCopyWith<$Res> {
   _$SearchEventCopyWithImpl(this._value, this._then);
 
-  final SearchEvent _value;
   // ignore: unused_field
-  final $Res Function(SearchEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filter = freezed,
+    Object? filter = null,
   }) {
     return _then(_value.copyWith(
-      filter: filter == freezed
+      filter: null == filter
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as Filter,
-    ));
+    ) as $Val);
   }
 }
 
@@ -91,26 +95,25 @@ abstract class _$$SearchOnLoadedCopyWith<$Res>
           _$SearchOnLoaded value, $Res Function(_$SearchOnLoaded) then) =
       __$$SearchOnLoadedCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({Filter filter});
 }
 
 /// @nodoc
 class __$$SearchOnLoadedCopyWithImpl<$Res>
-    extends _$SearchEventCopyWithImpl<$Res>
+    extends _$SearchEventCopyWithImpl<$Res, _$SearchOnLoaded>
     implements _$$SearchOnLoadedCopyWith<$Res> {
   __$$SearchOnLoadedCopyWithImpl(
       _$SearchOnLoaded _value, $Res Function(_$SearchOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$SearchOnLoaded));
+      : super(_value, _then);
 
-  @override
-  _$SearchOnLoaded get _value => super._value as _$SearchOnLoaded;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filter = freezed,
+    Object? filter = null,
   }) {
     return _then(_$SearchOnLoaded(
-      filter == freezed
+      null == filter
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as Filter,
@@ -136,15 +139,15 @@ class _$SearchOnLoaded implements SearchOnLoaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchOnLoaded &&
-            const DeepCollectionEquality().equals(other.filter, filter));
+            (identical(other.filter, filter) || other.filter == filter));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(filter));
+  int get hashCode => Object.hash(runtimeType, filter);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$SearchOnLoadedCopyWith<_$SearchOnLoaded> get copyWith =>
       __$$SearchOnLoadedCopyWithImpl<_$SearchOnLoaded>(this, _$identity);
 
@@ -159,7 +162,7 @@ class _$SearchOnLoaded implements SearchOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Filter filter)? onLoaded,
+    TResult? Function(Filter filter)? onLoaded,
   }) {
     return onLoaded?.call(filter);
   }
@@ -187,7 +190,7 @@ class _$SearchOnLoaded implements SearchOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SearchOnLoaded value)? onLoaded,
+    TResult? Function(SearchOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

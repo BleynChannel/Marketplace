@@ -1,30 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marketplace/const.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_event.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_state.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 
 class DesiredBloc extends Bloc<DesiredEvent, DesiredState> {
-  static bool debugIsNoNetwork = false;
-  static bool debugIsError = false;
-
   DesiredBloc() : super(const DesiredState.load()) {
     on<DesiredOnLoaded>((event, emit) async {
-      //? Есть ли подключение к интернету?
-      if (!debugIsNoNetwork) {
-        emit(const DesiredState.load());
-      } else {
+      if (!debugIsNetwork) {
         emit(const DesiredState.noNetwork());
+        return;
       }
 
-      //TODO: Получать данные с репозитория
-      var desireds = debugDesiredList;
+      emit(const DesiredState.load());
+
+      var result = await productRepository.getDesired();
       await Future.delayed(const Duration(milliseconds: 1000));
 
-      if (!debugIsError) {
-        emit(DesiredState.loading(desireds: desireds));
-      } else {
-        emit(const DesiredState.error());
-      }
+      result.fold((failure) {
+        String message = '';
+
+        failure.when(
+          unknown: () => message = 'Unknown error',
+        );
+
+        emit(DesiredState.error(message: message));
+      }, (data) => emit(DesiredState.loading(desireds: data)));
     });
   }
 }

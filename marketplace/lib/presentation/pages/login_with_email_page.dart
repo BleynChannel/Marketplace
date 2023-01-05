@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:marketplace/domain/entity/login.dart';
+import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_bloc.dart';
+import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_event.dart';
+import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_state.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
@@ -19,6 +23,8 @@ class LogWithEmailPage extends StatefulWidget {
 }
 
 class _LogWithEmailPageState extends State<LogWithEmailPage> {
+  late LoginWithEmailBloc bloc;
+
   final _formKey = GlobalKey<CustomFormState>();
 
   late TextEditingController _emailController;
@@ -26,37 +32,25 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
 
   bool _loginButtonEnabled = true;
 
-  Future _login(BuildContext context) async {
+  void _login(BuildContext context) {
     //TODO: Сделать сохранение данных
-
-    String? errorMessage;
-
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
-      } on FirebaseAuthException catch (_) {
-        errorMessage =
-            'Such a user does not exist or the username or password is entered incorrectly';
-      }
-    } else {
-      errorMessage = 'Enter a valid data';
-    }
+      final login = Login(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-    if (errorMessage != null) {
+      bloc.add(LoginWithEmailEvent.onLogin(login));
+    } else {
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
       scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(SnackBar(
-        content: Text(errorMessage),
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text('Enter a valid data'),
       ));
 
-      setState(() {
-        _loginButtonEnabled = true;
-      });
+      setState(() => _loginButtonEnabled = true);
     }
   }
 
@@ -70,6 +64,8 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
 
   @override
   void initState() {
+    bloc = LoginWithEmailBloc();
+
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
 
@@ -80,6 +76,8 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+
+    bloc.close();
 
     super.dispose();
   }
@@ -95,29 +93,43 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
         backgroundColor: Colors.transparent,
       ),
       body: BackgroundBlur(
-        child: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              context.router.replaceAll([HomeRoute()]);
-            }
+        child: BlocListener<LoginWithEmailBloc, LoginWithEmailState>(
+          bloc: bloc,
+          listener: (context, state) => state.when<void>(
+            empty: () {},
+            success: () => context.router.replaceAll([HomeRoute()]),
+            error: (message) {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              scaffoldMessenger.hideCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
 
-            return Padding(
-              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildTitle(context),
-                  const Expanded(child: SizedBox()),
-                  Column(children: [
-                    _buildFields(context),
-                    const SizedBox(height: 10),
-                    ..._buildLogIn(context),
-                  ]),
-                ],
-              ),
-            );
-          },
+              setState(() => _loginButtonEnabled = true);
+            },
+            noNetwork: () {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              scaffoldMessenger.hideCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(const SnackBar(
+                content: Text('No internet connection'),
+              ));
+
+              setState(() => _loginButtonEnabled = true);
+            },
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildTitle(context),
+                const Expanded(child: SizedBox()),
+                Column(children: [
+                  _buildFields(context),
+                  const SizedBox(height: 10),
+                  ..._buildLogIn(context),
+                ]),
+              ],
+            ),
+          ),
         ),
       ),
     );

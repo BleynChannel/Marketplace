@@ -1,35 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marketplace/domain/entity/compact_product.dart';
-import 'package:marketplace/domain/entity/product.dart';
+import 'package:marketplace/const.dart';
 import 'package:marketplace/presentation/bloc/product/product_event.dart';
 import 'package:marketplace/presentation/bloc/product/product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  static bool debugIsNoNetwork = false;
-  static bool debugIsError = false;
-
-  Future<Product> debugGetProduct(CompactProduct compactProduct) async {
-    return Future.value(compactProduct.toProduct());
-  }
-
   ProductBloc() : super(const ProductState.load()) {
     on<ProductOnLoaded>((event, emit) async {
-      //? Есть ли подключение к интернету?
-      if (!debugIsNoNetwork) {
-        emit(const ProductState.load());
-      } else {
+      if (!debugIsNetwork) {
         emit(const ProductState.noNetwork());
+        return;
       }
 
-      //TODO: Получать данные с репозитория
-      var product = await debugGetProduct(event.compactProduct);
+      emit(const ProductState.load());
+
+      var result = await productRepository.getProduct(event.compactProduct);
       await Future.delayed(const Duration(milliseconds: 3000));
 
-      if (!debugIsError) {
-        emit(ProductState.loading(product: product));
-      } else {
-        emit(const ProductState.error());
-      }
+      result.fold((failure) {
+        String message = '';
+
+        failure.when(
+          unknown: () => message = 'Unknown error',
+        );
+
+        emit(ProductState.error(message: message));
+      }, (data) => emit(ProductState.loading(product: data)));
     });
   }
 }

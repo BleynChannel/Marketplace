@@ -26,33 +26,37 @@ mixin _$Link {
 /// @nodoc
 abstract class $LinkCopyWith<$Res> {
   factory $LinkCopyWith(Link value, $Res Function(Link) then) =
-      _$LinkCopyWithImpl<$Res>;
+      _$LinkCopyWithImpl<$Res, Link>;
+  @useResult
   $Res call({String title, String url});
 }
 
 /// @nodoc
-class _$LinkCopyWithImpl<$Res> implements $LinkCopyWith<$Res> {
+class _$LinkCopyWithImpl<$Res, $Val extends Link>
+    implements $LinkCopyWith<$Res> {
   _$LinkCopyWithImpl(this._value, this._then);
 
-  final Link _value;
   // ignore: unused_field
-  final $Res Function(Link) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? url = freezed,
+    Object? title = null,
+    Object? url = null,
   }) {
     return _then(_value.copyWith(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -61,29 +65,28 @@ abstract class _$$_LinkCopyWith<$Res> implements $LinkCopyWith<$Res> {
   factory _$$_LinkCopyWith(_$_Link value, $Res Function(_$_Link) then) =
       __$$_LinkCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String title, String url});
 }
 
 /// @nodoc
-class __$$_LinkCopyWithImpl<$Res> extends _$LinkCopyWithImpl<$Res>
+class __$$_LinkCopyWithImpl<$Res> extends _$LinkCopyWithImpl<$Res, _$_Link>
     implements _$$_LinkCopyWith<$Res> {
   __$$_LinkCopyWithImpl(_$_Link _value, $Res Function(_$_Link) _then)
-      : super(_value, (v) => _then(v as _$_Link));
+      : super(_value, _then);
 
-  @override
-  _$_Link get _value => super._value as _$_Link;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = freezed,
-    Object? url = freezed,
+    Object? title = null,
+    Object? url = null,
   }) {
     return _then(_$_Link(
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
@@ -111,18 +114,16 @@ class _$_Link implements _Link {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Link &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.url, url));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.url, url) || other.url == url));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(url));
+  int get hashCode => Object.hash(runtimeType, title, url);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_LinkCopyWith<_$_Link> get copyWith =>
       __$$_LinkCopyWithImpl<_$_Link>(this, _$identity);
 }

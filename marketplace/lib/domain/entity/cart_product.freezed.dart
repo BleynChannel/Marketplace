@@ -28,41 +28,46 @@ mixin _$CartProduct {
 abstract class $CartProductCopyWith<$Res> {
   factory $CartProductCopyWith(
           CartProduct value, $Res Function(CartProduct) then) =
-      _$CartProductCopyWithImpl<$Res>;
+      _$CartProductCopyWithImpl<$Res, CartProduct>;
+  @useResult
   $Res call({CompactProduct product, int count});
 
   $CompactProductCopyWith<$Res> get product;
 }
 
 /// @nodoc
-class _$CartProductCopyWithImpl<$Res> implements $CartProductCopyWith<$Res> {
+class _$CartProductCopyWithImpl<$Res, $Val extends CartProduct>
+    implements $CartProductCopyWith<$Res> {
   _$CartProductCopyWithImpl(this._value, this._then);
 
-  final CartProduct _value;
   // ignore: unused_field
-  final $Res Function(CartProduct) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? product = freezed,
-    Object? count = freezed,
+    Object? product = null,
+    Object? count = null,
   }) {
     return _then(_value.copyWith(
-      product: product == freezed
+      product: null == product
           ? _value.product
           : product // ignore: cast_nullable_to_non_nullable
               as CompactProduct,
-      count: count == freezed
+      count: null == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $CompactProductCopyWith<$Res> get product {
     return $CompactProductCopyWith<$Res>(_value.product, (value) {
-      return _then(_value.copyWith(product: value));
+      return _then(_value.copyWith(product: value) as $Val);
     });
   }
 }
@@ -74,6 +79,7 @@ abstract class _$$_CartProductCopyWith<$Res>
           _$_CartProduct value, $Res Function(_$_CartProduct) then) =
       __$$_CartProductCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({CompactProduct product, int count});
 
   @override
@@ -81,26 +87,25 @@ abstract class _$$_CartProductCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CartProductCopyWithImpl<$Res> extends _$CartProductCopyWithImpl<$Res>
+class __$$_CartProductCopyWithImpl<$Res>
+    extends _$CartProductCopyWithImpl<$Res, _$_CartProduct>
     implements _$$_CartProductCopyWith<$Res> {
   __$$_CartProductCopyWithImpl(
       _$_CartProduct _value, $Res Function(_$_CartProduct) _then)
-      : super(_value, (v) => _then(v as _$_CartProduct));
+      : super(_value, _then);
 
-  @override
-  _$_CartProduct get _value => super._value as _$_CartProduct;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? product = freezed,
-    Object? count = freezed,
+    Object? product = null,
+    Object? count = null,
   }) {
     return _then(_$_CartProduct(
-      product: product == freezed
+      product: null == product
           ? _value.product
           : product // ignore: cast_nullable_to_non_nullable
               as CompactProduct,
-      count: count == freezed
+      count: null == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
@@ -128,18 +133,16 @@ class _$_CartProduct implements _CartProduct {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CartProduct &&
-            const DeepCollectionEquality().equals(other.product, product) &&
-            const DeepCollectionEquality().equals(other.count, count));
+            (identical(other.product, product) || other.product == product) &&
+            (identical(other.count, count) || other.count == count));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(product),
-      const DeepCollectionEquality().hash(count));
+  int get hashCode => Object.hash(runtimeType, product, count);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CartProductCopyWith<_$_CartProduct> get copyWith =>
       __$$_CartProductCopyWithImpl<_$_CartProduct>(this, _$identity);
 }

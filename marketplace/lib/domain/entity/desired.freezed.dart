@@ -25,36 +25,41 @@ mixin _$Desired {
 /// @nodoc
 abstract class $DesiredCopyWith<$Res> {
   factory $DesiredCopyWith(Desired value, $Res Function(Desired) then) =
-      _$DesiredCopyWithImpl<$Res>;
+      _$DesiredCopyWithImpl<$Res, Desired>;
+  @useResult
   $Res call({CompactProduct product});
 
   $CompactProductCopyWith<$Res> get product;
 }
 
 /// @nodoc
-class _$DesiredCopyWithImpl<$Res> implements $DesiredCopyWith<$Res> {
+class _$DesiredCopyWithImpl<$Res, $Val extends Desired>
+    implements $DesiredCopyWith<$Res> {
   _$DesiredCopyWithImpl(this._value, this._then);
 
-  final Desired _value;
   // ignore: unused_field
-  final $Res Function(Desired) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? product = freezed,
+    Object? product = null,
   }) {
     return _then(_value.copyWith(
-      product: product == freezed
+      product: null == product
           ? _value.product
           : product // ignore: cast_nullable_to_non_nullable
               as CompactProduct,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $CompactProductCopyWith<$Res> get product {
     return $CompactProductCopyWith<$Res>(_value.product, (value) {
-      return _then(_value.copyWith(product: value));
+      return _then(_value.copyWith(product: value) as $Val);
     });
   }
 }
@@ -65,6 +70,7 @@ abstract class _$$_DesiredCopyWith<$Res> implements $DesiredCopyWith<$Res> {
           _$_Desired value, $Res Function(_$_Desired) then) =
       __$$_DesiredCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({CompactProduct product});
 
   @override
@@ -72,20 +78,19 @@ abstract class _$$_DesiredCopyWith<$Res> implements $DesiredCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_DesiredCopyWithImpl<$Res> extends _$DesiredCopyWithImpl<$Res>
+class __$$_DesiredCopyWithImpl<$Res>
+    extends _$DesiredCopyWithImpl<$Res, _$_Desired>
     implements _$$_DesiredCopyWith<$Res> {
   __$$_DesiredCopyWithImpl(_$_Desired _value, $Res Function(_$_Desired) _then)
-      : super(_value, (v) => _then(v as _$_Desired));
+      : super(_value, _then);
 
-  @override
-  _$_Desired get _value => super._value as _$_Desired;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? product = freezed,
+    Object? product = null,
   }) {
     return _then(_$_Desired(
-      product: product == freezed
+      product: null == product
           ? _value.product
           : product // ignore: cast_nullable_to_non_nullable
               as CompactProduct,
@@ -111,15 +116,15 @@ class _$_Desired implements _Desired {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Desired &&
-            const DeepCollectionEquality().equals(other.product, product));
+            (identical(other.product, product) || other.product == product));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(product));
+  int get hashCode => Object.hash(runtimeType, product);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_DesiredCopyWith<_$_Desired> get copyWith =>
       __$$_DesiredCopyWithImpl<_$_Desired>(this, _$identity);
 }

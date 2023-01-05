@@ -23,7 +23,7 @@ mixin _$ProfileEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,7 +39,7 @@ mixin _$ProfileEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileOnLoaded value)? onLoaded,
+    TResult? Function(ProfileOnLoaded value)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,16 +54,18 @@ mixin _$ProfileEvent {
 abstract class $ProfileEventCopyWith<$Res> {
   factory $ProfileEventCopyWith(
           ProfileEvent value, $Res Function(ProfileEvent) then) =
-      _$ProfileEventCopyWithImpl<$Res>;
+      _$ProfileEventCopyWithImpl<$Res, ProfileEvent>;
 }
 
 /// @nodoc
-class _$ProfileEventCopyWithImpl<$Res> implements $ProfileEventCopyWith<$Res> {
+class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
+    implements $ProfileEventCopyWith<$Res> {
   _$ProfileEventCopyWithImpl(this._value, this._then);
 
-  final ProfileEvent _value;
   // ignore: unused_field
-  final $Res Function(ProfileEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
@@ -75,14 +77,11 @@ abstract class _$$ProfileOnLoadedCopyWith<$Res> {
 
 /// @nodoc
 class __$$ProfileOnLoadedCopyWithImpl<$Res>
-    extends _$ProfileEventCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$ProfileOnLoaded>
     implements _$$ProfileOnLoadedCopyWith<$Res> {
   __$$ProfileOnLoadedCopyWithImpl(
       _$ProfileOnLoaded _value, $Res Function(_$ProfileOnLoaded) _then)
-      : super(_value, (v) => _then(v as _$ProfileOnLoaded));
-
-  @override
-  _$ProfileOnLoaded get _value => super._value as _$ProfileOnLoaded;
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -115,7 +114,7 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult? Function()? onLoaded,
   }) {
     return onLoaded?.call();
   }
@@ -143,7 +142,7 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ProfileOnLoaded value)? onLoaded,
+    TResult? Function(ProfileOnLoaded value)? onLoaded,
   }) {
     return onLoaded?.call(this);
   }

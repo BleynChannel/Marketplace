@@ -9,6 +9,7 @@ class DiscoverState with _$DiscoverState {
   const factory DiscoverState.loading({
     required Map<String, List<CompactProduct>> products,
   }) = DiscoverStateLoading;
-  const factory DiscoverState.error() = DiscoverStateError;
+  const factory DiscoverState.error({required String message}) =
+      DiscoverStateError;
   const factory DiscoverState.noNetwork() = DiscoverStateNoNetwork;
 }
