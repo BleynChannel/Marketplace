@@ -33,7 +33,10 @@ class LoginPage extends StatelessWidget {
       },
     ),
     _ContinueWith(
-      SvgPicture.asset("assets/icons/social/github.svg"),
+      SvgPicture.asset(
+        "assets/icons/social/github.svg",
+        color: Colors.white,
+      ),
       'GitHub',
       (BuildContext context, LoginBloc bloc) {
         bloc.add(const LoginEvent.onGitHubLogin());
