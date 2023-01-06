@@ -6,6 +6,10 @@ import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 
+String? isNicknameValid(String text) {
+  return RegExp(r".+").hasMatch(text) ? null : "The nickname cannot be empty";
+}
+
 String? isEmailValid(String text) {
   return RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$")
           .hasMatch(text)

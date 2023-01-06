@@ -87,6 +87,10 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
+  void _onRefreshPage(BuildContext context) {
+    bloc.add(const CartEvent.onLoaded());
+  }
+
   void _onProductCheck(CartProduct product, bool value) {
     setState(() {
       if (value) {
@@ -137,7 +141,6 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -145,7 +148,16 @@ class _CartPageState extends State<CartPage> {
       ),
       body: BackgroundBlur(
         child: Center(
-          child: Text(message),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(message),
+              TextButton(
+                onPressed: () => _onRefreshPage(context),
+                child: const Text("Press to refresh page"),
+              ),
+            ],
+          ),
         ),
       ),
     );

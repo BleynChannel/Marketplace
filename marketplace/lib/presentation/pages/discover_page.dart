@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
@@ -14,7 +15,6 @@ import 'package:marketplace/presentation/bloc/discover/discover_state.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/platform_chips.dart';
@@ -34,7 +34,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   static const int _shimerCategoryCount = 3;
   static const int _shimerProductCount = 3;
 
-  late DiscoverBloc bloc;
+  late DiscoverBloc _bloc;
 
   void _onCartClick(BuildContext context) {
     context.router.navigateNamed('/cart');
@@ -44,7 +44,24 @@ class _DiscoverPageState extends State<DiscoverPage> {
     context.router.navigateNamed('/notification');
   }
 
-  void _onPlatformsSelected(BuildContext context, List<String> selected) {}
+  Timer? _platformSelectTimer;
+  List<Platform> _selectedPlatform = Platform.values;
+
+  void _onPlatformsSelected(BuildContext context, List<Platform> selected) {
+    _platformSelectTimer?.cancel();
+    _platformSelectTimer = Timer(
+      const Duration(milliseconds: 1000),
+      () {
+        _bloc.add(DiscoverEvent.onLoaded(selected));
+        _selectedPlatform = selected;
+      },
+    );
+  }
+
+  Future<void> _onRefreshProducts(BuildContext context) async {
+    _bloc.add(DiscoverEvent.onLoaded(_selectedPlatform));
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
     context.router.push(ProductRoute(compactProduct: product));
@@ -52,14 +69,14 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   @override
   void initState() {
-    bloc = DiscoverBloc()..add(const DiscoverEvent.onLoaded());
+    _bloc = DiscoverBloc()..add(const DiscoverEvent.onLoaded(Platform.values));
 
     super.initState();
   }
 
   @override
   void dispose() {
-    bloc.close();
+    _bloc.close();
 
     super.dispose();
   }
@@ -68,76 +85,110 @@ class _DiscoverPageState extends State<DiscoverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BackgroundBlur(
-        child: BlocBuilder<DiscoverBloc, DiscoverState>(
-          bloc: bloc,
-          builder: (context, state) {
-            return state.when<Widget>(
-              load: () => _buildMain(context, products: null),
-              loading: (products) => _buildMain(context, products: products),
-              error: (message) => _buildError(context, message: message),
-              noNetwork: () => _buildError(context, message: 'No network'),
-            );
-          },
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverPersistentHeader(
+              delegate: _HomeSliverAppBar(
+                expandedHeight: MediaQuery.of(context).size.height / 3,
+                minExpandedHeight:
+                    kToolbarHeight + MediaQuery.of(context).padding.top,
+                cartCount: 7,
+                notificationCount: 15,
+                onCartClick: _onCartClick,
+                onNotificationClick: _onNotificationClick,
+                onProductClick: _onProductClick,
+                bloc: _bloc,
+              ),
+              pinned: true,
+            ),
+            SliverPinnedHeader(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                height: 40,
+                color: backgroundColor.withOpacity(0.8),
+                child: PlatformChips(
+                  onSelected: (selected) =>
+                      _onPlatformsSelected(context, selected),
+                ),
+              ),
+            ),
+          ],
+          body: RefreshIndicator(
+            onRefresh: () async => await _onRefreshProducts(context),
+            child: BlocBuilder<DiscoverBloc, DiscoverState>(
+              bloc: _bloc,
+              builder: (context, state) => state.when(
+                load: () => _buildProductsList(context, products: null),
+                loading: (products) =>
+                    _buildProductsList(context, products: products),
+                error: (message) =>
+                    _buildProductsList(context, message: message),
+                noNetwork: () =>
+                    _buildProductsList(context, message: 'No network'),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
-    return Center(
-      child: Text(message),
-    );
-  }
+  Widget _buildProductsList(
+    BuildContext context, {
+    Map<String, List<CompactProduct>>? products,
+    String? message,
+  }) {
+    List<Widget> children;
 
-  Widget _buildMain(BuildContext context,
-      {required Map<String, List<CompactProduct>>? products}) {
-    return CustomScrollView(
+    // ignore: no_leading_underscores_for_local_identifiers
+    final _products = products?.entries.skip(1);
+
+    if (message != null) {
+      children = [_buildError(context, message: message)];
+    } else if (_products != null) {
+      if (_products.every((element) => element.value.isEmpty)) {
+        children = [_buildError(context, message: "Empty products")];
+      } else {
+        children = _products
+            .map((category) => _buildCategoryProducts(
+                  context,
+                  category: category,
+                ))
+            .toList();
+      }
+    } else {
+      children = List.generate(
+          _shimerCategoryCount,
+          (_) => _buildCategoryProducts(
+                context,
+                category: null,
+              ));
+    }
+
+    return ListView(
       physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverPersistentHeader(
-          delegate: _HomeSliverAppBar(
-            expandedHeight: MediaQuery.of(context).size.height / 3,
-            minExpandedHeight:
-                kToolbarHeight + MediaQuery.of(context).padding.top,
-            productList: products?['Main'],
-            onCartClick: _onCartClick,
-            onNotificationClick: _onNotificationClick,
-            onProductClick: _onProductClick,
-          ),
-          pinned: true,
-        ),
-        SliverPinnedHeader(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            height: 40,
-            color: backgroundColor.withOpacity(0.8),
-            child: PlatformChips(
-              platforms: Platform.values
-                  .map((e) => ui_utils.platformToName(e))
-                  .toList(),
-              onSelected: (selected) => _onPlatformsSelected(context, selected),
-            ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => _buildCategoryProducts(
-              context,
-              category: products?.entries.elementAt(index),
-            ),
-            childCount: products?.length ?? _shimerCategoryCount,
-          ),
-        ),
-        const SliverPadding(padding: EdgeInsets.only(bottom: 80)),
+      children: [
+        ...children,
+        const SizedBox(height: 40),
       ],
     );
   }
 
-  Widget _buildCategoryProducts(
-    BuildContext context, {
-    MapEntry<String, List<CompactProduct>>? category,
-  }) {
+  Widget _buildError(BuildContext context, {required String message}) {
+    return SizedBox(
+      height: 40,
+      child: Center(
+        child: Text(message),
+      ),
+    );
+  }
+
+  Widget _buildCategoryProducts(BuildContext context,
+      {MapEntry<String, List<CompactProduct>>? category}) {
+    if (category != null && category.value.isEmpty) {
+      return const SizedBox();
+    }
+
     final itemWidth = MediaQuery.of(context).size.width / 1.8;
     final itemHeight = itemWidth / 1.6;
     return Padding(
@@ -271,20 +322,25 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double minExpandedHeight;
 
+  final int cartCount;
+  final int notificationCount;
+
   final void Function(BuildContext context) onCartClick;
   final void Function(BuildContext context) onNotificationClick;
   final void Function(BuildContext context, CompactProduct product)
       onProductClick;
 
-  final List<CompactProduct>? productList;
+  final DiscoverBloc bloc;
 
   _HomeSliverAppBar({
     required this.minExpandedHeight,
     required this.expandedHeight,
-    this.productList,
+    required this.cartCount,
+    required this.notificationCount,
     required this.onCartClick,
     required this.onNotificationClick,
     required this.onProductClick,
+    required this.bloc,
   });
 
   @override
@@ -306,12 +362,68 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
       actions: [
         IconButton(
           onPressed: () => onCartClick(context),
-          icon: SvgPicture.asset("assets/icons/cart.svg"),
+          icon: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              SvgPicture.asset("assets/icons/cart.svg"),
+              cartCount != 0
+                  ? Positioned(
+                      right: -7,
+                      top: -7,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            cartCount > 9 ? "9+" : cartCount.toString(),
+                            style: GoogleFonts.roboto(fontSize: 8),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
           tooltip: 'Cart',
         ),
         IconButton(
           onPressed: () => onNotificationClick(context),
-          icon: SvgPicture.asset("assets/icons/bell.svg"),
+          icon: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              SvgPicture.asset("assets/icons/bell.svg"),
+              notificationCount != 0
+                  ? Positioned(
+                      right: -7,
+                      top: -7,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            notificationCount > 9
+                                ? "9+"
+                                : notificationCount.toString(),
+                            style: GoogleFonts.roboto(fontSize: 8),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
           tooltip: 'Notification',
         ),
       ],
@@ -346,15 +458,39 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
             padding: const EdgeInsets.only(bottom: 8),
             child: Opacity(
               opacity: 1 - progress,
-              child: DiscoverPageView(
-                itemBuilder: (context, index) =>
-                    _buildProductItem(context, productList?[index]),
-                itemCount: debugProductList.length,
+              child: BlocBuilder<DiscoverBloc, DiscoverState>(
+                bloc: bloc,
+                builder: (context, state) => state.when(
+                  load: () => _buildMain(context, products: null),
+                  loading: (products) =>
+                      _buildMain(context, products: products['Main']),
+                  error: (message) => _buildError(context, message),
+                  noNetwork: () => _buildError(context, 'No network'),
+                ),
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildError(BuildContext context, String message) {
+    return Center(
+      child: Text(message),
+    );
+  }
+
+  Widget _buildMain(BuildContext context,
+      {required List<CompactProduct>? products}) {
+    if (products != null && products.isEmpty) {
+      return _buildError(context, "Empty products");
+    }
+
+    return DiscoverPageView(
+      itemBuilder: (context, index) =>
+          _buildProductItem(context, products?[index]),
+      itemCount: debugProductList.length,
     );
   }
 

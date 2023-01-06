@@ -35,8 +35,8 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
         ),
         AutoRoute(
           path: 'email',
-          name: 'LogWithEmailRoute',
-          page: LogWithEmailPage,
+          name: 'LoginWithEmailRoute',
+          page: LoginWithEmailPage,
         ),
       ],
     ),

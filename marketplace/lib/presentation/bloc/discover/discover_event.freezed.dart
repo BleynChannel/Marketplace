@@ -16,19 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DiscoverEvent {
+  List<Platform> get platforms => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onLoaded,
+    required TResult Function(List<Platform> platforms) onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onLoaded,
+    TResult? Function(List<Platform> platforms)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult Function(List<Platform> platforms)? onLoaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +49,10 @@ mixin _$DiscoverEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $DiscoverEventCopyWith<DiscoverEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -55,6 +60,8 @@ abstract class $DiscoverEventCopyWith<$Res> {
   factory $DiscoverEventCopyWith(
           DiscoverEvent value, $Res Function(DiscoverEvent) then) =
       _$DiscoverEventCopyWithImpl<$Res, DiscoverEvent>;
+  @useResult
+  $Res call({List<Platform> platforms});
 }
 
 /// @nodoc
@@ -66,13 +73,30 @@ class _$DiscoverEventCopyWithImpl<$Res, $Val extends DiscoverEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? platforms = null,
+  }) {
+    return _then(_value.copyWith(
+      platforms: null == platforms
+          ? _value.platforms
+          : platforms // ignore: cast_nullable_to_non_nullable
+              as List<Platform>,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$DiscoverOnLoadedCopyWith<$Res> {
+abstract class _$$DiscoverOnLoadedCopyWith<$Res>
+    implements $DiscoverEventCopyWith<$Res> {
   factory _$$DiscoverOnLoadedCopyWith(
           _$DiscoverOnLoaded value, $Res Function(_$DiscoverOnLoaded) then) =
       __$$DiscoverOnLoadedCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Platform> platforms});
 }
 
 /// @nodoc
@@ -82,51 +106,82 @@ class __$$DiscoverOnLoadedCopyWithImpl<$Res>
   __$$DiscoverOnLoadedCopyWithImpl(
       _$DiscoverOnLoaded _value, $Res Function(_$DiscoverOnLoaded) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? platforms = null,
+  }) {
+    return _then(_$DiscoverOnLoaded(
+      null == platforms
+          ? _value._platforms
+          : platforms // ignore: cast_nullable_to_non_nullable
+              as List<Platform>,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$DiscoverOnLoaded implements DiscoverOnLoaded {
-  const _$DiscoverOnLoaded();
+  const _$DiscoverOnLoaded(final List<Platform> platforms)
+      : _platforms = platforms;
+
+  final List<Platform> _platforms;
+  @override
+  List<Platform> get platforms {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_platforms);
+  }
 
   @override
   String toString() {
-    return 'DiscoverEvent.onLoaded()';
+    return 'DiscoverEvent.onLoaded(platforms: $platforms)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DiscoverOnLoaded);
+        (other.runtimeType == runtimeType &&
+            other is _$DiscoverOnLoaded &&
+            const DeepCollectionEquality()
+                .equals(other._platforms, _platforms));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_platforms));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DiscoverOnLoadedCopyWith<_$DiscoverOnLoaded> get copyWith =>
+      __$$DiscoverOnLoadedCopyWithImpl<_$DiscoverOnLoaded>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onLoaded,
+    required TResult Function(List<Platform> platforms) onLoaded,
   }) {
-    return onLoaded();
+    return onLoaded(platforms);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onLoaded,
+    TResult? Function(List<Platform> platforms)? onLoaded,
   }) {
-    return onLoaded?.call();
+    return onLoaded?.call(platforms);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult Function(List<Platform> platforms)? onLoaded,
     required TResult orElse(),
   }) {
     if (onLoaded != null) {
-      return onLoaded();
+      return onLoaded(platforms);
     }
     return orElse();
   }
@@ -161,5 +216,13 @@ class _$DiscoverOnLoaded implements DiscoverOnLoaded {
 }
 
 abstract class DiscoverOnLoaded implements DiscoverEvent {
-  const factory DiscoverOnLoaded() = _$DiscoverOnLoaded;
+  const factory DiscoverOnLoaded(final List<Platform> platforms) =
+      _$DiscoverOnLoaded;
+
+  @override
+  List<Platform> get platforms;
+  @override
+  @JsonKey(ignore: true)
+  _$$DiscoverOnLoadedCopyWith<_$DiscoverOnLoaded> get copyWith =>
+      throw _privateConstructorUsedError;
 }

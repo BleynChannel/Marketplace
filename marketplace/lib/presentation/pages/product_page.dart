@@ -42,7 +42,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  late ProductBloc bloc;
+  late ProductBloc _bloc;
 
   late final List<YoutubePlayerController> _controllers;
   YoutubePlayer? _currentPlayer;
@@ -72,6 +72,10 @@ class _ProductPageState extends State<ProductPage> {
     });
   }
 
+  void _onRefreshPage(BuildContext context) {
+    _bloc.add(ProductEvent.onLoaded(widget.compactProduct));
+  }
+
   void _onProductClick(BuildContext context, CompactProduct product) {
     context.router.push(ProductRoute(compactProduct: product));
   }
@@ -88,7 +92,7 @@ class _ProductPageState extends State<ProductPage> {
   void initState() {
     _controllers = [];
 
-    bloc = ProductBloc()..add(ProductEvent.onLoaded(widget.compactProduct));
+    _bloc = ProductBloc()..add(ProductEvent.onLoaded(widget.compactProduct));
 
     super.initState();
   }
@@ -99,7 +103,7 @@ class _ProductPageState extends State<ProductPage> {
       controller.dispose();
     }
 
-    bloc.close();
+    _bloc.close();
 
     super.dispose();
   }
@@ -107,7 +111,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
-      bloc: bloc,
+      bloc: _bloc,
       builder: (context, state) {
         return state.when<Widget>(
           load: () => _buildLoaded(context),
@@ -120,7 +124,6 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -128,7 +131,16 @@ class _ProductPageState extends State<ProductPage> {
       ),
       body: BackgroundBlur(
         child: Center(
-          child: Text(message),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(message),
+              TextButton(
+                onPressed: () => _onRefreshPage(context),
+                child: const Text("Press to refresh page"),
+              ),
+            ],
+          ),
         ),
       ),
     );

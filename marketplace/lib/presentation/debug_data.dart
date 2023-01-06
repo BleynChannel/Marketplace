@@ -1,3 +1,4 @@
+import 'package:marketplace/domain/entity/contact.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/domain/entity/achievement.dart';
 import 'package:marketplace/domain/entity/bundle.dart';
@@ -399,9 +400,30 @@ Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adip
     purchases: 21,
     desired: 15,
     contacts: [
-      'Steam',
-      'Epic Games',
-      'Discord',
+      Contact(
+        name: 'Steam',
+        icon: await ui_utils.getMediaImage(
+          path: ui_utils.contactsToPathToSvgIcons('Steam'),
+          mediaLocation: MediaLocation.local,
+        ),
+        url: 'https://steamcommunity.com/profiles/76561198305869342/',
+      ),
+      Contact(
+        name: 'Epic Games',
+        icon: await ui_utils.getMediaImage(
+          path: ui_utils.contactsToPathToSvgIcons('Epic Games'),
+          mediaLocation: MediaLocation.local,
+        ),
+        url: 'https://store.epicgames.com/',
+      ),
+      Contact(
+        name: 'Discord',
+        icon: await ui_utils.getMediaImage(
+          path: ui_utils.contactsToPathToSvgIcons('Discord'),
+          mediaLocation: MediaLocation.local,
+        ),
+        url: 'https://discord.com/',
+      ),
     ],
     achievements: [
       const Achievement(

@@ -23,6 +23,10 @@ class SearchPage extends StatelessWidget {
 
   final Filter _filter = Filter();
 
+  void _onRefreshPage(BuildContext context) {
+    context.read<SearchBloc>().add(SearchEvent.onLoaded(_filter));
+  }
+
   void _onSearchChanged(BuildContext context, String value) {
     _filter.title = value;
     context.read<SearchBloc>().add(SearchEvent.onLoaded(_filter));
@@ -62,9 +66,17 @@ class SearchPage extends StatelessWidget {
   }
 
   Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
     return Center(
-      child: Text(message),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(message),
+          TextButton(
+            onPressed: () => _onRefreshPage(context),
+            child: const Text("Press to refresh page"),
+          ),
+        ],
+      ),
     );
   }
 

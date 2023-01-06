@@ -22,7 +22,7 @@ mixin _$Profile {
   String get status => throw _privateConstructorUsedError;
   int get purchases => throw _privateConstructorUsedError;
   int get desired => throw _privateConstructorUsedError;
-  List<String> get contacts => throw _privateConstructorUsedError;
+  List<Contact> get contacts => throw _privateConstructorUsedError;
   List<Achievement> get achievements => throw _privateConstructorUsedError;
   List<CompactProduct> get favoriteGames => throw _privateConstructorUsedError;
   DateTime get registrationDate => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $ProfileCopyWith<$Res> {
       String status,
       int purchases,
       int desired,
-      List<String> contacts,
+      List<Contact> contacts,
       List<Achievement> achievements,
       List<CompactProduct> favoriteGames,
       DateTime registrationDate,
@@ -107,7 +107,7 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
       contacts: null == contacts
           ? _value.contacts
           : contacts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Contact>,
       achievements: null == achievements
           ? _value.achievements
           : achievements // ignore: cast_nullable_to_non_nullable
@@ -158,7 +158,7 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       String status,
       int purchases,
       int desired,
-      List<String> contacts,
+      List<Contact> contacts,
       List<Achievement> achievements,
       List<CompactProduct> favoriteGames,
       DateTime registrationDate,
@@ -220,7 +220,7 @@ class __$$_ProfileCopyWithImpl<$Res>
       contacts: null == contacts
           ? _value._contacts
           : contacts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Contact>,
       achievements: null == achievements
           ? _value._achievements
           : achievements // ignore: cast_nullable_to_non_nullable
@@ -251,7 +251,7 @@ class _$_Profile extends _Profile {
       required this.status,
       required this.purchases,
       required this.desired,
-      required final List<String> contacts,
+      required final List<Contact> contacts,
       required final List<Achievement> achievements,
       required final List<CompactProduct> favoriteGames,
       required this.registrationDate,
@@ -273,9 +273,9 @@ class _$_Profile extends _Profile {
   final int purchases;
   @override
   final int desired;
-  final List<String> _contacts;
+  final List<Contact> _contacts;
   @override
-  List<String> get contacts {
+  List<Contact> get contacts {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_contacts);
   }
@@ -359,7 +359,7 @@ abstract class _Profile extends Profile {
       required final String status,
       required final int purchases,
       required final int desired,
-      required final List<String> contacts,
+      required final List<Contact> contacts,
       required final List<Achievement> achievements,
       required final List<CompactProduct> favoriteGames,
       required final DateTime registrationDate,
@@ -379,7 +379,7 @@ abstract class _Profile extends Profile {
   @override
   int get desired;
   @override
-  List<String> get contacts;
+  List<Contact> get contacts;
   @override
   List<Achievement> get achievements;
   @override

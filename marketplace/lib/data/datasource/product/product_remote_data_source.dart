@@ -2,18 +2,28 @@ import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/domain/entity/filter.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 class ProductRemoteDataSource {
-  Future<Map<String, List<CompactProduct>>> discoverGetProducts() async {
+  Future<Map<String, List<CompactProduct>>> discoverGetProducts(
+      List<Platform> platforms) async {
+    final debugFilteredProductList = debugCompactProductList
+        .where((product) => product.platforms
+            .where(
+              (element) => platforms.contains(element),
+            )
+            .isNotEmpty)
+        .toList();
+
     return Future.value({
       'Main': debugCompactProductList,
-      'Most Popular': debugCompactProductList,
-      'Free This Week': debugCompactProductList,
-      'Special Offers': debugCompactProductList,
-      'You will like': debugCompactProductList,
+      'Most Popular': debugFilteredProductList,
+      'Free This Week': debugFilteredProductList,
+      'Special Offers': debugFilteredProductList,
+      'You will like': debugFilteredProductList,
     });
   }
 

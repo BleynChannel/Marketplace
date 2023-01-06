@@ -9,15 +9,16 @@ import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/domain/entity/filter.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 
 class ProductRepository {
   final _remoteDataSource = ProductRemoteDataSource();
 
   Future<Either<DiscoverGetProductsFailure, Map<String, List<CompactProduct>>>>
-      discoverGetProducts() async {
+      discoverGetProducts(List<Platform> platforms) async {
     try {
-      final result = await _remoteDataSource.discoverGetProducts();
+      final result = await _remoteDataSource.discoverGetProducts(platforms);
       return Right(result);
     } catch (_) {
       return const Left(DiscoverGetProductsFailure.unknown());

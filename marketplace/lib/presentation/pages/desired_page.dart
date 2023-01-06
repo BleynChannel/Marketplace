@@ -78,6 +78,10 @@ class _DesiredPageState extends State<DesiredPage> {
     });
   }
 
+  void _onRefreshPage(BuildContext context) {
+    bloc.add(const DesiredEvent.onLoaded());
+  }
+
   void _onProductClick(BuildContext context, Desired desired) {
     context.router.push(ProductRoute(compactProduct: desired.product));
   }
@@ -135,11 +139,19 @@ class _DesiredPageState extends State<DesiredPage> {
   }
 
   Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
     return Scaffold(
       body: BackgroundBlur(
         child: Center(
-          child: Text(message),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(message),
+              TextButton(
+                onPressed: () => _onRefreshPage(context),
+                child: const Text("Press to refresh page"),
+              ),
+            ],
+          ),
         ),
       ),
     );

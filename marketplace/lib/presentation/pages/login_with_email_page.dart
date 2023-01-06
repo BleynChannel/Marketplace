@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,14 +16,14 @@ import 'package:marketplace/presentation/widgets/custom_form.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
-class LogWithEmailPage extends StatefulWidget {
-  const LogWithEmailPage({Key? key}) : super(key: key);
+class LoginWithEmailPage extends StatefulWidget {
+  const LoginWithEmailPage({Key? key}) : super(key: key);
 
   @override
-  State<LogWithEmailPage> createState() => _LogWithEmailPageState();
+  State<LoginWithEmailPage> createState() => _LoginWithEmailPageState();
 }
 
-class _LogWithEmailPageState extends State<LogWithEmailPage> {
+class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
   late LoginWithEmailBloc bloc;
 
   final _formKey = GlobalKey<CustomFormState>();
@@ -120,7 +121,10 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTitle(context),
+                Expanded(
+                  flex: 5,
+                  child: _buildTitle(context),
+                ),
                 const Expanded(child: SizedBox()),
                 Column(children: [
                   _buildFields(context),
@@ -136,36 +140,35 @@ class _LogWithEmailPageState extends State<LogWithEmailPage> {
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Expanded(
-      flex: 4,
-      child: LayoutBuilder(builder: (context, constrained) {
-        final title = Text(
+    return LayoutBuilder(
+      builder: (context, constrained) {
+        final textWidget = AutoSizeText(
           "Login with Email",
           style: Theme.of(context)
               .textTheme
               .headline4
               ?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
+          minFontSize: 16,
         );
 
-        final imageHeight = MediaQuery.of(context).size.height / 3.7;
-
-        if (constrained.maxHeight < imageHeight + 100) {
-          return title;
-        } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LottieBuilder.asset(
+        if (constrained.minHeight > 20 && constrained.minHeight <= 160) {
+          return textWidget;
+        } else if (constrained.minHeight > 160) {
+          return Column(children: [
+            Expanded(child: textWidget),
+            Expanded(
+              flex: 7,
+              child: LottieBuilder.asset(
                 "assets/lottie/login_email_page.json",
-                fit: BoxFit.cover,
-                height: imageHeight,
+                fit: BoxFit.scaleDown,
               ),
-              title,
-            ],
-          );
+            )
+          ]);
         }
-      }),
+
+        return const SizedBox();
+      },
     );
   }
 

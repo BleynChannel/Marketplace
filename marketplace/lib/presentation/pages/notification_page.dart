@@ -9,50 +9,35 @@ import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/domain/entity/notification.dart' as entity;
 import 'package:shimmer/shimmer.dart';
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({Key? key}) : super(key: key);
+class NotificationPage extends StatelessWidget {
+  NotificationPage({Key? key}) : super(key: key);
 
-  @override
-  _NotificationPageState createState() => _NotificationPageState();
-}
-
-class _NotificationPageState extends State<NotificationPage> {
   static const int _shimerNotificationCount = 6;
 
-  late NotificationBloc bloc;
-
-  @override
-  void initState() {
-    bloc = NotificationBloc()..add(const NotificationEvent.onLoaded());
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-
-    super.dispose();
+  void _onRefreshPage(BuildContext context) {
+    context.read<NotificationBloc>().add(const NotificationEvent.onLoaded());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationBloc, NotificationState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return state.when<Widget>(
-          load: () => _buildMain(context, notifications: null),
-          loading: (notifications) =>
-              _buildMain(context, notifications: notifications),
-          error: (message) => _buildError(context, message: message),
-          noNetwork: () => _buildError(context, message: 'No network'),
-        );
-      },
+    return BlocProvider(
+      create: (context) =>
+          NotificationBloc()..add(const NotificationEvent.onLoaded()),
+      child: BlocBuilder<NotificationBloc, NotificationState>(
+        builder: (context, state) {
+          return state.when<Widget>(
+            load: () => _buildMain(context, notifications: null),
+            loading: (notifications) =>
+                _buildMain(context, notifications: notifications),
+            error: (message) => _buildError(context, message: message),
+            noNetwork: () => _buildError(context, message: 'No network'),
+          );
+        },
+      ),
     );
   }
 
   Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -60,7 +45,16 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
       body: BackgroundBlur(
         child: Center(
-          child: Text(message),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(message),
+              TextButton(
+                onPressed: () => _onRefreshPage(context),
+                child: const Text("Press to refresh page"),
+              ),
+            ],
+          ),
         ),
       ),
     );

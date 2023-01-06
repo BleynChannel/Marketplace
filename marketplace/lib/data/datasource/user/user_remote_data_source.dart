@@ -36,7 +36,7 @@ class UserRemoteDataSource {
       password: signUp.password,
     );
 
-    //TODO: Добавить регистрацию ника
+    await FirebaseAuth.instance.currentUser!.updateDisplayName(signUp.nickname);
   }
 
   Future<Profile> getProfile() async {

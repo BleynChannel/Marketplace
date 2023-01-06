@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -122,9 +123,11 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Padding(
             padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTitle(context),
+                Expanded(
+                  flex: 5,
+                  child: _buildTitle(context),
+                ),
                 const Expanded(child: SizedBox()),
                 Column(children: [
                   _buildFields(context),
@@ -140,36 +143,35 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Expanded(
-      flex: 4,
-      child: LayoutBuilder(builder: (context, constrained) {
-        final title = Text(
+    return LayoutBuilder(
+      builder: (context, constrained) {
+        final textWidget = AutoSizeText(
           "Create new account",
           style: Theme.of(context)
               .textTheme
               .headline4
               ?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
+          minFontSize: 20,
         );
 
-        final imageHeight = MediaQuery.of(context).size.height / 4.2;
-
-        if (constrained.maxHeight < imageHeight + 100) {
-          return title;
-        } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LottieBuilder.asset(
+        if (constrained.minHeight > 30 && constrained.minHeight <= 160) {
+          return textWidget;
+        } else if (constrained.minHeight > 160) {
+          return Column(children: [
+            Expanded(child: textWidget),
+            Expanded(
+              flex: 4,
+              child: LottieBuilder.asset(
                 "assets/lottie/register_page.json",
                 fit: BoxFit.cover,
-                height: imageHeight,
               ),
-              title,
-            ],
-          );
+            )
+          ]);
         }
-      }),
+
+        return const SizedBox();
+      },
     );
   }
 
@@ -187,6 +189,7 @@ class _SignUpPageState extends State<SignUpPage> {
           hintText: "Nickname",
           prefixIcon: const Icon(Icons.person),
           autofocus: true,
+          validator: (value) => ui_utils.isNicknameValid(value ?? ''),
         ),
         const SizedBox(height: 10),
         CustomTextFormField(

@@ -71,9 +71,11 @@ class AppRouter extends _i16.RootStackRouter {
       );
     },
     NotificationRoute.name: (routeData) {
+      final args = routeData.argsAs<NotificationRouteArgs>(
+          orElse: () => const NotificationRouteArgs());
       return _i16.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i6.NotificationPage(),
+        child: _i6.NotificationPage(key: args.key),
       );
     },
     ProfileRoute.name: (routeData) {
@@ -100,10 +102,10 @@ class AppRouter extends _i16.RootStackRouter {
         child: _i9.LoginPage(key: args.key),
       );
     },
-    LogWithEmailRoute.name: (routeData) {
+    LoginWithEmailRoute.name: (routeData) {
       return _i16.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i10.LogWithEmailPage(),
+        child: const _i10.LoginWithEmailPage(),
       );
     },
     DiscoverRoute.name: (routeData) {
@@ -172,7 +174,7 @@ class AppRouter extends _i16.RootStackRouter {
               parent: LoginEmpty.name,
             ),
             _i16.RouteConfig(
-              LogWithEmailRoute.name,
+              LoginWithEmailRoute.name,
               path: 'email',
               parent: LoginEmpty.name,
             ),
@@ -317,14 +319,26 @@ class CartRoute extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.NotificationPage]
-class NotificationRoute extends _i16.PageRouteInfo<void> {
-  const NotificationRoute()
+class NotificationRoute extends _i16.PageRouteInfo<NotificationRouteArgs> {
+  NotificationRoute({_i17.Key? key})
       : super(
           NotificationRoute.name,
           path: '/notification',
+          args: NotificationRouteArgs(key: key),
         );
 
   static const String name = 'NotificationRoute';
+}
+
+class NotificationRouteArgs {
+  const NotificationRouteArgs({this.key});
+
+  final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'NotificationRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -398,15 +412,15 @@ class LoginRouteArgs {
 }
 
 /// generated route for
-/// [_i10.LogWithEmailPage]
-class LogWithEmailRoute extends _i16.PageRouteInfo<void> {
-  const LogWithEmailRoute()
+/// [_i10.LoginWithEmailPage]
+class LoginWithEmailRoute extends _i16.PageRouteInfo<void> {
+  const LoginWithEmailRoute()
       : super(
-          LogWithEmailRoute.name,
+          LoginWithEmailRoute.name,
           path: 'email',
         );
 
-  static const String name = 'LogWithEmailRoute';
+  static const String name = 'LoginWithEmailRoute';
 }
 
 /// generated route for

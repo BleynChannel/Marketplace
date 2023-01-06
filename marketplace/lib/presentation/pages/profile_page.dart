@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
+import 'package:marketplace/domain/entity/contact.dart';
 import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/profile.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_bloc.dart';
@@ -20,8 +21,13 @@ import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
+  void _onRefreshPage(BuildContext context) {
+    context.read<ProfileBloc>().add(const ProfileEvent.onLoaded());
+  }
+
   void _onMenuClick(BuildContext context) {
     context.router.navigateNamed('/home/menu');
   }
@@ -30,7 +36,14 @@ class ProfilePage extends StatelessWidget {
     context.router.push(ProductRoute(compactProduct: product));
   }
 
-  void _onContactClick(BuildContext context, String contact) {}
+  void _onContactClick(BuildContext context, Contact contact) async {
+    //TODO: После появлении базы данных качать иконки от туда
+
+    var url = Uri.parse(contact.url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    }
+  }
 
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -52,7 +65,6 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildError(BuildContext context, {required String message}) {
-    //TODO: Добавить circular progress для обновления состаяния
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -60,7 +72,16 @@ class ProfilePage extends StatelessWidget {
       ),
       body: BackgroundBlur(
         child: Center(
-          child: Text(message),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(message),
+              TextButton(
+                onPressed: () => _onRefreshPage(context),
+                child: const Text("Press to refresh page"),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -125,10 +146,9 @@ class ProfilePage extends StatelessWidget {
                         .map((contact) => _buildContactItem(
                               context,
                               size: MediaQuery.of(context).size.width / 8,
-                              name: contact,
+                              contact: contact,
                               onTap: (contact) =>
                                   _onContactClick(context, contact),
-                              tooltip: contact,
                             ))
                         .expand(
                             (element) => [element, const SizedBox(width: 10)])
@@ -216,12 +236,11 @@ class ProfilePage extends StatelessWidget {
   Widget _buildContactItem(
     BuildContext context, {
     required double size,
-    required String name,
-    required void Function(String contact) onTap,
-    String? tooltip,
+    required Contact contact,
+    required void Function(Contact contact) onTap,
   }) {
     return Tooltip(
-      message: tooltip,
+      message: contact.name,
       child: Container(
         width: size,
         height: size,
@@ -242,8 +261,8 @@ class ProfilePage extends StatelessWidget {
             height: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: SvgPicture.asset(
-                ui_utils.contactsToPathToSvgIcons(name),
+              child: SvgPicture.memory(
+                contact.icon.data.toImage(),
                 fit: BoxFit.contain,
               ),
             ),
@@ -252,7 +271,7 @@ class ProfilePage extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(size / 4),
-              onTap: () => onTap(name),
+              onTap: () => onTap(contact),
             ),
           ),
         ]),
@@ -370,29 +389,60 @@ class ProfilePage extends StatelessWidget {
       'Last activity': ui_utils.dateTimeToString(lastActivity),
     };
 
-    return Column(
-      children: informations.entries
-          .map((info) {
-            return Row(children: [
-              Text(
-                "${info.key}:",
-                style: GoogleFonts.roboto(
-                  fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          border: Border.all(
+            width: 2,
+            color: Color.lerp(secondaryColor, Colors.grey, 0.3) ?? Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 4),
+              blurRadius: 16,
+              color: Colors.black.withOpacity(0.25),
+            ),
+          ],
+        ),
+        child: Theme(
+            data: Theme.of(context).copyWith(
+              listTileTheme: ListTileThemeData(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              const SizedBox(width: 2),
-              Text(
-                info.value,
-                style: GoogleFonts.roboto(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ]);
-          })
-          .expand((element) => [element, const SizedBox(height: 4)])
-          .toList(),
+            ),
+            child: Column(
+              children: informations.entries
+                  .map((info) {
+                    return ListTile(
+                      title: RichText(
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          text: "${info.key}: ",
+                          style: GoogleFonts.roboto(
+                            fontSize: 16,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: info.value,
+                              style: GoogleFonts.roboto(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+                  .expand((element) => [element, const SizedBox(height: 4)])
+                  .toList(),
+            )),
+      ),
     );
   }
 }

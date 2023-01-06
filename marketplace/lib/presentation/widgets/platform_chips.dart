@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 class PlatformChips extends StatefulWidget {
-  final List<String> platforms;
-  final void Function(List<String> selected) onSelected;
+  final void Function(List<Platform> selected) onSelected;
 
   const PlatformChips({
     Key? key,
-    required this.platforms,
     required this.onSelected,
   }) : super(key: key);
 
@@ -16,7 +16,7 @@ class PlatformChips extends StatefulWidget {
 }
 
 class _PlatformChipsState extends State<PlatformChips> {
-  final List<String> _filters = [];
+  final List<Platform> _filters = [];
   bool allSelected = true;
 
   @override
@@ -36,17 +36,18 @@ class _PlatformChipsState extends State<PlatformChips> {
                 allSelected = value;
 
                 if (value) {
-                  widget.onSelected(widget.platforms);
+                  widget.onSelected(Platform.values);
                 } else {
-                  widget.onSelected(_filters);
+                  widget.onSelected(
+                      _filters.isEmpty ? Platform.values : _filters);
                 }
               });
             },
           ),
-          ...widget.platforms.map((platform) {
+          ...Platform.values.map((platform) {
             return _buildPlatformItem(
               context,
-              title: platform,
+              title: ui_utils.platformToName(platform),
               selected: !allSelected && _filters.contains(platform),
               onSelected: (selected) {
                 setState(() {
@@ -60,7 +61,7 @@ class _PlatformChipsState extends State<PlatformChips> {
                     _filters.removeWhere((element) => element == platform);
                   }
 
-                  widget.onSelected(_filters);
+                  widget.onSelected(_filters.isEmpty ? Platform.values : _filters);
                 });
               },
             );

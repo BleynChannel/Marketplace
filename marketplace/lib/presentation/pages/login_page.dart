@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -87,7 +88,10 @@ class LoginPage extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  ..._buildTitle(context),
+                  Expanded(
+                    flex: 5,
+                    child: _buildTitle(context),
+                  ),
                   const Expanded(child: SizedBox()),
                   ..._buildContinueWithButtons(context, _continueWithMap, bloc),
                   const SizedBox(height: 10),
@@ -108,21 +112,36 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildTitle(BuildContext context) {
-    return [
-      LottieBuilder.asset(
-        "assets/lottie/login_page.json",
-        fit: BoxFit.cover,
-        height: MediaQuery.of(context).size.height / 3.4,
-      ),
-      Text(
-        "Welcome back!",
-        style: Theme.of(context)
-            .textTheme
-            .headline4
-            ?.copyWith(fontWeight: FontWeight.bold),
-      ),
-    ];
+  Widget _buildTitle(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constrained) {
+        final textWidget = AutoSizeText(
+          "Welcome back!",
+          style: Theme.of(context)
+              .textTheme
+              .headline4
+              ?.copyWith(fontWeight: FontWeight.bold),
+          minFontSize: 16,
+        );
+
+        if (constrained.minHeight > 20 && constrained.minHeight <= 160) {
+          return textWidget;
+        } else if (constrained.minHeight > 160) {
+          return Column(children: [
+            Expanded(child: textWidget),
+            Expanded(
+              flex: 3,
+              child: LottieBuilder.asset(
+                "assets/lottie/login_page.json",
+                fit: BoxFit.cover,
+              ),
+            )
+          ]);
+        }
+
+        return const SizedBox();
+      },
+    );
   }
 
   Iterable<Widget> _buildContinueWithButtons(BuildContext context,
