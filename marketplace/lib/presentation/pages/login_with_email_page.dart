@@ -17,7 +17,9 @@ import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 
 class LoginWithEmailPage extends StatefulWidget {
-  const LoginWithEmailPage({Key? key}) : super(key: key);
+  final String? email;
+
+  const LoginWithEmailPage({Key? key, this.email}) : super(key: key);
 
   @override
   State<LoginWithEmailPage> createState() => _LoginWithEmailPageState();
@@ -34,8 +36,6 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
   bool _loginButtonEnabled = true;
 
   void _login(BuildContext context) {
-    //TODO: Сделать сохранение данных
-
     final formState = _formKey.currentState;
     if (formState!.validate()) {
       final login = Login(
@@ -45,29 +45,29 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
 
       bloc.add(LoginWithEmailEvent.onLogin(login));
     } else {
-      final scaffoldMessenger = ScaffoldMessenger.of(context);
-      scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Enter a valid data'),
-      ));
-
+      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
       setState(() => _loginButtonEnabled = true);
     }
   }
 
   void _navigateToResetPassword(BuildContext context) {
-    //TODO: Добавить сброс пароля
+    context.router
+        .navigate(ResetPasswordRoute(email: _emailController.text.trim()));
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    context.router.navigateNamed('/signup');
+    context.router.navigate(SignUpRoute(email: _emailController.text.trim()));
+  }
+
+  void _navigateToHomePage(BuildContext context) {
+    context.router.replaceAll([HomeRoute()]);
   }
 
   @override
   void initState() {
     bloc = LoginWithEmailBloc();
 
-    _emailController = TextEditingController();
+    _emailController = TextEditingController(text: widget.email);
     _passwordController = TextEditingController();
 
     super.initState();
@@ -98,21 +98,14 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
           bloc: bloc,
           listener: (context, state) => state.when<void>(
             empty: () {},
-            success: () => context.router.replaceAll([HomeRoute()]),
+            success: () => _navigateToHomePage(context),
             error: (message) {
-              final scaffoldMessenger = ScaffoldMessenger.of(context);
-              scaffoldMessenger.hideCurrentSnackBar();
-              scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
-
+              ui_utils.sendScaffoldMessage(context, message: message);
               setState(() => _loginButtonEnabled = true);
             },
             noNetwork: () {
-              final scaffoldMessenger = ScaffoldMessenger.of(context);
-              scaffoldMessenger.hideCurrentSnackBar();
-              scaffoldMessenger.showSnackBar(const SnackBar(
-                content: Text('No internet connection'),
-              ));
-
+              ui_utils.sendScaffoldMessage(context,
+                  message: 'No internet connection');
               setState(() => _loginButtonEnabled = true);
             },
           ),

@@ -6,3 +6,6 @@ const debugIsNetwork = true;
 
 final userRepository = UserRepository();
 final productRepository = ProductRepository();
+
+//TODO: Поменять на Profile
+String? user;

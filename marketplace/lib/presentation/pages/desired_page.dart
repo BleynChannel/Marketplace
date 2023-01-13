@@ -83,7 +83,7 @@ class _DesiredPageState extends State<DesiredPage> {
   }
 
   void _onProductClick(BuildContext context, Desired desired) {
-    context.router.push(ProductRoute(compactProduct: desired.product));
+    context.router.pushNamed('/product/${desired.product.id}');
   }
 
   _DesiredPageState() {

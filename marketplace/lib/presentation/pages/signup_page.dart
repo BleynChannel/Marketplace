@@ -17,7 +17,9 @@ import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  final String? email;
+
+  const SignUpPage({Key? key, this.email}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -37,8 +39,6 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _signupButtonEnabled = true;
 
   void _signup(BuildContext context) {
-    //TODO: Сделать сохранение данных
-
     final formState = _formKey.currentState;
     if (formState!.validate()) {
       final signUp = SignUp(
@@ -49,18 +49,17 @@ class _SignUpPageState extends State<SignUpPage> {
 
       bloc.add(SignUpEvent.onSignUp(signUp));
     } else {
-      final scaffoldMessenger = ScaffoldMessenger.of(context);
-      scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Enter a valid data'),
-      ));
-
+      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
       setState(() => _signupButtonEnabled = true);
     }
   }
 
   void _navigateToLogInPage(BuildContext context) {
-    context.router.navigateNamed('/login');
+    context.router.navigate(LoginRoute(email: _emailController.text.trim()));
+  }
+
+  void _navigateToHomePage(BuildContext context) {
+    context.router.replaceAll([HomeRoute()]);
   }
 
   @override
@@ -68,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
     bloc = SignUpBloc();
 
     _nicknameController = TextEditingController();
-    _emailController = TextEditingController();
+    _emailController = TextEditingController(text: widget.email);
     _passwordController = TextEditingController();
 
     _password = '';
@@ -102,40 +101,31 @@ class _SignUpPageState extends State<SignUpPage> {
           bloc: bloc,
           listener: (context, state) => state.when<void>(
             empty: () {},
-            success: () => context.router.replaceAll([HomeRoute()]),
+            success: () => _navigateToHomePage(context),
             error: (message) {
-              final scaffoldMessenger = ScaffoldMessenger.of(context);
-              scaffoldMessenger.hideCurrentSnackBar();
-              scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
-
+              ui_utils.sendScaffoldMessage(context, message: message);
               setState(() => _signupButtonEnabled = true);
             },
             noNetwork: () {
-              final scaffoldMessenger = ScaffoldMessenger.of(context);
-              scaffoldMessenger.hideCurrentSnackBar();
-              scaffoldMessenger.showSnackBar(const SnackBar(
-                content: Text('No internet connection'),
-              ));
-
+              ui_utils.sendScaffoldMessage(context,
+                  message: 'No internet connection');
               setState(() => _signupButtonEnabled = true);
             },
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: _buildTitle(context),
-                ),
-                const Expanded(child: SizedBox()),
-                Column(children: [
-                  _buildFields(context),
-                  const SizedBox(height: 10),
-                  ..._buildLogIn(context),
-                ]),
-              ],
-            ),
+            child: Column(children: [
+              Expanded(
+                flex: 5,
+                child: _buildTitle(context),
+              ),
+              const Expanded(child: SizedBox()),
+              Column(children: [
+                _buildFields(context),
+                const SizedBox(height: 10),
+                ..._buildLogIn(context),
+              ]),
+            ]),
           ),
         ),
       ),

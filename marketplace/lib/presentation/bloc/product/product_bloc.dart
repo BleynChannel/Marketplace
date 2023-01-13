@@ -13,7 +13,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       emit(const ProductState.load());
 
-      var result = await productRepository.getProduct(event.compactProduct);
+      var result = await productRepository.getProduct(id: event.id);
       await Future.delayed(const Duration(milliseconds: 3000));
 
       result.fold((failure) {

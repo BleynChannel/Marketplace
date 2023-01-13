@@ -6,9 +6,9 @@ import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/custom_range_slider.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/presentation/widgets/expansion_category.dart';
 
 class FilterPage extends StatelessWidget {
   final Filter filter;
@@ -46,8 +46,7 @@ class FilterPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           ...filterCategory.entries
-              .map((category) => CategoryList(
-                    isHidingEnabled: true,
+              .map((category) => ExpansionCategory(
                     title: Text(
                       category.key,
                       style: Theme.of(context).textTheme.headline6?.copyWith(

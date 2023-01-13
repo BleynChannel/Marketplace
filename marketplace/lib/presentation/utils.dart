@@ -58,12 +58,6 @@ const _platformIcons = [
 
 IconData platformToIcon(Platform platform) => _platformIcons[platform.index];
 
-const Map<String, Color> _statusMap = {
-  'Gamer': Colors.lightGreen,
-};
-
-Color statusToColor(String status) => _statusMap[status]!;
-
 const _pathToSvgIconsContactsMap = {
   'Steam': 'assets/icons/social/steam.svg',
   'Epic Games': 'assets/icons/social/epic_games.svg',
@@ -155,5 +149,13 @@ Future<Media> getMediaVideo({
     type: MediaType.video,
     location: mediaLocation,
     data: data,
+  ));
+}
+
+void sendScaffoldMessage(BuildContext context, {required String message}) {
+  final scaffoldMessenger = ScaffoldMessenger.of(context);
+  scaffoldMessenger.hideCurrentSnackBar();
+  scaffoldMessenger.showSnackBar(SnackBar(
+    content: Text(message),
   ));
 }

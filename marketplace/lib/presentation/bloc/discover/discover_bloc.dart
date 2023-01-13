@@ -13,7 +13,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
 
       emit(const DiscoverState.load());
 
-      var result = await productRepository.discoverGetProducts(event.platforms);
+      var result = await productRepository.discoverGetProducts(
+          platforms: event.platforms);
       await Future.delayed(const Duration(milliseconds: 1000));
 
       result.fold((failure) {

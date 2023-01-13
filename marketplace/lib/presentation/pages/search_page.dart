@@ -17,11 +17,13 @@ import 'package:marketplace/presentation/widgets/price_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends StatelessWidget {
-  SearchPage({Key? key}) : super(key: key);
+  late Filter _filter;
+
+  SearchPage({Key? key, Filter? filter}) : super(key: key) {
+    _filter = filter ?? Filter();
+  }
 
   static const int _shimerProductCount = 3;
-
-  final Filter _filter = Filter();
 
   void _onRefreshPage(BuildContext context) {
     context.read<SearchBloc>().add(SearchEvent.onLoaded(_filter));
@@ -39,7 +41,7 @@ class SearchPage extends StatelessWidget {
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.push(ProductRoute(compactProduct: product));
+    context.router.pushNamed('/product/${product.id}');
   }
 
   @override

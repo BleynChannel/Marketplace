@@ -12,6 +12,7 @@ import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/contact.dart';
 import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/profile.dart';
+import 'package:marketplace/domain/entity/status.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_bloc.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_event.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_state.dart';
@@ -24,16 +25,18 @@ import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
+  final String? userId;
+
   void _onRefreshPage(BuildContext context) {
-    context.read<ProfileBloc>().add(const ProfileEvent.onLoaded());
+    context.read<ProfileBloc>().add(ProfileEvent.onLoaded(userId: userId));
   }
 
   void _onMenuClick(BuildContext context) {
-    context.router.navigateNamed('/home/menu');
+    context.router.navigateNamed('/home/menu/:profile');
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.push(ProductRoute(compactProduct: product));
+    context.router.pushNamed('/product/${product.id}');
   }
 
   void _onContactClick(BuildContext context, Contact contact) async {
@@ -45,12 +48,13 @@ class ProfilePage extends StatelessWidget {
     }
   }
 
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ProfileBloc>(
-      create: (context) => ProfileBloc()..add(const ProfileEvent.onLoaded()),
+      create: (context) =>
+          ProfileBloc()..add(ProfileEvent.onLoaded(userId: userId)),
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           return state.when<Widget>(
@@ -221,7 +225,7 @@ class ProfilePage extends StatelessWidget {
   }) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: CategoryList(
+      child: ListCategory(
         title: Text(
           title,
           style: Theme.of(context).textTheme.headline5?.copyWith(
@@ -457,7 +461,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
   final String nickname;
   final Media avatar;
   final Media backgroundImage;
-  final String status;
+  final Status status;
 
   final int purchases;
   final int desired;
@@ -563,11 +567,11 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            status,
+                            status.title,
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       letterSpacing: 1,
-                                      color: ui_utils.statusToColor(status),
+                                      color: status.color,
                                     ),
                           ),
                         ],

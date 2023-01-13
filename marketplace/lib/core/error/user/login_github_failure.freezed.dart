@@ -19,18 +19,21 @@ mixin _$LoginGitHubFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() userDisabled,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? userDisabled,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? userDisabled,
     required TResult orElse(),
   }) =>
@@ -38,6 +41,8 @@ mixin _$LoginGitHubFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGitHubFailureUnknown value) unknown,
+    required TResult Function(LoginGitHubFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginGitHubFailureUserDisabled value)
         userDisabled,
   }) =>
@@ -45,12 +50,16 @@ mixin _$LoginGitHubFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult? Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginGitHubFailureUserDisabled value)? userDisabled,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginGitHubFailureUserDisabled value)? userDisabled,
     required TResult orElse(),
   }) =>
@@ -116,6 +125,7 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() userDisabled,
   }) {
     return unknown();
@@ -125,6 +135,7 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? userDisabled,
   }) {
     return unknown?.call();
@@ -134,6 +145,7 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? userDisabled,
     required TResult orElse(),
   }) {
@@ -147,6 +159,8 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGitHubFailureUnknown value) unknown,
+    required TResult Function(LoginGitHubFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginGitHubFailureUserDisabled value)
         userDisabled,
   }) {
@@ -157,6 +171,8 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult? Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginGitHubFailureUserDisabled value)? userDisabled,
   }) {
     return unknown?.call(this);
@@ -166,6 +182,8 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginGitHubFailureUserDisabled value)? userDisabled,
     required TResult orElse(),
   }) {
@@ -178,6 +196,125 @@ class _$LoginGitHubFailureUnknown implements LoginGitHubFailureUnknown {
 
 abstract class LoginGitHubFailureUnknown implements LoginGitHubFailure {
   const factory LoginGitHubFailureUnknown() = _$LoginGitHubFailureUnknown;
+}
+
+/// @nodoc
+abstract class _$$LoginGitHubFailureNetworkRequestFailedCopyWith<$Res> {
+  factory _$$LoginGitHubFailureNetworkRequestFailedCopyWith(
+          _$LoginGitHubFailureNetworkRequestFailed value,
+          $Res Function(_$LoginGitHubFailureNetworkRequestFailed) then) =
+      __$$LoginGitHubFailureNetworkRequestFailedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoginGitHubFailureNetworkRequestFailedCopyWithImpl<$Res>
+    extends _$LoginGitHubFailureCopyWithImpl<$Res,
+        _$LoginGitHubFailureNetworkRequestFailed>
+    implements _$$LoginGitHubFailureNetworkRequestFailedCopyWith<$Res> {
+  __$$LoginGitHubFailureNetworkRequestFailedCopyWithImpl(
+      _$LoginGitHubFailureNetworkRequestFailed _value,
+      $Res Function(_$LoginGitHubFailureNetworkRequestFailed) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LoginGitHubFailureNetworkRequestFailed
+    implements LoginGitHubFailureNetworkRequestFailed {
+  const _$LoginGitHubFailureNetworkRequestFailed();
+
+  @override
+  String toString() {
+    return 'LoginGitHubFailure.networkRequestFailed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoginGitHubFailureNetworkRequestFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
+    required TResult Function() userDisabled,
+  }) {
+    return networkRequestFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
+    TResult? Function()? userDisabled,
+  }) {
+    return networkRequestFailed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
+    TResult Function()? userDisabled,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoginGitHubFailureUnknown value) unknown,
+    required TResult Function(LoginGitHubFailureNetworkRequestFailed value)
+        networkRequestFailed,
+    required TResult Function(LoginGitHubFailureUserDisabled value)
+        userDisabled,
+  }) {
+    return networkRequestFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult? Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult? Function(LoginGitHubFailureUserDisabled value)? userDisabled,
+  }) {
+    return networkRequestFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult Function(LoginGitHubFailureUserDisabled value)? userDisabled,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LoginGitHubFailureNetworkRequestFailed
+    implements LoginGitHubFailure {
+  const factory LoginGitHubFailureNetworkRequestFailed() =
+      _$LoginGitHubFailureNetworkRequestFailed;
 }
 
 /// @nodoc
@@ -224,6 +361,7 @@ class _$LoginGitHubFailureUserDisabled
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() userDisabled,
   }) {
     return userDisabled();
@@ -233,6 +371,7 @@ class _$LoginGitHubFailureUserDisabled
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? userDisabled,
   }) {
     return userDisabled?.call();
@@ -242,6 +381,7 @@ class _$LoginGitHubFailureUserDisabled
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? userDisabled,
     required TResult orElse(),
   }) {
@@ -255,6 +395,8 @@ class _$LoginGitHubFailureUserDisabled
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGitHubFailureUnknown value) unknown,
+    required TResult Function(LoginGitHubFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginGitHubFailureUserDisabled value)
         userDisabled,
   }) {
@@ -265,6 +407,8 @@ class _$LoginGitHubFailureUserDisabled
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult? Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginGitHubFailureUserDisabled value)? userDisabled,
   }) {
     return userDisabled?.call(this);
@@ -274,6 +418,8 @@ class _$LoginGitHubFailureUserDisabled
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGitHubFailureUnknown value)? unknown,
+    TResult Function(LoginGitHubFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginGitHubFailureUserDisabled value)? userDisabled,
     required TResult orElse(),
   }) {

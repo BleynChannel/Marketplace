@@ -104,10 +104,24 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _onProductClick(BuildContext context, CartProduct cartProduct) {
-    context.router.push(ProductRoute(compactProduct: cartProduct.product));
+    context.router.pushNamed('/product/${cartProduct.product.id}');
   }
 
-  void _onCheckout() {}
+  void _onCheckout() {
+    //TODO: Переделать с использованием чистой архитектуры
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Ready!', style: GoogleFonts.roboto(fontSize: 18)),
+            const Text('Your products have been sent to you by email'),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {

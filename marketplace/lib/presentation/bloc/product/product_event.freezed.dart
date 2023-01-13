@@ -16,20 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProductEvent {
-  CompactProduct get compactProduct => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CompactProduct compactProduct) onLoaded,
+    required TResult Function(String id) onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CompactProduct compactProduct)? onLoaded,
+    TResult? Function(String id)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CompactProduct compactProduct)? onLoaded,
+    TResult Function(String id)? onLoaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,9 +61,7 @@ abstract class $ProductEventCopyWith<$Res> {
           ProductEvent value, $Res Function(ProductEvent) then) =
       _$ProductEventCopyWithImpl<$Res, ProductEvent>;
   @useResult
-  $Res call({CompactProduct compactProduct});
-
-  $CompactProductCopyWith<$Res> get compactProduct;
+  $Res call({String id});
 }
 
 /// @nodoc
@@ -79,22 +77,14 @@ class _$ProductEventCopyWithImpl<$Res, $Val extends ProductEvent>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? compactProduct = null,
+    Object? id = null,
   }) {
     return _then(_value.copyWith(
-      compactProduct: null == compactProduct
-          ? _value.compactProduct
-          : compactProduct // ignore: cast_nullable_to_non_nullable
-              as CompactProduct,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CompactProductCopyWith<$Res> get compactProduct {
-    return $CompactProductCopyWith<$Res>(_value.compactProduct, (value) {
-      return _then(_value.copyWith(compactProduct: value) as $Val);
-    });
   }
 }
 
@@ -106,10 +96,7 @@ abstract class _$$ProductOnLoadedCopyWith<$Res>
       __$$ProductOnLoadedCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({CompactProduct compactProduct});
-
-  @override
-  $CompactProductCopyWith<$Res> get compactProduct;
+  $Res call({String id});
 }
 
 /// @nodoc
@@ -123,13 +110,13 @@ class __$$ProductOnLoadedCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? compactProduct = null,
+    Object? id = null,
   }) {
     return _then(_$ProductOnLoaded(
-      null == compactProduct
-          ? _value.compactProduct
-          : compactProduct // ignore: cast_nullable_to_non_nullable
-              as CompactProduct,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -137,14 +124,14 @@ class __$$ProductOnLoadedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProductOnLoaded implements ProductOnLoaded {
-  const _$ProductOnLoaded(this.compactProduct);
+  const _$ProductOnLoaded({required this.id});
 
   @override
-  final CompactProduct compactProduct;
+  final String id;
 
   @override
   String toString() {
-    return 'ProductEvent.onLoaded(compactProduct: $compactProduct)';
+    return 'ProductEvent.onLoaded(id: $id)';
   }
 
   @override
@@ -152,12 +139,11 @@ class _$ProductOnLoaded implements ProductOnLoaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProductOnLoaded &&
-            (identical(other.compactProduct, compactProduct) ||
-                other.compactProduct == compactProduct));
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, compactProduct);
+  int get hashCode => Object.hash(runtimeType, id);
 
   @JsonKey(ignore: true)
   @override
@@ -168,27 +154,27 @@ class _$ProductOnLoaded implements ProductOnLoaded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CompactProduct compactProduct) onLoaded,
+    required TResult Function(String id) onLoaded,
   }) {
-    return onLoaded(compactProduct);
+    return onLoaded(id);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CompactProduct compactProduct)? onLoaded,
+    TResult? Function(String id)? onLoaded,
   }) {
-    return onLoaded?.call(compactProduct);
+    return onLoaded?.call(id);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CompactProduct compactProduct)? onLoaded,
+    TResult Function(String id)? onLoaded,
     required TResult orElse(),
   }) {
     if (onLoaded != null) {
-      return onLoaded(compactProduct);
+      return onLoaded(id);
     }
     return orElse();
   }
@@ -223,11 +209,10 @@ class _$ProductOnLoaded implements ProductOnLoaded {
 }
 
 abstract class ProductOnLoaded implements ProductEvent {
-  const factory ProductOnLoaded(final CompactProduct compactProduct) =
-      _$ProductOnLoaded;
+  const factory ProductOnLoaded({required final String id}) = _$ProductOnLoaded;
 
   @override
-  CompactProduct get compactProduct;
+  String get id;
   @override
   @JsonKey(ignore: true)
   _$$ProductOnLoadedCopyWith<_$ProductOnLoaded> get copyWith =>

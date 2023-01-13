@@ -9,7 +9,7 @@ import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 class ProductRemoteDataSource {
   Future<Map<String, List<CompactProduct>>> discoverGetProducts(
-      List<Platform> platforms) async {
+      {required List<Platform> platforms}) async {
     final debugFilteredProductList = debugCompactProductList
         .where((product) => product.platforms
             .where(
@@ -35,11 +35,12 @@ class ProductRemoteDataSource {
     return Future.value(debugDesiredList);
   }
 
-  Future<Product> getProduct(CompactProduct compactProduct) async {
-    return Future.value(compactProduct.toProduct());
+  Future<Product> getProduct({required String id}) async {
+    final product = debugProductList.firstWhere((product) => product.id == id);
+    return Future.value(product);
   }
 
-  Future<List<CompactProduct>> searchProducts(Filter filter) async {
+  Future<List<CompactProduct>> searchProducts({required Filter filter}) async {
     return Future.value(debugProductList
         .where((product) => ui_utils.isCorrectFilter(product, filter))
         .map((product) => product.toCompactProduct())

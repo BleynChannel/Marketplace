@@ -18,6 +18,7 @@ class LoginWithEmailBloc
 
         failure.when(
           unknown: () => message = 'Unknown error',
+          networkRequestFailed: () => message = 'No network',
           invalidEmail: () => message = 'Email address is not valid',
           userDisabled: () => message = 'User is disabled',
           userNotFound: () => message = 'User not found',

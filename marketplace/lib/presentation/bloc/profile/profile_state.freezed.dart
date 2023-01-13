@@ -207,8 +207,6 @@ abstract class _$$ProfileStateLoadingCopyWith<$Res> {
       __$$ProfileStateLoadingCopyWithImpl<$Res>;
   @useResult
   $Res call({Profile profile});
-
-  $ProfileCopyWith<$Res> get profile;
 }
 
 /// @nodoc
@@ -230,14 +228,6 @@ class __$$ProfileStateLoadingCopyWithImpl<$Res>
           : profile // ignore: cast_nullable_to_non_nullable
               as Profile,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ProfileCopyWith<$Res> get profile {
-    return $ProfileCopyWith<$Res>(_value.profile, (value) {
-      return _then(_value.copyWith(profile: value));
-    });
   }
 }
 

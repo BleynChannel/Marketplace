@@ -19,7 +19,6 @@ import 'package:marketplace/presentation/bloc/product/product_bloc.dart';
 import 'package:marketplace/presentation/bloc/product/product_event.dart';
 import 'package:marketplace/presentation/bloc/product/product_state.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
@@ -30,12 +29,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ProductPage extends StatefulWidget {
-  final CompactProduct compactProduct;
+  final String id;
 
-  const ProductPage({
-    Key? key,
-    required this.compactProduct,
-  }) : super(key: key);
+  const ProductPage({Key? key, @PathParam() required this.id})
+      : super(key: key);
 
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -73,11 +70,11 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void _onRefreshPage(BuildContext context) {
-    _bloc.add(ProductEvent.onLoaded(widget.compactProduct));
+    _bloc.add(ProductEvent.onLoaded(id: widget.id));
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.push(ProductRoute(compactProduct: product));
+    context.router.pushNamed('/product/${product.id}');
   }
 
   void _onBundleProductClick(BuildContext context, Bundle bundle) {}
@@ -92,7 +89,7 @@ class _ProductPageState extends State<ProductPage> {
   void initState() {
     _controllers = [];
 
-    _bloc = ProductBloc()..add(ProductEvent.onLoaded(widget.compactProduct));
+    _bloc = ProductBloc()..add(ProductEvent.onLoaded(id: widget.id));
 
     super.initState();
   }
@@ -430,7 +427,7 @@ class _ProductPageState extends State<ProductPage> {
             ])
         .toList();
 
-    return CategoryList(
+    return ListCategory(
       title: Text(
         title,
         style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -848,7 +845,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
   //Informations
   Widget _buildInformation(BuildContext context) {
     return Column(children: [
-      CategoryList(
+      ListCategory(
         title: Text(
           'Description',
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -858,7 +855,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         ),
         child: _buildInformationDescription(context),
       ),
-      CategoryList(
+      ListCategory(
         title: Text(
           'Localization',
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -868,7 +865,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         ),
         child: _buildInformationLocalization(context),
       ),
-      CategoryList(
+      ListCategory(
         title: Text(
           'Other Informations',
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -878,7 +875,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         ),
         child: _buildInformationOther(context),
       ),
-      CategoryList(
+      ListCategory(
         title: Text(
           'Links',
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -999,7 +996,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
   //DLC and Bundles
   Widget _buildDLCAndBundles(BuildContext context) {
     return Column(children: [
-      CategoryList(
+      ListCategory(
         title: Text(
           'DLC',
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -1010,7 +1007,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         child: _buildDLC(context),
       ),
       const SizedBox(height: 10),
-      CategoryList(
+      ListCategory(
         title: Text(
           'Bundles',
           style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -1071,7 +1068,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
     return Column(
       children: widget.product.bundles
           .map(
-            (bundle) => CategoryList(
+            (bundle) => ListCategory(
               title: Text(
                 bundle.title,
                 style: GoogleFonts.roboto(
@@ -1250,7 +1247,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       padding: const EdgeInsets.only(right: 10),
       child: Column(
           children: systemRequirements.entries
-              .map((e) => CategoryList(
+              .map((e) => ListCategory(
                     title: Text(
                       e.key,
                       style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -1273,7 +1270,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
     BuildContext context, {
     required SystemRequirement sysReq,
   }) {
-    return CategoryList(
+    return ListCategory(
         title: Text(
           ui_utils.platformToName(sysReq.platform),
           style: GoogleFonts.roboto(

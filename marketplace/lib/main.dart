@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:marketplace/const.dart';
 import 'package:marketplace/keys.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
@@ -19,10 +22,30 @@ Future main() async {
     ),
   );
 
+  user = await getUserData();
+
   runApp(DevicePreview(
     builder: (context) => MyApp(),
     enabled: kDebugMode,
   ));
+}
+
+//TODO: Поменять на Profile
+Future<String?> getUserData() async {
+  final result = await userRepository.getUser();
+  String? user;
+
+  result.fold((failure) {
+    String message = '';
+
+    failure.when(
+      unknown: () => message = 'Unknown error',
+    );
+
+    log('User cant loading: $message');
+  }, (data) => user = data);
+
+  return user;
 }
 
 class MyApp extends StatelessWidget {
@@ -36,9 +59,7 @@ class MyApp extends StatelessWidget {
       title: 'OLO Games',
       theme: ThemeData(
         brightness: Brightness.dark,
-        colorScheme: const ColorScheme.dark().copyWith(
-          primary: primaryColor,
-        ),
+        colorScheme: const ColorScheme.dark(primary: primaryColor),
         scaffoldBackgroundColor: backgroundColor,
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
@@ -157,7 +178,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
       ),
 
-      routerDelegate: _appRouter.delegate(),
+      routerDelegate: _appRouter.delegate(
+        initialRoutes: user != null ? [HomeRoute()] : [const WelcomeRoute()],
+      ),
       routeInformationParser: _appRouter.defaultRouteParser(),
 
       // DevicePreview

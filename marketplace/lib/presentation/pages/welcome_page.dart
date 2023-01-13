@@ -15,11 +15,11 @@ class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
   void _navigateToLogInPage(BuildContext context) {
-    context.router.navigateNamed('/login');
+    context.router.navigateNamed('/auth/login');
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    context.router.navigateNamed('/signup');
+    context.router.navigateNamed('/auth/signup');
   }
 
   @override
@@ -27,48 +27,39 @@ class WelcomePage extends StatelessWidget {
     return FutureBuilder(
       future: debugInit(),
       builder: (context, snapshot) {
-        bool isLoadUser = false;
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (FirebaseAuth.instance.currentUser != null) {
-            isLoadUser = true;
-            context.router.replaceAll([HomeRoute()]);
-          }
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const SizedBox();
         }
 
-        if (!isLoadUser) {
-          return Scaffold(
-            body: BackgroundBlur(
-              child: _buildBackgroundWave(
-                context,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
-                  child: Column(
-                    children: [
-                      const Expanded(flex: 4, child: SizedBox()),
-                      Expanded(
-                        flex: 3,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Column(
-                            children: [
-                              _buildTitle(context),
-                              const Expanded(child: SizedBox()),
-                              _buildLogIn(context),
-                            ],
-                          ),
+        return Scaffold(
+          body: BackgroundBlur(
+            child: _buildBackgroundWave(
+              context,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+                child: Column(
+                  children: [
+                    const Expanded(flex: 4, child: SizedBox()),
+                    Expanded(
+                      flex: 3,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            _buildTitle(context),
+                            const Expanded(child: SizedBox()),
+                            _buildLogIn(context),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        }
-
-        return const SizedBox();
+          ),
+        );
       },
     );
   }

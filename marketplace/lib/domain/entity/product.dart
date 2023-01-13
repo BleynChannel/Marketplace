@@ -18,6 +18,7 @@ class Product with _$Product {
   const Product._();
 
   const factory Product({
+    required String id,
     required String title,
     required String description,
     required Media icon,
@@ -41,6 +42,7 @@ class Product with _$Product {
   }) = _Product;
 
   CompactProduct toCompactProduct() => CompactProduct(
+        id: id,
         title: title,
         banner: media
                 .where((element) => element.type == MediaType.image)

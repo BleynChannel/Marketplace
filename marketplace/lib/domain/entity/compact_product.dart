@@ -10,8 +10,9 @@ part 'compact_product.freezed.dart';
 @freezed
 class CompactProduct with _$CompactProduct {
   const CompactProduct._();
-  
+
   const factory CompactProduct({
+    required String id,
     required String title,
     required Media banner,
     required Price price,

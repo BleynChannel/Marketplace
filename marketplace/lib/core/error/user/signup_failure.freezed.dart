@@ -19,6 +19,7 @@ mixin _$SignUpFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() emailAlreadyInUse,
     required TResult Function() invalidEmail,
     required TResult Function() operationNotAllowed,
@@ -28,6 +29,7 @@ mixin _$SignUpFailure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? emailAlreadyInUse,
     TResult? Function()? invalidEmail,
     TResult? Function()? operationNotAllowed,
@@ -37,6 +39,7 @@ mixin _$SignUpFailure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? emailAlreadyInUse,
     TResult Function()? invalidEmail,
     TResult Function()? operationNotAllowed,
@@ -47,6 +50,8 @@ mixin _$SignUpFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(SignUpFailureEmailAlreadyInUse value)
         emailAlreadyInUse,
     required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
@@ -58,6 +63,8 @@ mixin _$SignUpFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult? Function(SignUpFailureOperationNotAllowed value)?
@@ -68,6 +75,8 @@ mixin _$SignUpFailure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult Function(SignUpFailureOperationNotAllowed value)?
@@ -135,6 +144,7 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() emailAlreadyInUse,
     required TResult Function() invalidEmail,
     required TResult Function() operationNotAllowed,
@@ -147,6 +157,7 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? emailAlreadyInUse,
     TResult? Function()? invalidEmail,
     TResult? Function()? operationNotAllowed,
@@ -159,6 +170,7 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? emailAlreadyInUse,
     TResult Function()? invalidEmail,
     TResult Function()? operationNotAllowed,
@@ -175,6 +187,8 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(SignUpFailureEmailAlreadyInUse value)
         emailAlreadyInUse,
     required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
@@ -189,6 +203,8 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult? Function(SignUpFailureOperationNotAllowed value)?
@@ -202,6 +218,8 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult Function(SignUpFailureOperationNotAllowed value)?
@@ -218,6 +236,145 @@ class _$SignUpFailureUnknown implements SignUpFailureUnknown {
 
 abstract class SignUpFailureUnknown implements SignUpFailure {
   const factory SignUpFailureUnknown() = _$SignUpFailureUnknown;
+}
+
+/// @nodoc
+abstract class _$$SignUpFailureNetworkRequestFailedCopyWith<$Res> {
+  factory _$$SignUpFailureNetworkRequestFailedCopyWith(
+          _$SignUpFailureNetworkRequestFailed value,
+          $Res Function(_$SignUpFailureNetworkRequestFailed) then) =
+      __$$SignUpFailureNetworkRequestFailedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$SignUpFailureNetworkRequestFailedCopyWithImpl<$Res>
+    extends _$SignUpFailureCopyWithImpl<$Res,
+        _$SignUpFailureNetworkRequestFailed>
+    implements _$$SignUpFailureNetworkRequestFailedCopyWith<$Res> {
+  __$$SignUpFailureNetworkRequestFailedCopyWithImpl(
+      _$SignUpFailureNetworkRequestFailed _value,
+      $Res Function(_$SignUpFailureNetworkRequestFailed) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$SignUpFailureNetworkRequestFailed
+    implements SignUpFailureNetworkRequestFailed {
+  const _$SignUpFailureNetworkRequestFailed();
+
+  @override
+  String toString() {
+    return 'SignUpFailure.networkRequestFailed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SignUpFailureNetworkRequestFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
+    required TResult Function() emailAlreadyInUse,
+    required TResult Function() invalidEmail,
+    required TResult Function() operationNotAllowed,
+    required TResult Function() weakPassword,
+  }) {
+    return networkRequestFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
+    TResult? Function()? emailAlreadyInUse,
+    TResult? Function()? invalidEmail,
+    TResult? Function()? operationNotAllowed,
+    TResult? Function()? weakPassword,
+  }) {
+    return networkRequestFailed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
+    TResult Function()? emailAlreadyInUse,
+    TResult Function()? invalidEmail,
+    TResult Function()? operationNotAllowed,
+    TResult Function()? weakPassword,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
+    required TResult Function(SignUpFailureEmailAlreadyInUse value)
+        emailAlreadyInUse,
+    required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
+    required TResult Function(SignUpFailureOperationNotAllowed value)
+        operationNotAllowed,
+    required TResult Function(SignUpFailureWeakPassword value) weakPassword,
+  }) {
+    return networkRequestFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
+    TResult? Function(SignUpFailureOperationNotAllowed value)?
+        operationNotAllowed,
+    TResult? Function(SignUpFailureWeakPassword value)? weakPassword,
+  }) {
+    return networkRequestFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
+    TResult Function(SignUpFailureOperationNotAllowed value)?
+        operationNotAllowed,
+    TResult Function(SignUpFailureWeakPassword value)? weakPassword,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SignUpFailureNetworkRequestFailed implements SignUpFailure {
+  const factory SignUpFailureNetworkRequestFailed() =
+      _$SignUpFailureNetworkRequestFailed;
 }
 
 /// @nodoc
@@ -263,6 +420,7 @@ class _$SignUpFailureEmailAlreadyInUse
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() emailAlreadyInUse,
     required TResult Function() invalidEmail,
     required TResult Function() operationNotAllowed,
@@ -275,6 +433,7 @@ class _$SignUpFailureEmailAlreadyInUse
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? emailAlreadyInUse,
     TResult? Function()? invalidEmail,
     TResult? Function()? operationNotAllowed,
@@ -287,6 +446,7 @@ class _$SignUpFailureEmailAlreadyInUse
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? emailAlreadyInUse,
     TResult Function()? invalidEmail,
     TResult Function()? operationNotAllowed,
@@ -303,6 +463,8 @@ class _$SignUpFailureEmailAlreadyInUse
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(SignUpFailureEmailAlreadyInUse value)
         emailAlreadyInUse,
     required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
@@ -317,6 +479,8 @@ class _$SignUpFailureEmailAlreadyInUse
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult? Function(SignUpFailureOperationNotAllowed value)?
@@ -330,6 +494,8 @@ class _$SignUpFailureEmailAlreadyInUse
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult Function(SignUpFailureOperationNotAllowed value)?
@@ -390,6 +556,7 @@ class _$SignUpFailureInvalidEmail implements SignUpFailureInvalidEmail {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() emailAlreadyInUse,
     required TResult Function() invalidEmail,
     required TResult Function() operationNotAllowed,
@@ -402,6 +569,7 @@ class _$SignUpFailureInvalidEmail implements SignUpFailureInvalidEmail {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? emailAlreadyInUse,
     TResult? Function()? invalidEmail,
     TResult? Function()? operationNotAllowed,
@@ -414,6 +582,7 @@ class _$SignUpFailureInvalidEmail implements SignUpFailureInvalidEmail {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? emailAlreadyInUse,
     TResult Function()? invalidEmail,
     TResult Function()? operationNotAllowed,
@@ -430,6 +599,8 @@ class _$SignUpFailureInvalidEmail implements SignUpFailureInvalidEmail {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(SignUpFailureEmailAlreadyInUse value)
         emailAlreadyInUse,
     required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
@@ -444,6 +615,8 @@ class _$SignUpFailureInvalidEmail implements SignUpFailureInvalidEmail {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult? Function(SignUpFailureOperationNotAllowed value)?
@@ -457,6 +630,8 @@ class _$SignUpFailureInvalidEmail implements SignUpFailureInvalidEmail {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult Function(SignUpFailureOperationNotAllowed value)?
@@ -519,6 +694,7 @@ class _$SignUpFailureOperationNotAllowed
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() emailAlreadyInUse,
     required TResult Function() invalidEmail,
     required TResult Function() operationNotAllowed,
@@ -531,6 +707,7 @@ class _$SignUpFailureOperationNotAllowed
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? emailAlreadyInUse,
     TResult? Function()? invalidEmail,
     TResult? Function()? operationNotAllowed,
@@ -543,6 +720,7 @@ class _$SignUpFailureOperationNotAllowed
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? emailAlreadyInUse,
     TResult Function()? invalidEmail,
     TResult Function()? operationNotAllowed,
@@ -559,6 +737,8 @@ class _$SignUpFailureOperationNotAllowed
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(SignUpFailureEmailAlreadyInUse value)
         emailAlreadyInUse,
     required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
@@ -573,6 +753,8 @@ class _$SignUpFailureOperationNotAllowed
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult? Function(SignUpFailureOperationNotAllowed value)?
@@ -586,6 +768,8 @@ class _$SignUpFailureOperationNotAllowed
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult Function(SignUpFailureOperationNotAllowed value)?
@@ -646,6 +830,7 @@ class _$SignUpFailureWeakPassword implements SignUpFailureWeakPassword {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() emailAlreadyInUse,
     required TResult Function() invalidEmail,
     required TResult Function() operationNotAllowed,
@@ -658,6 +843,7 @@ class _$SignUpFailureWeakPassword implements SignUpFailureWeakPassword {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? emailAlreadyInUse,
     TResult? Function()? invalidEmail,
     TResult? Function()? operationNotAllowed,
@@ -670,6 +856,7 @@ class _$SignUpFailureWeakPassword implements SignUpFailureWeakPassword {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? emailAlreadyInUse,
     TResult Function()? invalidEmail,
     TResult Function()? operationNotAllowed,
@@ -686,6 +873,8 @@ class _$SignUpFailureWeakPassword implements SignUpFailureWeakPassword {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SignUpFailureUnknown value) unknown,
+    required TResult Function(SignUpFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(SignUpFailureEmailAlreadyInUse value)
         emailAlreadyInUse,
     required TResult Function(SignUpFailureInvalidEmail value) invalidEmail,
@@ -700,6 +889,8 @@ class _$SignUpFailureWeakPassword implements SignUpFailureWeakPassword {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SignUpFailureUnknown value)? unknown,
+    TResult? Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult? Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult? Function(SignUpFailureOperationNotAllowed value)?
@@ -713,6 +904,8 @@ class _$SignUpFailureWeakPassword implements SignUpFailureWeakPassword {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SignUpFailureUnknown value)? unknown,
+    TResult Function(SignUpFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(SignUpFailureEmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(SignUpFailureInvalidEmail value)? invalidEmail,
     TResult Function(SignUpFailureOperationNotAllowed value)?

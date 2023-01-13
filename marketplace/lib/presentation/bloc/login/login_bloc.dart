@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         failure.when(
           unknown: () => message = 'Unknown error',
+          networkRequestFailed: () => message = 'No network',
           accountExistsWithDifferentCredential: () => message =
               'The account is registered through another registration method',
           invalidCredential: () =>
@@ -47,6 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         failure.when(
           unknown: () => message = 'Unknown error',
+          networkRequestFailed: () => message = 'No network',
           userDisabled: () => message = 'User is disabled',
         );
 

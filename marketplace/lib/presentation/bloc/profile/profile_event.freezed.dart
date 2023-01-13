@@ -16,19 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileEvent {
+  String? get userId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onLoaded,
+    required TResult Function(String? userId) onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onLoaded,
+    TResult? Function(String? userId)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult Function(String? userId)? onLoaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +49,10 @@ mixin _$ProfileEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ProfileEventCopyWith<ProfileEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -55,6 +60,8 @@ abstract class $ProfileEventCopyWith<$Res> {
   factory $ProfileEventCopyWith(
           ProfileEvent value, $Res Function(ProfileEvent) then) =
       _$ProfileEventCopyWithImpl<$Res, ProfileEvent>;
+  @useResult
+  $Res call({String? userId});
 }
 
 /// @nodoc
@@ -66,13 +73,30 @@ class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$ProfileOnLoadedCopyWith<$Res> {
+abstract class _$$ProfileOnLoadedCopyWith<$Res>
+    implements $ProfileEventCopyWith<$Res> {
   factory _$$ProfileOnLoadedCopyWith(
           _$ProfileOnLoaded value, $Res Function(_$ProfileOnLoaded) then) =
       __$$ProfileOnLoadedCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? userId});
 }
 
 /// @nodoc
@@ -82,51 +106,75 @@ class __$$ProfileOnLoadedCopyWithImpl<$Res>
   __$$ProfileOnLoadedCopyWithImpl(
       _$ProfileOnLoaded _value, $Res Function(_$ProfileOnLoaded) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = freezed,
+  }) {
+    return _then(_$ProfileOnLoaded(
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$ProfileOnLoaded implements ProfileOnLoaded {
-  const _$ProfileOnLoaded();
+  const _$ProfileOnLoaded({this.userId});
+
+  @override
+  final String? userId;
 
   @override
   String toString() {
-    return 'ProfileEvent.onLoaded()';
+    return 'ProfileEvent.onLoaded(userId: $userId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProfileOnLoaded);
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileOnLoaded &&
+            (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, userId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileOnLoadedCopyWith<_$ProfileOnLoaded> get copyWith =>
+      __$$ProfileOnLoadedCopyWithImpl<_$ProfileOnLoaded>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onLoaded,
+    required TResult Function(String? userId) onLoaded,
   }) {
-    return onLoaded();
+    return onLoaded(userId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onLoaded,
+    TResult? Function(String? userId)? onLoaded,
   }) {
-    return onLoaded?.call();
+    return onLoaded?.call(userId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onLoaded,
+    TResult Function(String? userId)? onLoaded,
     required TResult orElse(),
   }) {
     if (onLoaded != null) {
-      return onLoaded();
+      return onLoaded(userId);
     }
     return orElse();
   }
@@ -161,5 +209,12 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
 }
 
 abstract class ProfileOnLoaded implements ProfileEvent {
-  const factory ProfileOnLoaded() = _$ProfileOnLoaded;
+  const factory ProfileOnLoaded({final String? userId}) = _$ProfileOnLoaded;
+
+  @override
+  String? get userId;
+  @override
+  @JsonKey(ignore: true)
+  _$$ProfileOnLoadedCopyWith<_$ProfileOnLoaded> get copyWith =>
+      throw _privateConstructorUsedError;
 }

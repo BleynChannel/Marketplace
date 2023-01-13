@@ -5,6 +5,7 @@ part 'login_google_failure.freezed.dart';
 @freezed
 class LoginGoogleFailure with _$LoginGoogleFailure {
   const factory LoginGoogleFailure.unknown() = LoginGoogleFailureUnknown;
+  const factory LoginGoogleFailure.networkRequestFailed() = LoginGoogleFailureNetworkRequestFailed;
   const factory LoginGoogleFailure.accountExistsWithDifferentCredential() =
       LoginGoogleFailureAccountExistsWithDifferentCredential;
   const factory LoginGoogleFailure.invalidCredential() =

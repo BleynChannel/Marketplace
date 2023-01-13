@@ -12,6 +12,7 @@ import 'package:marketplace/presentation/bloc/login/login_state.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
+import 'package:marketplace/presentation/utils.dart' as ui_utils;
 
 import '../widgets/gradient_devider.dart';
 
@@ -24,6 +25,8 @@ class _ContinueWith {
 }
 
 class LoginPage extends StatelessWidget {
+  final String? email;
+
   final _continueWithMap = [
     _ContinueWith(
       SvgPicture.asset("assets/icons/social/google.svg"),
@@ -44,14 +47,18 @@ class LoginPage extends StatelessWidget {
     ),
   ];
 
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key, this.email}) : super(key: key);
 
   void _navigateToLogWithEmailPage(BuildContext context) {
-    context.router.navigateNamed('/login/email');
+    context.router.navigate(LoginWithEmailRoute(email: email));
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    context.router.navigateNamed('/signup');
+    context.router.navigate(SignUpRoute(email: email));
+  }
+
+  void _navigateToHomePage(BuildContext context) {
+    context.router.replaceAll([HomeRoute()]);
   }
 
   @override
@@ -70,44 +77,32 @@ class LoginPage extends StatelessWidget {
           bloc: bloc,
           listener: (context, state) => state.when<void>(
             empty: () {},
-            success: () => context.router.replaceAll([HomeRoute()]),
-            error: (message) {
-              final scaffoldMessenger = ScaffoldMessenger.of(context);
-              scaffoldMessenger.hideCurrentSnackBar();
-              scaffoldMessenger.showSnackBar(SnackBar(
-                content: Text(message),
-              ));
-            },
-            noNetwork: () {
-              final scaffoldMessenger = ScaffoldMessenger.of(context);
-              scaffoldMessenger.hideCurrentSnackBar();
-              scaffoldMessenger.showSnackBar(const SnackBar(
-                content: Text('No internet connection'),
-              ));
-            },
+            success: () => _navigateToHomePage(context),
+            error: (message) =>
+                ui_utils.sendScaffoldMessage(context, message: message),
+            noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                message: 'No internet connection'),
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
             child: Center(
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: _buildTitle(context),
-                  ),
-                  const Expanded(child: SizedBox()),
-                  ..._buildContinueWithButtons(context, _continueWithMap, bloc),
-                  const SizedBox(height: 10),
-                  Text(
-                    "or",
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  const SizedBox(height: 10),
-                  ..._buildLogInWithEmail(context),
-                ],
-              ),
+              child: Column(children: [
+                Expanded(
+                  flex: 5,
+                  child: _buildTitle(context),
+                ),
+                const Expanded(child: SizedBox()),
+                ..._buildContinueWithButtons(context, _continueWithMap, bloc),
+                const SizedBox(height: 10),
+                Text(
+                  "or",
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 10),
+                ..._buildLogInWithEmail(context),
+              ]),
             ),
           ),
         ),

@@ -16,9 +16,10 @@ class ProductRepository {
   final _remoteDataSource = ProductRemoteDataSource();
 
   Future<Either<DiscoverGetProductsFailure, Map<String, List<CompactProduct>>>>
-      discoverGetProducts(List<Platform> platforms) async {
+      discoverGetProducts({required List<Platform> platforms}) async {
     try {
-      final result = await _remoteDataSource.discoverGetProducts(platforms);
+      final result =
+          await _remoteDataSource.discoverGetProducts(platforms: platforms);
       return Right(result);
     } catch (_) {
       return const Left(DiscoverGetProductsFailure.unknown());
@@ -45,9 +46,9 @@ class ProductRepository {
   }
 
   Future<Either<GetProductFailure, Product>> getProduct(
-      CompactProduct compactProduct) async {
+      {required String id}) async {
     try {
-      final result = await _remoteDataSource.getProduct(compactProduct);
+      final result = await _remoteDataSource.getProduct(id: id);
       return Right(result);
     } catch (_) {
       return const Left(GetProductFailure.unknown());
@@ -55,9 +56,9 @@ class ProductRepository {
   }
 
   Future<Either<SearchProductsFailure, List<CompactProduct>>> searchProducts(
-      Filter filter) async {
+      {required Filter filter}) async {
     try {
-      final result = await _remoteDataSource.searchProducts(filter);
+      final result = await _remoteDataSource.searchProducts(filter: filter);
       return Right(result);
     } catch (_) {
       return const Left(SearchProductsFailure.unknown());

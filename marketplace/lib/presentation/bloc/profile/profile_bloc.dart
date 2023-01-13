@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marketplace/const.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_event.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_state.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(const ProfileState.load()) {
@@ -13,7 +14,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       emit(const ProfileState.load());
 
-      var result = await userRepository.getProfile();
+      if (event.userId == null) {
+        //TODO: Переделать когда появиться Profile user
+        // emit(ProfileState.loading(profile: user));
+        emit(ProfileState.loading(profile: debugProfile));
+        return;
+      }
+
+      var result = await userRepository.getProfile(userId: event.userId!);
       await Future.delayed(const Duration(milliseconds: 3000));
 
       result.fold((failure) {

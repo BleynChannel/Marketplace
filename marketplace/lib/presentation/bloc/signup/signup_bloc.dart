@@ -17,6 +17,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
         failure.when(
           unknown: () => message = 'Unknown error',
+          networkRequestFailed: () => message = 'No network',
           emailAlreadyInUse: () =>
               message = 'An account with this email already exists',
           invalidEmail: () => message = 'Email address is not valid',

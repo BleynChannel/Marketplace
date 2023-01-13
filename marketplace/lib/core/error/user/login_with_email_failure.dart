@@ -5,6 +5,7 @@ part 'login_with_email_failure.freezed.dart';
 @freezed
 class LoginWithEmailFailure with _$LoginWithEmailFailure {
   const factory LoginWithEmailFailure.unknown() = LoginWithEmailFailureUnknown;
+  const factory LoginWithEmailFailure.networkRequestFailed() = LoginWithEmailFailureNetworkRequestFailed;
   const factory LoginWithEmailFailure.invalidEmail() =
       LoginWithEmailFailureInvalidEmail;
   const factory LoginWithEmailFailure.userDisabled() =

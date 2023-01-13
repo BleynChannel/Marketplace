@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CompactProduct {
+  String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   Media get banner => throw _privateConstructorUsedError;
   Price get price => throw _privateConstructorUsedError;
@@ -33,7 +34,11 @@ abstract class $CompactProductCopyWith<$Res> {
       _$CompactProductCopyWithImpl<$Res, CompactProduct>;
   @useResult
   $Res call(
-      {String title, Media banner, Price price, List<Platform> platforms});
+      {String id,
+      String title,
+      Media banner,
+      Price price,
+      List<Platform> platforms});
 
   $MediaCopyWith<$Res> get banner;
   $PriceCopyWith<$Res> get price;
@@ -52,12 +57,17 @@ class _$CompactProductCopyWithImpl<$Res, $Val extends CompactProduct>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? banner = null,
     Object? price = null,
     Object? platforms = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -103,7 +113,11 @@ abstract class _$$_CompactProductCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title, Media banner, Price price, List<Platform> platforms});
+      {String id,
+      String title,
+      Media banner,
+      Price price,
+      List<Platform> platforms});
 
   @override
   $MediaCopyWith<$Res> get banner;
@@ -122,12 +136,17 @@ class __$$_CompactProductCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? banner = null,
     Object? price = null,
     Object? platforms = null,
   }) {
     return _then(_$_CompactProduct(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -152,13 +171,16 @@ class __$$_CompactProductCopyWithImpl<$Res>
 
 class _$_CompactProduct extends _CompactProduct {
   const _$_CompactProduct(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.banner,
       required this.price,
       required final List<Platform> platforms})
       : _platforms = platforms,
         super._();
 
+  @override
+  final String id;
   @override
   final String title;
   @override
@@ -174,7 +196,7 @@ class _$_CompactProduct extends _CompactProduct {
 
   @override
   String toString() {
-    return 'CompactProduct(title: $title, banner: $banner, price: $price, platforms: $platforms)';
+    return 'CompactProduct(id: $id, title: $title, banner: $banner, price: $price, platforms: $platforms)';
   }
 
   @override
@@ -182,6 +204,7 @@ class _$_CompactProduct extends _CompactProduct {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CompactProduct &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.banner, banner) || other.banner == banner) &&
             (identical(other.price, price) || other.price == price) &&
@@ -190,7 +213,7 @@ class _$_CompactProduct extends _CompactProduct {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, banner, price,
+  int get hashCode => Object.hash(runtimeType, id, title, banner, price,
       const DeepCollectionEquality().hash(_platforms));
 
   @JsonKey(ignore: true)
@@ -202,12 +225,15 @@ class _$_CompactProduct extends _CompactProduct {
 
 abstract class _CompactProduct extends CompactProduct {
   const factory _CompactProduct(
-      {required final String title,
+      {required final String id,
+      required final String title,
       required final Media banner,
       required final Price price,
       required final List<Platform> platforms}) = _$_CompactProduct;
   const _CompactProduct._() : super._();
 
+  @override
+  String get id;
   @override
   String get title;
   @override

@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Product {
+  String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   Media get icon => throw _privateConstructorUsedError;
@@ -49,7 +50,8 @@ abstract class $ProductCopyWith<$Res> {
       _$ProductCopyWithImpl<$Res, Product>;
   @useResult
   $Res call(
-      {String title,
+      {String id,
+      String title,
       String description,
       Media icon,
       List<Media> media,
@@ -87,6 +89,7 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? description = null,
     Object? icon = null,
@@ -109,6 +112,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? productReview = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -217,7 +224,8 @@ abstract class _$$_ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String title,
+      {String id,
+      String title,
       String description,
       Media icon,
       List<Media> media,
@@ -254,6 +262,7 @@ class __$$_ProductCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? description = null,
     Object? icon = null,
@@ -276,6 +285,10 @@ class __$$_ProductCopyWithImpl<$Res>
     Object? productReview = null,
   }) {
     return _then(_$_Product(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -364,7 +377,8 @@ class __$$_ProductCopyWithImpl<$Res>
 
 class _$_Product extends _Product {
   const _$_Product(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.description,
       required this.icon,
       required final List<Media> media,
@@ -397,6 +411,8 @@ class _$_Product extends _Product {
         _productReview = productReview,
         super._();
 
+  @override
+  final String id;
   @override
   final String title;
   @override
@@ -494,7 +510,7 @@ class _$_Product extends _Product {
 
   @override
   String toString() {
-    return 'Product(title: $title, description: $description, icon: $icon, media: $media, price: $price, rating: $rating, countBuy: $countBuy, genre: $genre, stylistics: $stylistics, platforms: $platforms, multiplayer: $multiplayer, localization: $localization, developer: $developer, publisher: $publisher, releaseDate: $releaseDate, links: $links, productDlc: $productDlc, bundles: $bundles, systemRequirement: $systemRequirement, productReview: $productReview)';
+    return 'Product(id: $id, title: $title, description: $description, icon: $icon, media: $media, price: $price, rating: $rating, countBuy: $countBuy, genre: $genre, stylistics: $stylistics, platforms: $platforms, multiplayer: $multiplayer, localization: $localization, developer: $developer, publisher: $publisher, releaseDate: $releaseDate, links: $links, productDlc: $productDlc, bundles: $bundles, systemRequirement: $systemRequirement, productReview: $productReview)';
   }
 
   @override
@@ -502,6 +518,7 @@ class _$_Product extends _Product {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Product &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -539,6 +556,7 @@ class _$_Product extends _Product {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        id,
         title,
         description,
         icon,
@@ -570,7 +588,8 @@ class _$_Product extends _Product {
 
 abstract class _Product extends Product {
   const factory _Product(
-      {required final String title,
+      {required final String id,
+      required final String title,
       required final String description,
       required final Media icon,
       required final List<Media> media,
@@ -592,6 +611,8 @@ abstract class _Product extends Product {
       required final List<ProductReview> productReview}) = _$_Product;
   const _Product._() : super._();
 
+  @override
+  String get id;
   @override
   String get title;
   @override

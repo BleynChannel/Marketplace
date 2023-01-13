@@ -19,6 +19,7 @@ mixin _$LoginWithEmailFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() invalidEmail,
     required TResult Function() userDisabled,
     required TResult Function() userNotFound,
@@ -28,6 +29,7 @@ mixin _$LoginWithEmailFailure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? invalidEmail,
     TResult? Function()? userDisabled,
     TResult? Function()? userNotFound,
@@ -37,6 +39,7 @@ mixin _$LoginWithEmailFailure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? invalidEmail,
     TResult Function()? userDisabled,
     TResult Function()? userNotFound,
@@ -47,6 +50,8 @@ mixin _$LoginWithEmailFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginWithEmailFailureInvalidEmail value)
         invalidEmail,
     required TResult Function(LoginWithEmailFailureUserDisabled value)
@@ -60,6 +65,8 @@ mixin _$LoginWithEmailFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -69,6 +76,8 @@ mixin _$LoginWithEmailFailure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -140,6 +149,7 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() invalidEmail,
     required TResult Function() userDisabled,
     required TResult Function() userNotFound,
@@ -152,6 +162,7 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? invalidEmail,
     TResult? Function()? userDisabled,
     TResult? Function()? userNotFound,
@@ -164,6 +175,7 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? invalidEmail,
     TResult Function()? userDisabled,
     TResult Function()? userNotFound,
@@ -180,6 +192,8 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginWithEmailFailureInvalidEmail value)
         invalidEmail,
     required TResult Function(LoginWithEmailFailureUserDisabled value)
@@ -196,6 +210,8 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -208,6 +224,8 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -223,6 +241,146 @@ class _$LoginWithEmailFailureUnknown implements LoginWithEmailFailureUnknown {
 
 abstract class LoginWithEmailFailureUnknown implements LoginWithEmailFailure {
   const factory LoginWithEmailFailureUnknown() = _$LoginWithEmailFailureUnknown;
+}
+
+/// @nodoc
+abstract class _$$LoginWithEmailFailureNetworkRequestFailedCopyWith<$Res> {
+  factory _$$LoginWithEmailFailureNetworkRequestFailedCopyWith(
+          _$LoginWithEmailFailureNetworkRequestFailed value,
+          $Res Function(_$LoginWithEmailFailureNetworkRequestFailed) then) =
+      __$$LoginWithEmailFailureNetworkRequestFailedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoginWithEmailFailureNetworkRequestFailedCopyWithImpl<$Res>
+    extends _$LoginWithEmailFailureCopyWithImpl<$Res,
+        _$LoginWithEmailFailureNetworkRequestFailed>
+    implements _$$LoginWithEmailFailureNetworkRequestFailedCopyWith<$Res> {
+  __$$LoginWithEmailFailureNetworkRequestFailedCopyWithImpl(
+      _$LoginWithEmailFailureNetworkRequestFailed _value,
+      $Res Function(_$LoginWithEmailFailureNetworkRequestFailed) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LoginWithEmailFailureNetworkRequestFailed
+    implements LoginWithEmailFailureNetworkRequestFailed {
+  const _$LoginWithEmailFailureNetworkRequestFailed();
+
+  @override
+  String toString() {
+    return 'LoginWithEmailFailure.networkRequestFailed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoginWithEmailFailureNetworkRequestFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
+    required TResult Function() invalidEmail,
+    required TResult Function() userDisabled,
+    required TResult Function() userNotFound,
+    required TResult Function() wrongPassword,
+  }) {
+    return networkRequestFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
+    TResult? Function()? invalidEmail,
+    TResult? Function()? userDisabled,
+    TResult? Function()? userNotFound,
+    TResult? Function()? wrongPassword,
+  }) {
+    return networkRequestFailed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
+    TResult Function()? invalidEmail,
+    TResult Function()? userDisabled,
+    TResult Function()? userNotFound,
+    TResult Function()? wrongPassword,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
+    required TResult Function(LoginWithEmailFailureInvalidEmail value)
+        invalidEmail,
+    required TResult Function(LoginWithEmailFailureUserDisabled value)
+        userDisabled,
+    required TResult Function(LoginWithEmailFailureUserNotFound value)
+        userNotFound,
+    required TResult Function(LoginWithEmailFailureWrongPassword value)
+        wrongPassword,
+  }) {
+    return networkRequestFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
+    TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
+    TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
+    TResult? Function(LoginWithEmailFailureWrongPassword value)? wrongPassword,
+  }) {
+    return networkRequestFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
+    TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
+    TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
+    TResult Function(LoginWithEmailFailureWrongPassword value)? wrongPassword,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LoginWithEmailFailureNetworkRequestFailed
+    implements LoginWithEmailFailure {
+  const factory LoginWithEmailFailureNetworkRequestFailed() =
+      _$LoginWithEmailFailureNetworkRequestFailed;
 }
 
 /// @nodoc
@@ -269,6 +427,7 @@ class _$LoginWithEmailFailureInvalidEmail
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() invalidEmail,
     required TResult Function() userDisabled,
     required TResult Function() userNotFound,
@@ -281,6 +440,7 @@ class _$LoginWithEmailFailureInvalidEmail
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? invalidEmail,
     TResult? Function()? userDisabled,
     TResult? Function()? userNotFound,
@@ -293,6 +453,7 @@ class _$LoginWithEmailFailureInvalidEmail
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? invalidEmail,
     TResult Function()? userDisabled,
     TResult Function()? userNotFound,
@@ -309,6 +470,8 @@ class _$LoginWithEmailFailureInvalidEmail
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginWithEmailFailureInvalidEmail value)
         invalidEmail,
     required TResult Function(LoginWithEmailFailureUserDisabled value)
@@ -325,6 +488,8 @@ class _$LoginWithEmailFailureInvalidEmail
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -337,6 +502,8 @@ class _$LoginWithEmailFailureInvalidEmail
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -400,6 +567,7 @@ class _$LoginWithEmailFailureUserDisabled
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() invalidEmail,
     required TResult Function() userDisabled,
     required TResult Function() userNotFound,
@@ -412,6 +580,7 @@ class _$LoginWithEmailFailureUserDisabled
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? invalidEmail,
     TResult? Function()? userDisabled,
     TResult? Function()? userNotFound,
@@ -424,6 +593,7 @@ class _$LoginWithEmailFailureUserDisabled
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? invalidEmail,
     TResult Function()? userDisabled,
     TResult Function()? userNotFound,
@@ -440,6 +610,8 @@ class _$LoginWithEmailFailureUserDisabled
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginWithEmailFailureInvalidEmail value)
         invalidEmail,
     required TResult Function(LoginWithEmailFailureUserDisabled value)
@@ -456,6 +628,8 @@ class _$LoginWithEmailFailureUserDisabled
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -468,6 +642,8 @@ class _$LoginWithEmailFailureUserDisabled
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -531,6 +707,7 @@ class _$LoginWithEmailFailureUserNotFound
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() invalidEmail,
     required TResult Function() userDisabled,
     required TResult Function() userNotFound,
@@ -543,6 +720,7 @@ class _$LoginWithEmailFailureUserNotFound
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? invalidEmail,
     TResult? Function()? userDisabled,
     TResult? Function()? userNotFound,
@@ -555,6 +733,7 @@ class _$LoginWithEmailFailureUserNotFound
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? invalidEmail,
     TResult Function()? userDisabled,
     TResult Function()? userNotFound,
@@ -571,6 +750,8 @@ class _$LoginWithEmailFailureUserNotFound
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginWithEmailFailureInvalidEmail value)
         invalidEmail,
     required TResult Function(LoginWithEmailFailureUserDisabled value)
@@ -587,6 +768,8 @@ class _$LoginWithEmailFailureUserNotFound
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -599,6 +782,8 @@ class _$LoginWithEmailFailureUserNotFound
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -662,6 +847,7 @@ class _$LoginWithEmailFailureWrongPassword
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() invalidEmail,
     required TResult Function() userDisabled,
     required TResult Function() userNotFound,
@@ -674,6 +860,7 @@ class _$LoginWithEmailFailureWrongPassword
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? invalidEmail,
     TResult? Function()? userDisabled,
     TResult? Function()? userNotFound,
@@ -686,6 +873,7 @@ class _$LoginWithEmailFailureWrongPassword
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? invalidEmail,
     TResult Function()? userDisabled,
     TResult Function()? userNotFound,
@@ -702,6 +890,8 @@ class _$LoginWithEmailFailureWrongPassword
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginWithEmailFailureUnknown value) unknown,
+    required TResult Function(LoginWithEmailFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(LoginWithEmailFailureInvalidEmail value)
         invalidEmail,
     required TResult Function(LoginWithEmailFailureUserDisabled value)
@@ -718,6 +908,8 @@ class _$LoginWithEmailFailureWrongPassword
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult? Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult? Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult? Function(LoginWithEmailFailureUserNotFound value)? userNotFound,
@@ -730,6 +922,8 @@ class _$LoginWithEmailFailureWrongPassword
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginWithEmailFailureUnknown value)? unknown,
+    TResult Function(LoginWithEmailFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(LoginWithEmailFailureInvalidEmail value)? invalidEmail,
     TResult Function(LoginWithEmailFailureUserDisabled value)? userDisabled,
     TResult Function(LoginWithEmailFailureUserNotFound value)? userNotFound,

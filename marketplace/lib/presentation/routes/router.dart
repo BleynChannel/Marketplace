@@ -11,6 +11,7 @@ import 'package:marketplace/presentation/pages/menu_page.dart';
 import 'package:marketplace/presentation/pages/notification_page.dart';
 import 'package:marketplace/presentation/pages/product_page.dart';
 import 'package:marketplace/presentation/pages/profile_page.dart';
+import 'package:marketplace/presentation/pages/reset_password_page.dart';
 import 'package:marketplace/presentation/pages/search_page.dart';
 import 'package:marketplace/presentation/pages/signup_page.dart';
 import 'package:marketplace/presentation/pages/welcome_page.dart';
@@ -21,15 +22,14 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
       path: '/welcome',
       name: 'WelcomeRoute',
       page: WelcomePage,
-      initial: true,
     ),
     AutoRoute(
-      path: '/login',
-      name: 'LoginEmpty',
+      path: '/auth',
+      name: 'AuthEmpty',
       page: EmptyRouterPage,
       children: [
         AutoRoute(
-          path: '',
+          path: 'login',
           name: 'LoginRoute',
           page: LoginPage,
         ),
@@ -38,12 +38,17 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
           name: 'LoginWithEmailRoute',
           page: LoginWithEmailPage,
         ),
+        AutoRoute(
+          path: 'signup',
+          name: 'SignUpRoute',
+          page: SignUpPage,
+        ),
+        AutoRoute(
+          path: 'reset_password',
+          name: 'ResetPasswordRoute',
+          page: ResetPasswordPage,
+        ),
       ],
-    ),
-    AutoRoute(
-      path: '/signup',
-      name: 'SignUpRoute',
-      page: SignUpPage,
     ),
     AutoRoute(
       path: '/home',
@@ -77,7 +82,7 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
           page: DesiredPage,
         ),
         AutoRoute(
-          path: 'menu',
+          path: 'menu/:path',
           name: 'MenuRoute',
           page: MenuPage,
         ),
@@ -99,7 +104,7 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
       page: ProfilePage,
     ),
     AutoRoute(
-      path: '/product',
+      path: '/product/:id',
       name: 'ProductRoute',
       page: ProductPage,
     ),

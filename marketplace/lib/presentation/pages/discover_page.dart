@@ -50,7 +50,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   void _onPlatformsSelected(BuildContext context, List<Platform> selected) {
     _platformSelectTimer?.cancel();
     _platformSelectTimer = Timer(
-      const Duration(milliseconds: 1000),
+      const Duration(milliseconds: 500),
       () {
         _bloc.add(DiscoverEvent.onLoaded(selected));
         _selectedPlatform = selected;
@@ -64,7 +64,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.push(ProductRoute(compactProduct: product));
+    context.router.pushNamed('/product/${product.id}');
   }
 
   @override
@@ -193,7 +193,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     final itemHeight = itemWidth / 1.6;
     return Padding(
       padding: const EdgeInsets.only(left: 10, bottom: 10),
-      child: CategoryList(
+      child: ListCategory(
         title: category != null
             ? Text(
                 category.key,

@@ -19,6 +19,7 @@ mixin _$LoginGoogleFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -32,6 +33,7 @@ mixin _$LoginGoogleFailure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -45,6 +47,7 @@ mixin _$LoginGoogleFailure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -59,6 +62,8 @@ mixin _$LoginGoogleFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -81,6 +86,8 @@ mixin _$LoginGoogleFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -100,6 +107,8 @@ mixin _$LoginGoogleFailure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -178,6 +187,7 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -194,6 +204,7 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -210,6 +221,7 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -230,6 +242,8 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -255,6 +269,8 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -277,6 +293,8 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -302,6 +320,187 @@ class _$LoginGoogleFailureUnknown implements LoginGoogleFailureUnknown {
 
 abstract class LoginGoogleFailureUnknown implements LoginGoogleFailure {
   const factory LoginGoogleFailureUnknown() = _$LoginGoogleFailureUnknown;
+}
+
+/// @nodoc
+abstract class _$$LoginGoogleFailureNetworkRequestFailedCopyWith<$Res> {
+  factory _$$LoginGoogleFailureNetworkRequestFailedCopyWith(
+          _$LoginGoogleFailureNetworkRequestFailed value,
+          $Res Function(_$LoginGoogleFailureNetworkRequestFailed) then) =
+      __$$LoginGoogleFailureNetworkRequestFailedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoginGoogleFailureNetworkRequestFailedCopyWithImpl<$Res>
+    extends _$LoginGoogleFailureCopyWithImpl<$Res,
+        _$LoginGoogleFailureNetworkRequestFailed>
+    implements _$$LoginGoogleFailureNetworkRequestFailedCopyWith<$Res> {
+  __$$LoginGoogleFailureNetworkRequestFailedCopyWithImpl(
+      _$LoginGoogleFailureNetworkRequestFailed _value,
+      $Res Function(_$LoginGoogleFailureNetworkRequestFailed) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LoginGoogleFailureNetworkRequestFailed
+    implements LoginGoogleFailureNetworkRequestFailed {
+  const _$LoginGoogleFailureNetworkRequestFailed();
+
+  @override
+  String toString() {
+    return 'LoginGoogleFailure.networkRequestFailed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoginGoogleFailureNetworkRequestFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
+    required TResult Function() accountExistsWithDifferentCredential,
+    required TResult Function() invalidCredential,
+    required TResult Function() operationNotAllowed,
+    required TResult Function() userDisabled,
+    required TResult Function() userNotFound,
+    required TResult Function() wrongPassword,
+    required TResult Function() invalidVerificationCode,
+    required TResult Function() invalidVerificationId,
+  }) {
+    return networkRequestFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
+    TResult? Function()? accountExistsWithDifferentCredential,
+    TResult? Function()? invalidCredential,
+    TResult? Function()? operationNotAllowed,
+    TResult? Function()? userDisabled,
+    TResult? Function()? userNotFound,
+    TResult? Function()? wrongPassword,
+    TResult? Function()? invalidVerificationCode,
+    TResult? Function()? invalidVerificationId,
+  }) {
+    return networkRequestFailed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
+    TResult Function()? accountExistsWithDifferentCredential,
+    TResult Function()? invalidCredential,
+    TResult Function()? operationNotAllowed,
+    TResult Function()? userDisabled,
+    TResult Function()? userNotFound,
+    TResult Function()? wrongPassword,
+    TResult Function()? invalidVerificationCode,
+    TResult Function()? invalidVerificationId,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
+    required TResult Function(
+            LoginGoogleFailureAccountExistsWithDifferentCredential value)
+        accountExistsWithDifferentCredential,
+    required TResult Function(LoginGoogleFailureInvalidCredential value)
+        invalidCredential,
+    required TResult Function(LoginGoogleFailureOperationNotAllowed value)
+        operationNotAllowed,
+    required TResult Function(LoginGoogleFailureUserDisabled value)
+        userDisabled,
+    required TResult Function(LoginGoogleFailureUserNotFound value)
+        userNotFound,
+    required TResult Function(LoginGoogleFailureWrongPassword value)
+        wrongPassword,
+    required TResult Function(LoginGoogleFailureInvalidVerificationCode value)
+        invalidVerificationCode,
+    required TResult Function(LoginGoogleFailureInvalidVerificationId value)
+        invalidVerificationId,
+  }) {
+    return networkRequestFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult? Function(
+            LoginGoogleFailureAccountExistsWithDifferentCredential value)?
+        accountExistsWithDifferentCredential,
+    TResult? Function(LoginGoogleFailureInvalidCredential value)?
+        invalidCredential,
+    TResult? Function(LoginGoogleFailureOperationNotAllowed value)?
+        operationNotAllowed,
+    TResult? Function(LoginGoogleFailureUserDisabled value)? userDisabled,
+    TResult? Function(LoginGoogleFailureUserNotFound value)? userNotFound,
+    TResult? Function(LoginGoogleFailureWrongPassword value)? wrongPassword,
+    TResult? Function(LoginGoogleFailureInvalidVerificationCode value)?
+        invalidVerificationCode,
+    TResult? Function(LoginGoogleFailureInvalidVerificationId value)?
+        invalidVerificationId,
+  }) {
+    return networkRequestFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
+    TResult Function(
+            LoginGoogleFailureAccountExistsWithDifferentCredential value)?
+        accountExistsWithDifferentCredential,
+    TResult Function(LoginGoogleFailureInvalidCredential value)?
+        invalidCredential,
+    TResult Function(LoginGoogleFailureOperationNotAllowed value)?
+        operationNotAllowed,
+    TResult Function(LoginGoogleFailureUserDisabled value)? userDisabled,
+    TResult Function(LoginGoogleFailureUserNotFound value)? userNotFound,
+    TResult Function(LoginGoogleFailureWrongPassword value)? wrongPassword,
+    TResult Function(LoginGoogleFailureInvalidVerificationCode value)?
+        invalidVerificationCode,
+    TResult Function(LoginGoogleFailureInvalidVerificationId value)?
+        invalidVerificationId,
+    required TResult orElse(),
+  }) {
+    if (networkRequestFailed != null) {
+      return networkRequestFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LoginGoogleFailureNetworkRequestFailed
+    implements LoginGoogleFailure {
+  const factory LoginGoogleFailureNetworkRequestFailed() =
+      _$LoginGoogleFailureNetworkRequestFailed;
 }
 
 /// @nodoc
@@ -356,6 +555,7 @@ class _$LoginGoogleFailureAccountExistsWithDifferentCredential
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -372,6 +572,7 @@ class _$LoginGoogleFailureAccountExistsWithDifferentCredential
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -388,6 +589,7 @@ class _$LoginGoogleFailureAccountExistsWithDifferentCredential
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -408,6 +610,8 @@ class _$LoginGoogleFailureAccountExistsWithDifferentCredential
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -433,6 +637,8 @@ class _$LoginGoogleFailureAccountExistsWithDifferentCredential
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -455,6 +661,8 @@ class _$LoginGoogleFailureAccountExistsWithDifferentCredential
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -528,6 +736,7 @@ class _$LoginGoogleFailureInvalidCredential
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -544,6 +753,7 @@ class _$LoginGoogleFailureInvalidCredential
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -560,6 +770,7 @@ class _$LoginGoogleFailureInvalidCredential
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -580,6 +791,8 @@ class _$LoginGoogleFailureInvalidCredential
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -605,6 +818,8 @@ class _$LoginGoogleFailureInvalidCredential
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -627,6 +842,8 @@ class _$LoginGoogleFailureInvalidCredential
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -700,6 +917,7 @@ class _$LoginGoogleFailureOperationNotAllowed
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -716,6 +934,7 @@ class _$LoginGoogleFailureOperationNotAllowed
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -732,6 +951,7 @@ class _$LoginGoogleFailureOperationNotAllowed
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -752,6 +972,8 @@ class _$LoginGoogleFailureOperationNotAllowed
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -777,6 +999,8 @@ class _$LoginGoogleFailureOperationNotAllowed
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -799,6 +1023,8 @@ class _$LoginGoogleFailureOperationNotAllowed
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -872,6 +1098,7 @@ class _$LoginGoogleFailureUserDisabled
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -888,6 +1115,7 @@ class _$LoginGoogleFailureUserDisabled
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -904,6 +1132,7 @@ class _$LoginGoogleFailureUserDisabled
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -924,6 +1153,8 @@ class _$LoginGoogleFailureUserDisabled
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -949,6 +1180,8 @@ class _$LoginGoogleFailureUserDisabled
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -971,6 +1204,8 @@ class _$LoginGoogleFailureUserDisabled
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1043,6 +1278,7 @@ class _$LoginGoogleFailureUserNotFound
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -1059,6 +1295,7 @@ class _$LoginGoogleFailureUserNotFound
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -1075,6 +1312,7 @@ class _$LoginGoogleFailureUserNotFound
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -1095,6 +1333,8 @@ class _$LoginGoogleFailureUserNotFound
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -1120,6 +1360,8 @@ class _$LoginGoogleFailureUserNotFound
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1142,6 +1384,8 @@ class _$LoginGoogleFailureUserNotFound
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1214,6 +1458,7 @@ class _$LoginGoogleFailureWrongPassword
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -1230,6 +1475,7 @@ class _$LoginGoogleFailureWrongPassword
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -1246,6 +1492,7 @@ class _$LoginGoogleFailureWrongPassword
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -1266,6 +1513,8 @@ class _$LoginGoogleFailureWrongPassword
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -1291,6 +1540,8 @@ class _$LoginGoogleFailureWrongPassword
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1313,6 +1564,8 @@ class _$LoginGoogleFailureWrongPassword
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1385,6 +1638,7 @@ class _$LoginGoogleFailureInvalidVerificationCode
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -1401,6 +1655,7 @@ class _$LoginGoogleFailureInvalidVerificationCode
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -1417,6 +1672,7 @@ class _$LoginGoogleFailureInvalidVerificationCode
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -1437,6 +1693,8 @@ class _$LoginGoogleFailureInvalidVerificationCode
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -1462,6 +1720,8 @@ class _$LoginGoogleFailureInvalidVerificationCode
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1484,6 +1744,8 @@ class _$LoginGoogleFailureInvalidVerificationCode
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1557,6 +1819,7 @@ class _$LoginGoogleFailureInvalidVerificationId
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() networkRequestFailed,
     required TResult Function() accountExistsWithDifferentCredential,
     required TResult Function() invalidCredential,
     required TResult Function() operationNotAllowed,
@@ -1573,6 +1836,7 @@ class _$LoginGoogleFailureInvalidVerificationId
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? networkRequestFailed,
     TResult? Function()? accountExistsWithDifferentCredential,
     TResult? Function()? invalidCredential,
     TResult? Function()? operationNotAllowed,
@@ -1589,6 +1853,7 @@ class _$LoginGoogleFailureInvalidVerificationId
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? networkRequestFailed,
     TResult Function()? accountExistsWithDifferentCredential,
     TResult Function()? invalidCredential,
     TResult Function()? operationNotAllowed,
@@ -1609,6 +1874,8 @@ class _$LoginGoogleFailureInvalidVerificationId
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginGoogleFailureUnknown value) unknown,
+    required TResult Function(LoginGoogleFailureNetworkRequestFailed value)
+        networkRequestFailed,
     required TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)
         accountExistsWithDifferentCredential,
@@ -1634,6 +1901,8 @@ class _$LoginGoogleFailureInvalidVerificationId
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult? Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult? Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
@@ -1656,6 +1925,8 @@ class _$LoginGoogleFailureInvalidVerificationId
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginGoogleFailureUnknown value)? unknown,
+    TResult Function(LoginGoogleFailureNetworkRequestFailed value)?
+        networkRequestFailed,
     TResult Function(
             LoginGoogleFailureAccountExistsWithDifferentCredential value)?
         accountExistsWithDifferentCredential,
