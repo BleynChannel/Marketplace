@@ -288,7 +288,8 @@ class _MenuPageState extends State<MenuPage> {
                     },
                     (data) {
                       debugProfile.avatar = media;
-                      final model = Provider.of<HomeAvatarModel>(this.context, listen: false);
+                      final model = Provider.of<HomeAvatarModel>(this.context,
+                          listen: false);
                       model.image = image;
 
                       message = 'Changes saved';
@@ -494,28 +495,31 @@ class _MenuPageState extends State<MenuPage> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          'Enter a new password',
-          style: GoogleFonts.roboto(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+      builder: (context) => Theme(
+        data: ThemeData.dark(),
+        child: AlertDialog(
+          title: Text(
+            'Enter a new password',
+            style: GoogleFonts.roboto(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        content: DropdownButton(
-          items: const [
-            DropdownMenuItem(child: Text('English')),
+          content: DropdownButton(
+            items: const [
+              DropdownMenuItem(child: Text('English')),
+            ],
+            onChanged: (value) {
+              //Менять язык
+            },
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () => Navigator.pop(context),
+            ),
           ],
-          onChanged: (value) {
-            //Менять язык
-          },
         ),
-        actions: [
-          TextButton(
-            child: const Text('Close'),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
       ),
     );
   }

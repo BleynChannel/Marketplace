@@ -12,7 +12,6 @@ import 'package:marketplace/presentation/bloc/desired/desired_event.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_state.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/price_widget.dart';

@@ -14,7 +14,6 @@ import 'package:marketplace/presentation/bloc/discover/discover_event.dart';
 import 'package:marketplace/presentation/bloc/discover/discover_state.dart';
 import 'package:marketplace/presentation/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/platform_chips.dart';
@@ -217,6 +216,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
+          clipBehavior: Clip.none,
           child: Row(
             children: (category?.value ??
                     List<CompactProduct?>.generate(

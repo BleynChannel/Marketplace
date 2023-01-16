@@ -10,7 +10,6 @@ import 'package:marketplace/presentation/bloc/cart/cart_bloc.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_event.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_state.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';

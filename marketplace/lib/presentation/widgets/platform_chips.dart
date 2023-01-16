@@ -24,6 +24,7 @@ class _PlatformChipsState extends State<PlatformChips> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
       child: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Row(children: [

@@ -438,6 +438,7 @@ class _ProductPageState extends State<ProductPage> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
+        clipBehavior: Clip.none,
         child: Row(
           children: chips
               .expand((element) => [element, const SizedBox(width: 8)])
@@ -975,7 +976,9 @@ class _ProductTabBarState extends State<_ProductTabBar>
 
   Widget _buildInformationLinks(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
       child: Row(
         children: widget.product.links
             .map((link) => TextButton(
@@ -1082,6 +1085,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
+                    clipBehavior: Clip.none,
                     child: Row(
                       children: bundle.products
                           .map((product) => _buildBundleProduct(

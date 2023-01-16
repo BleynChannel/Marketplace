@@ -17,7 +17,6 @@ import 'package:marketplace/presentation/bloc/profile/profile_bloc.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_event.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_state.dart';
 import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
@@ -145,6 +144,7 @@ class ProfilePage extends StatelessWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
+                  clipBehavior: Clip.none,
                   child: Row(
                     children: profile.contacts
                         .map((contact) => _buildContactItem(
@@ -167,6 +167,7 @@ class ProfilePage extends StatelessWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
+                  clipBehavior: Clip.none,
                   child: Row(
                     children: profile.achievements
                         .map((achievement) => _buildAchievementItem(
@@ -187,6 +188,7 @@ class ProfilePage extends StatelessWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
+                  clipBehavior: Clip.none,
                   child: Row(
                     children: profile.favoriteGames
                         .map((product) => _buildFavoriteGameItem(
