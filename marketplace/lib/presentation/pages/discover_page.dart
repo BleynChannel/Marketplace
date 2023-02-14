@@ -6,13 +6,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/bloc/discover/discover_bloc.dart';
 import 'package:marketplace/presentation/bloc/discover/discover_event.dart';
 import 'package:marketplace/presentation/bloc/discover/discover_state.dart';
-import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
@@ -22,31 +23,20 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class DiscoverPage extends StatefulWidget {
-  const DiscoverPage({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class DiscoverPage extends StatelessWidget {
+  static const shimerCategoryCount = 3;
+  static const shimerProductCount = 3;
 
-  @override
-  State<DiscoverPage> createState() => _DiscoverPageState();
-}
+  final _bloc = DiscoverBloc()
+    ..add(const DiscoverEvent.onLoaded(Platform.values));
 
-class _DiscoverPageState extends State<DiscoverPage> {
-  static const int _shimerCategoryCount = 3;
-  static const int _shimerProductCount = 3;
-
-  late DiscoverBloc _bloc;
-
-  void _onCartClick(BuildContext context) {
-    context.router.navigateNamed('/cart');
-  }
-
-  void _onNotificationClick(BuildContext context) {
-    context.router.navigateNamed('/notification');
-  }
+  DiscoverPage({Key? key}) : super(key: key);
 
   Timer? _platformSelectTimer;
   List<Platform> _selectedPlatform = Platform.values;
 
-  void _onPlatformsSelected(BuildContext context, List<Platform> selected) {
+  void _onPlatformsSelected(List<Platform> selected) {
     _platformSelectTimer?.cancel();
     _platformSelectTimer = Timer(
       const Duration(milliseconds: 500),
@@ -57,27 +47,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  Future<void> _onRefreshProducts(BuildContext context) async {
+  Future _onRefreshProducts() async {
     _bloc.add(DiscoverEvent.onLoaded(_selectedPlatform));
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
+  void _onCartClick(BuildContext context) {
+    context.router.navigateNamed('/cart');
+  }
+
+  void _onNotificationClick(BuildContext context) {
+    context.router.navigateNamed('/notification');
+  }
+
   void _onProductClick(BuildContext context, CompactProduct product) {
     context.router.pushNamed('/product/${product.id}');
-  }
-
-  @override
-  void initState() {
-    _bloc = DiscoverBloc()..add(const DiscoverEvent.onLoaded(Platform.values));
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _bloc.close();
-
-    super.dispose();
   }
 
   @override
@@ -93,10 +77,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     kToolbarHeight + MediaQuery.of(context).padding.top,
                 cartCount: 7,
                 notificationCount: 15,
+                bloc: _bloc,
                 onCartClick: _onCartClick,
                 onNotificationClick: _onNotificationClick,
                 onProductClick: _onProductClick,
-                bloc: _bloc,
               ),
               pinned: true,
             ),
@@ -104,16 +88,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 height: 40,
-                color: backgroundColor.withOpacity(0.8),
+                color: AppColors.backgroundColor.withOpacity(0.8),
                 child: PlatformChips(
-                  onSelected: (selected) =>
-                      _onPlatformsSelected(context, selected),
+                  onSelected: (selected) => _onPlatformsSelected(selected),
                 ),
               ),
             ),
           ],
           body: RefreshIndicator(
-            onRefresh: () async => await _onRefreshProducts(context),
+            onRefresh: () async => await _onRefreshProducts(),
             child: BlocBuilder<DiscoverBloc, DiscoverState>(
               bloc: _bloc,
               builder: (context, state) => state.when(
@@ -139,16 +122,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }) {
     List<Widget> children;
 
-    // ignore: no_leading_underscores_for_local_identifiers
-    final _products = products?.entries.skip(1);
+    final prod = products?.entries.skip(1);
 
     if (message != null) {
       children = [_buildError(context, message: message)];
-    } else if (_products != null) {
-      if (_products.every((element) => element.value.isEmpty)) {
+    } else if (prod != null) {
+      if (prod.every((element) => element.value.isEmpty)) {
         children = [_buildError(context, message: "Empty products")];
       } else {
-        children = _products
+        children = prod
             .map((category) => _buildCategoryProducts(
                   context,
                   category: category,
@@ -157,7 +139,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
       }
     } else {
       children = List.generate(
-          _shimerCategoryCount,
+          shimerCategoryCount,
           (_) => _buildCategoryProducts(
                 context,
                 category: null,
@@ -220,8 +202,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
           child: Row(
             children: (category?.value ??
                     List<CompactProduct?>.generate(
-                        _shimerProductCount, (index) => null))
+                        shimerProductCount, (index) => null))
                 .map((product) => _buildProductItem(
+                      context,
                       itemWidth: itemWidth,
                       itemHeight: itemHeight,
                       product: product,
@@ -234,7 +217,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  Widget _buildProductItem({
+  Widget _buildProductItem(
+    BuildContext context, {
     required double itemWidth,
     required double itemHeight,
     required CompactProduct? product,
@@ -325,22 +309,22 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
   final int cartCount;
   final int notificationCount;
 
+  final DiscoverBloc bloc;
+
   final void Function(BuildContext context) onCartClick;
   final void Function(BuildContext context) onNotificationClick;
   final void Function(BuildContext context, CompactProduct product)
       onProductClick;
-
-  final DiscoverBloc bloc;
 
   _HomeSliverAppBar({
     required this.minExpandedHeight,
     required this.expandedHeight,
     required this.cartCount,
     required this.notificationCount,
+    required this.bloc,
     required this.onCartClick,
     required this.onNotificationClick,
     required this.onProductClick,
-    required this.bloc,
   });
 
   @override
@@ -436,7 +420,10 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [gradientStartColor, gradientStopColor],
+              colors: [
+                AppColors.gradientStartColor,
+                AppColors.gradientStopColor
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -575,65 +562,64 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
       true;
 }
 
-class DiscoverPageView extends StatefulWidget {
+class DiscoverPageView extends StatelessWidget {
   final int itemCount;
   final Widget Function(BuildContext context, int index) itemBuilder;
 
-  const DiscoverPageView({
+  DiscoverPageView({
     Key? key,
     required this.itemBuilder,
     required this.itemCount,
   }) : super(key: key);
 
-  @override
-  _DiscoverPageViewState createState() => _DiscoverPageViewState();
-}
-
-class _DiscoverPageViewState extends State<DiscoverPageView> {
-  final _carouselController = CarouselController();
-  int _activeIndex = 0;
+  final _activeIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
+    final carouselController = CarouselController();
+
     return Column(
       children: [
         Expanded(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: CarouselSlider.builder(
-              itemCount: widget.itemCount,
+              itemCount: itemCount,
               itemBuilder: (context, index, realIndex) =>
-                  widget.itemBuilder(context, index),
-              carouselController: _carouselController,
+                  itemBuilder(context, index),
+              carouselController: carouselController,
               options: CarouselOptions(
                 enlargeCenterPage: true,
                 viewportFraction: 0.75,
                 autoPlay: true,
-                onPageChanged: (index, reason) =>
-                    setState(() => _activeIndex = index),
+                onPageChanged: (index, reason) => _activeIndex.value = index,
               ),
             ),
           ),
         ),
         const SizedBox(height: 8),
-        AnimatedSmoothIndicator(
-          activeIndex: _activeIndex,
-          count: widget.itemCount,
-          effect: const ExpandingDotsEffect(
-            activeDotColor: accentColor,
-            dotColor: Colors.white70,
-            dotWidth: 16,
-            dotHeight: 8,
-            expansionFactor: 2,
+        ObxValue(
+          (activeIndex) => AnimatedSmoothIndicator(
+            activeIndex: activeIndex.value,
+            count: itemCount,
+            effect: const ExpandingDotsEffect(
+              activeDotColor: AppColors.accentColor,
+              dotColor: Colors.white70,
+              dotWidth: 16,
+              dotHeight: 8,
+              expansionFactor: 2,
+            ),
+            //TODO: Исправить баг
+            // onDotClicked: (index) {
+            //   activeIndex.value = index;
+            //   carouselController.animateToPage(
+            //     index,
+            //     duration: const Duration(milliseconds: 500),
+            //     curve: Curves.easeInOut,
+            //   );
+            // },
           ),
-          onDotClicked: (index) => setState(() {
-            _activeIndex = index;
-            _carouselController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-            );
-          }),
+          _activeIndex,
         ),
       ],
     );

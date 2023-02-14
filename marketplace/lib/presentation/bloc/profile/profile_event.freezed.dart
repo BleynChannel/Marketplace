@@ -16,20 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileEvent {
-  String? get userId => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? userId) onLoaded,
+    required TResult Function(String userId) onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? userId)? onLoaded,
+    TResult? Function(String userId)? onLoaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? userId)? onLoaded,
+    TResult Function(String userId)? onLoaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,7 +61,7 @@ abstract class $ProfileEventCopyWith<$Res> {
           ProfileEvent value, $Res Function(ProfileEvent) then) =
       _$ProfileEventCopyWithImpl<$Res, ProfileEvent>;
   @useResult
-  $Res call({String? userId});
+  $Res call({String userId});
 }
 
 /// @nodoc
@@ -77,13 +77,13 @@ class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = freezed,
+    Object? userId = null,
   }) {
     return _then(_value.copyWith(
-      userId: freezed == userId
+      userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -96,7 +96,7 @@ abstract class _$$ProfileOnLoadedCopyWith<$Res>
       __$$ProfileOnLoadedCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? userId});
+  $Res call({String userId});
 }
 
 /// @nodoc
@@ -110,13 +110,13 @@ class __$$ProfileOnLoadedCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = freezed,
+    Object? userId = null,
   }) {
     return _then(_$ProfileOnLoaded(
-      userId: freezed == userId
+      userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -124,10 +124,10 @@ class __$$ProfileOnLoadedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProfileOnLoaded implements ProfileOnLoaded {
-  const _$ProfileOnLoaded({this.userId});
+  const _$ProfileOnLoaded({required this.userId});
 
   @override
-  final String? userId;
+  final String userId;
 
   @override
   String toString() {
@@ -154,7 +154,7 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? userId) onLoaded,
+    required TResult Function(String userId) onLoaded,
   }) {
     return onLoaded(userId);
   }
@@ -162,7 +162,7 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? userId)? onLoaded,
+    TResult? Function(String userId)? onLoaded,
   }) {
     return onLoaded?.call(userId);
   }
@@ -170,7 +170,7 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? userId)? onLoaded,
+    TResult Function(String userId)? onLoaded,
     required TResult orElse(),
   }) {
     if (onLoaded != null) {
@@ -209,10 +209,11 @@ class _$ProfileOnLoaded implements ProfileOnLoaded {
 }
 
 abstract class ProfileOnLoaded implements ProfileEvent {
-  const factory ProfileOnLoaded({final String? userId}) = _$ProfileOnLoaded;
+  const factory ProfileOnLoaded({required final String userId}) =
+      _$ProfileOnLoaded;
 
   @override
-  String? get userId;
+  String get userId;
   @override
   @JsonKey(ignore: true)
   _$$ProfileOnLoadedCopyWith<_$ProfileOnLoaded> get copyWith =>

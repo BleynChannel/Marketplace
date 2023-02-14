@@ -13,13 +13,15 @@ import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 
 class ProductRepository {
-  final _remoteDataSource = ProductRemoteDataSource();
+  final ProductRemoteDataSource remoteDataSource;
+
+  ProductRepository(this.remoteDataSource);
 
   Future<Either<DiscoverGetProductsFailure, Map<String, List<CompactProduct>>>>
       discoverGetProducts({required List<Platform> platforms}) async {
     try {
       final result =
-          await _remoteDataSource.discoverGetProducts(platforms: platforms);
+          await remoteDataSource.discoverGetProducts(platforms: platforms);
       return Right(result);
     } catch (_) {
       return const Left(DiscoverGetProductsFailure.unknown());
@@ -29,7 +31,7 @@ class ProductRepository {
   Future<Either<GetCartProductsFailure, List<CartProduct>>>
       getCartProducts() async {
     try {
-      final result = await _remoteDataSource.getCartProducts();
+      final result = await remoteDataSource.getCartProducts();
       return Right(result);
     } catch (_) {
       return const Left(GetCartProductsFailure.unknown());
@@ -38,7 +40,7 @@ class ProductRepository {
 
   Future<Either<GetDesiredFailure, List<Desired>>> getDesired() async {
     try {
-      final result = await _remoteDataSource.getDesired();
+      final result = await remoteDataSource.getDesired();
       return Right(result);
     } catch (_) {
       return const Left(GetDesiredFailure.unknown());
@@ -48,7 +50,7 @@ class ProductRepository {
   Future<Either<GetProductFailure, Product>> getProduct(
       {required String id}) async {
     try {
-      final result = await _remoteDataSource.getProduct(id: id);
+      final result = await remoteDataSource.getProduct(id: id);
       return Right(result);
     } catch (_) {
       return const Left(GetProductFailure.unknown());
@@ -58,7 +60,7 @@ class ProductRepository {
   Future<Either<SearchProductsFailure, List<CompactProduct>>> searchProducts(
       {required Filter filter}) async {
     try {
-      final result = await _remoteDataSource.searchProducts(filter: filter);
+      final result = await remoteDataSource.searchProducts(filter: filter);
       return Right(result);
     } catch (_) {
       return const Left(SearchProductsFailure.unknown());

@@ -1,10 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marketplace/const.dart';
+import 'package:get/get.dart';
+import 'package:marketplace/domain/repository/product_repository.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_state.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_event.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc() : super(const CartState.load()) {
+    final productRepository = Get.find<ProductRepository>();
+    
     on<CartOnLoaded>((event, emit) async {
       if (!debugIsNetwork) {
         emit(const CartState.noNetwork());

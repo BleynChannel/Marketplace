@@ -4,5 +4,6 @@ part 'profile_event.freezed.dart';
 
 @freezed
 class ProfileEvent with _$ProfileEvent {
-  const factory ProfileEvent.onLoaded({String? userId}) = ProfileOnLoaded;
+  const factory ProfileEvent.onLoaded({required String userId}) =
+      ProfileOnLoaded;
 }

@@ -5,7 +5,7 @@ import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 
 class ProductRemoteDataSource {
   Future<Map<String, List<CompactProduct>>> discoverGetProducts(

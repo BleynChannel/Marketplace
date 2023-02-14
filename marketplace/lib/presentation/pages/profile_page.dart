@@ -16,18 +16,24 @@ import 'package:marketplace/domain/entity/status.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_bloc.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_event.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_state.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
-  final String? userId;
+  final ProfileBloc bloc;
+
+  final String id;
+
+  ProfilePage({Key? key, @PathParam() required this.id})
+      : bloc = ProfileBloc()..add(ProfileEvent.onLoaded(userId: id)),
+        super(key: key);
 
   void _onRefreshPage(BuildContext context) {
-    context.read<ProfileBloc>().add(ProfileEvent.onLoaded(userId: userId));
+    bloc.add(ProfileEvent.onLoaded(userId: id));
   }
 
   void _onMenuClick(BuildContext context) {
@@ -47,23 +53,18 @@ class ProfilePage extends StatelessWidget {
     }
   }
 
-  const ProfilePage({Key? key, this.userId}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProfileBloc>(
-      create: (context) =>
-          ProfileBloc()..add(ProfileEvent.onLoaded(userId: userId)),
-      child: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          return state.when<Widget>(
-            load: () => _buildLoaded(context),
-            loading: (profile) => _buildMain(context, profile: profile),
-            error: (message) => _buildError(context, message: message),
-            noNetwork: () => _buildError(context, message: 'No network'),
-          );
-        },
-      ),
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      bloc: bloc,
+      builder: (context, state) {
+        return state.when<Widget>(
+          load: () => _buildLoaded(context),
+          loading: (profile) => _buildMain(context, profile: profile),
+          error: (message) => _buildError(context, message: message),
+          noNetwork: () => _buildError(context, message: 'No network'),
+        );
+      },
     );
   }
 
@@ -104,7 +105,7 @@ class ProfilePage extends StatelessWidget {
               aspectRatio: 1,
               child: LoadingIndicator(
                 indicatorType: Indicator.pacman,
-                colors: [primaryColor, accentColor],
+                colors: [AppColors.primaryColor, AppColors.accentColor],
               ),
             ),
           ),
@@ -251,7 +252,7 @@ class ProfilePage extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: secondaryColor,
+          color: AppColors.secondaryColor,
           borderRadius: BorderRadius.circular(size / 4),
           boxShadow: [
             BoxShadow(
@@ -296,7 +297,7 @@ class ProfilePage extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: AppColors.secondaryColor,
         borderRadius: BorderRadius.circular(height / 6),
         boxShadow: [
           BoxShadow(
@@ -399,10 +400,11 @@ class ProfilePage extends StatelessWidget {
       padding: const EdgeInsets.only(right: 10),
       child: Container(
         decoration: BoxDecoration(
-          color: secondaryColor,
+          color: AppColors.secondaryColor,
           border: Border.all(
             width: 2,
-            color: Color.lerp(secondaryColor, Colors.grey, 0.3) ?? Colors.white,
+            color: Color.lerp(AppColors.secondaryColor, Colors.grey, 0.3) ??
+                Colors.white,
           ),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
@@ -445,7 +447,6 @@ class ProfilePage extends StatelessWidget {
                       ),
                     );
                   })
-                  .expand((element) => [element, const SizedBox(height: 4)])
                   .toList(),
             )),
       ),
@@ -501,8 +502,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                 lerpDouble(expandedPurchasesHeaderHeight / 2, 0, progress) ?? 0,
           ),
           child: AppBar(
-            backgroundColor: Color.lerp(
-                Colors.black.withOpacity(0), backgroundColor, progress),
+            backgroundColor: Color.lerp(Colors.black.withOpacity(0),
+                AppColors.backgroundColor, progress),
             actions: [
               IconButton(
                 onPressed: () => onMenuActionClick(context),
@@ -540,8 +541,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                                 borderRadius: BorderRadius.circular(60),
                                 gradient: const LinearGradient(
                                   colors: [
-                                    gradientStartColor,
-                                    gradientStopColor
+                                    AppColors.gradientStartColor,
+                                    AppColors.gradientStopColor
                                   ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
@@ -602,7 +603,10 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   gradient: const LinearGradient(
-                    colors: [gradientStartColor, gradientStopColor],
+                    colors: [
+                      AppColors.gradientStartColor,
+                      AppColors.gradientStopColor
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),

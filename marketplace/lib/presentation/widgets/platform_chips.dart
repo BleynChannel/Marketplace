@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace/domain/entity/platform.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 
 class PlatformChips extends StatefulWidget {
   final void Function(List<Platform> selected) onSelected;
@@ -29,7 +29,6 @@ class _PlatformChipsState extends State<PlatformChips> {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Row(children: [
           _buildPlatformItem(
-            context,
             title: "All",
             selected: allSelected || _filters.isEmpty,
             onSelected: (value) {
@@ -47,7 +46,6 @@ class _PlatformChipsState extends State<PlatformChips> {
           ),
           ...Platform.values.map((platform) {
             return _buildPlatformItem(
-              context,
               title: ui_utils.platformToName(platform),
               selected: !allSelected && _filters.contains(platform),
               onSelected: (selected) {
@@ -62,7 +60,8 @@ class _PlatformChipsState extends State<PlatformChips> {
                     _filters.removeWhere((element) => element == platform);
                   }
 
-                  widget.onSelected(_filters.isEmpty ? Platform.values : _filters);
+                  widget.onSelected(
+                      _filters.isEmpty ? Platform.values : _filters);
                 });
               },
             );
@@ -72,8 +71,7 @@ class _PlatformChipsState extends State<PlatformChips> {
     );
   }
 
-  Widget _buildPlatformItem(
-    BuildContext context, {
+  Widget _buildPlatformItem({
     required String title,
     required bool selected,
     required void Function(bool) onSelected,
@@ -85,7 +83,7 @@ class _PlatformChipsState extends State<PlatformChips> {
           border: selected
               ? const Border(
                   bottom: BorderSide(
-                    color: accentColor,
+                    color: AppColors.accentColor,
                     width: 1,
                   ),
                 )

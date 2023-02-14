@@ -1,17 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marketplace/const.dart';
+import 'package:get/get.dart';
+import 'package:marketplace/domain/repository/auth_repository.dart';
 import 'package:marketplace/presentation/bloc/reset_password/reset_password_event.dart';
 import 'package:marketplace/presentation/bloc/reset_password/reset_password_state.dart';
+import 'package:marketplace/presentation/debug_data.dart';
 
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
   ResetPasswordBloc() : super(const ResetPasswordState.empty()) {
+    final authRepository = Get.find<AuthRepository>();
+
     on<ResetPasswordOnResetPassword>((event, emit) async {
       if (!debugIsNetwork) {
         emit(const ResetPasswordState.noNetwork());
         return;
       }
 
-      final result = await userRepository.resetPassword(event.email);
+      final result = await authRepository.resetPassword(event.email);
       result.fold((failure) {
         String message = '';
 

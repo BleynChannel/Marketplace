@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/platform.dart';
-import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/widgets/custom_range_slider.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/expansion_category.dart';
 
 class FilterPage extends StatelessWidget {
@@ -401,12 +401,12 @@ class _FilterChipsState extends State<FilterChips> {
             ),
       ),
       shape: const RoundedRectangleBorder(
-        side: BorderSide(color: primaryColor, width: 1),
+        side: BorderSide(color: AppColors.primaryColor, width: 1),
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       labelPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
       backgroundColor: Colors.transparent,
-      selectedColor: primaryColor,
+      selectedColor: AppColors.primaryColor,
       showCheckmark: false,
       selected: selected,
       onSelected: onSelected,

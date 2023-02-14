@@ -4,573 +4,57 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/const.dart';
 import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/status.dart';
-import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/domain/repository/auth_repository.dart';
+import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/presentation/controller/menu_controller.dart';
 import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/presentation/provider/home_avatar_model.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
+import 'package:marketplace/presentation/provider/home_avatar_provider.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/expansion_category.dart';
-import 'package:provider/provider.dart';
 
-class MenuPage extends StatefulWidget {
-  final String? path;
+// ignore: must_be_immutable
+class MenuPage extends GetView<MenuController> {
+  void Function()? action;
 
-  const MenuPage({Key? key, @PathParam() this.path}) : super(key: key);
-
-  @override
-  State<MenuPage> createState() => _MenuPageState();
-}
-
-class _MenuCategory {
-  final String title;
-  final Map<String, _MenuField> fields;
-
-  _MenuCategory({required this.title, required this.fields});
-}
-
-class _MenuField {
-  final Widget Function(
-    BuildContext context,
-    void Function(BuildContext context) action,
-  ) builder;
-  final void Function(BuildContext context) action;
-
-  _MenuField({required this.builder, required this.action});
-}
-
-class _MenuPageState extends State<MenuPage> {
-  late String path;
+  late final String path;
 
   String? _categoryPath;
   String? _fieldPath;
 
-  void Function(BuildContext context)? action;
-
-  late bool _receivedNotificationSwitch;
-  late bool _receivedNewsletterSwitch;
-
-  void _initPath() {
-    path = widget.path != null ? widget.path!.substring(1) : '';
-    if (path.isNotEmpty) {
-      final paths = path.split('.');
-      if (paths.isEmpty) {
-        return;
-      } else if (paths.length == 1) {
+  void _initPath(String? path) {
+    this.path = path != null ? path.substring(1) : '';
+    if (this.path.isNotEmpty) {
+      final paths = this.path.split('.');
+      if (paths.length == 1) {
         _categoryPath = paths[0];
-      } else {
+      } else if (paths.length == 2) {
         _categoryPath = paths[0];
         _fieldPath = paths[1];
       }
     }
   }
 
-  @override
-  void initState() {
-    _initPath();
-
-    _receivedNotificationSwitch = true;
-    _receivedNewsletterSwitch = false;
+  MenuPage({Key? key, @PathParam() String? path}) : super(key: key) {
+    _initPath(path);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (action != null) {
-        action!(context);
+        action!();
       }
     });
-
-    super.initState();
   }
 
-  void _nicknameAction(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        //TODO: Брать ник из user
-        final inputController =
-            TextEditingController(text: debugProfile.nickname);
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  Map<String, _MenuCategory> _getFields(BuildContext context) {
+    final menuActions = _MenuActions(context, controller);
 
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Enter a nickname',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: Form(
-              key: formKey,
-              child: TextFormField(
-                controller: inputController,
-                validator: (value) => ui_utils.isNicknameValid(value ?? ''),
-                autovalidateMode: AutovalidateMode.always,
-              ),
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    String nickname = inputController.text.trim();
-
-                    final result = await userRepository.changeProfileNickname(
-                        nickname: nickname);
-
-                    String message = '';
-                    bool isCorrect = false;
-
-                    result.fold<void>(
-                      (failure) {
-                        failure.when(
-                          unknown: () => message = 'Unknown error',
-                        );
-                        isCorrect = false;
-                      },
-                      (data) {
-                        debugProfile.nickname = nickname;
-                        message = 'Changes saved';
-                        isCorrect = true;
-                      },
-                    );
-
-                    // ignore: use_build_context_synchronously
-                    await _showMessageDialog(
-                      context,
-                      message: message,
-                      isCorrect: isCorrect,
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _statusAction(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        //TODO: Брать статус из user
-        final inputController =
-            TextEditingController(text: debugProfile.status.title);
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-        Color changeColor = Colors.black;
-
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Enter a status',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: _MenuStatusContent(
-              formKey: formKey,
-              inputController: inputController,
-              color: debugProfile.status.color,
-              onColorChanged: (color) => changeColor = color,
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    String title = inputController.text.trim();
-
-                    final result = await userRepository.changeProfileStatus(
-                        status: Status(title: title, color: changeColor));
-
-                    String message = '';
-                    bool isCorrect = false;
-
-                    result.fold<void>(
-                      (failure) {
-                        failure.when(
-                          unknown: () => message = 'Unknown error',
-                        );
-                        isCorrect = false;
-                      },
-                      (data) {
-                        debugProfile.status.title = title;
-                        debugProfile.status.color = changeColor;
-                        message = 'Changes saved';
-                        isCorrect = true;
-                      },
-                    );
-
-                    // ignore: use_build_context_synchronously
-                    await _showMessageDialog(
-                      context,
-                      message: message,
-                      isCorrect: isCorrect,
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _avatarAction(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        Uint8List image = debugProfile.avatar.data.toImage();
-
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Pick a avatar',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: _MenuAvatarContent(
-              image: image,
-              onImageChange: (Uint8List img) => image = img,
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  Media media = Media(
-                    type: MediaType.image,
-                    location: MediaLocation.remote,
-                    data: MediaData(data: image),
-                  );
-
-                  final result =
-                      await userRepository.changeProfileAvatar(avatar: media);
-
-                  String message = '';
-                  bool isCorrect = false;
-
-                  result.fold<void>(
-                    (failure) {
-                      failure.when(
-                        unknown: () => message = 'Unknown error',
-                      );
-                      isCorrect = false;
-                    },
-                    (data) {
-                      debugProfile.avatar = media;
-                      final model = Provider.of<HomeAvatarModel>(this.context,
-                          listen: false);
-                      model.image = image;
-
-                      message = 'Changes saved';
-                      isCorrect = true;
-                    },
-                  );
-
-                  // ignore: use_build_context_synchronously
-                  await _showMessageDialog(
-                    context,
-                    message: message,
-                    isCorrect: isCorrect,
-                  );
-                  // ignore: use_build_context_synchronously
-                  Navigator.pop(context);
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _backgroundAction(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        Uint8List image = debugProfile.backgroundImage.data.toImage();
-
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Pick a background',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: _MenuBackgroundContent(
-              image: image,
-              onImageChange: (Uint8List img) => image = img,
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  Media media = Media(
-                    type: MediaType.image,
-                    location: MediaLocation.remote,
-                    data: MediaData(data: image),
-                  );
-
-                  final result = await userRepository
-                      .changeProfileBackgroundImage(backgroundImage: media);
-
-                  String message = '';
-                  bool isCorrect = false;
-
-                  result.fold<void>(
-                    (failure) {
-                      failure.when(
-                        unknown: () => message = 'Unknown error',
-                      );
-                      isCorrect = false;
-                    },
-                    (data) {
-                      debugProfile.backgroundImage = media;
-                      message = 'Changes saved';
-                      isCorrect = true;
-                    },
-                  );
-
-                  // ignore: use_build_context_synchronously
-                  await _showMessageDialog(
-                    context,
-                    message: message,
-                    isCorrect: isCorrect,
-                  );
-                  // ignore: use_build_context_synchronously
-                  Navigator.pop(context);
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _passwordAction(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        final inputController = TextEditingController();
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Enter a new password',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: Form(
-              key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: inputController,
-                    validator: (value) => ui_utils.isPasswordValid(value ?? ''),
-                    autovalidateMode: AutovalidateMode.always,
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    String newPassword = inputController.text.trim();
-
-                    final result = await userRepository.changeProfilePassword(
-                        newPassword: newPassword);
-
-                    String message = '';
-                    bool isCorrect = false;
-
-                    result.fold<void>(
-                      (failure) {
-                        failure.when(
-                          unknown: () => message = 'Unknown error',
-                          weakPassword: () =>
-                              message = 'The password is not strong enough',
-                          requiresRecentLogin: () => message =
-                              'User\'s last sign-in time does not meet the security threshold',
-                        );
-                        isCorrect = false;
-                      },
-                      (data) {
-                        debugProfile.nickname = newPassword;
-                        message = 'Changes saved';
-                        isCorrect = true;
-                      },
-                    );
-
-                    // ignore: use_build_context_synchronously
-                    await _showMessageDialog(
-                      context,
-                      message: message,
-                      isCorrect: isCorrect,
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _signoutAction(BuildContext context) async {
-    final result = await userRepository.signOut();
-    result.fold<void>((failure) {
-      String message = '';
-
-      failure.when(
-        unknown: () => message = 'Unknown error',
-        networkRequestFailed: () => message = 'No network',
-      );
-
-      ui_utils.sendScaffoldMessage(context, message: message);
-    }, (_) {
-      user = null;
-      context.router.replaceAll([const WelcomeRoute()]);
-    });
-  }
-
-  void _languageAction(BuildContext context) {
-    //Менять язык
-
-    showDialog(
-      context: context,
-      builder: (context) => Theme(
-        data: ThemeData.dark(),
-        child: AlertDialog(
-          title: Text(
-            'Enter a new password',
-            style: GoogleFonts.roboto(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: DropdownButton(
-            items: const [
-              DropdownMenuItem(child: Text('English')),
-            ],
-            onChanged: (value) {
-              //Менять язык
-            },
-          ),
-          actions: [
-            TextButton(
-              child: const Text('Close'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _receivedNotificationAction(BuildContext context) {
-    //Отправлять уведомления?
-  }
-
-  void _receivedNewsletterAction(BuildContext context) {
-    //Отправлять новостную рассылку?
-  }
-
-  Future _showMessageDialog(
-    BuildContext context, {
-    required String message,
-    required bool isCorrect,
-  }) async {
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            LottieBuilder.asset(
-              "assets/lottie/${isCorrect ? 'check' : 'uncheck'}.json",
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              message,
-              style: GoogleFonts.roboto(fontSize: 16),
-            ),
-          ],
-        ),
-        actions: [
-          SizedBox(
-            width: double.infinity,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Close'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Map<String, _MenuCategory> _getFields() {
     return {
       'profile': _MenuCategory(title: 'Profile', fields: {
         'nickname': _MenuField(
@@ -578,60 +62,60 @@ class _MenuPageState extends State<MenuPage> {
             return _buildInkListTile(
               title: const Text("Change nickname"),
               leading: const Icon(Icons.person_outlined),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _nicknameAction,
+          action: menuActions.nicknameAction,
         ),
         'status': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
               title: const Text("Change status"),
               leading: const Icon(Icons.more_outlined),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _statusAction,
+          action: menuActions.statusAction,
         ),
         'avatar': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
               title: const Text("Change avatar"),
               leading: const Icon(Icons.person_pin_outlined),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _avatarAction,
+          action: menuActions.avatarAction,
         ),
         'background': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
               title: const Text("Change background"),
               leading: const Icon(Icons.image),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _backgroundAction,
+          action: menuActions.backgroundAction,
         ),
         'password': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
               title: const Text("Change password"),
               leading: const Icon(Icons.lock_outline),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _passwordAction,
+          action: menuActions.passwordAction,
         ),
         'signout': _MenuField(
           builder: (context, action) {
             return ListTile(
               title: const Text("Sign Out"),
               leading: const Icon(Icons.exit_to_app, color: Colors.red),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _signoutAction,
+          action: menuActions.signoutAction,
         ),
       }),
       'settings': _MenuCategory(title: 'Settings', fields: {
@@ -648,40 +132,44 @@ class _MenuPageState extends State<MenuPage> {
                 ),
               ),
               leading: const Icon(Icons.language),
-              onTap: () => action(context),
+              onTap: () => action(),
             );
           },
-          action: _languageAction,
+          action: menuActions.languageAction,
         ),
       }),
       'notification': _MenuCategory(title: 'Notification', fields: {
         'received_notification': _MenuField(
           builder: (context, action) {
-            return _buildSwitchListTile(
-              title: const Text("Received notification"),
-              value: _receivedNotificationSwitch,
-              onChanged: (value) => setState(() {
-                _receivedNotificationSwitch = !_receivedNotificationSwitch;
-
-                action(context);
-              }),
+            return Obx(
+              () => _buildSwitchListTile(
+                title: const Text("Received notification"),
+                value: controller.receivedNotificationSwitch,
+                onChanged: (value) {
+                  controller.receivedNotificationSwitch =
+                      !controller.receivedNotificationSwitch;
+                  action();
+                },
+              ),
             );
           },
-          action: _receivedNotificationAction,
+          action: () {},
         ),
         'received_newsletter': _MenuField(
           builder: (context, action) {
-            return _buildSwitchListTile(
-              title: const Text("Received newsletter"),
-              value: _receivedNewsletterSwitch,
-              onChanged: (value) => setState(() {
-                _receivedNewsletterSwitch = !_receivedNewsletterSwitch;
-
-                action(context);
-              }),
+            return Obx(
+              () => _buildSwitchListTile(
+                title: const Text("Received newsletter"),
+                value: controller.receivedNewsletterSwitch,
+                onChanged: (value) {
+                  controller.receivedNewsletterSwitch =
+                      !controller.receivedNewsletterSwitch;
+                  action();
+                },
+              ),
             );
           },
-          action: _receivedNewsletterAction,
+          action: () {},
         ),
       }),
     };
@@ -718,7 +206,7 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    final fields = _getFields();
+    final fields = _getFields(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -770,6 +258,7 @@ class _MenuPageState extends State<MenuPage> {
     required List<Widget> children,
   }) {
     return ExpansionCategory(
+      key: UniqueKey(),
       initiallyExpanded: initiallyExpanded,
       title: Text(
         title,
@@ -782,11 +271,11 @@ class _MenuPageState extends State<MenuPage> {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: secondaryColor,
+            color: AppColors.secondaryColor,
             border: Border.all(
               width: 2,
-              color:
-                  Color.lerp(secondaryColor, Colors.grey, 0.3) ?? Colors.white,
+              color: Color.lerp(AppColors.secondaryColor, Colors.grey, 0.3) ??
+                  Colors.white,
             ),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
@@ -808,6 +297,498 @@ class _MenuPageState extends State<MenuPage> {
             child: Column(children: children),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _MenuCategory {
+  final String title;
+  final Map<String, _MenuField> fields;
+
+  _MenuCategory({required this.title, required this.fields});
+}
+
+class _MenuField {
+  final Widget Function(
+    BuildContext context,
+    void Function() action,
+  ) builder;
+  final void Function() action;
+
+  _MenuField({required this.builder, required this.action});
+}
+
+class _MenuActions {
+  final BuildContext context;
+  final MenuController controller;
+
+  _MenuActions(this.context, this.controller);
+
+  void nicknameAction() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        //TODO: Брать ник из user
+        final inputController =
+            TextEditingController(text: debugProfile.nickname);
+        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+        return Theme(
+          data: ThemeData.dark(),
+          child: AlertDialog(
+            title: Text(
+              'Enter a nickname',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: Form(
+              key: formKey,
+              child: TextFormField(
+                controller: inputController,
+                validator: (value) => ui_utils.isNicknameValid(value ?? ''),
+                autovalidateMode: AutovalidateMode.always,
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Change'),
+                onPressed: () async {
+                  if (formKey.currentState != null &&
+                      formKey.currentState!.validate()) {
+                    String nickname = inputController.text.trim();
+
+                    final result = await controller.userRepository
+                        .changeProfileNickname(nickname: nickname);
+
+                    String message = '';
+                    bool isCorrect = false;
+
+                    result.fold<void>(
+                      (failure) {
+                        failure.when(
+                          unknown: () => message = 'Unknown error',
+                        );
+                        isCorrect = false;
+                      },
+                      (data) {
+                        debugProfile.nickname = nickname;
+                        message = 'Changes saved';
+                        isCorrect = true;
+                      },
+                    );
+
+                    await _showMessageDialog(
+                      message: message,
+                      isCorrect: isCorrect,
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void statusAction() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        //TODO: Брать статус из user
+        final inputController =
+            TextEditingController(text: debugProfile.status.title);
+        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+        Color changeColor = Colors.black;
+
+        return Theme(
+          data: ThemeData.dark(),
+          child: AlertDialog(
+            title: Text(
+              'Enter a status',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: _MenuStatusContent(
+              formKey: formKey,
+              inputController: inputController,
+              color: debugProfile.status.color,
+              onColorChanged: (color) => changeColor = color,
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Change'),
+                onPressed: () async {
+                  if (formKey.currentState != null &&
+                      formKey.currentState!.validate()) {
+                    String title = inputController.text.trim();
+
+                    final result = await controller.userRepository
+                        .changeProfileStatus(
+                            status: Status(title: title, color: changeColor));
+
+                    String message = '';
+                    bool isCorrect = false;
+
+                    result.fold<void>(
+                      (failure) {
+                        failure.when(
+                          unknown: () => message = 'Unknown error',
+                        );
+                        isCorrect = false;
+                      },
+                      (data) {
+                        debugProfile.status.title = title;
+                        debugProfile.status.color = changeColor;
+                        message = 'Changes saved';
+                        isCorrect = true;
+                      },
+                    );
+
+                    await _showMessageDialog(
+                      message: message,
+                      isCorrect: isCorrect,
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void avatarAction() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        Uint8List image = debugProfile.avatar.data.toImage();
+
+        return Theme(
+          data: ThemeData.dark(),
+          child: AlertDialog(
+            title: Text(
+              'Pick a avatar',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: _MenuAvatarContent(
+              image: image,
+              onImageChange: (Uint8List img) => image = img,
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Change'),
+                onPressed: () async {
+                  Media media = Media(
+                    type: MediaType.image,
+                    location: MediaLocation.remote,
+                    data: MediaData(data: image),
+                  );
+
+                  final result = await controller.userRepository
+                      .changeProfileAvatar(avatar: media);
+
+                  String message = '';
+                  bool isCorrect = false;
+
+                  result.fold<void>(
+                    (failure) {
+                      failure.when(
+                        unknown: () => message = 'Unknown error',
+                      );
+                      isCorrect = false;
+                    },
+                    (data) {
+                      debugProfile.avatar = media;
+                      Get.find<HomeAvatarProvider>().image = image;
+
+                      message = 'Changes saved';
+                      isCorrect = true;
+                    },
+                  );
+
+                  await _showMessageDialog(
+                    message: message,
+                    isCorrect: isCorrect,
+                  );
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void backgroundAction() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        Uint8List image = debugProfile.backgroundImage.data.toImage();
+
+        return Theme(
+          data: ThemeData.dark(),
+          child: AlertDialog(
+            title: Text(
+              'Pick a background',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: _MenuBackgroundContent(
+              image: image,
+              onImageChange: (Uint8List img) => image = img,
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Change'),
+                onPressed: () async {
+                  Media media = Media(
+                    type: MediaType.image,
+                    location: MediaLocation.remote,
+                    data: MediaData(data: image),
+                  );
+
+                  final result = await controller.userRepository
+                      .changeProfileBackgroundImage(backgroundImage: media);
+
+                  String message = '';
+                  bool isCorrect = false;
+
+                  result.fold<void>(
+                    (failure) {
+                      failure.when(
+                        unknown: () => message = 'Unknown error',
+                      );
+                      isCorrect = false;
+                    },
+                    (data) {
+                      debugProfile.backgroundImage = media;
+                      message = 'Changes saved';
+                      isCorrect = true;
+                    },
+                  );
+
+                  await _showMessageDialog(
+                    message: message,
+                    isCorrect: isCorrect,
+                  );
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void passwordAction() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final inputController = TextEditingController();
+        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+        return Theme(
+          data: ThemeData.dark(),
+          child: AlertDialog(
+            title: Text(
+              'Enter a new password',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: inputController,
+                    validator: (value) => ui_utils.isPasswordValid(value ?? ''),
+                    autovalidateMode: AutovalidateMode.always,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Change'),
+                onPressed: () async {
+                  if (formKey.currentState != null &&
+                      formKey.currentState!.validate()) {
+                    String newPassword = inputController.text.trim();
+
+                    final result = await controller.userRepository
+                        .changeProfilePassword(newPassword: newPassword);
+
+                    String message = '';
+                    bool isCorrect = false;
+
+                    result.fold<void>(
+                      (failure) {
+                        failure.when(
+                          unknown: () => message = 'Unknown error',
+                          weakPassword: () =>
+                              message = 'The password is not strong enough',
+                          requiresRecentLogin: () => message =
+                              'User\'s last sign-in time does not meet the security threshold',
+                        );
+                        isCorrect = false;
+                      },
+                      (data) {
+                        debugProfile.nickname = newPassword;
+                        message = 'Changes saved';
+                        isCorrect = true;
+                      },
+                    );
+
+                    await _showMessageDialog(
+                      message: message,
+                      isCorrect: isCorrect,
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void signoutAction() async {
+    final repository = Get.find<AuthRepository>();
+    final result = await repository.signOut();
+    result.fold<void>((failure) {
+      String message = '';
+
+      failure.when(
+        unknown: () => message = 'Unknown error',
+        networkRequestFailed: () => message = 'No network',
+      );
+
+      ui_utils.sendScaffoldMessage(context, message: message);
+    }, (_) {});
+  }
+
+  void languageAction() {
+    //Менять язык
+
+    showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: ThemeData.dark(),
+        child: AlertDialog(
+          title: Text(
+            'Enter a new password',
+            style: GoogleFonts.roboto(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: DropdownButton(
+            items: const [
+              DropdownMenuItem(child: Text('English')),
+            ],
+            onChanged: (value) {
+              //Менять язык
+            },
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void receivedNotificationAction() {
+    //Отправлять уведомления?
+  }
+
+  void receivedNewsletterAction() {
+    //Отправлять новостную рассылку?
+  }
+
+  Future _showMessageDialog({
+    required String message,
+    required bool isCorrect,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            LottieBuilder.asset(
+              "assets/lottie/${isCorrect ? 'check' : 'uncheck'}.json",
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              style: GoogleFonts.roboto(fontSize: 16),
+            ),
+          ],
+        ),
+        actions: [
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Close'),
+            ),
+          ),
+        ],
       ),
     );
   }

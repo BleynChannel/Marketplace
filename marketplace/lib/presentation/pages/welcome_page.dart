@@ -2,8 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:wave/config.dart';
@@ -22,43 +21,33 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: debugInit(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const SizedBox();
-        }
-
-        return Scaffold(
-          body: BackgroundBlur(
-            child: _buildBackgroundWave(
-              context,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
-                child: Column(
-                  children: [
-                    const Expanded(flex: 4, child: SizedBox()),
-                    Expanded(
-                      flex: 3,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Column(
-                          children: [
-                            _buildTitle(context),
-                            const Expanded(child: SizedBox()),
-                            _buildLogIn(context),
-                          ],
-                        ),
-                      ),
+    return Scaffold(
+      body: BackgroundBlur(
+        child: _buildBackgroundWave(
+          context,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+            child: Column(
+              children: [
+                const Expanded(flex: 4, child: SizedBox()),
+                Expanded(
+                  flex: 3,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      children: [
+                        _buildTitle(context),
+                        const Expanded(child: SizedBox()),
+                        _buildLogIn(context),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -74,14 +63,14 @@ class WelcomePage extends StatelessWidget {
                   durations: const [25000, 22000, 20000],
                   heightPercentages: const [0.45, 0.47, 0.49],
                   gradients: [
-                    [gradientStartColor, gradientStopColor],
+                    [AppColors.gradientStartColor, AppColors.gradientStopColor],
                     [
-                      gradientStartColor.withOpacity(0.7),
-                      gradientStopColor.withOpacity(0.7)
+                      AppColors.gradientStartColor.withOpacity(0.7),
+                      AppColors.gradientStopColor.withOpacity(0.7)
                     ],
                     [
-                      gradientStartColor.withOpacity(0.5),
-                      gradientStopColor.withOpacity(0.5)
+                      AppColors.gradientStartColor.withOpacity(0.5),
+                      AppColors.gradientStopColor.withOpacity(0.5)
                     ],
                   ],
                   gradientBegin: Alignment.bottomRight,

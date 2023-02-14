@@ -10,7 +10,7 @@ import 'package:marketplace/domain/entity/notification.dart' as entity;
 import 'package:shimmer/shimmer.dart';
 
 class NotificationPage extends StatelessWidget {
-  NotificationPage({Key? key}) : super(key: key);
+  const NotificationPage({Key? key}) : super(key: key);
 
   static const int _shimerNotificationCount = 6;
 

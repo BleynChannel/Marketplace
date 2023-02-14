@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/core/const/colors.dart';
 
 class CustomRangeSlider extends StatefulWidget {
   final RangeValues values;
@@ -37,7 +37,7 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
 
     super.initState();
   }
-  
+
   @override
   void didUpdateWidget(covariant CustomRangeSlider oldWidget) {
     setState(() {
@@ -96,8 +96,8 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
         SliderTheme(
           data: SliderThemeData(
             rangeThumbShape: CustomRangeThumbShape(),
-            activeTrackColor: primaryColor,
-            thumbColor: accentColor,
+            activeTrackColor: AppColors.primaryColor,
+            thumbColor: AppColors.accentColor,
             inactiveTrackColor: Colors.grey.withOpacity(0.4),
           ),
           child: RangeSlider(

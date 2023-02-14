@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'get_user_failure.dart';
+part of 'init_failure.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$GetUserFailure {
+mixin _$InitFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
@@ -34,33 +34,33 @@ mixin _$GetUserFailure {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(GetUserFailureUnknown value) unknown,
+    required TResult Function(InitFailureUnknown value) unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(GetUserFailureUnknown value)? unknown,
+    TResult? Function(InitFailureUnknown value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(GetUserFailureUnknown value)? unknown,
+    TResult Function(InitFailureUnknown value)? unknown,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetUserFailureCopyWith<$Res> {
-  factory $GetUserFailureCopyWith(
-          GetUserFailure value, $Res Function(GetUserFailure) then) =
-      _$GetUserFailureCopyWithImpl<$Res, GetUserFailure>;
+abstract class $InitFailureCopyWith<$Res> {
+  factory $InitFailureCopyWith(
+          InitFailure value, $Res Function(InitFailure) then) =
+      _$InitFailureCopyWithImpl<$Res, InitFailure>;
 }
 
 /// @nodoc
-class _$GetUserFailureCopyWithImpl<$Res, $Val extends GetUserFailure>
-    implements $GetUserFailureCopyWith<$Res> {
-  _$GetUserFailureCopyWithImpl(this._value, this._then);
+class _$InitFailureCopyWithImpl<$Res, $Val extends InitFailure>
+    implements $InitFailureCopyWith<$Res> {
+  _$InitFailureCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -69,35 +69,35 @@ class _$GetUserFailureCopyWithImpl<$Res, $Val extends GetUserFailure>
 }
 
 /// @nodoc
-abstract class _$$GetUserFailureUnknownCopyWith<$Res> {
-  factory _$$GetUserFailureUnknownCopyWith(_$GetUserFailureUnknown value,
-          $Res Function(_$GetUserFailureUnknown) then) =
-      __$$GetUserFailureUnknownCopyWithImpl<$Res>;
+abstract class _$$InitFailureUnknownCopyWith<$Res> {
+  factory _$$InitFailureUnknownCopyWith(_$InitFailureUnknown value,
+          $Res Function(_$InitFailureUnknown) then) =
+      __$$InitFailureUnknownCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetUserFailureUnknownCopyWithImpl<$Res>
-    extends _$GetUserFailureCopyWithImpl<$Res, _$GetUserFailureUnknown>
-    implements _$$GetUserFailureUnknownCopyWith<$Res> {
-  __$$GetUserFailureUnknownCopyWithImpl(_$GetUserFailureUnknown _value,
-      $Res Function(_$GetUserFailureUnknown) _then)
+class __$$InitFailureUnknownCopyWithImpl<$Res>
+    extends _$InitFailureCopyWithImpl<$Res, _$InitFailureUnknown>
+    implements _$$InitFailureUnknownCopyWith<$Res> {
+  __$$InitFailureUnknownCopyWithImpl(
+      _$InitFailureUnknown _value, $Res Function(_$InitFailureUnknown) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GetUserFailureUnknown implements GetUserFailureUnknown {
-  const _$GetUserFailureUnknown();
+class _$InitFailureUnknown implements InitFailureUnknown {
+  const _$InitFailureUnknown();
 
   @override
   String toString() {
-    return 'GetUserFailure.unknown()';
+    return 'InitFailure.unknown()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetUserFailureUnknown);
+        (other.runtimeType == runtimeType && other is _$InitFailureUnknown);
   }
 
   @override
@@ -134,7 +134,7 @@ class _$GetUserFailureUnknown implements GetUserFailureUnknown {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(GetUserFailureUnknown value) unknown,
+    required TResult Function(InitFailureUnknown value) unknown,
   }) {
     return unknown(this);
   }
@@ -142,7 +142,7 @@ class _$GetUserFailureUnknown implements GetUserFailureUnknown {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(GetUserFailureUnknown value)? unknown,
+    TResult? Function(InitFailureUnknown value)? unknown,
   }) {
     return unknown?.call(this);
   }
@@ -150,7 +150,7 @@ class _$GetUserFailureUnknown implements GetUserFailureUnknown {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(GetUserFailureUnknown value)? unknown,
+    TResult Function(InitFailureUnknown value)? unknown,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -160,6 +160,6 @@ class _$GetUserFailureUnknown implements GetUserFailureUnknown {
   }
 }
 
-abstract class GetUserFailureUnknown implements GetUserFailure {
-  const factory GetUserFailureUnknown() = _$GetUserFailureUnknown;
+abstract class InitFailureUnknown implements InitFailure {
+  const factory InitFailureUnknown() = _$InitFailureUnknown;
 }

@@ -1,6 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/core/const/colors.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final Map<String, IconData> items;
@@ -33,7 +33,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
             leftCornerRadius: 24,
             rightCornerRadius: 24,
             backgroundGradient: const LinearGradient(
-              colors: [gradientStartColor, gradientStopColor],
+              colors: [
+                AppColors.gradientStartColor,
+                AppColors.gradientStopColor
+              ],
               begin: Alignment.topLeft,
               end: Alignment(1, 2),
             ),
@@ -48,7 +51,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
           height: MediaQuery.of(context).padding.bottom,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [gradientStartColor, gradientStopColor],
+              colors: [
+                AppColors.gradientStartColor,
+                AppColors.gradientStopColor
+              ],
               begin: Alignment(-1, -2),
               end: Alignment.bottomRight,
             ),

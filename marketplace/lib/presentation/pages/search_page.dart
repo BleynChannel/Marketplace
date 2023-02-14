@@ -9,35 +9,39 @@ import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/bloc/search/search_bloc.dart';
 import 'package:marketplace/presentation/bloc/search/search_event.dart';
 import 'package:marketplace/presentation/bloc/search/search_state.dart';
-import 'package:marketplace/presentation/colors.dart';
+import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/price_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends StatelessWidget {
-  late Filter _filter;
+  late final SearchBloc bloc;
 
-  SearchPage({Key? key, Filter? filter}) : super(key: key) {
-    _filter = filter ?? Filter();
+  final Filter _filter;
+
+  SearchPage({Key? key, Filter? filter})
+      : _filter = filter ?? Filter(),
+        super(key: key) {
+    bloc = SearchBloc()..add(SearchEvent.onLoaded(_filter));
   }
 
   static const int _shimerProductCount = 3;
 
   void _onRefreshPage(BuildContext context) {
-    context.read<SearchBloc>().add(SearchEvent.onLoaded(_filter));
+    bloc.add(SearchEvent.onLoaded(_filter));
   }
 
   void _onSearchChanged(BuildContext context, String value) {
     _filter.title = value;
-    context.read<SearchBloc>().add(SearchEvent.onLoaded(_filter));
+    bloc.add(SearchEvent.onLoaded(_filter));
   }
 
   void _onFilterClick(BuildContext context) async {
     await context.router.push(FilterRoute(filter: _filter));
     // ignore: use_build_context_synchronously
-    context.read<SearchBloc>().add(SearchEvent.onLoaded(_filter));
+    bloc.add(SearchEvent.onLoaded(_filter));
   }
 
   void _onProductClick(BuildContext context, CompactProduct product) {
@@ -49,19 +53,17 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BackgroundBlur(
-        child: BlocProvider<SearchBloc>(
-          create: (context) => SearchBloc()..add(SearchEvent.onLoaded(_filter)),
-          child: BlocBuilder<SearchBloc, SearchState>(
-            builder: (context, state) {
-              return state.when<Widget>(
-                load: () => _buildMain(context, filterProducts: null),
-                loading: (filterProducts) =>
-                    _buildMain(context, filterProducts: filterProducts),
-                error: (message) => _buildError(context, message: message),
-                noNetwork: () => _buildError(context, message: 'No network'),
-              );
-            },
-          ),
+        child: BlocBuilder<SearchBloc, SearchState>(
+          bloc: bloc,
+          builder: (context, state) {
+            return state.when<Widget>(
+              load: () => _buildMain(context, filterProducts: null),
+              loading: (filterProducts) =>
+                  _buildMain(context, filterProducts: filterProducts),
+              error: (message) => _buildError(context, message: message),
+              noNetwork: () => _buildError(context, message: 'No network'),
+            );
+          },
         ),
       ),
     );
@@ -82,8 +84,10 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMain(BuildContext context,
-      {required List<CompactProduct>? filterProducts}) {
+  Widget _buildMain(
+    BuildContext context, {
+    required List<CompactProduct>? filterProducts,
+  }) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -250,7 +254,7 @@ class SearchPage extends StatelessWidget {
                                         style: GoogleFonts.roboto(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
-                                          color: accentColor,
+                                          color: AppColors.accentColor,
                                         ),
                                       ),
                                     )

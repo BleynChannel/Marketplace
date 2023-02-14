@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:marketplace/domain/entity/bundle.dart';
@@ -18,8 +19,9 @@ import 'package:marketplace/domain/entity/system_requirement.dart';
 import 'package:marketplace/presentation/bloc/product/product_bloc.dart';
 import 'package:marketplace/presentation/bloc/product/product_event.dart';
 import 'package:marketplace/presentation/bloc/product/product_state.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/presentation/controller/product_controller.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
@@ -28,87 +30,19 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ProductPage extends StatefulWidget {
+class ProductPage extends StatelessWidget {
+  final controller = ProductController();
+
   final String id;
 
-  const ProductPage({Key? key, @PathParam() required this.id})
-      : super(key: key);
-
-  @override
-  _ProductPageState createState() => _ProductPageState();
-}
-
-class _ProductPageState extends State<ProductPage> {
-  late ProductBloc _bloc;
-
-  late final List<YoutubePlayerController> _controllers;
-  YoutubePlayer? _currentPlayer;
-
-  void _fillPlayerControllers(List<Media> media) {
-    if (_controllers.isNotEmpty) return;
-
-    for (var i = 0; i < media.length; i++) {
-      if (media[i].type == MediaType.video) {
-        _controllers.add(
-          YoutubePlayerController(
-            initialVideoId:
-                YoutubePlayer.convertUrlToId(media[i].data.toVideo())!,
-            flags: const YoutubePlayerFlags(
-              autoPlay: false,
-              disableDragSeek: true,
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  void _onChangeCurrentPlayer(YoutubePlayer player) {
-    setState(() {
-      _currentPlayer = player;
-    });
-  }
-
-  void _onRefreshPage(BuildContext context) {
-    _bloc.add(ProductEvent.onLoaded(id: widget.id));
-  }
-
-  void _onProductClick(BuildContext context, CompactProduct product) {
-    context.router.pushNamed('/product/${product.id}');
-  }
-
-  void _onBundleProductClick(BuildContext context, Bundle bundle) {}
-
-  void _onBundleDesiredClick(BuildContext context, Bundle bundle) {}
-
-  void _onCartClick(BuildContext context) {}
-
-  void _onDesiredClick(BuildContext context) {}
-
-  @override
-  void initState() {
-    _controllers = [];
-
-    _bloc = ProductBloc()..add(ProductEvent.onLoaded(id: widget.id));
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-
-    _bloc.close();
-
-    super.dispose();
+  ProductPage({Key? key, @PathParam() required this.id}) : super(key: key) {
+    controller.bloc.add(ProductEvent.onLoaded(id: id));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
-      bloc: _bloc,
+      bloc: controller.bloc,
       builder: (context, state) {
         return state.when<Widget>(
           load: () => _buildLoaded(context),
@@ -133,7 +67,7 @@ class _ProductPageState extends State<ProductPage> {
             children: [
               Text(message),
               TextButton(
-                onPressed: () => _onRefreshPage(context),
+                onPressed: () => controller.onRefreshPage(id),
                 child: const Text("Press to refresh page"),
               ),
             ],
@@ -157,7 +91,7 @@ class _ProductPageState extends State<ProductPage> {
               aspectRatio: 1,
               child: LoadingIndicator(
                 indicatorType: Indicator.pacman,
-                colors: [primaryColor, accentColor],
+                colors: [AppColors.primaryColor, AppColors.accentColor],
               ),
             ),
           ),
@@ -167,7 +101,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Widget _buildMain(BuildContext context, {required Product product}) {
-    _fillPlayerControllers(product.media);
+    controller.fillPlayerControllers(product.media);
 
     return _buildYoutubeBuilder(
       context,
@@ -185,8 +119,8 @@ class _ProductPageState extends State<ProductPage> {
                         minExpandedHeight:
                             kToolbarHeight + MediaQuery.of(context).padding.top,
                         clipRadius: 30,
-                        controllers: _controllers,
-                        onChangeCurrentPlayer: _onChangeCurrentPlayer,
+                        controllers: controller.playerControllers,
+                        onChangeCurrentPlayer: controller.onChangeCurrentPlayer,
                         title: product.title,
                         media: product.media,
                       ),
@@ -202,9 +136,11 @@ class _ProductPageState extends State<ProductPage> {
                           const SizedBox(height: 10),
                           _ProductTabBar(
                             product: product,
-                            onProductClick: _onProductClick,
-                            onBundleProductClick: _onBundleProductClick,
-                            onBundleDesiredClick: _onBundleDesiredClick,
+                            onProductClick: controller.onProductClick,
+                            onBundleProductClick:
+                                controller.onBundleProductClick,
+                            onBundleDesiredClick:
+                                controller.onBundleDesiredClick,
                           ),
                         ]),
                       ),
@@ -226,8 +162,8 @@ class _ProductPageState extends State<ProductPage> {
                                   borderRadius: BorderRadius.circular(30),
                                   gradient: const LinearGradient(
                                     colors: [
-                                      gradientStartColor,
-                                      gradientStopColor
+                                      AppColors.gradientStartColor,
+                                      AppColors.gradientStopColor
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
@@ -242,7 +178,8 @@ class _ProductPageState extends State<ProductPage> {
                                           horizontal: 16, vertical: 2),
                                     ),
                                   ),
-                                  onPressed: () => _onCartClick(context),
+                                  onPressed: () =>
+                                      controller.onCartClick(context),
                                   child: const Text(
                                     'Add to Cart',
                                   ),
@@ -258,7 +195,8 @@ class _ProductPageState extends State<ProductPage> {
                               child: Tooltip(
                                 message: 'Add to Desired',
                                 child: TextButton(
-                                  onPressed: () => _onDesiredClick(context),
+                                  onPressed: () =>
+                                      controller.onDesiredClick(context),
                                   style: ButtonStyle(
                                     padding: MaterialStateProperty.all(
                                         const EdgeInsets.all(0)),
@@ -281,12 +219,14 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Widget _buildYoutubeBuilder(BuildContext context, {required Widget child}) {
-    return _currentPlayer != null
-        ? YoutubePlayerBuilder(
-            player: _currentPlayer!,
-            builder: (context, _) => child,
-          )
-        : child;
+    return Obx(
+      () => controller.currentPlayer != null
+          ? YoutubePlayerBuilder(
+              player: controller.currentPlayer!,
+              builder: (context, _) => child,
+            )
+          : child,
+    );
   }
 
   //Main information title
@@ -301,7 +241,10 @@ class _ProductPageState extends State<ProductPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: const LinearGradient(
-                    colors: [gradientStartColor, gradientStopColor],
+                    colors: [
+                      AppColors.gradientStartColor,
+                      AppColors.gradientStopColor
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -462,7 +405,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
       ),
       shape: const RoundedRectangleBorder(
-        side: BorderSide(color: primaryColor, width: 1),
+        side: BorderSide(color: AppColors.primaryColor, width: 1),
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       labelPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
@@ -524,8 +467,8 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
               ),
             ),
             centerTitle: false,
-            backgroundColor: Color.lerp(
-                Colors.black.withOpacity(0), backgroundColor, progress),
+            backgroundColor: Color.lerp(Colors.black.withOpacity(0),
+                AppColors.backgroundColor, progress),
             flexibleSpace: Stack(children: [
               Positioned(
                 top: lerpDouble(0, -minExtent, progress),
@@ -600,9 +543,9 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
             ProgressBar(
               isExpanded: true,
               colors: const ProgressBarColors(
-                backgroundColor: primaryColor,
-                handleColor: accentColor,
-                playedColor: accentColor,
+                backgroundColor: AppColors.primaryColor,
+                handleColor: AppColors.accentColor,
+                playedColor: AppColors.accentColor,
               ),
             ),
             RemainingDuration(),
@@ -722,7 +665,7 @@ class _ProductPageViewState extends State<_ProductPageView> {
             activeIndex: _activeIndex,
             count: widget.itemCount,
             effect: const ExpandingDotsEffect(
-              activeDotColor: accentColor,
+              activeDotColor: AppColors.accentColor,
               dotColor: Colors.white70,
               dotWidth: 16,
               dotHeight: 8,
@@ -813,9 +756,9 @@ class _ProductTabBarState extends State<_ProductTabBar>
         isScrollable: true,
         labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         labelStyle: GoogleFonts.roboto(fontSize: 16),
-        labelColor: accentColor,
+        labelColor: AppColors.accentColor,
         unselectedLabelColor: Colors.white70,
-        indicatorColor: accentColor,
+        indicatorColor: AppColors.accentColor,
         tabs: _tabs
             .map((tabName) => Tab(
                   text: tabName,
@@ -1280,7 +1223,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
           style: GoogleFonts.roboto(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: primaryColor,
+            color: AppColors.primaryColor,
           ),
         ),
         child: Padding(
@@ -1350,7 +1293,10 @@ class _ProductTabBarState extends State<_ProductTabBar>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     gradient: const LinearGradient(
-                      colors: [gradientStartColor, gradientStopColor],
+                      colors: [
+                        AppColors.gradientStartColor,
+                        AppColors.gradientStopColor
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -1466,7 +1412,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
                 selected ? "" : "More",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: primaryColor,
+                  color: AppColors.primaryColor,
                 ),
               ),
               const SizedBox(width: 4),

@@ -6,9 +6,9 @@ class PriceWidget extends StatelessWidget {
   final Price price;
 
   final double fontSize;
-  late TextStyle? _priceStyle;
-  late TextStyle? _oldPriceStyle;
-  late TextStyle? _discontStyle;
+  late final TextStyle? _priceStyle;
+  late final TextStyle? _oldPriceStyle;
+  late final TextStyle? _discontStyle;
 
   final double spacing;
   final TextDirection textDirection;
@@ -23,24 +23,24 @@ class PriceWidget extends StatelessWidget {
     this.spacing = 2.0,
     this.textDirection = TextDirection.ltr,
   }) : super(key: key) {
-    _priceStyle = priceStyle ??
+    final kPriceStyle = priceStyle ??
         const TextStyle(
           fontWeight: FontWeight.bold,
         );
-    _oldPriceStyle = oldPriceStyle ??
+    final kOldPriceStyle = oldPriceStyle ??
         const TextStyle(
           decoration: TextDecoration.lineThrough,
         );
-    _discontStyle = discontStyle ??
+    final kDiscontStyle = discontStyle ??
         const TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.lightGreen,
         );
 
-    _priceStyle = GoogleFonts.roboto(fontSize: fontSize).merge(_priceStyle);
+    _priceStyle = GoogleFonts.roboto(fontSize: fontSize).merge(kPriceStyle);
     _oldPriceStyle =
-        GoogleFonts.roboto(fontSize: fontSize).merge(_oldPriceStyle);
-    _discontStyle = GoogleFonts.roboto(fontSize: fontSize).merge(_discontStyle);
+        GoogleFonts.roboto(fontSize: fontSize).merge(kOldPriceStyle);
+    _discontStyle = GoogleFonts.roboto(fontSize: fontSize).merge(kDiscontStyle);
   }
 
   @override

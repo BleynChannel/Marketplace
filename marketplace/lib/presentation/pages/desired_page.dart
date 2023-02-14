@@ -1,18 +1,16 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_bloc.dart';
-import 'package:marketplace/presentation/bloc/desired/desired_event.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_state.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/presentation/controller/desired_controller.dart';
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/price_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -31,133 +29,36 @@ class _DesiredAppBarAction {
   });
 }
 
-class DesiredPage extends StatefulWidget {
+class DesiredPage extends StatelessWidget {
   const DesiredPage({Key? key}) : super(key: key);
 
   @override
-  _DesiredPageState createState() => _DesiredPageState();
-}
+  Widget build(BuildContext context) {
+    final controller = DesiredController();
 
-class _DesiredPageState extends State<DesiredPage> {
-  static const int _shimerProductCount = 3;
-
-  late DesiredBloc bloc;
-
-  late List<_DesiredAppBarAction> _actions;
-
-  List<Desired> _checkedDesired = [];
-
-  void _onAllUnselected() {
-    setState(() {
-      _checkedDesired.clear();
-    });
-  }
-
-  void _onAllSelected() {
-    setState(() {
-      _checkedDesired = [...debugDesiredList];
-    });
-  }
-
-  void _onDelete() {
-    setState(() {
-      debugDesiredList
-          .removeWhere((desired) => _checkedDesired.contains(desired));
-      _checkedDesired.clear();
-    });
-  }
-
-  void _onDesiredCheck(Desired desired, bool value) {
-    setState(() {
-      if (value) {
-        _checkedDesired.add(desired);
-      } else {
-        _checkedDesired.remove(desired);
-      }
-    });
-  }
-
-  void _onRefreshPage(BuildContext context) {
-    bloc.add(const DesiredEvent.onLoaded());
-  }
-
-  void _onProductClick(BuildContext context, Desired desired) {
-    context.router.pushNamed('/product/${desired.product.id}');
-  }
-
-  _DesiredPageState() {
-    _actions = [
+    final actions = [
       _DesiredAppBarAction(
         tooltip: 'Unselected all',
         icon: Icons.block,
-        onPressed: _onAllUnselected,
-        getActive: () => _checkedDesired.isNotEmpty,
+        onPressed: controller.onAllUnselected,
+        getActive: () => controller.checkedDesired.isNotEmpty,
       ),
       _DesiredAppBarAction(
         tooltip: 'Selected all',
         icon: Icons.check,
-        onPressed: _onAllSelected,
-        getActive: () => !listEquals(_checkedDesired, debugDesiredList),
+        onPressed: controller.onAllSelected,
+        getActive: () =>
+            controller.checkedDesired.length !=
+            controller.desiredProductList.length,
       ),
       _DesiredAppBarAction(
         tooltip: 'Delete selects',
         icon: Icons.delete,
-        onPressed: _onDelete,
-        getActive: () => _checkedDesired.isNotEmpty,
+        onPressed: controller.onDeleteSelected,
+        getActive: () => controller.checkedDesired.isNotEmpty,
       ),
     ];
-  }
 
-  @override
-  void initState() {
-    bloc = DesiredBloc()..add(const DesiredEvent.onLoaded());
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DesiredBloc, DesiredState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return state.when<Widget>(
-          load: () => _buildMain(context, desiredsList: null),
-          loading: (desireds) => _buildMain(context, desiredsList: desireds),
-          error: (message) => _buildError(context, message: message),
-          noNetwork: () => _buildError(context, message: 'No network'),
-        );
-      },
-    );
-  }
-
-  Widget _buildError(BuildContext context, {required String message}) {
-    return Scaffold(
-      body: BackgroundBlur(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(message),
-              TextButton(
-                onPressed: () => _onRefreshPage(context),
-                child: const Text("Press to refresh page"),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMain(BuildContext context,
-      {required List<Desired>? desiredsList}) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -172,14 +73,16 @@ class _DesiredPageState extends State<DesiredPage> {
             const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: _actions
+        actions: actions
             .map(
-              (action) => IconButton(
-                onPressed: action.getActive() ? action.onPressed : null,
-                icon: Icon(action.icon),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                constraints: const BoxConstraints(),
-                tooltip: action.tooltip,
+              (action) => Obx(
+                () => IconButton(
+                  onPressed: action.getActive() ? action.onPressed : null,
+                  icon: Icon(action.icon),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  constraints: const BoxConstraints(),
+                  tooltip: action.tooltip,
+                ),
               ),
             )
             .toList(),
@@ -191,17 +94,24 @@ class _DesiredPageState extends State<DesiredPage> {
             child: Column(
               children: [
                 Expanded(
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      ...(desiredsList ??
-                              List<Desired?>.generate(
-                                  _shimerProductCount, (index) => null))
-                          .map((desired) => _buildDesiredItem(context, desired))
-                          .expand((element) =>
-                              [element, const SizedBox(height: 8)]),
-                      const SizedBox(height: 20),
-                    ],
+                  child: BlocConsumer<DesiredBloc, DesiredState>(
+                    bloc: controller.bloc,
+                    listener: (context, state) => state.whenOrNull(
+                      loading: (desireds) =>
+                          controller.desiredProductList = [...desireds],
+                    ),
+                    builder: (context, state) {
+                      return state.when<Widget>(
+                        load: () =>
+                            _buildMain(context, controller, hasProducts: false),
+                        loading: (desireds) =>
+                            _buildMain(context, controller, hasProducts: true),
+                        error: (message) =>
+                            _buildError(context, controller, message: message),
+                        noNetwork: () => _buildError(context, controller,
+                            message: 'No network'),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -212,7 +122,72 @@ class _DesiredPageState extends State<DesiredPage> {
     );
   }
 
-  Widget _buildDesiredItem(BuildContext context, Desired? desired) {
+  Widget _buildError(
+    BuildContext context,
+    DesiredController controller, {
+    required String message,
+  }) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(message),
+          TextButton(
+            onPressed: () => controller.onRefreshPage(),
+            child: const Text("Press to refresh page"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMain(
+    BuildContext context,
+    DesiredController controller, {
+    required bool hasProducts,
+  }) {
+    if (hasProducts) {
+      return Obx(
+        () => _buildDesiredList(
+          context,
+          controller,
+          desiredProductList: controller.desiredProductList,
+          itemCount: controller.desiredProductList.length,
+        ),
+      );
+    }
+
+    return _buildDesiredList(
+      context,
+      controller,
+      desiredProductList: null,
+      itemCount: DesiredController.shimerProductCount,
+    );
+  }
+
+  Widget _buildDesiredList(
+    BuildContext context,
+    DesiredController controller, {
+    required List<Desired>? desiredProductList,
+    required int itemCount,
+  }) {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) => _buildDesiredItem(
+        context,
+        controller,
+        desired: desiredProductList?[index],
+      ),
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
+      itemCount: itemCount,
+    );
+  }
+
+  Widget _buildDesiredItem(
+    BuildContext context,
+    DesiredController controller, {
+    required Desired? desired,
+  }) {
     return IntrinsicHeight(
       child: Row(children: [
         Expanded(
@@ -236,7 +211,8 @@ class _DesiredPageState extends State<DesiredPage> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(12),
-                        onTap: () => _onProductClick(context, desired),
+                        onTap: () =>
+                            controller.onProductClick(context, desired),
                       ),
                     ),
                   ])
@@ -333,7 +309,7 @@ class _DesiredPageState extends State<DesiredPage> {
                                         style: GoogleFonts.roboto(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
-                                          color: accentColor,
+                                          color: AppColors.accentColor,
                                         ),
                                       ),
                                     )
@@ -384,13 +360,15 @@ class _DesiredPageState extends State<DesiredPage> {
         ),
         const SizedBox(width: 4),
         desired != null
-            ? Checkbox(
-                value: _checkedDesired.contains(desired),
-                onChanged: (value) {
-                  if (value != null) {
-                    _onDesiredCheck(desired, value);
-                  }
-                },
+            ? Obx(
+                () => Checkbox(
+                  value: controller.checkedDesired.contains(desired),
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.onDesiredCheck(desired, value);
+                    }
+                  },
+                ),
               )
             : const SizedBox(),
       ]),

@@ -1,86 +1,23 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/domain/entity/login.dart';
 import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_bloc.dart';
-import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_event.dart';
 import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_state.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/presentation/controller/login_with_email_controller.dart';
+import 'package:marketplace/presentation/provider/auth_provider.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 
-class LoginWithEmailPage extends StatefulWidget {
-  final String? email;
-
-  const LoginWithEmailPage({Key? key, this.email}) : super(key: key);
-
-  @override
-  State<LoginWithEmailPage> createState() => _LoginWithEmailPageState();
-}
-
-class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
-  late LoginWithEmailBloc bloc;
-
-  final _formKey = GlobalKey<CustomFormState>();
-
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-
-  bool _loginButtonEnabled = true;
-
-  void _login(BuildContext context) {
-    final formState = _formKey.currentState;
-    if (formState!.validate()) {
-      final login = Login(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      bloc.add(LoginWithEmailEvent.onLogin(login));
-    } else {
-      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
-      setState(() => _loginButtonEnabled = true);
-    }
-  }
-
-  void _navigateToResetPassword(BuildContext context) {
-    context.router
-        .navigate(ResetPasswordRoute(email: _emailController.text.trim()));
-  }
-
-  void _navigateToSignUpPage(BuildContext context) {
-    context.router.navigate(SignUpRoute(email: _emailController.text.trim()));
-  }
-
-  void _navigateToHomePage(BuildContext context) {
-    context.router.replaceAll([HomeRoute()]);
-  }
-
-  @override
-  void initState() {
-    bloc = LoginWithEmailBloc();
-
-    _emailController = TextEditingController(text: widget.email);
-    _passwordController = TextEditingController();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-
-    bloc.close();
-
-    super.dispose();
+class LoginWithEmailPage extends GetView<LoginWithEmailController> {
+  LoginWithEmailPage({Key? key}) : super(key: key) {
+    controller.emailController.text = Get.find<AuthProvider>().email;
   }
 
   @override
@@ -95,20 +32,19 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
       ),
       body: BackgroundBlur(
         child: BlocListener<LoginWithEmailBloc, LoginWithEmailState>(
-          bloc: bloc,
-          listener: (context, state) => state.when<void>(
-            empty: () {},
-            success: () => _navigateToHomePage(context),
-            error: (message) {
-              ui_utils.sendScaffoldMessage(context, message: message);
-              setState(() => _loginButtonEnabled = true);
-            },
-            noNetwork: () {
-              ui_utils.sendScaffoldMessage(context,
-                  message: 'No internet connection');
-              setState(() => _loginButtonEnabled = true);
-            },
-          ),
+          bloc: controller.bloc,
+          listener: (context, state) {
+            state.when<void>(
+              empty: () {},
+              success: () {},
+              error: (message) =>
+                  ui_utils.sendScaffoldMessage(context, message: message),
+              noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                  message: 'No internet connection'),
+            );
+
+            controller.loginButtonEnabled = true;
+          },
           child: Padding(
             padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
             child: Column(
@@ -170,10 +106,10 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
         'The password must contain lowercase letters, uppercase letters, .!#\$%&№\'*+-/=?^_`(){|}~ characters and have a length of at least 8';
 
     return CustomForm(
-      key: _formKey,
+      key: controller.formKey,
       child: Column(children: [
         CustomTextFormField(
-          controller: _emailController,
+          controller: controller.emailController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
           autofocus: true,
@@ -181,7 +117,7 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
-          controller: _passwordController,
+          controller: controller.passwordController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.password,
           questionText: passwordTooltipText,
@@ -204,7 +140,7 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
                         ?.copyWith(fontWeight: FontWeight.bold),
                     mouseCursor: MaterialStateMouseCursor.clickable,
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => _navigateToResetPassword(context),
+                      ..onTap = () => controller.navigateToResetPassword(context),
                   ),
                 ],
               ),
@@ -223,17 +159,14 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
         child: SizedBox(
           width: double.infinity,
           height: 40,
-          child: TextButton(
-              onPressed: _loginButtonEnabled
-                  ? () {
-                      setState(() {
-                        _loginButtonEnabled = false;
-                      });
-
-                      _login(context);
-                    }
+          child: Obx(
+            () => TextButton(
+              onPressed: controller.loginButtonEnabled
+                  ? () => controller.login(context)
                   : null,
-              child: const Text("Login")),
+              child: const Text("Login"),
+            ),
+          ),
         ),
       ),
       const SizedBox(height: 8),
@@ -259,7 +192,7 @@ class _LoginWithEmailPageState extends State<LoginWithEmailPage> {
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => _navigateToSignUpPage(context),
+                    ..onTap = () => controller.navigateToSignUpPage(context),
                 ),
               ],
             ),

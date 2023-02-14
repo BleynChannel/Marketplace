@@ -9,31 +9,28 @@ import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/bloc/login/login_bloc.dart';
 import 'package:marketplace/presentation/bloc/login/login_event.dart';
 import 'package:marketplace/presentation/bloc/login/login_state.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
+import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 
 import '../widgets/gradient_devider.dart';
 
 class _ContinueWith {
   final Widget icon;
   final String label;
-  final void Function(BuildContext context, LoginBloc bloc) onPressed;
+  final LoginEvent Function(BuildContext context) sendEvent;
 
-  _ContinueWith(this.icon, this.label, this.onPressed);
+  _ContinueWith(this.icon, this.label, this.sendEvent);
 }
 
 class LoginPage extends StatelessWidget {
-  final String? email;
+  final bloc = LoginBloc();
 
   final _continueWithMap = [
     _ContinueWith(
       SvgPicture.asset("assets/icons/social/google.svg"),
       'Google',
-      (BuildContext context, LoginBloc bloc) {
-        bloc.add(const LoginEvent.onGoogleLogin());
-      },
+      (BuildContext context) => const LoginEvent.onGoogleLogin(),
     ),
     _ContinueWith(
       SvgPicture.asset(
@@ -41,30 +38,22 @@ class LoginPage extends StatelessWidget {
         color: Colors.white,
       ),
       'GitHub',
-      (BuildContext context, LoginBloc bloc) {
-        bloc.add(const LoginEvent.onGitHubLogin());
-      },
+      (BuildContext context) => const LoginEvent.onGitHubLogin(),
     ),
   ];
 
-  LoginPage({Key? key, this.email}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
 
   void _navigateToLogWithEmailPage(BuildContext context) {
-    context.router.navigate(LoginWithEmailRoute(email: email));
+    context.router.navigateNamed('/auth/email');
   }
 
   void _navigateToSignUpPage(BuildContext context) {
-    context.router.navigate(SignUpRoute(email: email));
-  }
-
-  void _navigateToHomePage(BuildContext context) {
-    context.router.replaceAll([HomeRoute()]);
+    context.router.navigateNamed('/auth/signup');
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = LoginBloc();
-
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle:
@@ -77,7 +66,7 @@ class LoginPage extends StatelessWidget {
           bloc: bloc,
           listener: (context, state) => state.when<void>(
             empty: () {},
-            success: () => _navigateToHomePage(context),
+            success: () {},
             error: (message) =>
                 ui_utils.sendScaffoldMessage(context, message: message),
             noNetwork: () => ui_utils.sendScaffoldMessage(context,
@@ -149,7 +138,7 @@ class LoginPage extends StatelessWidget {
         .map((e) => LoginToButton(
               icon: e.icon,
               label: e.label,
-              onPressed: () => e.onPressed(context, bloc),
+              onPressed: () => bloc.add(e.sendEvent(context)),
             ))
         .expand((element) => [element, const SizedBox(height: 6)]);
   }
@@ -223,7 +212,7 @@ class LoginToButton extends StatelessWidget {
     return OutlinedButton.icon(
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-        side: const BorderSide(color: primaryColor),
+        side: const BorderSide(color: AppColors.primaryColor),
       ),
       onPressed: onPressed,
       icon: icon,

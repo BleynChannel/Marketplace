@@ -1,89 +1,23 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplace/domain/entity/signup.dart';
 import 'package:marketplace/presentation/bloc/signup/signup_bloc.dart';
-import 'package:marketplace/presentation/bloc/signup/signup_event.dart';
 import 'package:marketplace/presentation/bloc/signup/signup_state.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
+import 'package:marketplace/presentation/controller/signup_controller.dart';
+import 'package:marketplace/presentation/provider/auth_provider.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
 
-class SignUpPage extends StatefulWidget {
-  final String? email;
-
-  const SignUpPage({Key? key, this.email}) : super(key: key);
-
-  @override
-  State<SignUpPage> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  late SignUpBloc bloc;
-
-  final _formKey = GlobalKey<CustomFormState>();
-
-  late TextEditingController _nicknameController;
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-
-  late String _password;
-
-  bool _signupButtonEnabled = true;
-
-  void _signup(BuildContext context) {
-    final formState = _formKey.currentState;
-    if (formState!.validate()) {
-      final signUp = SignUp(
-        nickname: _nicknameController.text.trim(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      bloc.add(SignUpEvent.onSignUp(signUp));
-    } else {
-      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
-      setState(() => _signupButtonEnabled = true);
-    }
-  }
-
-  void _navigateToLogInPage(BuildContext context) {
-    context.router.navigate(LoginRoute(email: _emailController.text.trim()));
-  }
-
-  void _navigateToHomePage(BuildContext context) {
-    context.router.replaceAll([HomeRoute()]);
-  }
-
-  @override
-  void initState() {
-    bloc = SignUpBloc();
-
-    _nicknameController = TextEditingController();
-    _emailController = TextEditingController(text: widget.email);
-    _passwordController = TextEditingController();
-
-    _password = '';
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _nicknameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-
-    bloc.close();
-
-    super.dispose();
+class SignUpPage extends GetView<SignUpController> {
+  SignUpPage({Key? key}) : super(key: key) {
+    controller.emailController.text = Get.find<AuthProvider>().email;
   }
 
   @override
@@ -98,20 +32,19 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       body: BackgroundBlur(
         child: BlocListener<SignUpBloc, SignUpState>(
-          bloc: bloc,
-          listener: (context, state) => state.when<void>(
-            empty: () {},
-            success: () => _navigateToHomePage(context),
-            error: (message) {
-              ui_utils.sendScaffoldMessage(context, message: message);
-              setState(() => _signupButtonEnabled = true);
-            },
-            noNetwork: () {
-              ui_utils.sendScaffoldMessage(context,
-                  message: 'No internet connection');
-              setState(() => _signupButtonEnabled = true);
-            },
-          ),
+          bloc: controller.bloc,
+          listener: (context, state) {
+            state.when<void>(
+              empty: () {},
+              success: () {},
+              error: (message) =>
+                  ui_utils.sendScaffoldMessage(context, message: message),
+              noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                  message: 'No internet connection'),
+            );
+
+            controller.signupButtonEnabled = true;
+          },
           child: Padding(
             padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
             child: Column(children: [
@@ -170,10 +103,10 @@ class _SignUpPageState extends State<SignUpPage> {
         'The password must contain lowercase letters, uppercase letters, .!#\$%&№\'*+-/=?^_`(){|}~ characters and have a length of at least 8';
 
     return CustomForm(
-      key: _formKey,
+      key: controller.formKey,
       child: Column(children: [
         CustomTextFormField(
-          controller: _nicknameController,
+          controller: controller.nicknameController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.none,
           hintText: "Nickname",
@@ -183,20 +116,20 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
-          controller: _emailController,
+          controller: controller.emailController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
           validator: (value) => ui_utils.isEmailValid(value ?? ''),
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
-          controller: _passwordController,
+          controller: controller.passwordController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.password,
           questionText: passwordTooltipText,
           maxLength: 15,
           validator: (value) => ui_utils.isPasswordValid(value ?? ''),
-          onChanged: (value) => _password = value,
+          onChanged: (value) => controller.password = value,
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
@@ -205,8 +138,9 @@ class _SignUpPageState extends State<SignUpPage> {
           hintText: "Repeat password",
           questionText: passwordTooltipText,
           maxLength: 15,
-          validator: (value) =>
-              value == _password ? null : "Repeat the password correctly",
+          validator: (value) => value == controller.password
+              ? null
+              : "Repeat the password correctly",
         ),
       ]),
     );
@@ -219,17 +153,13 @@ class _SignUpPageState extends State<SignUpPage> {
         child: SizedBox(
           width: double.infinity,
           height: 40,
-          child: TextButton(
-            onPressed: _signupButtonEnabled
-                ? () {
-                    setState(() {
-                      _signupButtonEnabled = false;
-                    });
-
-                    _signup(context);
-                  }
-                : null,
-            child: const Text("Sign Up"),
+          child: Obx(
+            () => TextButton(
+              onPressed: controller.signupButtonEnabled
+                  ? () => controller.signup(context)
+                  : null,
+              child: const Text("Sign Up"),
+            ),
           ),
         ),
       ),
@@ -260,7 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => _navigateToLogInPage(context),
+                    ..onTap = () => controller.navigateToLogInPage(context),
                 ),
               ],
             ),

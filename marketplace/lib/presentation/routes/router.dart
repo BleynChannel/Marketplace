@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:marketplace/presentation/pages/cart_page.dart';
+import 'package:marketplace/presentation/pages/debug_page.dart';
 import 'package:marketplace/presentation/pages/desired_page.dart';
 import 'package:marketplace/presentation/pages/discover_page.dart';
 import 'package:marketplace/presentation/pages/filter_page.dart';
@@ -18,6 +19,12 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
 
 @MaterialAutoRouter(
   routes: [
+    AutoRoute(
+      path: '/',
+      name: 'DebugRoute',
+      page: DebugPage,
+      initial: true,
+    ),
     AutoRoute(
       path: '/welcome',
       name: 'WelcomeRoute',
@@ -99,7 +106,7 @@ import 'package:marketplace/presentation/pages/welcome_page.dart';
       page: NotificationPage,
     ),
     AutoRoute(
-      path: '/profile',
+      path: '/profile/:id',
       name: 'ProfileRoute',
       page: ProfilePage,
     ),

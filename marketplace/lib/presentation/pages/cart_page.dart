@@ -1,16 +1,16 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_bloc.dart';
-import 'package:marketplace/presentation/bloc/cart/cart_event.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_state.dart';
-import 'package:marketplace/presentation/colors.dart';
-import 'package:marketplace/presentation/utils.dart' as ui_utils;
+import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/presentation/controller/cart_controller.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:marketplace/presentation/widgets/price_widget.dart';
@@ -30,178 +30,33 @@ class _CartAppBarAction {
   });
 }
 
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
 
   @override
-  _CartPageState createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
-  static const int _shimerProductCount = 6;
-
-  late CartBloc bloc;
-
-  late List<CartProduct> _checkedProduct;
-  List<CartProduct>? _cartProductList;
-
-  double _allPrice = 0.0;
-  double _allOldPrice = 0.0;
-
-  void _changePrice() {
-    _allPrice = _checkedProduct.fold(
-        0.0, (sum, cartProduct) => sum + cartProduct.product.price.price);
-    _allOldPrice = _checkedProduct.fold(
-        0.0,
-        (sum, cartProduct) =>
-            sum +
-            (cartProduct.product.price.oldPrice > 0
-                ? cartProduct.product.price.oldPrice
-                : cartProduct.product.price.price));
-  }
-
-  void _onAllUnselected() {
-    setState(() {
-      _checkedProduct.clear();
-      _changePrice();
-    });
-  }
-
-  void _onAllSelected() {
-    setState(() {
-      _checkedProduct = [...(_cartProductList ?? [])];
-      _changePrice();
-    });
-  }
-
-  void _onDelete() {
-    setState(() {
-      //TODO: Вызвать событие удаления продукта
-
-      _cartProductList
-          ?.removeWhere((product) => _checkedProduct.contains(product));
-
-      _checkedProduct.clear();
-      _changePrice();
-    });
-  }
-
-  void _onRefreshPage(BuildContext context) {
-    bloc.add(const CartEvent.onLoaded());
-  }
-
-  void _onProductCheck(CartProduct product, bool value) {
-    setState(() {
-      if (value) {
-        _checkedProduct.add(product);
-      } else {
-        _checkedProduct.remove(product);
-      }
-
-      _changePrice();
-    });
-  }
-
-  void _onProductClick(BuildContext context, CartProduct cartProduct) {
-    context.router.pushNamed('/product/${cartProduct.product.id}');
-  }
-
-  void _onCheckout() {
-    //TODO: Переделать с использованием чистой архитектуры
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Ready!', style: GoogleFonts.roboto(fontSize: 18)),
-            const Text('Your products have been sent to you by email'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    _checkedProduct = [];
-
-    bloc = CartBloc()..add(const CartEvent.onLoaded());
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return state.when<Widget>(
-          load: () => _buildMain(context, products: null),
-          loading: (products) => _buildMain(context, products: products),
-          error: (message) => _buildError(context, message: message),
-          noNetwork: () => _buildError(context, message: 'No network'),
-        );
-      },
-    );
-  }
+    final controller = CartController();
 
-  Widget _buildError(BuildContext context, {required String message}) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: BackgroundBlur(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(message),
-              TextButton(
-                onPressed: () => _onRefreshPage(context),
-                child: const Text("Press to refresh page"),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMain(BuildContext context,
-      {required List<CartProduct>? products}) {
-    if (_cartProductList == null && products != null) {
-      _cartProductList = [...products];
-    }
-
-    List<_CartAppBarAction> actions = [
+    final actions = [
       _CartAppBarAction(
         tooltip: 'Unselected all',
         icon: Icons.block,
-        onPressed: _onAllUnselected,
-        getActive: () => _checkedProduct.isNotEmpty,
+        onPressed: controller.onAllUnselected,
+        getActive: () => controller.checkedProduct.isNotEmpty,
       ),
       _CartAppBarAction(
         tooltip: 'Selected all',
         icon: Icons.check,
-        onPressed: () => _onAllSelected(),
+        onPressed: controller.onAllSelected,
         getActive: () =>
-            _checkedProduct.length !=
-            (_cartProductList?.length ?? _checkedProduct.length),
+            controller.checkedProduct.length !=
+            controller.cartProductList.length,
       ),
       _CartAppBarAction(
         tooltip: 'Delete selects',
         icon: Icons.delete,
-        onPressed: () => _onDelete(),
-        getActive: () => _checkedProduct.isNotEmpty,
+        onPressed: controller.onDeleteSelected,
+        getActive: () => controller.checkedProduct.isNotEmpty,
       ),
     ];
 
@@ -221,12 +76,14 @@ class _CartPageState extends State<CartPage> {
         elevation: 0,
         actions: actions
             .map(
-              (action) => IconButton(
-                onPressed: action.getActive() ? action.onPressed : null,
-                icon: Icon(action.icon),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                constraints: const BoxConstraints(),
-                tooltip: action.tooltip,
+              (action) => Obx(
+                () => IconButton(
+                  onPressed: action.getActive() ? action.onPressed : null,
+                  icon: Icon(action.icon),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  constraints: const BoxConstraints(),
+                  tooltip: action.tooltip,
+                ),
               ),
             )
             .toList(),
@@ -238,13 +95,22 @@ class _CartPageState extends State<CartPage> {
             child: Column(
               children: [
                 Expanded(
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        _buildProductItem(context, _cartProductList?[index]),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 8),
-                    itemCount: _cartProductList?.length ?? _shimerProductCount,
+                  child: BlocConsumer<CartBloc, CartState>(
+                    bloc: controller.bloc,
+                    listener: (context, state) => state.whenOrNull(
+                      loading: (products) =>
+                          controller.cartProductList = [...products],
+                    ),
+                    builder: (context, state) => state.when<Widget>(
+                      load: () =>
+                          _buildMain(context, controller, hasProducts: false),
+                      loading: (_) =>
+                          _buildMain(context, controller, hasProducts: true),
+                      error: (message) =>
+                          _buildError(context, controller, message: message),
+                      noNetwork: () => _buildError(context, controller,
+                          message: 'No network'),
+                    ),
                   ),
                 ),
                 const GradientDevider(),
@@ -264,30 +130,41 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         const SizedBox(width: 2),
-                        Text(
-                          "$_allPrice ₽",
-                          style: GoogleFonts.roboto(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                        Obx(
+                          () => Text(
+                            "${controller.allPrice} ₽",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 4),
-                        _allOldPrice != 0 && _allOldPrice != _allPrice
-                            ? Text(
-                                "$_allOldPrice ₽",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              )
-                            : const SizedBox(),
+                        Obx(() {
+                          if (controller.allOldPrice == 0.0 ||
+                              controller.allOldPrice == controller.allPrice) {
+                            return const SizedBox();
+                          }
+
+                          return Text(
+                            "${controller.allOldPrice} ₽",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
-                      child: TextButton(
-                        onPressed: _checkedProduct.isEmpty ? null : _onCheckout,
-                        child: const Text("Checkout"),
+                      child: Obx(
+                        () => TextButton(
+                          onPressed: controller.checkedProduct.isEmpty
+                              ? null
+                              : () => controller.onCheckout(context),
+                          child: const Text("Checkout"),
+                        ),
                       ),
                     ),
                   ],
@@ -300,7 +177,72 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildProductItem(BuildContext context, CartProduct? cartProduct) {
+  Widget _buildError(
+    BuildContext context,
+    CartController controller, {
+    required String message,
+  }) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(message),
+          TextButton(
+            onPressed: () => controller.onRefreshPage(),
+            child: const Text("Press to refresh page"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMain(
+    BuildContext context,
+    CartController controller, {
+    required bool hasProducts,
+  }) {
+    if (hasProducts) {
+      return Obx(
+        () => _buildProductList(
+          context,
+          controller,
+          cartProductList: controller.cartProductList,
+          itemCount: controller.cartProductList.length,
+        ),
+      );
+    }
+
+    return _buildProductList(
+      context,
+      controller,
+      cartProductList: null,
+      itemCount: CartController.shimerProductCount,
+    );
+  }
+
+  Widget _buildProductList(
+    BuildContext context,
+    CartController controller, {
+    required List<CartProduct>? cartProductList,
+    required int itemCount,
+  }) {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) => _buildProductItem(
+        context,
+        controller,
+        cartProduct: cartProductList?[index],
+      ),
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
+      itemCount: itemCount,
+    );
+  }
+
+  Widget _buildProductItem(
+    BuildContext context,
+    CartController controller, {
+    required CartProduct? cartProduct,
+  }) {
     return IntrinsicHeight(
       child: Row(children: [
         Expanded(
@@ -324,7 +266,8 @@ class _CartPageState extends State<CartPage> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(12),
-                        onTap: () => _onProductClick(context, cartProduct),
+                        onTap: () =>
+                            controller.onProductClick(context, cartProduct),
                       ),
                     ),
                   ])
@@ -421,7 +364,7 @@ class _CartPageState extends State<CartPage> {
                                         style: GoogleFonts.roboto(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
-                                          color: accentColor,
+                                          color: AppColors.accentColor,
                                         ),
                                       ),
                                     )
@@ -480,13 +423,15 @@ class _CartPageState extends State<CartPage> {
         ),
         const SizedBox(width: 4),
         cartProduct != null
-            ? Checkbox(
-                value: _checkedProduct.contains(cartProduct),
-                onChanged: (value) {
-                  if (value != null) {
-                    _onProductCheck(cartProduct, value);
-                  }
-                },
+            ? Obx(
+                () => Checkbox(
+                  value: controller.checkedProduct.contains(cartProduct),
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.onProductCheck(cartProduct, value);
+                    }
+                  },
+                ),
               )
             : const SizedBox(),
       ]),

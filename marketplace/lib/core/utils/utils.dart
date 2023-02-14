@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/platform.dart';
@@ -11,18 +12,13 @@ String? isNicknameValid(String text) {
 }
 
 String? isEmailValid(String text) {
-  return RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$")
-          .hasMatch(text)
-      ? null
-      : 'Enter a valid email';
+  return GetUtils.isEmail(text) ? null : 'Enter a valid email';
 }
 
 String? isPasswordValid(String text) {
   return RegExp(r"^[a-zA-Z0-9.!#$%&№'*+-/=?^_`(){|}~]+.{7,}$").hasMatch(text)
       ? null
       : 'Enter a valid password';
-
-  //The password must contain lowercase letters, uppercase letters, .!#\$%&№\'*+-/=?^_`(){|}~ characters and have a length of at least 8
 }
 
 const _platformsList = [
@@ -109,9 +105,9 @@ String getCompactCount(int value) {
     return '${(value / 1000000).floor()}M';
   } else if (value >= 1000) {
     return '${(value / 1000).floor()}k';
-  } else {
-    return value.toString();
   }
+
+  return value.toString();
 }
 
 Future<Media> getMediaImage({

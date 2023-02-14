@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ExpansionCategory extends StatelessWidget {
+class ExpansionCategory extends StatefulWidget {
   final Widget title;
   final Widget child;
   final bool initiallyExpanded;
@@ -13,13 +13,18 @@ class ExpansionCategory extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ExpansionCategory> createState() => _ExpansionCategoryState();
+}
+
+class _ExpansionCategoryState extends State<ExpansionCategory> {
+  @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: title,
+      title: widget.title,
       expandedAlignment: Alignment.topLeft,
-      initiallyExpanded: initiallyExpanded,
+      initiallyExpanded: widget.initiallyExpanded,
       childrenPadding: const EdgeInsets.symmetric(vertical: 12),
-      children: [child],
+      children: [widget.child],
     );
   }
 }
