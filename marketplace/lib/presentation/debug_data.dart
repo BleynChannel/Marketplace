@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace/domain/entity/contact.dart';
 import 'package:marketplace/domain/entity/status.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
 import 'package:marketplace/domain/entity/bundle.dart';
 import 'package:marketplace/domain/entity/cart_product.dart';
@@ -28,7 +28,7 @@ Future debugInit() async {
     CompactProduct(
       id: 'First',
       title: 'Cyberpunk 2077',
-      banner: await ui_utils.getMediaImage(
+      banner: await Utils.getMediaImage(
         path: 'assets/images/products/cyberpunk/preview_1.jpg',
         mediaLocation: MediaLocation.local,
       ),
@@ -46,7 +46,7 @@ Future debugInit() async {
     CompactProduct(
       id: 'Second',
       title: 'Stray',
-      banner: await ui_utils.getMediaImage(
+      banner: await Utils.getMediaImage(
         path: 'assets/images/products/stray/preview_1.jpg',
         mediaLocation: MediaLocation.local,
       ),
@@ -67,7 +67,7 @@ Future debugInit() async {
     CompactProduct(
       id: 'Third',
       title: 'Minecraft',
-      banner: await ui_utils.getMediaImage(
+      banner: await Utils.getMediaImage(
         path: 'assets/images/products/minecraft/preview_1.jpg',
         mediaLocation: MediaLocation.local,
       ),
@@ -99,28 +99,28 @@ Future debugInit() async {
 Dolore Lorem non tempor irure eu in. Sunt in culpa laborum incididunt nisi. Eiusmod excepteur nostrud adipisicing pariatur sit laboris aute do voluptate voluptate qui proident. Aliquip nostrud anim proident id laboris consectetur. Sit voluptate nisi reprehenderit veniam velit. Deserunt elit reprehenderit enim labore officia dolore do. Nulla culpa commodo in in aliqua laboris reprehenderit.
 Ullamco exercitation dolore ut occaecat ipsum ipsum do in incididunt veniam commodo. Duis incididunt deserunt labore in est sit ipsum in Lorem cupidatat. Ea aliquip deserunt ex culpa dolore et magna. Mollit elit consequat do occaecat pariatur non id aliqua ea ad officia quis. In consectetur consectetur elit ut anim ut velit excepteur.
 Reprehenderit sint sunt laboris esse. Anim velit in incididunt tempor tempor id fugiat. Labore reprehenderit labore non anim et incididunt id aliquip. Est magna sit in deserunt nulla deserunt aliquip ex ipsum.''',
-      icon: await ui_utils.getMediaImage(
+      icon: await Utils.getMediaImage(
         path: 'assets/images/products/cyberpunk/icon.jpg',
         mediaLocation: MediaLocation.local,
       ),
       media: [
-        await ui_utils.getMediaVideo(
+        await Utils.getMediaVideo(
           path: 'https://youtube.com/watch?v=qIcTM8WXFjk',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaImage(
+        await Utils.getMediaImage(
           path: 'assets/images/products/cyberpunk/preview_1.jpg',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaImage(
+        await Utils.getMediaImage(
           path: 'assets/images/products/cyberpunk/preview_2.jpg',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaImage(
+        await Utils.getMediaImage(
           path: 'assets/images/products/cyberpunk/preview_3.jpg',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaImage(
+        await Utils.getMediaImage(
           path: 'assets/images/products/cyberpunk/preview_4.jpg',
           mediaLocation: MediaLocation.local,
         ),
@@ -238,7 +238,7 @@ Reprehenderit sint sunt laboris esse. Anim velit in incididunt tempor tempor id 
         ProductReview(
           user: User(
             nickname: 'Jurian John',
-            avatar: await ui_utils.getMediaImage(
+            avatar: await Utils.getMediaImage(
               path: 'assets/images/avatars/2.png',
               mediaLocation: MediaLocation.local,
             ),
@@ -251,7 +251,7 @@ Non non magna nisi irure exercitation aliquip minim exercitation eiusmod veniam 
         ProductReview(
           user: User(
             nickname: 'Elo Jennifer',
-            avatar: await ui_utils.getMediaImage(
+            avatar: await Utils.getMediaImage(
               path: 'assets/images/avatars/3.png',
               mediaLocation: MediaLocation.local,
             ),
@@ -269,16 +269,16 @@ Labore exercitation cupidatat est eiusmod proident. Quis ullamco non ea nisi con
       description:
           '''Id cillum excepteur officia incididunt velit ex minim reprehenderit nulla. Pariatur irure sunt fugiat laborum. Consequat cupidatat commodo non nulla incididunt dolor exercitation quis nulla adipisicing occaecat voluptate ullamco. Enim dolore aute tempor irure Lorem fugiat dolor pariatur consectetur do. Id sunt deserunt qui ut.
 Culpa mollit elit dolor labore laborum reprehenderit veniam eu duis duis elit do eiusmod officia. Deserunt laborum voluptate consequat ea laboris duis in. Aliquip nulla nostrud aute mollit nulla occaecat exercitation ad dolore tempor dolore sint et. Commodo consequat laboris reprehenderit aute sunt dolore nostrud consequat sit incididunt. Cupidatat labore fugiat tempor adipisicing esse qui sunt velit nulla tempor cupidatat culpa.''',
-      icon: await ui_utils.getMediaImage(
+      icon: await Utils.getMediaImage(
         path: 'assets/images/products/stray/icon.jpg',
         mediaLocation: MediaLocation.local,
       ),
       media: [
-        await ui_utils.getMediaVideo(
+        await Utils.getMediaVideo(
           path: 'https://youtube.com/watch?v=u84hRUQlaio',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaImage(
+        await Utils.getMediaImage(
           path: 'assets/images/products/stray/preview_1.jpg',
           mediaLocation: MediaLocation.local,
         ),
@@ -313,20 +313,20 @@ Culpa mollit elit dolor labore laborum reprehenderit veniam eu duis duis elit do
       description:
           '''Labore ex voluptate amet occaecat non nostrud magna cupidatat. Irure deserunt ad amet ullamco reprehenderit eu reprehenderit do. Excepteur eu duis velit deserunt qui commodo aliqua et pariatur quis dolore. Cupidatat aliqua fugiat veniam incididunt duis sit magna mollit quis anim officia. Sit in occaecat laborum Lorem tempor voluptate nisi do enim aliquip amet incididunt minim. Excepteur ipsum non proident amet deserunt incididunt reprehenderit esse aute adipisicing magna consequat. Mollit sit do qui minim aliqua nisi qui eu.
 Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adipisicing ea commodo sit laboris veniam esse excepteur id voluptate ullamco exercitation consectetur magna. Aliquip deserunt minim reprehenderit officia eiusmod labore ut consequat veniam. Occaecat ut fugiat irure ad amet adipisicing id officia minim laboris ullamco. Reprehenderit ex pariatur duis laboris do anim eu.''',
-      icon: await ui_utils.getMediaImage(
+      icon: await Utils.getMediaImage(
         path: 'assets/images/products/minecraft/icon.png',
         mediaLocation: MediaLocation.local,
       ),
       media: [
-        await ui_utils.getMediaVideo(
+        await Utils.getMediaVideo(
           path: 'https://youtube.com/watch?v=MmB9b5njVbA',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaVideo(
+        await Utils.getMediaVideo(
           path: 'https://youtube.com/watch?v=jMe3tdyjouM',
           mediaLocation: MediaLocation.local,
         ),
-        await ui_utils.getMediaImage(
+        await Utils.getMediaImage(
           path: 'assets/images/products/minecraft/preview_1.jpg',
           mediaLocation: MediaLocation.local,
         ),
@@ -389,7 +389,7 @@ Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adip
   debugNotification = [
     notification.Notification(
       title: "Autumn discounts",
-      banner: await ui_utils.getMediaImage(
+      banner: await Utils.getMediaImage(
         path: 'assets/images/notification_discount_image.jpg',
         mediaLocation: MediaLocation.local,
       ),
@@ -399,11 +399,11 @@ Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adip
 
   debugProfile = Profile(
     nickname: "Adam Harris",
-    avatar: await ui_utils.getMediaImage(
+    avatar: await Utils.getMediaImage(
       path: 'assets/images/avatars/1.png',
       mediaLocation: MediaLocation.local,
     ),
-    backgroundImage: await ui_utils.getMediaImage(
+    backgroundImage: await Utils.getMediaImage(
       path: 'assets/images/profile_wallpaper.jpg',
       mediaLocation: MediaLocation.local,
     ),
@@ -413,24 +413,24 @@ Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adip
     contacts: [
       Contact(
         name: 'Steam',
-        icon: await ui_utils.getMediaImage(
-          path: ui_utils.contactsToPathToSvgIcons('Steam'),
+        icon: await Utils.getMediaImage(
+          path: Utils.contactsToPathToSvgIcons('Steam'),
           mediaLocation: MediaLocation.local,
         ),
         url: 'https://steamcommunity.com/profiles/76561198305869342/',
       ),
       Contact(
         name: 'Epic Games',
-        icon: await ui_utils.getMediaImage(
-          path: ui_utils.contactsToPathToSvgIcons('Epic Games'),
+        icon: await Utils.getMediaImage(
+          path: Utils.contactsToPathToSvgIcons('Epic Games'),
           mediaLocation: MediaLocation.local,
         ),
         url: 'https://store.epicgames.com/',
       ),
       Contact(
         name: 'Discord',
-        icon: await ui_utils.getMediaImage(
-          path: ui_utils.contactsToPathToSvgIcons('Discord'),
+        icon: await Utils.getMediaImage(
+          path: Utils.contactsToPathToSvgIcons('Discord'),
           mediaLocation: MediaLocation.local,
         ),
         url: 'https://discord.com/',
@@ -484,7 +484,7 @@ Ut eu amet mollit aliqua non sit aute. Ea laborum magna nisi et qui. Dolore adip
     'Cross-Platform',
   ];
 
-  debugNoImage = await ui_utils.getMediaImage(
+  debugNoImage = await Utils.getMediaImage(
     path: 'assets/images/no-image.png',
     mediaLocation: MediaLocation.local,
   );

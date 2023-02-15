@@ -13,7 +13,7 @@ import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class LoginWithEmailPage extends GetView<LoginWithEmailController> {
   LoginWithEmailPage({Key? key}) : super(key: key) {
@@ -38,8 +38,8 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
               empty: () {},
               success: () {},
               error: (message) =>
-                  ui_utils.sendScaffoldMessage(context, message: message),
-              noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                  Utils.sendScaffoldMessage(context, message: message),
+              noNetwork: () => Utils.sendScaffoldMessage(context,
                   message: 'No internet connection'),
             );
 
@@ -113,7 +113,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
           autofocus: true,
-          validator: (value) => ui_utils.isEmailValid(value ?? ''),
+          validator: (value) => Utils.isEmailValid(value ?? ''),
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
@@ -146,7 +146,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
               ),
             ),
           ),
-          validator: (value) => ui_utils.isPasswordValid(value ?? ''),
+          validator: (value) => Utils.isPasswordValid(value ?? ''),
         ),
       ]),
     );
@@ -160,7 +160,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
           width: double.infinity,
           height: 40,
           child: Obx(
-            () => TextButton(
+            () => ElevatedButton(
               onPressed: controller.loginButtonEnabled
                   ? () => controller.login(context)
                   : null,

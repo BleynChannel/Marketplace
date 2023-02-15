@@ -5,7 +5,7 @@ import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/debug_data.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class ProductRemoteDataSource {
   Future<Map<String, List<CompactProduct>>> discoverGetProducts(
@@ -42,7 +42,7 @@ class ProductRemoteDataSource {
 
   Future<List<CompactProduct>> searchProducts({required Filter filter}) async {
     return Future.value(debugProductList
-        .where((product) => ui_utils.isCorrectFilter(product, filter))
+        .where((product) => Utils.isCorrectFilter(product, filter))
         .map((product) => product.toCompactProduct())
         .toList());
   }

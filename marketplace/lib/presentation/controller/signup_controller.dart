@@ -6,7 +6,7 @@ import 'package:marketplace/presentation/bloc/signup/signup_bloc.dart';
 import 'package:marketplace/presentation/bloc/signup/signup_event.dart';
 import 'package:marketplace/presentation/provider/auth_provider.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class SignUpController extends GetxController {
   final authProvider = Get.find<AuthProvider>();
@@ -57,7 +57,7 @@ class SignUpController extends GetxController {
 
       bloc.add(SignUpEvent.onSignUp(signUp));
     } else {
-      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
+      Utils.sendScaffoldMessage(context, message: 'Enter a valid data');
       signupButtonEnabled = true;
     }
   }

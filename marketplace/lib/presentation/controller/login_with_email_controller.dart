@@ -6,7 +6,7 @@ import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_
 import 'package:marketplace/presentation/bloc/login_with_email/login_with_email_event.dart';
 import 'package:marketplace/presentation/provider/auth_provider.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class LoginWithEmailController extends GetxController {
   final authProvider = Get.find<AuthProvider>();
@@ -51,7 +51,7 @@ class LoginWithEmailController extends GetxController {
 
       bloc.add(LoginWithEmailEvent.onLogin(login));
     } else {
-      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
+      Utils.sendScaffoldMessage(context, message: 'Enter a valid data');
       loginButtonEnabled = true;
     }
   }

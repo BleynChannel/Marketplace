@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/core/const/colors.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class PlatformChips extends StatefulWidget {
   final void Function(List<Platform> selected) onSelected;
@@ -46,7 +46,7 @@ class _PlatformChipsState extends State<PlatformChips> {
           ),
           ...Platform.values.map((platform) {
             return _buildPlatformItem(
-              title: ui_utils.platformToName(platform),
+              title: Utils.platformToName(platform),
               selected: !allSelected && _filters.contains(platform),
               onSelected: (selected) {
                 setState(() {

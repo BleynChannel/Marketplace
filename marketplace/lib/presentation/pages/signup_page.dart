@@ -13,7 +13,7 @@ import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class SignUpPage extends GetView<SignUpController> {
   SignUpPage({Key? key}) : super(key: key) {
@@ -38,8 +38,8 @@ class SignUpPage extends GetView<SignUpController> {
               empty: () {},
               success: () {},
               error: (message) =>
-                  ui_utils.sendScaffoldMessage(context, message: message),
-              noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                  Utils.sendScaffoldMessage(context, message: message),
+              noNetwork: () => Utils.sendScaffoldMessage(context,
                   message: 'No internet connection'),
             );
 
@@ -112,14 +112,14 @@ class SignUpPage extends GetView<SignUpController> {
           hintText: "Nickname",
           prefixIcon: const Icon(Icons.person),
           autofocus: true,
-          validator: (value) => ui_utils.isNicknameValid(value ?? ''),
+          validator: (value) => Utils.isNicknameValid(value ?? ''),
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
           controller: controller.emailController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.email,
-          validator: (value) => ui_utils.isEmailValid(value ?? ''),
+          validator: (value) => Utils.isEmailValid(value ?? ''),
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
@@ -128,7 +128,7 @@ class SignUpPage extends GetView<SignUpController> {
           type: CustomTextFormFieldType.password,
           questionText: passwordTooltipText,
           maxLength: 15,
-          validator: (value) => ui_utils.isPasswordValid(value ?? ''),
+          validator: (value) => Utils.isPasswordValid(value ?? ''),
           onChanged: (value) => controller.password = value,
         ),
         const SizedBox(height: 10),
@@ -154,7 +154,7 @@ class SignUpPage extends GetView<SignUpController> {
           width: double.infinity,
           height: 40,
           child: Obx(
-            () => TextButton(
+            () => ElevatedButton(
               onPressed: controller.signupButtonEnabled
                   ? () => controller.signup(context)
                   : null,

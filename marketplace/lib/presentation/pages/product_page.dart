@@ -20,7 +20,7 @@ import 'package:marketplace/presentation/bloc/product/product_bloc.dart';
 import 'package:marketplace/presentation/bloc/product/product_event.dart';
 import 'package:marketplace/presentation/bloc/product/product_state.dart';
 import 'package:marketplace/core/const/colors.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/controller/product_controller.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
@@ -66,7 +66,7 @@ class ProductPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(message),
-              TextButton(
+              ElevatedButton(
                 onPressed: () => controller.onRefreshPage(id),
                 child: const Text("Press to refresh page"),
               ),
@@ -169,14 +169,11 @@ class ProductPage extends StatelessWidget {
                                     end: Alignment.bottomRight,
                                   ),
                                 ),
-                                child: TextButton(
+                                child: ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.transparent),
-                                    padding: MaterialStateProperty.all(
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 2),
-                                    ),
+                                    elevation: MaterialStateProperty.all(0),
                                   ),
                                   onPressed: () =>
                                       controller.onCartClick(context),
@@ -194,7 +191,7 @@ class ProductPage extends StatelessWidget {
                                   MediaQuery.of(context).size.height / 20,
                               child: Tooltip(
                                 message: 'Add to Desired',
-                                child: TextButton(
+                                child: ElevatedButton(
                                   onPressed: () =>
                                       controller.onDesiredClick(context),
                                   style: ButtonStyle(
@@ -289,11 +286,11 @@ class ProductPage extends StatelessWidget {
                   Icons.star,
                   color: Colors.amber,
                 ),
-                ui_utils.getCompactCount(product.countBuy): const Icon(
+                Utils.getCompactCount(product.countBuy): const Icon(
                   Icons.shopping_bag_outlined,
                   color: Colors.lightGreen,
                 ),
-                ui_utils.releaseDateToString(product.releaseDate): const Icon(
+                Utils.releaseDateToString(product.releaseDate): const Icon(
                   Icons.schedule,
                   color: Colors.grey,
                 ),
@@ -337,7 +334,7 @@ class ProductPage extends StatelessWidget {
       },
       'Platforms': {
         product.platforms
-            .map((platform) => ui_utils.platformToName(platform))
+            .map((platform) => Utils.platformToName(platform))
             .toList(): () {}
       },
     };
@@ -888,7 +885,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
     final informations = {
       'Developer': widget.product.developer,
       'Publisher': widget.product.publisher,
-      'Release date': ui_utils.releaseDateToString(widget.product.releaseDate),
+      'Release date': Utils.releaseDateToString(widget.product.releaseDate),
     };
 
     return Column(
@@ -924,7 +921,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       clipBehavior: Clip.none,
       child: Row(
         children: widget.product.links
-            .map((link) => TextButton(
+            .map((link) => ElevatedButton(
                   onPressed: () async {
                     var url = Uri.parse(link.url);
                     if (await canLaunchUrl(url)) {
@@ -1147,7 +1144,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
     return Row(children: [
       SizedBox(
         height: 36,
-        child: TextButton(
+        child: ElevatedButton(
           onPressed: onProductClick,
           style: ButtonStyle(
             padding: MaterialStateProperty.all(
@@ -1166,7 +1163,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
           aspectRatio: 1,
           child: Tooltip(
             message: 'Add to Desired',
-            child: TextButton(
+            child: ElevatedButton(
               onPressed: onDesiredClick,
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
@@ -1219,7 +1216,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
   }) {
     return ListCategory(
         title: Text(
-          ui_utils.platformToName(sysReq.platform),
+          Utils.platformToName(sysReq.platform),
           style: GoogleFonts.roboto(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -1399,7 +1396,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         ),
         const SizedBox(height: 4),
         IntrinsicWidth(
-          child: TextButton(
+          child: ElevatedButton(
             style: ButtonStyle(
               padding: MaterialStateProperty.all(
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

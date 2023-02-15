@@ -19,15 +19,8 @@ class App extends StatelessWidget {
         brightness: Brightness.dark,
         colorScheme: const ColorScheme.dark(primary: AppColors.primaryColor),
         scaffoldBackgroundColor: AppColors.backgroundColor,
-        textButtonTheme: TextButtonThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith((states) {
-              if (states.contains(MaterialState.disabled)) {
-                return AppColors.primaryColor.withOpacity(0.5);
-              } else {
-                return AppColors.primaryColor;
-              }
-            }),
             foregroundColor: MaterialStateProperty.resolveWith((states) {
               if (states.contains(MaterialState.disabled)) {
                 return Colors.white54;

@@ -122,7 +122,7 @@ class WelcomePage extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: 40,
-          child: TextButton(
+          child: ElevatedButton(
             child: const Text("Log In"),
             onPressed: () => _navigateToLogInPage(context),
           ),

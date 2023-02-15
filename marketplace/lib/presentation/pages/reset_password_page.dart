@@ -8,7 +8,7 @@ import 'package:marketplace/presentation/bloc/reset_password/reset_password_stat
 import 'package:marketplace/presentation/controller/reset_password_controller.dart';
 import 'package:marketplace/presentation/provider/auth_provider.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 
 class ResetPasswordPage extends GetView<ResetPasswordController> {
@@ -34,8 +34,8 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
               empty: () {},
               success: () => controller.showDialogSucces(context),
               error: (message) =>
-                  ui_utils.sendScaffoldMessage(context, message: message),
-              noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                  Utils.sendScaffoldMessage(context, message: message),
+              noNetwork: () => Utils.sendScaffoldMessage(context,
                   message: 'No internet connection'),
             );
 
@@ -88,7 +88,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
         controller: controller.emailController,
         fieldHeight: MediaQuery.of(context).size.height / 16,
         type: CustomTextFormFieldType.email,
-        validator: (value) => ui_utils.isEmailValid(value ?? ''),
+        validator: (value) => Utils.isEmailValid(value ?? ''),
       ),
       const SizedBox(height: 10),
       Padding(
@@ -97,7 +97,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
           width: double.infinity,
           height: 40,
           child: Obx(
-            () => TextButton(
+            () => ElevatedButton(
               onPressed: controller.resetButtonEnabled
                   ? () => controller.resetPassword(context)
                   : null,

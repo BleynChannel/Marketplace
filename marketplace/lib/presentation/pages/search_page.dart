@@ -12,7 +12,7 @@ import 'package:marketplace/presentation/bloc/search/search_state.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/price_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -75,7 +75,7 @@ class SearchPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(message),
-          TextButton(
+          ElevatedButton(
             onPressed: () => _onRefreshPage(context),
             child: const Text("Press to refresh page"),
           ),
@@ -236,10 +236,9 @@ class SearchPage extends StatelessWidget {
                             children: [
                               ...visiblePlatforms
                                   .map((platform) => Tooltip(
-                                        message:
-                                            ui_utils.platformToName(platform),
+                                        message: Utils.platformToName(platform),
                                         child: FaIcon(
-                                          ui_utils.platformToIcon(platform),
+                                          Utils.platformToIcon(platform),
                                           size: iconSize,
                                         ),
                                       ))

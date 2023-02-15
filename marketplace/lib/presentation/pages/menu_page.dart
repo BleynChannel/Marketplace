@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -17,8 +21,9 @@ import 'package:marketplace/presentation/controller/menu_controller.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/provider/home_avatar_provider.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/expansion_category.dart';
+import 'package:marketplace/presentation/widgets/value_builder_fix.dart';
 
 // ignore: must_be_immutable
 class MenuPage extends GetView<MenuController> {
@@ -326,375 +331,270 @@ class _MenuActions {
   _MenuActions(this.context, this.controller);
 
   void nicknameAction() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        //TODO: Брать ник из user
-        final inputController =
-            TextEditingController(text: debugProfile.nickname);
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    //TODO: Брать ник из user
+    final inputController = TextEditingController(text: debugProfile.nickname);
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Enter a nickname',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: Form(
-              key: formKey,
-              child: TextFormField(
-                controller: inputController,
-                validator: (value) => ui_utils.isNicknameValid(value ?? ''),
-                autovalidateMode: AutovalidateMode.always,
-              ),
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    String nickname = inputController.text.trim();
+    _MenuDialogUtils.alertDialog(
+      context,
+      title: 'Enter a nickname',
+      content: Form(
+        key: formKey,
+        child: TextFormField(
+          controller: inputController,
+          validator: (value) => Utils.isNicknameValid(value ?? ''),
+          autovalidateMode: AutovalidateMode.always,
+        ),
+      ),
+      onChangePressed: () async {
+        if (formKey.currentState != null && formKey.currentState!.validate()) {
+          String nickname = inputController.text.trim();
 
-                    final result = await controller.userRepository
-                        .changeProfileNickname(nickname: nickname);
+          final result = await controller.userRepository
+              .changeProfileNickname(nickname: nickname);
 
-                    String message = '';
-                    bool isCorrect = false;
+          String message = '';
+          bool isCorrect = false;
 
-                    result.fold<void>(
-                      (failure) {
-                        failure.when(
-                          unknown: () => message = 'Unknown error',
-                        );
-                        isCorrect = false;
-                      },
-                      (data) {
-                        debugProfile.nickname = nickname;
-                        message = 'Changes saved';
-                        isCorrect = true;
-                      },
-                    );
+          result.fold<void>(
+            (failure) {
+              failure.when(
+                unknown: () => message = 'Unknown error',
+              );
+              isCorrect = false;
+            },
+            (data) {
+              debugProfile.nickname = nickname;
+              message = 'Changes saved';
+              isCorrect = true;
+            },
+          );
 
-                    await _showMessageDialog(
-                      message: message,
-                      isCorrect: isCorrect,
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
+          // ignore: use_build_context_synchronously
+          await _MenuDialogUtils.messageDialog(
+            context,
+            message: message,
+            isCorrect: isCorrect,
+          );
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+        }
       },
     );
   }
 
   void statusAction() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        //TODO: Брать статус из user
-        final inputController =
-            TextEditingController(text: debugProfile.status.title);
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    //TODO: Брать статус из user
+    final inputController =
+        TextEditingController(text: debugProfile.status.title);
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-        Color changeColor = Colors.black;
+    Color changeColor = Colors.black;
 
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Enter a status',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: _MenuStatusContent(
-              formKey: formKey,
-              inputController: inputController,
-              color: debugProfile.status.color,
-              onColorChanged: (color) => changeColor = color,
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    String title = inputController.text.trim();
+    _MenuDialogUtils.alertDialog(
+      context,
+      title: 'Enter a status',
+      content: _MenuStatusContent(
+        formKey: formKey,
+        inputController: inputController,
+        color: debugProfile.status.color,
+        onColorChanged: (color) => changeColor = color,
+      ),
+      onChangePressed: () async {
+        if (formKey.currentState != null && formKey.currentState!.validate()) {
+          String title = inputController.text.trim();
 
-                    final result = await controller.userRepository
-                        .changeProfileStatus(
-                            status: Status(title: title, color: changeColor));
+          final result = await controller.userRepository.changeProfileStatus(
+              status: Status(title: title, color: changeColor));
 
-                    String message = '';
-                    bool isCorrect = false;
+          String message = '';
+          bool isCorrect = false;
 
-                    result.fold<void>(
-                      (failure) {
-                        failure.when(
-                          unknown: () => message = 'Unknown error',
-                        );
-                        isCorrect = false;
-                      },
-                      (data) {
-                        debugProfile.status.title = title;
-                        debugProfile.status.color = changeColor;
-                        message = 'Changes saved';
-                        isCorrect = true;
-                      },
-                    );
+          result.fold<void>(
+            (failure) {
+              failure.when(
+                unknown: () => message = 'Unknown error',
+              );
+              isCorrect = false;
+            },
+            (data) {
+              debugProfile.status.title = title;
+              debugProfile.status.color = changeColor;
+              message = 'Changes saved';
+              isCorrect = true;
+            },
+          );
 
-                    await _showMessageDialog(
-                      message: message,
-                      isCorrect: isCorrect,
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
+          // ignore: use_build_context_synchronously
+          await _MenuDialogUtils.messageDialog(
+            context,
+            message: message,
+            isCorrect: isCorrect,
+          );
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+        }
       },
     );
   }
 
   void avatarAction() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        Uint8List image = debugProfile.avatar.data.toImage();
+    _MenuDialogUtils.imagePickerBottomSheet(
+      context,
+      onPickFile: (image) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => _MenuImageCropWidget(
+            initialImage: image,
+            onCrop: (image) {
+              Media media = Media(
+                type: MediaType.image,
+                location: MediaLocation.remote,
+                data: MediaData(data: image),
+              );
 
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Pick a avatar',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: _MenuAvatarContent(
-              image: image,
-              onImageChange: (Uint8List img) => image = img,
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  Media media = Media(
-                    type: MediaType.image,
-                    location: MediaLocation.remote,
-                    data: MediaData(data: image),
-                  );
+              controller.userRepository
+                  .changeProfileAvatar(avatar: media)
+                  .then((result) async {
+                String message = '';
+                bool isCorrect = false;
 
-                  final result = await controller.userRepository
-                      .changeProfileAvatar(avatar: media);
+                result.fold<void>(
+                  (failure) {
+                    failure.when(
+                      unknown: () => message = 'Unknown error',
+                    );
+                    isCorrect = false;
+                  },
+                  (data) {
+                    debugProfile.avatar = media;
+                    Get.find<HomeAvatarProvider>().image = image;
 
-                  String message = '';
-                  bool isCorrect = false;
+                    message = 'Changes saved';
+                    isCorrect = true;
+                  },
+                );
 
-                  result.fold<void>(
-                    (failure) {
-                      failure.when(
-                        unknown: () => message = 'Unknown error',
-                      );
-                      isCorrect = false;
-                    },
-                    (data) {
-                      debugProfile.avatar = media;
-                      Get.find<HomeAvatarProvider>().image = image;
-
-                      message = 'Changes saved';
-                      isCorrect = true;
-                    },
-                  );
-
-                  await _showMessageDialog(
-                    message: message,
-                    isCorrect: isCorrect,
-                  );
-                  // ignore: use_build_context_synchronously
-                  Navigator.pop(context);
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
+                await _MenuDialogUtils.messageDialog(
+                  context,
+                  message: message,
+                  isCorrect: isCorrect,
+                ).then((_) => Navigator.pop(context));
+              });
+            },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   void backgroundAction() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        Uint8List image = debugProfile.backgroundImage.data.toImage();
+    _MenuDialogUtils.imagePickerBottomSheet(
+      context,
+      onPickFile: (image) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => _MenuImageCropWidget(
+            initialImage: image,
+            aspectRatio: 16.0 / 9.0,
+            onCrop: (image) {
+              Media media = Media(
+                type: MediaType.image,
+                location: MediaLocation.remote,
+                data: MediaData(data: image),
+              );
 
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Pick a background',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: _MenuBackgroundContent(
-              image: image,
-              onImageChange: (Uint8List img) => image = img,
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  Media media = Media(
-                    type: MediaType.image,
-                    location: MediaLocation.remote,
-                    data: MediaData(data: image),
-                  );
+              controller.userRepository
+                  .changeProfileBackgroundImage(backgroundImage: media)
+                  .then((result) async {
+                String message = '';
+                bool isCorrect = false;
 
-                  final result = await controller.userRepository
-                      .changeProfileBackgroundImage(backgroundImage: media);
+                result.fold<void>(
+                  (failure) {
+                    failure.when(
+                      unknown: () => message = 'Unknown error',
+                    );
+                    isCorrect = false;
+                  },
+                  (data) {
+                    debugProfile.backgroundImage = media;
 
-                  String message = '';
-                  bool isCorrect = false;
+                    message = 'Changes saved';
+                    isCorrect = true;
+                  },
+                );
 
-                  result.fold<void>(
-                    (failure) {
-                      failure.when(
-                        unknown: () => message = 'Unknown error',
-                      );
-                      isCorrect = false;
-                    },
-                    (data) {
-                      debugProfile.backgroundImage = media;
-                      message = 'Changes saved';
-                      isCorrect = true;
-                    },
-                  );
-
-                  await _showMessageDialog(
-                    message: message,
-                    isCorrect: isCorrect,
-                  );
-                  // ignore: use_build_context_synchronously
-                  Navigator.pop(context);
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
+                await _MenuDialogUtils.messageDialog(
+                  context,
+                  message: message,
+                  isCorrect: isCorrect,
+                ).then((_) => Navigator.pop(context));
+              });
+            },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   void passwordAction() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        final inputController = TextEditingController();
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final inputController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-        return Theme(
-          data: ThemeData.dark(),
-          child: AlertDialog(
-            title: Text(
-              'Enter a new password',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+    _MenuDialogUtils.alertDialog(
+      context,
+      title: 'Enter a new password',
+      content: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: inputController,
+              validator: (value) => Utils.isPasswordValid(value ?? ''),
+              autovalidateMode: AutovalidateMode.always,
             ),
-            content: Form(
-              key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: inputController,
-                    validator: (value) => ui_utils.isPasswordValid(value ?? ''),
-                    autovalidateMode: AutovalidateMode.always,
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                child: const Text('Change'),
-                onPressed: () async {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    String newPassword = inputController.text.trim();
+          ],
+        ),
+      ),
+      onChangePressed: () async {
+        if (formKey.currentState != null && formKey.currentState!.validate()) {
+          String newPassword = inputController.text.trim();
 
-                    final result = await controller.userRepository
-                        .changeProfilePassword(newPassword: newPassword);
+          final result = await controller.userRepository
+              .changeProfilePassword(newPassword: newPassword);
 
-                    String message = '';
-                    bool isCorrect = false;
+          String message = '';
+          bool isCorrect = false;
 
-                    result.fold<void>(
-                      (failure) {
-                        failure.when(
-                          unknown: () => message = 'Unknown error',
-                          weakPassword: () =>
-                              message = 'The password is not strong enough',
-                          requiresRecentLogin: () => message =
-                              'User\'s last sign-in time does not meet the security threshold',
-                        );
-                        isCorrect = false;
-                      },
-                      (data) {
-                        debugProfile.nickname = newPassword;
-                        message = 'Changes saved';
-                        isCorrect = true;
-                      },
-                    );
+          result.fold<void>(
+            (failure) {
+              failure.when(
+                unknown: () => message = 'Unknown error',
+                weakPassword: () =>
+                    message = 'The password is not strong enough',
+                requiresRecentLogin: () => message =
+                    'User\'s last sign-in time does not meet the security threshold',
+              );
+              isCorrect = false;
+            },
+            (data) {
+              debugProfile.nickname = newPassword;
+              message = 'Changes saved';
+              isCorrect = true;
+            },
+          );
 
-                    await _showMessageDialog(
-                      message: message,
-                      isCorrect: isCorrect,
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
+          // ignore: use_build_context_synchronously
+          await _MenuDialogUtils.messageDialog(
+            context,
+            message: message,
+            isCorrect: isCorrect,
+          );
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+        }
       },
     );
   }
@@ -710,40 +610,37 @@ class _MenuActions {
         networkRequestFailed: () => message = 'No network',
       );
 
-      ui_utils.sendScaffoldMessage(context, message: message);
+      Utils.sendScaffoldMessage(context, message: message);
     }, (_) {});
   }
 
   void languageAction() {
     //Менять язык
 
-    showDialog(
-      context: context,
-      builder: (context) => Theme(
-        data: ThemeData.dark(),
-        child: AlertDialog(
-          title: Text(
-            'Enter a new password',
-            style: GoogleFonts.roboto(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+    _MenuDialogUtils.dialog(
+      context,
+      child: AlertDialog(
+        title: Text(
+          'Enter a new password',
+          style: GoogleFonts.roboto(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
-          content: DropdownButton(
-            items: const [
-              DropdownMenuItem(child: Text('English')),
-            ],
-            onChanged: (value) {
-              //Менять язык
-            },
-          ),
-          actions: [
-            TextButton(
-              child: const Text('Close'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
         ),
+        content: DropdownButton(
+          items: const [
+            DropdownMenuItem(child: Text('English')),
+          ],
+          onChanged: (value) {
+            //Менять язык
+          },
+        ),
+        actions: [
+          ElevatedButton(
+            child: const Text('Close'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
       ),
     );
   }
@@ -755,14 +652,99 @@ class _MenuActions {
   void receivedNewsletterAction() {
     //Отправлять новостную рассылку?
   }
+}
 
-  Future _showMessageDialog({
+class _MenuDialogUtils {
+  static Future<T?> dialog<T>(
+    BuildContext context, {
+    required Widget child,
+  }) async {
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme:
+                const ColorScheme.dark(primary: AppColors.primaryColor),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+              ),
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+
+  static Future<T?> bottomSheet<T>(
+    BuildContext context, {
+    required Widget child,
+  }) async {
+    return await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      builder: (context) => child,
+    );
+  }
+
+  static Future<T?> alertDialog<T>(
+    BuildContext context, {
+    required String title,
+    required Widget content,
+    void Function()? onChangePressed,
+  }) async {
+    return await dialog(
+      context,
+      child: AlertDialog(
+        title: Text(
+          title,
+          style: GoogleFonts.roboto(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: content,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+          ElevatedButton(
+            onPressed: onChangePressed,
+            child: const Text('Change'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Future<T?> imagePickerBottomSheet<T>(
+    BuildContext context, {
+    required void Function(Uint8List image) onPickFile,
+  }) async {
+    return await bottomSheet(
+      context,
+      child: _MenuImagePicker(
+        onPickFile: (image) {
+          Navigator.pop(context);
+          onPickFile(image);
+        },
+      ),
+    );
+  }
+
+  static Future<T?> messageDialog<T>(
+    BuildContext context, {
     required String message,
     required bool isCorrect,
   }) async {
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
+    return await dialog(
+      context,
+      child: AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -781,7 +763,7 @@ class _MenuActions {
         actions: [
           SizedBox(
             width: double.infinity,
-            child: TextButton(
+            child: ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -789,6 +771,222 @@ class _MenuActions {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  static Future<T?> waitingDialog<T>(
+      BuildContext context, Future<T> future) async {
+    return await _MenuDialogUtils.dialog<T>(
+      context,
+      child: AlertDialog(
+        content: FutureBuilder(
+          future: future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              Navigator.pop(context, snapshot.data);
+            } else if (snapshot.hasError) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('Error: ${snapshot.error}'),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Close'),
+                  ),
+                ],
+              );
+            }
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const CircularProgressIndicator(),
+                const SizedBox(height: 8),
+                Text(
+                  'Waiting...',
+                  style: GoogleFonts.roboto(fontSize: 16),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuImagePicker extends StatelessWidget {
+  final void Function(Uint8List image) onPickFile;
+
+  const _MenuImagePicker({
+    Key? key,
+    required this.onPickFile,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ValueBuilderFix(
+            initialValue: true,
+            builder: (enabled, update) {
+              return ElevatedButton.icon(
+                onPressed: enabled!
+                    ? () {
+                        update(false);
+
+                        ImagePicker()
+                            .pickImage(source: ImageSource.gallery)
+                            .then((file) async {
+                          if (file != null) {
+                            final image = await File(file.path).readAsBytes();
+                            onPickFile(image);
+                          }
+
+                          update(true);
+                        });
+                      }
+                    : null,
+                icon: const Icon(Icons.collections),
+                label: const Text('Browse Gallery'),
+              );
+            },
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'OR',
+            style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 6),
+          ValueBuilderFix(
+            initialValue: true,
+            builder: (enabled, update) {
+              return ElevatedButton(
+                onPressed: enabled!
+                    ? () async {
+                        update(false);
+
+                        final inputController = TextEditingController();
+                        final GlobalKey<FormState> formKey =
+                            GlobalKey<FormState>();
+
+                        _MenuDialogUtils.alertDialog<String>(
+                          context,
+                          title: 'Enter a Url',
+                          content: Form(
+                            key: formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextFormField(
+                                  controller: inputController,
+                                  validator: (value) =>
+                                      Utils.isImageValid(value ?? ''),
+                                  autovalidateMode: AutovalidateMode.always,
+                                ),
+                              ],
+                            ),
+                          ),
+                          onChangePressed: () async {
+                            if (formKey.currentState != null &&
+                                formKey.currentState!.validate()) {
+                              Navigator.pop(
+                                  context, inputController.text.trim());
+                            }
+                          },
+                        ).then((url) async {
+                          if (url != null) {
+                            final response =
+                                await _MenuDialogUtils.waitingDialog(
+                                    context, http.get(Uri.parse(url)));
+
+                            if (response != null) {
+                              final imageBytes = response.bodyBytes;
+                              onPickFile(imageBytes);
+                            }
+                          }
+
+                          update(true);
+                        });
+                      }
+                    : null,
+                child: const Text('Enter a Url'),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MenuImageCropWidget extends StatelessWidget {
+  final Uint8List initialImage;
+  final double aspectRatio;
+  final void Function(Uint8List image) onCrop;
+
+  const _MenuImageCropWidget({
+    Key? key,
+    required this.initialImage,
+    double? aspectRatio,
+    required this.onCrop,
+  })  : aspectRatio = aspectRatio ?? 1,
+        super(key: key);
+
+  Future _crop(CropController controller) async {
+    final bitmap = await controller.croppedBitmap();
+    final bitmapData = await bitmap.toByteData(format: ImageByteFormat.png);
+    onCrop(bitmapData!.buffer.asUint8List());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = CropController(aspectRatio: aspectRatio);
+
+    return Material(
+      child: SafeArea(
+        top: false,
+        child: Column(children: [
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: CropImage(
+                  image: Image.memory(initialImage),
+                  controller: controller,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    iconSize: 32,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  IconButton(
+                    iconSize: 32,
+                    icon: const Icon(Icons.check),
+                    onPressed: () async {
+                      await _MenuDialogUtils.waitingDialog(
+                        context,
+                        _crop(controller),
+                      ).then((_) => Navigator.pop(context));
+                    },
+                  ),
+                ]),
+          ),
+        ]),
       ),
     );
   }
@@ -837,7 +1035,15 @@ class _MenuStatusContentState extends State<_MenuStatusContent> {
             onTap: () => showDialog(
               context: context,
               builder: (context) => Theme(
-                data: ThemeData.dark(),
+                data: ThemeData.dark().copyWith(
+                  colorScheme:
+                      const ColorScheme.dark(primary: AppColors.primaryColor),
+                  elevatedButtonTheme: ElevatedButtonThemeData(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
+                  ),
+                ),
                 child: AlertDialog(
                   title: Text(
                     'Pick a color',
@@ -856,7 +1062,7 @@ class _MenuStatusContentState extends State<_MenuStatusContent> {
                     ),
                   ),
                   actions: [
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Close'),
                     ),
@@ -932,19 +1138,8 @@ class _MenuAvatarContentState extends State<_MenuAvatarContent> {
         ),
         const SizedBox(height: 8),
         const Text('or'),
-        TextButton(
-          onPressed: () async {
-            final picker = ImagePicker();
-            final XFile? file =
-                await picker.pickImage(source: ImageSource.gallery);
-            if (file != null) {
-              final image = await file.readAsBytes();
-              setState(() {
-                _image = image;
-                widget.onImageChange(_image);
-              });
-            }
-          },
+        ElevatedButton(
+          onPressed: () async {},
           child: const Text('Choose from storage'),
         ),
       ],
@@ -1005,7 +1200,7 @@ class _MenuBackgroundContentState extends State<_MenuBackgroundContent> {
         ),
         const SizedBox(height: 8),
         const Text('or'),
-        TextButton(
+        ElevatedButton(
           onPressed: () async {
             final picker = ImagePicker();
             final XFile? file =

@@ -9,7 +9,7 @@ import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_bloc.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_state.dart';
 import 'package:marketplace/core/const/colors.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/controller/cart_controller.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
@@ -159,7 +159,7 @@ class CartPage extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
                       child: Obx(
-                        () => TextButton(
+                        () => ElevatedButton(
                           onPressed: controller.checkedProduct.isEmpty
                               ? null
                               : () => controller.onCheckout(context),
@@ -187,7 +187,7 @@ class CartPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(message),
-          TextButton(
+          ElevatedButton(
             onPressed: () => controller.onRefreshPage(),
             child: const Text("Press to refresh page"),
           ),
@@ -347,9 +347,9 @@ class CartPage extends StatelessWidget {
                               ...visiblePlatforms
                                   .map((platform) => Tooltip(
                                         message:
-                                            ui_utils.platformToName(platform),
+                                            Utils.platformToName(platform),
                                         child: FaIcon(
-                                          ui_utils.platformToIcon(platform),
+                                          Utils.platformToIcon(platform),
                                           size: iconSize,
                                         ),
                                       ))

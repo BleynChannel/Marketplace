@@ -49,7 +49,7 @@ class NotificationPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(message),
-              TextButton(
+              ElevatedButton(
                 onPressed: () => _onRefreshPage(context),
                 child: const Text("Press to refresh page"),
               ),

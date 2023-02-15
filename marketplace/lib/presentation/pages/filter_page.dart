@@ -7,7 +7,7 @@ import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/widgets/custom_range_slider.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/expansion_category.dart';
 
 class FilterPage extends StatelessWidget {
@@ -120,11 +120,11 @@ class FilterPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: FilterChips(
-        items: Platform.values.map((e) => ui_utils.platformToName(e)).toList(),
+        items: Platform.values.map((e) => Utils.platformToName(e)).toList(),
         selectedItems:
-            filter.platforms.map((e) => ui_utils.platformToName(e)).toList(),
+            filter.platforms.map((e) => Utils.platformToName(e)).toList(),
         onSelected: (selected) => filter.platforms =
-            selected.map((e) => ui_utils.platformFromName(e)).toList(),
+            selected.map((e) => Utils.platformFromName(e)).toList(),
       ),
     );
   }

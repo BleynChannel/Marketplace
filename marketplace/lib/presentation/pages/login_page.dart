@@ -11,7 +11,7 @@ import 'package:marketplace/presentation/bloc/login/login_event.dart';
 import 'package:marketplace/presentation/bloc/login/login_state.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 import '../widgets/gradient_devider.dart';
 
@@ -68,8 +68,8 @@ class LoginPage extends StatelessWidget {
             empty: () {},
             success: () {},
             error: (message) =>
-                ui_utils.sendScaffoldMessage(context, message: message),
-            noNetwork: () => ui_utils.sendScaffoldMessage(context,
+                Utils.sendScaffoldMessage(context, message: message),
+            noNetwork: () => Utils.sendScaffoldMessage(context,
                 message: 'No internet connection'),
           ),
           child: Padding(
@@ -150,7 +150,7 @@ class LoginPage extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: 40,
-          child: TextButton(
+          child: ElevatedButton(
             child: const Text("Log with Email"),
             onPressed: () => _navigateToLogWithEmailPage(context),
           ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:marketplace/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:marketplace/presentation/bloc/reset_password/reset_password_event.dart';
 import 'package:marketplace/presentation/provider/auth_provider.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 
 class ResetPasswordController extends GetxController {
   final authProvider = Get.find<AuthProvider>();
@@ -34,12 +34,12 @@ class ResetPasswordController extends GetxController {
   void resetPassword(BuildContext context) {
     resetButtonEnabled = false;
 
-    if (ui_utils.isEmailValid(emailController.text.trim()) == null) {
+    if (Utils.isEmailValid(emailController.text.trim()) == null) {
       bloc.add(ResetPasswordEvent.onResetPassword(
         email: emailController.text.trim(),
       ));
     } else {
-      ui_utils.sendScaffoldMessage(context, message: 'Enter a valid data');
+      Utils.sendScaffoldMessage(context, message: 'Enter a valid data');
       resetButtonEnabled = true;
     }
   }

@@ -10,7 +10,7 @@ import 'package:marketplace/presentation/bloc/desired/desired_bloc.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_state.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/controller/desired_controller.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/price_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -132,7 +132,7 @@ class DesiredPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(message),
-          TextButton(
+          ElevatedButton(
             onPressed: () => controller.onRefreshPage(),
             child: const Text("Press to refresh page"),
           ),
@@ -292,9 +292,9 @@ class DesiredPage extends StatelessWidget {
                               ...visiblePlatforms
                                   .map((platform) => Tooltip(
                                         message:
-                                            ui_utils.platformToName(platform),
+                                            Utils.platformToName(platform),
                                         child: FaIcon(
-                                          ui_utils.platformToIcon(platform),
+                                          Utils.platformToIcon(platform),
                                           size: iconSize,
                                         ),
                                       ))

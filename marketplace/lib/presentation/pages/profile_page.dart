@@ -17,7 +17,7 @@ import 'package:marketplace/presentation/bloc/profile/profile_bloc.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_event.dart';
 import 'package:marketplace/presentation/bloc/profile/profile_state.dart';
 import 'package:marketplace/core/const/colors.dart';
-import 'package:marketplace/core/utils/utils.dart' as ui_utils;
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
@@ -80,7 +80,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(message),
-              TextButton(
+              ElevatedButton(
                 onPressed: () => _onRefreshPage(context),
                 child: const Text("Press to refresh page"),
               ),
@@ -392,8 +392,8 @@ class ProfilePage extends StatelessWidget {
     required DateTime lastActivity,
   }) {
     final informations = {
-      'Registration date': ui_utils.dateTimeToString(registrationDate),
-      'Last activity': ui_utils.dateTimeToString(lastActivity),
+      'Registration date': Utils.dateTimeToString(registrationDate),
+      'Last activity': Utils.dateTimeToString(lastActivity),
     };
 
     return Padding(
