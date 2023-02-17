@@ -39,16 +39,16 @@ class ResetPasswordController extends GetxController {
         email: emailController.text.trim(),
       ));
     } else {
-      Utils.sendScaffoldMessage(context, message: 'Enter a valid data');
+      Utils.sendScaffoldMessage(context, message: 'enterValidData'.tr);
       resetButtonEnabled = true;
     }
   }
 
-  void showDialogSucces(BuildContext context) {
+  void showDialogSuccess(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => const AlertDialog(
-        content: Text('Password reset link send! Check your email'),
+      builder: (context) => AlertDialog(
+        content: Text('resetPasswordSuccess'.tr),
       ),
     );
   }

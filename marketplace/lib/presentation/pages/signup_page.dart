@@ -40,7 +40,7 @@ class SignUpPage extends GetView<SignUpController> {
               error: (message) =>
                   Utils.sendScaffoldMessage(context, message: message),
               noNetwork: () => Utils.sendScaffoldMessage(context,
-                  message: 'No internet connection'),
+                  message: 'noInternet'),
             );
 
             controller.signupButtonEnabled = true;
@@ -56,7 +56,7 @@ class SignUpPage extends GetView<SignUpController> {
               Column(children: [
                 _buildFields(context),
                 const SizedBox(height: 10),
-                ..._buildLogIn(context),
+                ..._buildSignUp(context),
               ]),
             ]),
           ),
@@ -69,7 +69,7 @@ class SignUpPage extends GetView<SignUpController> {
     return LayoutBuilder(
       builder: (context, constrained) {
         final textWidget = AutoSizeText(
-          "Create new account",
+          'signupTitle'.tr,
           style: Theme.of(context)
               .textTheme
               .headline4
@@ -99,8 +99,8 @@ class SignUpPage extends GetView<SignUpController> {
   }
 
   Widget _buildFields(BuildContext context) {
-    const passwordTooltipText =
-        'The password must contain lowercase letters, uppercase letters, .!#\$%&№\'*+-/=?^_`(){|}~ characters and have a length of at least 8';
+    final passwordTooltipText =
+        'passwordTooltip'.tr;
 
     return CustomForm(
       key: controller.formKey,
@@ -109,7 +109,7 @@ class SignUpPage extends GetView<SignUpController> {
           controller: controller.nicknameController,
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.none,
-          hintText: "Nickname",
+          hintText: 'signupNickname'.tr,
           prefixIcon: const Icon(Icons.person),
           autofocus: true,
           validator: (value) => Utils.isNicknameValid(value ?? ''),
@@ -135,18 +135,18 @@ class SignUpPage extends GetView<SignUpController> {
         CustomTextFormField(
           fieldHeight: MediaQuery.of(context).size.height / 16,
           type: CustomTextFormFieldType.password,
-          hintText: "Repeat password",
+          hintText: 'signupRepeatPassword'.tr,
           questionText: passwordTooltipText,
           maxLength: 15,
           validator: (value) => value == controller.password
               ? null
-              : "Repeat the password correctly",
+              : 'signupRepeatPasswordValidate'.tr,
         ),
       ]),
     );
   }
 
-  List<Widget> _buildLogIn(BuildContext context) {
+  List<Widget> _buildSignUp(BuildContext context) {
     return [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -158,7 +158,7 @@ class SignUpPage extends GetView<SignUpController> {
               onPressed: controller.signupButtonEnabled
                   ? () => controller.signup(context)
                   : null,
-              child: const Text("Sign Up"),
+              child: Text('signup'.tr),
             ),
           ),
         ),
@@ -176,14 +176,14 @@ class SignUpPage extends GetView<SignUpController> {
           width: double.infinity,
           child: RichText(
             text: TextSpan(
-              text: "Already have an account? ",
+              text: "${'signupQuestionAccount'.tr} ",
               style: Theme.of(context)
                   .textTheme
                   .caption
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
-                  text: "Log In",
+                  text: 'login'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .caption

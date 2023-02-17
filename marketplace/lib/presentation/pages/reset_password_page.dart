@@ -32,11 +32,11 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
           listener: (context, state) {
             state.when<void>(
               empty: () {},
-              success: () => controller.showDialogSucces(context),
+              success: () => controller.showDialogSuccess(context),
               error: (message) =>
                   Utils.sendScaffoldMessage(context, message: message),
               noNetwork: () => Utils.sendScaffoldMessage(context,
-                  message: 'No internet connection'),
+                  message: 'noInternet'.tr),
             );
 
             controller.resetButtonEnabled = true;
@@ -62,7 +62,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
   List<Widget> _buildTitle(BuildContext context) {
     return [
       AutoSizeText(
-        "Forgot password?",
+        'resetPasswordTitle'.tr,
         style: Theme.of(context)
             .textTheme
             .headline4
@@ -72,7 +72,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
       ),
       const SizedBox(height: 20),
       Text(
-        "Enter You Email and we will send you a password reset link",
+        'resetPasswordDescription'.tr,
         style: Theme.of(context)
             .textTheme
             .headline6
@@ -101,7 +101,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
               onPressed: controller.resetButtonEnabled
                   ? () => controller.resetPassword(context)
                   : null,
-              child: const Text("Reset password"),
+              child: Text('resetPassword'.tr),
             ),
           ),
         ),

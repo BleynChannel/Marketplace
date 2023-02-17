@@ -24,7 +24,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError'.tr,
         );
 
         emit(ProfileState.error(message: message));

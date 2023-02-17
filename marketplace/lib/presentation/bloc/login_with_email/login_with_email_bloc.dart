@@ -21,12 +21,12 @@ class LoginWithEmailBloc
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
-          networkRequestFailed: () => message = 'No network',
-          invalidEmail: () => message = 'Email address is not valid',
-          userDisabled: () => message = 'User is disabled',
-          userNotFound: () => message = 'User not found',
-          wrongPassword: () => message = 'Password is invalid',
+          unknown: () => message = 'unknownError'.tr,
+          networkRequestFailed: () => message = 'noInternet'.tr,
+          invalidEmail: () => message = 'invalidEmail'.tr,
+          userDisabled: () => message = 'User is disabled'.tr,
+          userNotFound: () => message = 'userNotFound'.tr,
+          wrongPassword: () => message = 'wrongPassword'.tr,
         );
 
         emit(LoginWithEmailState.error(message: message));

@@ -20,20 +20,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
-          networkRequestFailed: () => message = 'No network',
-          accountExistsWithDifferentCredential: () => message =
-              'The account is registered through another registration method',
+          unknown: () => message = 'unknownError'.tr,
+          networkRequestFailed: () => message = 'noInternet'.tr,
+          accountExistsWithDifferentCredential: () =>
+              message = 'accountExistsWithDifferentCredential'.tr,
           invalidCredential: () =>
-              message = 'The credential is malformed or has expired',
-          operationNotAllowed: () => message = 'The credential is not enabled',
-          userDisabled: () => message = 'User is disabled',
-          userNotFound: () => message = 'User not found',
-          wrongPassword: () => message = 'Password is invalid',
-          invalidVerificationCode: () =>
-              message = 'The verification code of the credential is not valid',
-          invalidVerificationId: () =>
-              message = 'The verification ID of the credential is not valid.id',
+              message = 'invalidCredential'.tr,
+          operationNotAllowed: () =>
+              message = 'operationNotAllowed'.tr,
+          userDisabled: () => message = 'User is disabled'.tr,
+          userNotFound: () => message = 'userNotFound'.tr,
+          wrongPassword: () => message = 'wrongPassword'.tr,
+          invalidVerificationCode: () => message =
+              'invalidVerificationCode'.tr,
+          invalidVerificationId: () => message =
+              'invalidVerificationId'.tr,
         );
 
         emit(LoginState.error(message: message));
@@ -51,9 +52,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
-          networkRequestFailed: () => message = 'No network',
-          userDisabled: () => message = 'User is disabled',
+          unknown: () => message = 'unknownError'.tr,
+          networkRequestFailed: () => message = 'noInternet'.tr,
+          userDisabled: () => message = 'userDisabled'.tr,
         );
 
         emit(LoginState.error(message: message));

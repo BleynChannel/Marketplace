@@ -38,13 +38,13 @@ class DesiredPage extends StatelessWidget {
 
     final actions = [
       _DesiredAppBarAction(
-        tooltip: 'Unselected all',
+        tooltip: 'unselectTooltip'.tr,
         icon: Icons.block,
         onPressed: controller.onAllUnselected,
         getActive: () => controller.checkedDesired.isNotEmpty,
       ),
       _DesiredAppBarAction(
-        tooltip: 'Selected all',
+        tooltip: 'selectTooltip'.tr,
         icon: Icons.check,
         onPressed: controller.onAllSelected,
         getActive: () =>
@@ -52,7 +52,7 @@ class DesiredPage extends StatelessWidget {
             controller.desiredProductList.length,
       ),
       _DesiredAppBarAction(
-        tooltip: 'Delete selects',
+        tooltip: 'deleteTooltip'.tr,
         icon: Icons.delete,
         onPressed: controller.onDeleteSelected,
         getActive: () => controller.checkedDesired.isNotEmpty,
@@ -62,7 +62,7 @@ class DesiredPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Desired",
+          'desired'.tr,
           style: GoogleFonts.roboto(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class DesiredPage extends StatelessWidget {
                         error: (message) =>
                             _buildError(context, controller, message: message),
                         noNetwork: () => _buildError(context, controller,
-                            message: 'No network'),
+                            message: 'noInternet'.tr),
                       );
                     },
                   ),
@@ -134,7 +134,7 @@ class DesiredPage extends StatelessWidget {
           Text(message),
           ElevatedButton(
             onPressed: () => controller.onRefreshPage(),
-            child: const Text("Press to refresh page"),
+            child: Text('refreshPage'.tr),
           ),
         ],
       ),
@@ -291,8 +291,7 @@ class DesiredPage extends StatelessWidget {
                             children: [
                               ...visiblePlatforms
                                   .map((platform) => Tooltip(
-                                        message:
-                                            Utils.platformToName(platform),
+                                        message: Utils.platformToName(platform),
                                         child: FaIcon(
                                           Utils.platformToIcon(platform),
                                           size: iconSize,

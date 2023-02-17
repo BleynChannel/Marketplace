@@ -24,7 +24,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError'.tr,
         );
 
         emit(ProductState.error(message: message));

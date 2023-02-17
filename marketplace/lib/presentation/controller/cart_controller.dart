@@ -83,8 +83,9 @@ class CartController extends GetxController {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Ready!', style: GoogleFonts.roboto(fontSize: 18)),
-            const Text('Your products have been sent to you by email'),
+            Text('cartCheckoutReadyTitle'.tr,
+                style: GoogleFonts.roboto(fontSize: 18)),
+            Text('cartCheckoutReadyDescription'.tr),
           ],
         ),
       ),

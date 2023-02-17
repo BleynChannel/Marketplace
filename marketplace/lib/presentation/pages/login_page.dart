@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/presentation/bloc/login/login_bloc.dart';
 import 'package:marketplace/presentation/bloc/login/login_event.dart';
@@ -70,7 +71,7 @@ class LoginPage extends StatelessWidget {
             error: (message) =>
                 Utils.sendScaffoldMessage(context, message: message),
             noNetwork: () => Utils.sendScaffoldMessage(context,
-                message: 'No internet connection'),
+                message: 'noInternet'.tr),
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
@@ -84,7 +85,7 @@ class LoginPage extends StatelessWidget {
                 ..._buildContinueWithButtons(context, _continueWithMap, bloc),
                 const SizedBox(height: 10),
                 Text(
-                  "or",
+                  'or'.tr,
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -103,7 +104,7 @@ class LoginPage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constrained) {
         final textWidget = AutoSizeText(
-          "Welcome back!",
+          'loginTitle'.tr,
           style: Theme.of(context)
               .textTheme
               .headline4
@@ -131,8 +132,11 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Iterable<Widget> _buildContinueWithButtons(BuildContext context,
-      List<_ContinueWith> continueWithMap, LoginBloc bloc) {
+  Iterable<Widget> _buildContinueWithButtons(
+    BuildContext context,
+    List<_ContinueWith> continueWithMap,
+    LoginBloc bloc,
+  ) {
     //Create a list of buttons with separators
     return continueWithMap
         .map((e) => LoginToButton(
@@ -151,7 +155,7 @@ class LoginPage extends StatelessWidget {
           width: double.infinity,
           height: 40,
           child: ElevatedButton(
-            child: const Text("Log with Email"),
+            child: Text('loginWithEmail'.tr),
             onPressed: () => _navigateToLogWithEmailPage(context),
           ),
         ),
@@ -169,14 +173,14 @@ class LoginPage extends StatelessWidget {
           width: double.infinity,
           child: RichText(
             text: TextSpan(
-              text: "Don’t have an account? ",
+              text: '${'questionAccount'.tr} ',
               style: Theme.of(context)
                   .textTheme
                   .caption
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
-                  text: "Sign Up",
+                  text: 'signup'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .caption
@@ -218,7 +222,7 @@ class LoginToButton extends StatelessWidget {
       icon: icon,
       label: RichText(
         text: TextSpan(
-          text: "Continue with ",
+          text: "${'loginContinue'.tr} ",
           children: [
             TextSpan(
               text: label,

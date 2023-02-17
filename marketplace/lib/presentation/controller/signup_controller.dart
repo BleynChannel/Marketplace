@@ -57,7 +57,7 @@ class SignUpController extends GetxController {
 
       bloc.add(SignUpEvent.onSignUp(signUp));
     } else {
-      Utils.sendScaffoldMessage(context, message: 'Enter a valid data');
+      Utils.sendScaffoldMessage(context, message: 'enterValidData'.tr);
       signupButtonEnabled = true;
     }
   }

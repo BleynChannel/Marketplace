@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/presentation/bloc/notification/notification_bloc.dart';
 import 'package:marketplace/presentation/bloc/notification/notification_event.dart';
@@ -30,7 +31,8 @@ class NotificationPage extends StatelessWidget {
             loading: (notifications) =>
                 _buildMain(context, notifications: notifications),
             error: (message) => _buildError(context, message: message),
-            noNetwork: () => _buildError(context, message: 'No network'),
+            noNetwork: () =>
+                _buildError(context, message: 'noInternet'.tr),
           );
         },
       ),
@@ -51,7 +53,7 @@ class NotificationPage extends StatelessWidget {
               Text(message),
               ElevatedButton(
                 onPressed: () => _onRefreshPage(context),
-                child: const Text("Press to refresh page"),
+                child: Text('refreshPage'.tr),
               ),
             ],
           ),
@@ -65,7 +67,7 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Notification",
+          'notification'.tr,
           style: GoogleFonts.roboto(
             fontSize: 24,
             fontWeight: FontWeight.bold,

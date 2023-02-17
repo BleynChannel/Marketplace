@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:marketplace/data/datasource/auth/auth_remote_data_source.dart';
 import 'package:marketplace/data/datasource/product/product_remote_data_source.dart';
+import 'package:marketplace/data/datasource/user/user_local_data_source.dart';
 import 'package:marketplace/data/datasource/user/user_remote_data_source.dart';
 import 'package:marketplace/domain/repository/auth_repository.dart';
 import 'package:marketplace/domain/repository/product_repository.dart';
@@ -30,7 +31,7 @@ class AppBinding implements Bindings {
   }
 
   Future repositoryDependencies() async {
-    final authRepository = await Get.putAsync(() async {
+    final authRepository = await Get.putAsync<AuthRepository>(() async {
       final repository = AuthRepository(AuthRemoteDataSource());
 
       final result = await repository.init();
@@ -38,7 +39,7 @@ class AppBinding implements Bindings {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError',
         );
 
         log('User cant loading: $message');
@@ -47,7 +48,26 @@ class AppBinding implements Bindings {
 
       return repository;
     });
-    Get.lazyPut(() => UserRepository(UserRemoteDataSource()));
+    await Get.putAsync<UserRepository>(() async {
+      final repository = UserRepository(
+        UserLocalDataSource(),
+        UserRemoteDataSource(),
+      );
+
+      final result = await repository.init();
+      result.fold((failure) {
+        String message = '';
+
+        failure.when(
+          unknown: () => message = 'unknownError',
+        );
+
+        log('User cant loading: $message');
+        exit(-1);
+      }, (_) {});
+
+      return repository;
+    });
     Get.lazyPut(() => ProductRepository(ProductRemoteDataSource()));
 
     authRepository.rxUid.listen((uid) {

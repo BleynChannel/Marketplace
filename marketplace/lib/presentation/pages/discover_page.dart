@@ -105,8 +105,8 @@ class DiscoverPage extends StatelessWidget {
                     _buildProductsList(context, products: products),
                 error: (message) =>
                     _buildProductsList(context, message: message),
-                noNetwork: () =>
-                    _buildProductsList(context, message: 'No network'),
+                noNetwork: () => _buildProductsList(context,
+                    message: 'noInternet'.tr),
               ),
             ),
           ),
@@ -128,7 +128,7 @@ class DiscoverPage extends StatelessWidget {
       children = [_buildError(context, message: message)];
     } else if (prod != null) {
       if (prod.every((element) => element.value.isEmpty)) {
-        children = [_buildError(context, message: "Empty products")];
+        children = [_buildError(context, message: 'discoverEmptyProducts'.tr)];
       } else {
         children = prod
             .map((category) => _buildCategoryProducts(
@@ -178,9 +178,10 @@ class DiscoverPage extends StatelessWidget {
         title: category != null
             ? Text(
                 category.key,
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(fontWeight: FontWeight.w700),
               )
             : SizedBox(
                 height: Theme.of(context).textTheme.headline5?.fontSize,
@@ -334,7 +335,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
 
     return AppBar(
       title: Text(
-        "Discover",
+        'discover'.tr,
         style: GoogleFonts.roboto(
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -374,7 +375,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
                   : const SizedBox(),
             ],
           ),
-          tooltip: 'Cart',
+          tooltip: 'cart'.tr,
         ),
         IconButton(
           onPressed: () => onNotificationClick(context),
@@ -408,7 +409,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
                   : const SizedBox(),
             ],
           ),
-          tooltip: 'Notification',
+          tooltip: 'notification'.tr,
         ),
       ],
       flexibleSpace: ClipRRect(
@@ -452,7 +453,8 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
                   loading: (products) =>
                       _buildMain(context, products: products['Main']),
                   error: (message) => _buildError(context, message),
-                  noNetwork: () => _buildError(context, 'No network'),
+                  noNetwork: () =>
+                      _buildError(context, 'noInternet'.tr),
                 ),
               ),
             ),
@@ -471,7 +473,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
   Widget _buildMain(BuildContext context,
       {required List<CompactProduct>? products}) {
     if (products != null && products.isEmpty) {
-      return _buildError(context, "Empty products");
+      return _buildError(context, 'Empty products'.tr);
     }
 
     return DiscoverPageView(

@@ -9,10 +9,10 @@ import 'package:marketplace/presentation/widgets/custom_bottom_navigation_bar.da
 
 class HomePage extends StatelessWidget {
   final Map<String, IconData> _bottomNavBarItems = {
-    'Discover': Icons.home,
-    'Search': Icons.search,
-    'Desired': Icons.bookmark_outline,
-    'Menu': Icons.menu,
+    'discover'.tr: Icons.home,
+    'search'.tr: Icons.search,
+    'desired'.tr: Icons.bookmark_outline,
+    'menu'.tr: Icons.menu,
   };
 
   HomePage({Key? key}) : super(key: key);
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
       },
       floatingActionButton: FloatingActionButton(
         onPressed: null,
-        tooltip: 'Profile',
+        tooltip: 'profile'.tr,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(60),

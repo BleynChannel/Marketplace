@@ -51,7 +51,7 @@ class LoginWithEmailController extends GetxController {
 
       bloc.add(LoginWithEmailEvent.onLogin(login));
     } else {
-      Utils.sendScaffoldMessage(context, message: 'Enter a valid data');
+      Utils.sendScaffoldMessage(context, message: 'enterValidData'.tr);
       loginButtonEnabled = true;
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplace/presentation/widgets/custom_form.dart';
 
 enum CustomTextFormFieldType {
@@ -98,13 +99,13 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
         keyboardType = null;
         break;
       case CustomTextFormFieldType.email:
-        _hintText = 'Email';
+        _hintText = 'customTextFormFieldEmail'.tr;
         _prefixIcon = const Icon(Icons.email_outlined);
         _suffixIcon = null;
         keyboardType = TextInputType.emailAddress;
         break;
       case CustomTextFormFieldType.password:
-        _hintText = 'Password';
+        _hintText = 'customTextFormFieldPassword'.tr;
         _prefixIcon = const Icon(Icons.lock_outline);
         _suffixIcon = IconButton(
           icon: const Icon(Icons.visibility_outlined),

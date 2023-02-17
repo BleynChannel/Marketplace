@@ -39,13 +39,13 @@ class CartPage extends StatelessWidget {
 
     final actions = [
       _CartAppBarAction(
-        tooltip: 'Unselected all',
+        tooltip: 'unselectTooltip'.tr,
         icon: Icons.block,
         onPressed: controller.onAllUnselected,
         getActive: () => controller.checkedProduct.isNotEmpty,
       ),
       _CartAppBarAction(
-        tooltip: 'Selected all',
+        tooltip: 'selectTooltip'.tr,
         icon: Icons.check,
         onPressed: controller.onAllSelected,
         getActive: () =>
@@ -53,7 +53,7 @@ class CartPage extends StatelessWidget {
             controller.cartProductList.length,
       ),
       _CartAppBarAction(
-        tooltip: 'Delete selects',
+        tooltip: 'deleteTooltip'.tr,
         icon: Icons.delete,
         onPressed: controller.onDeleteSelected,
         getActive: () => controller.checkedProduct.isNotEmpty,
@@ -63,7 +63,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Cart",
+          'cart'.tr,
           style: GoogleFonts.roboto(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class CartPage extends StatelessWidget {
                       error: (message) =>
                           _buildError(context, controller, message: message),
                       noNetwork: () => _buildError(context, controller,
-                          message: 'No network'),
+                          message: 'noInternet'.tr),
                     ),
                   ),
                 ),
@@ -122,9 +122,9 @@ class CartPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Total: ",
-                          style: TextStyle(
+                        Text(
+                          "${'cartTotal'.tr}: ",
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -163,7 +163,7 @@ class CartPage extends StatelessWidget {
                           onPressed: controller.checkedProduct.isEmpty
                               ? null
                               : () => controller.onCheckout(context),
-                          child: const Text("Checkout"),
+                          child: Text('cartCheckout'.tr),
                         ),
                       ),
                     ),
@@ -189,7 +189,7 @@ class CartPage extends StatelessWidget {
           Text(message),
           ElevatedButton(
             onPressed: () => controller.onRefreshPage(),
-            child: const Text("Press to refresh page"),
+            child: Text('refreshPage'.tr),
           ),
         ],
       ),
@@ -414,7 +414,7 @@ class CartPage extends StatelessWidget {
                     ),
               cartProduct != null
                   ? Text(
-                      "${cartProduct.count} piece",
+                      '${cartProduct.count} ${'cartPiece'.tr}',
                       style: GoogleFonts.roboto(fontSize: 14),
                     )
                   : const SizedBox(),

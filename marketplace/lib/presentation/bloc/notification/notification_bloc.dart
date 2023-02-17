@@ -24,7 +24,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError'.tr,
         );
 
         emit(NotificationState.error(message: message));

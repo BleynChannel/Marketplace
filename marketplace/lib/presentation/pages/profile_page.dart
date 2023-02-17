@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
@@ -62,7 +63,7 @@ class ProfilePage extends StatelessWidget {
           load: () => _buildLoaded(context),
           loading: (profile) => _buildMain(context, profile: profile),
           error: (message) => _buildError(context, message: message),
-          noNetwork: () => _buildError(context, message: 'No network'),
+          noNetwork: () => _buildError(context, message: 'noInternet'.tr),
         );
       },
     );
@@ -82,7 +83,7 @@ class ProfilePage extends StatelessWidget {
               Text(message),
               ElevatedButton(
                 onPressed: () => _onRefreshPage(context),
-                child: const Text("Press to refresh page"),
+                child: Text('refreshPage'.tr),
               ),
             ],
           ),
@@ -141,7 +142,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 10),
               _buildCategory(
                 context,
-                title: "Contact",
+                title: 'profileContact'.tr,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
@@ -164,7 +165,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 10),
               _buildCategory(
                 context,
-                title: "Achievements",
+                title: 'profileAchievements'.tr,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
@@ -185,7 +186,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 10),
               _buildCategory(
                 context,
-                title: "Favorite Games",
+                title: 'profileFavoriteGames'.tr,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
@@ -206,7 +207,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 10),
               _buildCategory(
                 context,
-                title: "Other Information",
+                title: 'profileOtherInformation'.tr,
                 child: _buildOtherInformationList(
                   context,
                   registrationDate: profile.registrationDate,
@@ -392,8 +393,8 @@ class ProfilePage extends StatelessWidget {
     required DateTime lastActivity,
   }) {
     final informations = {
-      'Registration date': Utils.dateTimeToString(registrationDate),
-      'Last activity': Utils.dateTimeToString(lastActivity),
+      'profileOtherInformationRegistrationDate'.tr: Utils.dateTimeToString(registrationDate),
+      'profileOtherInformationLastActivity'.tr: Utils.dateTimeToString(lastActivity),
     };
 
     return Padding(
@@ -484,8 +485,8 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
     required this.desired,
   }) {
     _purchasesMap = {
-      'Purchases': purchases,
-      'Desired': desired,
+      'profilePurchases'.tr: purchases,
+      'desired'.tr: desired,
     };
   }
 
@@ -508,7 +509,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
               IconButton(
                 onPressed: () => onMenuActionClick(context),
                 icon: const Icon(Icons.menu),
-                tooltip: 'Menu',
+                tooltip: 'menu'.tr,
               ),
             ],
             flexibleSpace: Stack(children: [

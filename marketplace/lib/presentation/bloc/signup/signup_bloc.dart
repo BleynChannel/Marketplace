@@ -20,13 +20,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
-          networkRequestFailed: () => message = 'No network',
+          unknown: () => message = 'unknownError'.tr,
+          networkRequestFailed: () => message = 'noInternet'.tr,
           emailAlreadyInUse: () =>
-              message = 'An account with this email already exists',
-          invalidEmail: () => message = 'Email address is not valid',
-          operationNotAllowed: () => message = 'The credential is not enabled',
-          weakPassword: () => message = 'The password is not strong enough',
+              message = 'emailAlreadyInUse'.tr,
+          invalidEmail: () => message = 'invalidEmail'.tr,
+          operationNotAllowed: () =>
+              message = 'operationNotAllowed'.tr,
+          weakPassword: () => message = 'weakPassword'.tr,
         );
 
         emit(SignUpState.error(message: message));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/core/utils/utils.dart';
@@ -29,7 +30,7 @@ class _PlatformChipsState extends State<PlatformChips> {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Row(children: [
           _buildPlatformItem(
-            title: "All",
+            title: 'all'.tr,
             selected: allSelected || _filters.isEmpty,
             onSelected: (value) {
               setState(() {

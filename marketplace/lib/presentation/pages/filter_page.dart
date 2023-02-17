@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/platform.dart';
@@ -18,19 +19,19 @@ class FilterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, Widget> filterCategory = {
-      'Price': _buildCategoryPrice(context),
-      'Year Of Release': _buildCategoryYearOfRelease(context),
-      'Genre': _buildCategoryGenre(context),
-      'Stylistics': _buildCategoryStylistics(context),
-      'Platforms': _buildCategoryPlatforms(context),
-      'Multiplayer': _buildCategoryMultiplayer(context),
+      'filterPrice'.tr: _buildCategoryPrice(context),
+      'filterYearOfRelease'.tr: _buildCategoryYearOfRelease(context),
+      'filterGenre'.tr: _buildCategoryGenre(context),
+      'filterStylistics'.tr: _buildCategoryStylistics(context),
+      'filterPlatforms'.tr: _buildCategoryPlatforms(context),
+      'filterMultiplayer'.tr: _buildCategoryMultiplayer(context),
     };
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          "Filter",
+          'filter'.tr,
           style: GoogleFonts.roboto(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -347,7 +348,7 @@ class _FilterChipsState extends State<FilterChips> {
       child: Wrap(spacing: 4, runSpacing: 4, children: [
         _buildPlatformItem(
           context,
-          title: "All",
+          title: 'all'.tr,
           selected: allSelected || _filters.isEmpty,
           onSelected: (value) {
             setState(() {

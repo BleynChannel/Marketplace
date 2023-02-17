@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
@@ -100,11 +101,11 @@ class WelcomePage extends StatelessWidget {
   Widget _buildTitle(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: "Game Store\nfor ",
+        text: "${'welcomeTitleOneLine'.tr} ",
         style: Theme.of(context).textTheme.headline4,
         children: [
           TextSpan(
-            text: "you",
+            text: 'welcomeTitleTwoLine'.tr,
             style: Theme.of(context)
                 .textTheme
                 .headline4
@@ -123,7 +124,7 @@ class WelcomePage extends StatelessWidget {
           width: double.infinity,
           height: 40,
           child: ElevatedButton(
-            child: const Text("Log In"),
+            child: Text('login'.tr),
             onPressed: () => _navigateToLogInPage(context),
           ),
         ),
@@ -141,14 +142,14 @@ class WelcomePage extends StatelessWidget {
           width: double.infinity,
           child: RichText(
             text: TextSpan(
-              text: "Don’t have an account? ",
+              text: '${'questionAccount'.tr} ',
               style: Theme.of(context)
                   .textTheme
                   .caption
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
-                  text: "Sign Up",
+                  text: 'signup'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .caption

@@ -9,21 +9,23 @@ import 'package:marketplace/domain/entity/product.dart';
 
 class Utils {
   static String? isNicknameValid(String text) {
-    return text.isEmpty ? "The nickname cannot be empty" : null;
+    return text.isEmpty ? 'utilsIsNicknameValid'.tr : null;
   }
 
   static String? isEmailValid(String text) {
-    return GetUtils.isEmail(text) ? null : 'Enter a valid email';
+    return GetUtils.isEmail(text) ? null : 'utilsIsEmailValid'.tr;
   }
 
   static String? isPasswordValid(String text) {
-    return RegExp(r"^[a-zA-Z0-9.!#$%&№'*+-/=?^_`(){|}~]+.{7,}$").hasMatch(text)
+    return RegExp(r"^[a-zA-Z0-9.,!#$%&№'*+-/=?^_`(){|}~]+.{7,}$").hasMatch(text)
         ? null
-        : 'Enter a valid password';
+        : 'utilsIsPasswordValid'.tr;
   }
 
   static String? isImageValid(String text) {
-    return GetUtils.isURL(text) && GetUtils.isImage(text) ? null : 'Enter a valid url to the image';
+    return GetUtils.isURL(text) && GetUtils.isImage(text)
+        ? null
+        : 'utilsIsImageValid'.tr;
   }
 
   static const _platformsList = [

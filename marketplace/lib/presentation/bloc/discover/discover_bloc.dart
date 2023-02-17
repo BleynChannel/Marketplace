@@ -25,7 +25,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError'.tr,
         );
 
         emit(DiscoverState.error(message: message));

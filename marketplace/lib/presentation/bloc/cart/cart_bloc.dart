@@ -24,7 +24,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError'.tr,
         );
 
         emit(CartState.error(message: message));

@@ -20,20 +20,21 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
-          networkRequestFailed: () => message = 'No network',
-          invalidEmail: () => message = 'Email address is not valid',
+          unknown: () => message = 'unknownError'.tr,
+          networkRequestFailed: () => message = 'noInternet'.tr,
+          invalidEmail: () => message = 'invalidEmail'.tr,
           missingAndroidPkgName: () =>
-              message = 'An Android package name must be provided',
+              message = 'missingAndroidPkgName'.tr,
           missingContinueUri: () =>
-              message = 'A continue URL must be provided in the request',
+              message = 'missingContinueUri'.tr,
           missingIosBundleId: () =>
-              message = 'An iOS Bundle ID must be provided',
-          invalidContinueUri: () =>
-              message = 'The continue URL provided in the request is invalid',
+              message = 'missingIosBundleId'.tr,
+          invalidContinueUri: () => message =
+              'invalidContinueUri'.tr,
           unauthorizedContinueUri: () => message =
-              'The domain of the continue URL is not whitelisted. Whitelist the domain in the Firebase console',
-          userNotFound: () => message = 'User not found',
+              'unauthorizedContinueUri'
+                  .tr,
+          userNotFound: () => message = 'userNotFound'.tr,
         );
 
         emit(ResetPasswordState.error(message: message));

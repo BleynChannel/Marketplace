@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/domain/entity/filter.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
@@ -61,7 +62,8 @@ class SearchPage extends StatelessWidget {
               loading: (filterProducts) =>
                   _buildMain(context, filterProducts: filterProducts),
               error: (message) => _buildError(context, message: message),
-              noNetwork: () => _buildError(context, message: 'No network'),
+              noNetwork: () =>
+                  _buildError(context, message: 'noInternet'.tr),
             );
           },
         ),
@@ -77,7 +79,7 @@ class SearchPage extends StatelessWidget {
           Text(message),
           ElevatedButton(
             onPressed: () => _onRefreshPage(context),
-            child: const Text("Press to refresh page"),
+            child: Text('refreshPage'.tr),
           ),
         ],
       ),
@@ -116,9 +118,9 @@ class SearchPage extends StatelessWidget {
     return Row(children: [
       Expanded(
         child: TextField(
-          decoration: const InputDecoration(
-            hintText: "Search",
-            suffixIcon: Icon(
+          decoration: InputDecoration(
+            hintText: 'search'.tr,
+            suffixIcon: const Icon(
               Icons.search,
               color: Colors.white,
             ),
@@ -129,7 +131,7 @@ class SearchPage extends StatelessWidget {
       IconButton(
         onPressed: () => _onFilterClick(context),
         icon: const Icon(Icons.filter_alt_outlined),
-        tooltip: 'Filter',
+        tooltip: 'filter'.tr,
       )
     ]);
   }

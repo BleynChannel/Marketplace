@@ -24,7 +24,7 @@ class DesiredBloc extends Bloc<DesiredEvent, DesiredState> {
         String message = '';
 
         failure.when(
-          unknown: () => message = 'Unknown error',
+          unknown: () => message = 'unknownError'.tr,
         );
 
         emit(DesiredState.error(message: message));

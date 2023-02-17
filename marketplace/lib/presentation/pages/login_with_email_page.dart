@@ -39,8 +39,8 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
               success: () {},
               error: (message) =>
                   Utils.sendScaffoldMessage(context, message: message),
-              noNetwork: () => Utils.sendScaffoldMessage(context,
-                  message: 'No internet connection'),
+              noNetwork: () =>
+                  Utils.sendScaffoldMessage(context, message: 'noInternet'.tr),
             );
 
             controller.loginButtonEnabled = true;
@@ -72,7 +72,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
     return LayoutBuilder(
       builder: (context, constrained) {
         final textWidget = AutoSizeText(
-          "Login with Email",
+          'loginWithEmailTitle'.tr,
           style: Theme.of(context)
               .textTheme
               .headline4
@@ -102,8 +102,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
   }
 
   Widget _buildFields(BuildContext context) {
-    const passwordTooltipText =
-        'The password must contain lowercase letters, uppercase letters, .!#\$%&№\'*+-/=?^_`(){|}~ characters and have a length of at least 8';
+    final passwordTooltipText = 'passwordTooltip'.tr;
 
     return CustomForm(
       key: controller.formKey,
@@ -126,21 +125,22 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
             padding: const EdgeInsets.only(left: 8, top: 8),
             child: RichText(
               text: TextSpan(
-                text: "Forgot your password? ",
+                text: "${'loginWithEmailQuestionPassword'.tr} ",
                 style: Theme.of(context)
                     .textTheme
                     .caption
                     ?.copyWith(color: Colors.white70),
                 children: [
                   TextSpan(
-                    text: "Reset password",
+                    text: 'resetPassword'.tr,
                     style: Theme.of(context)
                         .textTheme
                         .caption
                         ?.copyWith(fontWeight: FontWeight.bold),
                     mouseCursor: MaterialStateMouseCursor.clickable,
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => controller.navigateToResetPassword(context),
+                      ..onTap =
+                          () => controller.navigateToResetPassword(context),
                   ),
                 ],
               ),
@@ -164,7 +164,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
               onPressed: controller.loginButtonEnabled
                   ? () => controller.login(context)
                   : null,
-              child: const Text("Login"),
+              child: Text('login'.tr),
             ),
           ),
         ),
@@ -178,14 +178,14 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
           width: double.infinity,
           child: RichText(
             text: TextSpan(
-              text: "Don’t have an account? ",
+              text: '${'questionAccount'.tr} ',
               style: Theme.of(context)
                   .textTheme
                   .caption
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
-                  text: "Sign Up",
+                  text: 'signup'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .caption

@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/app_binding.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
+import 'package:marketplace/presentation/app_translations.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -134,11 +137,14 @@ class App extends StatelessWidget {
       routerDelegate: router.delegate(),
       routeInformationParser: router.defaultRouteParser(),
 
+      translations: AppTranslations(),
+      locale: ui.window.locale,
+      fallbackLocale: const Locale('en', 'US'),
+
       initialBinding: AppBinding(router),
 
       // DevicePreview
       useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
     );
   }

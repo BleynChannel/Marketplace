@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -17,6 +16,7 @@ import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/status.dart';
 import 'package:marketplace/domain/repository/auth_repository.dart';
 import 'package:marketplace/core/const/colors.dart';
+import 'package:marketplace/presentation/app_translations.dart';
 import 'package:marketplace/presentation/controller/menu_controller.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/provider/home_avatar_provider.dart';
@@ -61,11 +61,11 @@ class MenuPage extends GetView<MenuController> {
     final menuActions = _MenuActions(context, controller);
 
     return {
-      'profile': _MenuCategory(title: 'Profile', fields: {
+      'profile': _MenuCategory(title: 'profile'.tr, fields: {
         'nickname': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
-              title: const Text("Change nickname"),
+              title: Text('menuChangeNickname'.tr),
               leading: const Icon(Icons.person_outlined),
               onTap: () => action(),
             );
@@ -75,7 +75,7 @@ class MenuPage extends GetView<MenuController> {
         'status': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
-              title: const Text("Change status"),
+              title: Text('menuChangeStatus'.tr),
               leading: const Icon(Icons.more_outlined),
               onTap: () => action(),
             );
@@ -85,7 +85,7 @@ class MenuPage extends GetView<MenuController> {
         'avatar': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
-              title: const Text("Change avatar"),
+              title: Text('menuChangeAvatar'.tr),
               leading: const Icon(Icons.person_pin_outlined),
               onTap: () => action(),
             );
@@ -95,7 +95,7 @@ class MenuPage extends GetView<MenuController> {
         'background': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
-              title: const Text("Change background"),
+              title: Text('menuChangeBackground'.tr),
               leading: const Icon(Icons.image),
               onTap: () => action(),
             );
@@ -105,7 +105,7 @@ class MenuPage extends GetView<MenuController> {
         'password': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
-              title: const Text("Change password"),
+              title: Text('menuChangePassword'.tr),
               leading: const Icon(Icons.lock_outline),
               onTap: () => action(),
             );
@@ -115,7 +115,7 @@ class MenuPage extends GetView<MenuController> {
         'signout': _MenuField(
           builder: (context, action) {
             return ListTile(
-              title: const Text("Sign Out"),
+              title: Text('menuSignOut'.tr),
               leading: const Icon(Icons.exit_to_app, color: Colors.red),
               onTap: () => action(),
             );
@@ -123,18 +123,21 @@ class MenuPage extends GetView<MenuController> {
           action: menuActions.signoutAction,
         ),
       }),
-      'settings': _MenuCategory(title: 'Settings', fields: {
+      'settings': _MenuCategory(title: 'menuSettingsCategory'.tr, fields: {
         'language': _MenuField(
           builder: (context, action) {
             return _buildInkListTile(
-              title: const Text("Change language"),
-              subTitle: Text(
-                "English",
-                style: GoogleFonts.roboto(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white70,
+              title: Text('menuChangeLanguage'.tr),
+              subTitle: ObxValue(
+                (language) => Text(
+                  AppTranslations.language[language.value] ?? '',
+                  style: GoogleFonts.roboto(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white70,
+                  ),
                 ),
+                controller.userRepository.rxLanguage,
               ),
               leading: const Icon(Icons.language),
               onTap: () => action(),
@@ -143,12 +146,12 @@ class MenuPage extends GetView<MenuController> {
           action: menuActions.languageAction,
         ),
       }),
-      'notification': _MenuCategory(title: 'Notification', fields: {
+      'notification': _MenuCategory(title: 'notification'.tr, fields: {
         'received_notification': _MenuField(
           builder: (context, action) {
             return Obx(
               () => _buildSwitchListTile(
-                title: const Text("Received notification"),
+                title: Text('menuReceivedNotification'.tr),
                 value: controller.receivedNotificationSwitch,
                 onChanged: (value) {
                   controller.receivedNotificationSwitch =
@@ -164,7 +167,7 @@ class MenuPage extends GetView<MenuController> {
           builder: (context, action) {
             return Obx(
               () => _buildSwitchListTile(
-                title: const Text("Received newsletter"),
+                title: Text('menuReceivedNewsletter'.tr),
                 value: controller.receivedNewsletterSwitch,
                 onChanged: (value) {
                   controller.receivedNewsletterSwitch =
@@ -217,7 +220,7 @@ class MenuPage extends GetView<MenuController> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          "Menu",
+          'menu'.tr,
           style: GoogleFonts.roboto(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -337,7 +340,7 @@ class _MenuActions {
 
     _MenuDialogUtils.alertDialog(
       context,
-      title: 'Enter a nickname',
+      title: 'menuNicknameEnterNickname'.tr,
       content: Form(
         key: formKey,
         child: TextFormField(
@@ -359,13 +362,13 @@ class _MenuActions {
           result.fold<void>(
             (failure) {
               failure.when(
-                unknown: () => message = 'Unknown error',
+                unknown: () => message = 'unknownError'.tr,
               );
               isCorrect = false;
             },
             (data) {
               debugProfile.nickname = nickname;
-              message = 'Changes saved';
+              message = 'changesSaved'.tr;
               isCorrect = true;
             },
           );
@@ -393,7 +396,7 @@ class _MenuActions {
 
     _MenuDialogUtils.alertDialog(
       context,
-      title: 'Enter a status',
+      title: 'menuStatusEnterStatus'.tr,
       content: _MenuStatusContent(
         formKey: formKey,
         inputController: inputController,
@@ -413,14 +416,14 @@ class _MenuActions {
           result.fold<void>(
             (failure) {
               failure.when(
-                unknown: () => message = 'Unknown error',
+                unknown: () => message = 'unknownError'.tr,
               );
               isCorrect = false;
             },
             (data) {
               debugProfile.status.title = title;
               debugProfile.status.color = changeColor;
-              message = 'Changes saved';
+              message = 'changesSaved'.tr;
               isCorrect = true;
             },
           );
@@ -462,7 +465,7 @@ class _MenuActions {
                 result.fold<void>(
                   (failure) {
                     failure.when(
-                      unknown: () => message = 'Unknown error',
+                      unknown: () => message = 'unknownError'.tr,
                     );
                     isCorrect = false;
                   },
@@ -470,7 +473,7 @@ class _MenuActions {
                     debugProfile.avatar = media;
                     Get.find<HomeAvatarProvider>().image = image;
 
-                    message = 'Changes saved';
+                    message = 'changesSaved'.tr;
                     isCorrect = true;
                   },
                 );
@@ -513,14 +516,14 @@ class _MenuActions {
                 result.fold<void>(
                   (failure) {
                     failure.when(
-                      unknown: () => message = 'Unknown error',
+                      unknown: () => message = 'unknownError'.tr,
                     );
                     isCorrect = false;
                   },
                   (data) {
                     debugProfile.backgroundImage = media;
 
-                    message = 'Changes saved';
+                    message = 'changesSaved'.tr;
                     isCorrect = true;
                   },
                 );
@@ -544,7 +547,7 @@ class _MenuActions {
 
     _MenuDialogUtils.alertDialog(
       context,
-      title: 'Enter a new password',
+      title: 'menuPasswordEnterPassword'.tr,
       content: Form(
         key: formKey,
         child: Column(
@@ -571,17 +574,15 @@ class _MenuActions {
           result.fold<void>(
             (failure) {
               failure.when(
-                unknown: () => message = 'Unknown error',
-                weakPassword: () =>
-                    message = 'The password is not strong enough',
-                requiresRecentLogin: () => message =
-                    'User\'s last sign-in time does not meet the security threshold',
+                unknown: () => message = 'unknownError'.tr,
+                weakPassword: () => message = 'weakPassword'.tr,
+                requiresRecentLogin: () => message = 'requiresRecentLogin'.tr,
               );
               isCorrect = false;
             },
             (data) {
               debugProfile.nickname = newPassword;
-              message = 'Changes saved';
+              message = 'changesSaved'.tr;
               isCorrect = true;
             },
           );
@@ -606,8 +607,8 @@ class _MenuActions {
       String message = '';
 
       failure.when(
-        unknown: () => message = 'Unknown error',
-        networkRequestFailed: () => message = 'No network',
+        unknown: () => message = 'unknownError'.tr,
+        networkRequestFailed: () => message = 'noInternet'.tr,
       );
 
       Utils.sendScaffoldMessage(context, message: message);
@@ -615,29 +616,59 @@ class _MenuActions {
   }
 
   void languageAction() {
-    //Менять язык
-
     _MenuDialogUtils.dialog(
       context,
       child: AlertDialog(
         title: Text(
-          'Enter a new password',
+          'menuLanguageSelectLanguage'.tr,
           style: GoogleFonts.roboto(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: DropdownButton(
-          items: const [
-            DropdownMenuItem(child: Text('English')),
-          ],
-          onChanged: (value) {
-            //Менять язык
-          },
-        ),
+        content: ValueBuilderFix(
+            initialValue: controller.userRepository.language,
+            builder: (value, update) {
+              return DropdownButton<String>(
+                value: value,
+                items: AppTranslations.language.entries
+                    .map<DropdownMenuItem<String>>(
+                        (e) => DropdownMenuItem<String>(
+                              value: e.key,
+                              child: Text(e.value),
+                            ))
+                    .toList(),
+                onChanged: (key) async {
+                  if (key != null) {
+                    final result = await controller.userRepository
+                        .changeLanguage(language: key);
+
+                    result.fold<void>(
+                      (failure) async {
+                        String message = '';
+
+                        failure.when(
+                          unknown: () => message = 'unknownError'.tr,
+                        );
+
+                        // ignore: use_build_context_synchronously
+                        await _MenuDialogUtils.messageDialog(
+                          context,
+                          message: message,
+                          isCorrect: false,
+                        );
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                      },
+                      (_) => update(key),
+                    );
+                  }
+                },
+              );
+            }),
         actions: [
           ElevatedButton(
-            child: const Text('Close'),
+            child: Text('close'.tr),
             onPressed: () => Navigator.pop(context),
           ),
         ],
@@ -711,11 +742,11 @@ class _MenuDialogUtils {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text('close'.tr),
           ),
           ElevatedButton(
             onPressed: onChangePressed,
-            child: const Text('Change'),
+            child: Text('change'.tr),
           ),
         ],
       ),
@@ -767,7 +798,7 @@ class _MenuDialogUtils {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Close'),
+              child: Text('close'.tr),
             ),
           ),
         ],
@@ -790,11 +821,11 @@ class _MenuDialogUtils {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('Error: ${snapshot.error}'),
+                  Text('${'error'.tr}: ${snapshot.error}'),
                   const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Close'),
+                    child: Text('close'.tr),
                   ),
                 ],
               );
@@ -806,7 +837,7 @@ class _MenuDialogUtils {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 8),
                 Text(
-                  'Waiting...',
+                  "${'menuWaitingDialogWaiting'.tr}...",
                   style: GoogleFonts.roboto(fontSize: 16),
                 ),
               ],
@@ -854,13 +885,13 @@ class _MenuImagePicker extends StatelessWidget {
                       }
                     : null,
                 icon: const Icon(Icons.collections),
-                label: const Text('Browse Gallery'),
+                label: Text('menuImagePickerBrowseGallery'.tr),
               );
             },
           ),
           const SizedBox(height: 6),
           Text(
-            'OR',
+            'or'.tr.toUpperCase(),
             style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 6),
@@ -878,7 +909,7 @@ class _MenuImagePicker extends StatelessWidget {
 
                         _MenuDialogUtils.alertDialog<String>(
                           context,
-                          title: 'Enter a Url',
+                          title: 'menuImagePickerEnterUrl'.tr,
                           content: Form(
                             key: formKey,
                             child: Column(
@@ -916,7 +947,7 @@ class _MenuImagePicker extends StatelessWidget {
                         });
                       }
                     : null,
-                child: const Text('Enter a Url'),
+                child: Text('menuImagePickerEnterUrl'.tr),
               );
             },
           ),
@@ -1046,7 +1077,7 @@ class _MenuStatusContentState extends State<_MenuStatusContent> {
                 ),
                 child: AlertDialog(
                   title: Text(
-                    'Pick a color',
+                    'menuStatusContentPickColor'.tr,
                     style: GoogleFonts.roboto(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -1064,7 +1095,7 @@ class _MenuStatusContentState extends State<_MenuStatusContent> {
                   actions: [
                     ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Close'),
+                      child: Text('close'.tr),
                     ),
                   ],
                 ),
@@ -1080,142 +1111,6 @@ class _MenuStatusContentState extends State<_MenuStatusContent> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _MenuAvatarContent extends StatefulWidget {
-  final Uint8List image;
-  final void Function(Uint8List image) onImageChange;
-
-  const _MenuAvatarContent({
-    Key? key,
-    required this.image,
-    required this.onImageChange,
-  }) : super(key: key);
-
-  @override
-  State<_MenuAvatarContent> createState() => _MenuAvatarContentState();
-}
-
-class _MenuAvatarContentState extends State<_MenuAvatarContent> {
-  late Uint8List _image;
-
-  late TextEditingController _urlController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _image = widget.image;
-
-    _urlController = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.memory(
-          _image,
-          width: 64,
-          height: 64,
-        ),
-        const SizedBox(height: 4),
-        TextField(
-          controller: _urlController,
-          decoration: const InputDecoration(hintText: 'Enter a url'),
-          onEditingComplete: () async {
-            http.Response response =
-                await http.get(Uri.parse(_urlController.text.trim()));
-
-            setState(() {
-              _image = response.bodyBytes;
-              widget.onImageChange(_image);
-            });
-          },
-        ),
-        const SizedBox(height: 8),
-        const Text('or'),
-        ElevatedButton(
-          onPressed: () async {},
-          child: const Text('Choose from storage'),
-        ),
-      ],
-    );
-  }
-}
-
-class _MenuBackgroundContent extends StatefulWidget {
-  final Uint8List image;
-  final void Function(Uint8List image) onImageChange;
-
-  const _MenuBackgroundContent({
-    Key? key,
-    required this.image,
-    required this.onImageChange,
-  }) : super(key: key);
-
-  @override
-  State<_MenuBackgroundContent> createState() => _MenuBackgroundContentState();
-}
-
-class _MenuBackgroundContentState extends State<_MenuBackgroundContent> {
-  late Uint8List _image;
-
-  late TextEditingController _urlController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _image = widget.image;
-
-    _urlController = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AspectRatio(
-          aspectRatio: 16 / 9,
-          child: Image.memory(_image),
-        ),
-        const SizedBox(height: 4),
-        TextField(
-          controller: _urlController,
-          decoration: const InputDecoration(hintText: 'Enter a url'),
-          onEditingComplete: () async {
-            http.Response response =
-                await http.get(Uri.parse(_urlController.text.trim()));
-
-            setState(() {
-              _image = response.bodyBytes;
-              widget.onImageChange(_image);
-            });
-          },
-        ),
-        const SizedBox(height: 8),
-        const Text('or'),
-        ElevatedButton(
-          onPressed: () async {
-            final picker = ImagePicker();
-            final XFile? file =
-                await picker.pickImage(source: ImageSource.gallery);
-            if (file != null) {
-              final image = await file.readAsBytes();
-              setState(() {
-                _image = image;
-                widget.onImageChange(_image);
-              });
-            }
-          },
-          child: const Text('Choose from storage'),
-        ),
-      ],
     );
   }
 }

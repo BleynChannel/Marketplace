@@ -48,7 +48,7 @@ class ProductPage extends StatelessWidget {
           load: () => _buildLoaded(context),
           loading: (product) => _buildMain(context, product: product),
           error: (message) => _buildError(context, message: message),
-          noNetwork: () => _buildError(context, message: 'No network'),
+          noNetwork: () => _buildError(context, message: 'noInternet'.tr),
         );
       },
     );
@@ -68,7 +68,7 @@ class ProductPage extends StatelessWidget {
               Text(message),
               ElevatedButton(
                 onPressed: () => controller.onRefreshPage(id),
-                child: const Text("Press to refresh page"),
+                child: Text('refreshPage'.tr),
               ),
             ],
           ),
@@ -177,9 +177,7 @@ class ProductPage extends StatelessWidget {
                                   ),
                                   onPressed: () =>
                                       controller.onCartClick(context),
-                                  child: const Text(
-                                    'Add to Cart',
-                                  ),
+                                  child: Text('productAddToCart'.tr),
                                 ),
                               ),
                             ),
@@ -190,7 +188,7 @@ class ProductPage extends StatelessWidget {
                               dimension:
                                   MediaQuery.of(context).size.height / 20,
                               child: Tooltip(
-                                message: 'Add to Desired',
+                                message: 'productAddToDesired'.tr,
                                 child: ElevatedButton(
                                   onPressed: () =>
                                       controller.onDesiredClick(context),
@@ -327,12 +325,12 @@ class ProductPage extends StatelessWidget {
   Widget _buildTagsAndPlatforms(BuildContext context,
       {required Product product}) {
     final Map<String, Map<List<String>, VoidCallback>> tagsAndPlatforms = {
-      'Tags': {
+      'productTags'.tr: {
         product.genre: () {},
         product.stylistics: () {},
         product.multiplayer: () {},
       },
-      'Platforms': {
+      'productPlatforms'.tr: {
         product.platforms
             .map((platform) => Utils.platformToName(platform))
             .toList(): () {}
@@ -423,12 +421,6 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
   final String title;
   late final List<Media> _media;
 
-  // void _onPageChanged(int index) {
-  //   if (_media[index].type == MediaType.video) {
-  //     onChangeCurrentPlayer(players[index]);
-  //   }
-  // }
-
   _ProductSliverAppBar({
     required this.expandedHeight,
     required this.minExpandedHeight,
@@ -482,7 +474,6 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
                       index: index,
                     ),
                     itemCount: _media.length,
-                    // onPageChanged: _onPageChanged,
                   ),
                 ),
               ),
@@ -704,11 +695,11 @@ class _ProductTabBar extends StatefulWidget {
 
 class _ProductTabBarState extends State<_ProductTabBar>
     with SingleTickerProviderStateMixin {
-  static const _tabs = [
-    'Information',
-    'DLC and Bundles',
-    'System Requirements',
-    'Reviews',
+  static final _tabs = [
+    'productTabInformation'.tr,
+    'productTabDLCAndBundles'.tr,
+    'productTabSystemRequirements'.tr,
+    'productTabReviews'.tr,
   ];
 
   late TabController _controller;
@@ -756,12 +747,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         labelColor: AppColors.accentColor,
         unselectedLabelColor: Colors.white70,
         indicatorColor: AppColors.accentColor,
-        tabs: _tabs
-            .map((tabName) => Tab(
-                  text: tabName,
-                  height: 32,
-                ))
-            .toList(),
+        tabs: _tabs.map((tabName) => Tab(text: tabName, height: 32)).toList(),
       ),
       Padding(
         padding: EdgeInsets.only(
@@ -788,7 +774,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
     return Column(children: [
       ListCategory(
         title: Text(
-          'Description',
+          'productInformationDescription'.tr,
           style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -798,7 +784,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ),
       ListCategory(
         title: Text(
-          'Localization',
+          'productInformationLocalization'.tr,
           style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -808,7 +794,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ),
       ListCategory(
         title: Text(
-          'Other Informations',
+          'productInformationOtherInformations'.tr,
           style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -818,7 +804,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ),
       ListCategory(
         title: Text(
-          'Links',
+          'productInformationLinks'.tr,
           style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -846,7 +832,10 @@ class _ProductTabBarState extends State<_ProductTabBar>
   }
 
   Widget _buildInformationLocalization(BuildContext context) {
-    final defaultTextStyle = GoogleFonts.roboto(fontSize: 14);
+    final defaultTextStyle = GoogleFonts.roboto(
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+    );
 
     return Padding(
       padding: const EdgeInsets.only(right: 10),
@@ -854,8 +843,12 @@ class _ProductTabBarState extends State<_ProductTabBar>
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(children: [
-            Text('Language', style: defaultTextStyle),
-            ...['Sound', 'Interface', 'Subtitles'].map(
+            Text('productInformationLanguage'.tr, style: defaultTextStyle),
+            ...[
+              'productInformationLanguageSound'.tr,
+              'productInformationLanguageInterface'.tr,
+              'productInformationLanguageSubtitles'.tr
+            ].map(
               (title) => Center(child: Text(title, style: defaultTextStyle)),
             ),
           ]),
@@ -883,9 +876,10 @@ class _ProductTabBarState extends State<_ProductTabBar>
 
   Widget _buildInformationOther(BuildContext context) {
     final informations = {
-      'Developer': widget.product.developer,
-      'Publisher': widget.product.publisher,
-      'Release date': Utils.releaseDateToString(widget.product.releaseDate),
+      'productInformationOtherDeveloper'.tr: widget.product.developer,
+      'productInformationOtherPublisher'.tr: widget.product.publisher,
+      'productInformationOtherReleaseDate'.tr:
+          Utils.releaseDateToString(widget.product.releaseDate),
     };
 
     return Column(
@@ -941,7 +935,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
     return Column(children: [
       ListCategory(
         title: Text(
-          'DLC',
+          'productDLC'.tr,
           style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -952,7 +946,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       const SizedBox(height: 10),
       ListCategory(
         title: Text(
-          'Bundles',
+          'productBundle'.tr,
           style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -1151,8 +1145,8 @@ class _ProductTabBarState extends State<_ProductTabBar>
               const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
             ),
           ),
-          child: const Text(
-            'Add to Product',
+          child: Text(
+            'productAddToCart'.tr,
           ),
         ),
       ),
@@ -1162,7 +1156,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         child: AspectRatio(
           aspectRatio: 1,
           child: Tooltip(
-            message: 'Add to Desired',
+            message: 'productAddToDesired'.tr,
             child: ElevatedButton(
               onPressed: onDesiredClick,
               style: ButtonStyle(
@@ -1179,10 +1173,11 @@ class _ProductTabBarState extends State<_ProductTabBar>
   //System Requirements
   Widget _buildSystemRequirements(BuildContext context) {
     final systemRequirements = {
-      'Minimum requirements': widget.product.systemRequirement
+      'productSystemRequirementsMinimum'.tr: widget.product.systemRequirement
           .where((sysReq) => sysReq.type == SystemRequirementType.minimum)
           .toList(),
-      'Recommended requirements': widget.product.systemRequirement
+      'productSystemRequirementsRecommended'.tr: widget
+          .product.systemRequirement
           .where((sysReq) => sysReq.type == SystemRequirementType.recommended)
           .toList(),
     };
@@ -1396,7 +1391,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
         ),
         const SizedBox(height: 4),
         IntrinsicWidth(
-          child: ElevatedButton(
+          child: TextButton(
             style: ButtonStyle(
               padding: MaterialStateProperty.all(
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -1406,7 +1401,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
             onPressed: onMoreClick,
             child: Row(children: [
               Text(
-                selected ? "" : "More",
+                selected ? "" : "more".tr,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryColor,
