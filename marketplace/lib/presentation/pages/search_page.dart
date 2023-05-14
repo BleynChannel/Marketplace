@@ -17,6 +17,7 @@ import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/price_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
+@RoutePage()
 class SearchPage extends StatelessWidget {
   late final SearchBloc bloc;
 

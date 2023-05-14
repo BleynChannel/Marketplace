@@ -169,7 +169,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
                                 width: 2,
                               ),
                             ),
-                            textStyle: theme.textTheme.bodyText2?.copyWith(
+                            textStyle: theme.textTheme.bodyMedium?.copyWith(
                               color: Colors.white,
                               fontSize: 16,
                             ),
@@ -221,8 +221,8 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
                           _validateText,
                           style: Theme.of(context)
                               .textTheme
-                              .caption!
-                              .copyWith(color: Theme.of(context).errorColor),
+                              .bodySmall!
+                              .copyWith(color: Theme.of(context).colorScheme.error),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -235,7 +235,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField>
                   padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                   child: Text(
                     _counter,
-                    style: Theme.of(context).textTheme.caption!.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
                 )

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class UserLocalDataSource {
   Future<String> getLanguage() async {
-    return window.locale.toString();
+    return PlatformDispatcher.instance.locale.toString();
   }
 
   Future changeLanguage({required String language}) async {

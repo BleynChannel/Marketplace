@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/app_binding.dart';
-import 'package:marketplace/presentation/routes/router.gr.dart';
+import 'package:marketplace/presentation/routes/router.dart';
 import 'package:marketplace/presentation/app_translations.dart';
 
 class App extends StatelessWidget {
@@ -106,27 +106,27 @@ class App extends StatelessWidget {
           backgroundColor:
               Color.lerp(AppColors.backgroundColor, Colors.white, 0.025),
           contentTextStyle: TextStyle(
-            color: ThemeData().errorColor,
+            color: ThemeData().colorScheme.error,
           ),
         ),
         textTheme: TextTheme(
-          headline4: GoogleFonts.roboto(
+          headlineMedium: GoogleFonts.roboto(
             fontSize: 38,
             color: Colors.white,
           ),
-          headline5: GoogleFonts.roboto(
+          headlineSmall: GoogleFonts.roboto(
             fontSize: 28,
             color: Colors.white,
           ),
-          headline6: GoogleFonts.roboto(
+          titleLarge: GoogleFonts.roboto(
             fontSize: 18,
             color: Colors.white,
           ),
-          caption: GoogleFonts.roboto(
+          bodySmall: GoogleFonts.roboto(
             fontSize: 13,
             color: Colors.white,
           ),
-          bodyText1: GoogleFonts.roboto(
+          bodyLarge: GoogleFonts.roboto(
             fontSize: 14,
             color: Colors.white70,
           ),
@@ -138,7 +138,7 @@ class App extends StatelessWidget {
       routeInformationParser: router.defaultRouteParser(),
 
       translations: AppTranslations(),
-      locale: ui.window.locale,
+      locale: PlatformDispatcher.instance.locale,
       fallbackLocale: const Locale('en', 'US'),
 
       initialBinding: AppBinding(router),

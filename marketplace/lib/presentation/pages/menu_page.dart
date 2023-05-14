@@ -17,16 +17,17 @@ import 'package:marketplace/domain/entity/status.dart';
 import 'package:marketplace/domain/repository/auth_repository.dart';
 import 'package:marketplace/core/const/colors.dart';
 import 'package:marketplace/presentation/app_translations.dart';
-import 'package:marketplace/presentation/controller/menu_controller.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/provider/home_avatar_provider.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/expansion_category.dart';
 import 'package:marketplace/presentation/widgets/value_builder_fix.dart';
+import 'package:marketplace/presentation/controller/menu_controller.dart' as c;
 
+@RoutePage()
 // ignore: must_be_immutable
-class MenuPage extends GetView<MenuController> {
+class MenuPage extends GetView<c.MenuController> {
   void Function()? action;
 
   late final String path;
@@ -270,7 +271,7 @@ class MenuPage extends GetView<MenuController> {
       initiallyExpanded: initiallyExpanded,
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headline6?.copyWith(
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w700,
             ),
         overflow: TextOverflow.ellipsis,
@@ -329,7 +330,7 @@ class _MenuField {
 
 class _MenuActions {
   final BuildContext context;
-  final MenuController controller;
+  final c.MenuController controller;
 
   _MenuActions(this.context, this.controller);
 

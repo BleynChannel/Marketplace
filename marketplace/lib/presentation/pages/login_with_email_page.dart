@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:marketplace/core/utils/utils.dart';
 
+@RoutePage()
 class LoginWithEmailPage extends GetView<LoginWithEmailController> {
   LoginWithEmailPage({Key? key}) : super(key: key) {
     controller.emailController.text = Get.find<AuthProvider>().email;
@@ -75,7 +77,7 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
           'loginWithEmailTitle'.tr,
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
           minFontSize: 16,
@@ -128,14 +130,14 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
                 text: "${'loginWithEmailQuestionPassword'.tr} ",
                 style: Theme.of(context)
                     .textTheme
-                    .caption
+                    .bodySmall
                     ?.copyWith(color: Colors.white70),
                 children: [
                   TextSpan(
                     text: 'resetPassword'.tr,
                     style: Theme.of(context)
                         .textTheme
-                        .caption
+                        .bodySmall
                         ?.copyWith(fontWeight: FontWeight.bold),
                     mouseCursor: MaterialStateMouseCursor.clickable,
                     recognizer: TapGestureRecognizer()
@@ -181,14 +183,14 @@ class LoginWithEmailPage extends GetView<LoginWithEmailController> {
               text: '${'questionAccount'.tr} ',
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: 'signup'.tr,
                   style: Theme.of(context)
                       .textTheme
-                      .caption
+                      .bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()

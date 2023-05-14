@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:marketplace/presentation/widgets/custom_range_slider.dart';
 import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/expansion_category.dart';
 
+@RoutePage()
 class FilterPage extends StatelessWidget {
   final Filter filter;
 
@@ -50,7 +52,7 @@ class FilterPage extends StatelessWidget {
               .map((category) => ExpansionCategory(
                     title: Text(
                       category.key,
-                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                       overflow: TextOverflow.ellipsis,
@@ -397,7 +399,7 @@ class _FilterChipsState extends State<FilterChips> {
     return FilterChip(
       label: Text(
         title,
-        style: Theme.of(context).textTheme.caption?.copyWith(
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: selected ? Colors.white : Colors.white70,
             ),
       ),

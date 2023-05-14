@@ -23,6 +23,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+@RoutePage()
 // ignore: must_be_immutable
 class DiscoverPage extends StatelessWidget {
   static const shimerCategoryCount = 3;
@@ -180,11 +181,11 @@ class DiscoverPage extends StatelessWidget {
                 category.key,
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headlineSmall
                     ?.copyWith(fontWeight: FontWeight.w700),
               )
             : SizedBox(
-                height: Theme.of(context).textTheme.headline5?.fontSize,
+                height: Theme.of(context).textTheme.headlineSmall?.fontSize,
                 child: Shimmer.fromColors(
                   baseColor: Colors.grey.shade300,
                   highlightColor: Colors.grey.shade100,

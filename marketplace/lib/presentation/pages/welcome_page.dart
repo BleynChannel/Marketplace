@@ -9,6 +9,7 @@ import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
+@RoutePage()
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
@@ -102,13 +103,13 @@ class WelcomePage extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: "${'welcomeTitleOneLine'.tr} ",
-        style: Theme.of(context).textTheme.headline4,
+        style: Theme.of(context).textTheme.headlineMedium,
         children: [
           TextSpan(
             text: 'welcomeTitleTwoLine'.tr,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
@@ -145,14 +146,14 @@ class WelcomePage extends StatelessWidget {
               text: '${'questionAccount'.tr} ',
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: 'signup'.tr,
                   style: Theme.of(context)
                       .textTheme
-                      .caption
+                      .bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()

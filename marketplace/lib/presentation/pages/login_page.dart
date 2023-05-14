@@ -24,6 +24,7 @@ class _ContinueWith {
   _ContinueWith(this.icon, this.label, this.sendEvent);
 }
 
+@RoutePage()
 class LoginPage extends StatelessWidget {
   final bloc = LoginBloc();
 
@@ -36,7 +37,7 @@ class LoginPage extends StatelessWidget {
     _ContinueWith(
       SvgPicture.asset(
         "assets/icons/social/github.svg",
-        color: Colors.white,
+        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
       ),
       'GitHub',
       (BuildContext context) => const LoginEvent.onGitHubLogin(),
@@ -86,7 +87,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   'or'.tr,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),
@@ -107,7 +108,7 @@ class LoginPage extends StatelessWidget {
           'loginTitle'.tr,
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(fontWeight: FontWeight.bold),
           minFontSize: 16,
         );
@@ -176,14 +177,14 @@ class LoginPage extends StatelessWidget {
               text: '${'questionAccount'.tr} ',
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: 'signup'.tr,
                   style: Theme.of(context)
                       .textTheme
-                      .caption
+                      .bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()

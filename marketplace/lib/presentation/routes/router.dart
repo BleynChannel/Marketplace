@@ -1,120 +1,92 @@
-import 'package:auto_route/annotations.dart';
-import 'package:auto_route/empty_router_widgets.dart';
-import 'package:marketplace/presentation/pages/cart_page.dart';
-import 'package:marketplace/presentation/pages/debug_page.dart';
-import 'package:marketplace/presentation/pages/desired_page.dart';
-import 'package:marketplace/presentation/pages/discover_page.dart';
-import 'package:marketplace/presentation/pages/filter_page.dart';
-import 'package:marketplace/presentation/pages/home_page.dart';
-import 'package:marketplace/presentation/pages/login_page.dart';
-import 'package:marketplace/presentation/pages/login_with_email_page.dart';
-import 'package:marketplace/presentation/pages/menu_page.dart';
-import 'package:marketplace/presentation/pages/notification_page.dart';
-import 'package:marketplace/presentation/pages/product_page.dart';
-import 'package:marketplace/presentation/pages/profile_page.dart';
-import 'package:marketplace/presentation/pages/reset_password_page.dart';
-import 'package:marketplace/presentation/pages/search_page.dart';
-import 'package:marketplace/presentation/pages/signup_page.dart';
-import 'package:marketplace/presentation/pages/welcome_page.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:marketplace/presentation/routes/router.gr.dart';
 
-@MaterialAutoRouter(
-  routes: [
-    AutoRoute(
-      path: '/',
-      name: 'DebugRoute',
-      page: DebugPage,
-      initial: true,
-    ),
-    AutoRoute(
-      path: '/welcome',
-      name: 'WelcomeRoute',
-      page: WelcomePage,
-    ),
-    AutoRoute(
-      path: '/auth',
-      name: 'AuthEmpty',
-      page: EmptyRouterPage,
-      children: [
+@RoutePage(name: 'EmptyRouter')
+class EmptyRouterPage extends AutoRouter {
+  const EmptyRouterPage({super.key});
+}
+
+@AutoRouterConfig()
+class AppRouter extends $AppRouter {
+  @override
+  RouteType get defaultRouteType => const RouteType.material();
+
+  @override
+  List<AutoRoute> get routes => [
         AutoRoute(
-          path: 'login',
-          name: 'LoginRoute',
-          page: LoginPage,
+          path: '/',
+          page: DebugRoute.page,
+          initial: true,
         ),
         AutoRoute(
-          path: 'email',
-          name: 'LoginWithEmailRoute',
-          page: LoginWithEmailPage,
+          path: '/welcome',
+          page: WelcomeRoute.page,
         ),
         AutoRoute(
-          path: 'signup',
-          name: 'SignUpRoute',
-          page: SignUpPage,
+          path: '/auth',
+          page: EmptyRouter.page,
+          children: [
+            AutoRoute(
+              path: 'login',
+              page: LoginRoute.page,
+            ),
+            AutoRoute(
+              path: 'email',
+              page: LoginWithEmailRoute.page,
+            ),
+            AutoRoute(
+              path: 'signup',
+              page: SignUpRoute.page,
+            ),
+            AutoRoute(
+              path: 'reset_password',
+              page: ResetPasswordRoute.page,
+            ),
+          ],
         ),
         AutoRoute(
-          path: 'reset_password',
-          name: 'ResetPasswordRoute',
-          page: ResetPasswordPage,
-        ),
-      ],
-    ),
-    AutoRoute(
-      path: '/home',
-      name: 'HomeRoute',
-      page: HomePage,
-      children: [
-        AutoRoute(
-          path: 'discover',
-          name: 'DiscoverRoute',
-          page: DiscoverPage,
-        ),
-        AutoRoute(
-            path: 'search',
-            name: 'SearchEmpty',
-            page: EmptyRouterPage,
-            children: [
+          path: '/home',
+          page: HomeRoute.page,
+          children: [
+            AutoRoute(
+              path: 'discover',
+              page: DiscoverRoute.page,
+            ),
+            AutoRoute(path: 'search', page: EmptyRouter.page, children: [
               AutoRoute(
                 path: '',
-                name: 'SearchRoute',
-                page: SearchPage,
+                page: SearchRoute.page,
               ),
               AutoRoute(
                 path: 'filter',
-                name: 'FilterRoute',
-                page: FilterPage,
+                page: FilterRoute.page,
               )
             ]),
-        AutoRoute(
-          path: 'desired',
-          name: 'DesiredRoute',
-          page: DesiredPage,
+            AutoRoute(
+              path: 'desired',
+              page: DesiredRoute.page,
+            ),
+            AutoRoute(
+              path: 'menu/:path',
+              page: MenuRoute.page,
+            ),
+          ],
         ),
         AutoRoute(
-          path: 'menu/:path',
-          name: 'MenuRoute',
-          page: MenuPage,
+          path: '/cart',
+          page: CartRoute.page,
         ),
-      ],
-    ),
-    AutoRoute(
-      path: '/cart',
-      name: 'CartRoute',
-      page: CartPage,
-    ),
-    AutoRoute(
-      path: '/notification',
-      name: 'NotificationRoute',
-      page: NotificationPage,
-    ),
-    AutoRoute(
-      path: '/profile/:id',
-      name: 'ProfileRoute',
-      page: ProfilePage,
-    ),
-    AutoRoute(
-      path: '/product/:id',
-      name: 'ProductRoute',
-      page: ProductPage,
-    ),
-  ],
-)
-class $AppRouter {}
+        AutoRoute(
+          path: '/notification',
+          page: NotificationRoute.page,
+        ),
+        AutoRoute(
+          path: '/profile/:id',
+          page: ProfileRoute.page,
+        ),
+        AutoRoute(
+          path: '/product/:id',
+          page: ProductRoute.page,
+        ),
+      ];
+}

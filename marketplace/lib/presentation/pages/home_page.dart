@@ -7,6 +7,7 @@ import 'package:marketplace/presentation/provider/home_avatar_provider.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 import 'package:marketplace/presentation/widgets/custom_bottom_navigation_bar.dart';
 
+@RoutePage()
 class HomePage extends StatelessWidget {
   final Map<String, IconData> _bottomNavBarItems = {
     'discover'.tr: Icons.home,
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       routes: [
         DiscoverRoute(),
-        const SearchEmpty(),
+        SearchRoute(),
         const DesiredRoute(),
         MenuRoute(),
       ],

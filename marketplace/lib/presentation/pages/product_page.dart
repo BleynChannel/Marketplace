@@ -30,6 +30,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+@RoutePage()
 class ProductPage extends StatelessWidget {
   final controller = ProductController();
 
@@ -368,7 +369,7 @@ class ProductPage extends StatelessWidget {
     return ListCategory(
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headline6?.copyWith(
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w700,
             ),
         overflow: TextOverflow.ellipsis,
@@ -394,7 +395,7 @@ class ProductPage extends StatelessWidget {
     return ActionChip(
       label: Text(
         title,
-        style: Theme.of(context).textTheme.caption?.copyWith(
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -775,7 +776,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ListCategory(
         title: Text(
           'productInformationDescription'.tr,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
           overflow: TextOverflow.ellipsis,
@@ -785,7 +786,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ListCategory(
         title: Text(
           'productInformationLocalization'.tr,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
           overflow: TextOverflow.ellipsis,
@@ -795,7 +796,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ListCategory(
         title: Text(
           'productInformationOtherInformations'.tr,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
           overflow: TextOverflow.ellipsis,
@@ -805,7 +806,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ListCategory(
         title: Text(
           'productInformationLinks'.tr,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
           overflow: TextOverflow.ellipsis,
@@ -936,7 +937,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ListCategory(
         title: Text(
           'productDLC'.tr,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
           overflow: TextOverflow.ellipsis,
@@ -947,7 +948,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
       ListCategory(
         title: Text(
           'productBundle'.tr,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
           overflow: TextOverflow.ellipsis,
@@ -1189,7 +1190,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
               .map((e) => ListCategory(
                     title: Text(
                       e.key,
-                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                       overflow: TextOverflow.ellipsis,

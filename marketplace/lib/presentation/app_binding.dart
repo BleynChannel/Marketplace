@@ -16,6 +16,7 @@ import 'package:marketplace/presentation/controller/signup_controller.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/provider/auth_provider.dart';
 import 'package:marketplace/presentation/provider/home_avatar_provider.dart';
+import 'package:marketplace/presentation/routes/router.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 
 class AppBinding implements Bindings {

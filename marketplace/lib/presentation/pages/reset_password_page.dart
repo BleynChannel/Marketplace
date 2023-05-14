@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 
+@RoutePage()
 class ResetPasswordPage extends GetView<ResetPasswordController> {
   ResetPasswordPage({Key? key}) : super(key: key) {
     controller.emailController.text = Get.find<AuthProvider>().email;
@@ -65,7 +67,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
         'resetPasswordTitle'.tr,
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headlineMedium
             ?.copyWith(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
         minFontSize: 20,
@@ -75,7 +77,7 @@ class ResetPasswordPage extends GetView<ResetPasswordController> {
         'resetPasswordDescription'.tr,
         style: Theme.of(context)
             .textTheme
-            .headline6
+            .titleLarge
             ?.copyWith(color: Colors.white70),
         textAlign: TextAlign.center,
       ),

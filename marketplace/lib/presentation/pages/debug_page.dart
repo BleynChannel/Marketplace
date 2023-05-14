@@ -1,9 +1,12 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplace/domain/repository/auth_repository.dart';
 import 'package:marketplace/presentation/debug_data.dart';
+import 'package:marketplace/presentation/routes/router.dart';
 import 'package:marketplace/presentation/routes/router.gr.dart';
 
+@RoutePage()
 class DebugPage extends StatelessWidget {
   DebugPage({Key? key}) : super(key: key) {
     debugInit().then((_) {

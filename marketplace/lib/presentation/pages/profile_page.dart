@@ -24,6 +24,7 @@ import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+@RoutePage()
 class ProfilePage extends StatelessWidget {
   final ProfileBloc bloc;
 
@@ -232,7 +233,7 @@ class ProfilePage extends StatelessWidget {
       child: ListCategory(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headline5?.copyWith(
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -565,7 +566,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                           Text(
                             nickname,
                             style:
-                                Theme.of(context).textTheme.headline5?.copyWith(
+                                Theme.of(context).textTheme.headlineSmall?.copyWith(
                                       letterSpacing: 1,
                                     ),
                           ),
@@ -573,7 +574,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                           Text(
                             status.title,
                             style:
-                                Theme.of(context).textTheme.headline6?.copyWith(
+                                Theme.of(context).textTheme.titleLarge?.copyWith(
                                       letterSpacing: 1,
                                       color: status.color,
                                     ),

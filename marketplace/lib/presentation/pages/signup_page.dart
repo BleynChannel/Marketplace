@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:marketplace/presentation/widgets/custom_text_form_field.dart';
 import 'package:marketplace/presentation/widgets/gradient_devider.dart';
 import 'package:marketplace/core/utils/utils.dart';
 
+@RoutePage()
 class SignUpPage extends GetView<SignUpController> {
   SignUpPage({Key? key}) : super(key: key) {
     controller.emailController.text = Get.find<AuthProvider>().email;
@@ -72,7 +74,7 @@ class SignUpPage extends GetView<SignUpController> {
           'signupTitle'.tr,
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
           minFontSize: 20,
@@ -179,14 +181,14 @@ class SignUpPage extends GetView<SignUpController> {
               text: "${'signupQuestionAccount'.tr} ",
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.copyWith(color: Colors.white70),
               children: [
                 TextSpan(
                   text: 'login'.tr,
                   style: Theme.of(context)
                       .textTheme
-                      .caption
+                      .bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold),
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   recognizer: TapGestureRecognizer()

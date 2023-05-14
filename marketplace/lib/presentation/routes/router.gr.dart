@@ -1,299 +1,218 @@
-// **************************************************************************
-// AutoRouteGenerator
-// **************************************************************************
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
-// AutoRouteGenerator
+// AutoRouterGenerator
 // **************************************************************************
-//
+
 // ignore_for_file: type=lint
+// coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i18;
-import 'package:auto_route/empty_router_widgets.dart' as _i3;
+import 'package:flutter/foundation.dart' as _i20;
 import 'package:flutter/material.dart' as _i19;
+import 'package:marketplace/domain/entity/filter.dart' as _i21;
+import 'package:marketplace/presentation/pages/cart_page.dart' as _i1;
+import 'package:marketplace/presentation/pages/debug_page.dart' as _i2;
+import 'package:marketplace/presentation/pages/desired_page.dart' as _i3;
+import 'package:marketplace/presentation/pages/discover_page.dart' as _i4;
+import 'package:marketplace/presentation/pages/filter_page.dart' as _i5;
+import 'package:marketplace/presentation/pages/home_page.dart' as _i6;
+import 'package:marketplace/presentation/pages/login_page.dart' as _i7;
+import 'package:marketplace/presentation/pages/login_with_email_page.dart'
+    as _i8;
+import 'package:marketplace/presentation/pages/menu_page.dart' as _i9;
+import 'package:marketplace/presentation/pages/notification_page.dart' as _i10;
+import 'package:marketplace/presentation/pages/product_page.dart' as _i11;
+import 'package:marketplace/presentation/pages/profile_page.dart' as _i12;
+import 'package:marketplace/presentation/pages/reset_password_page.dart'
+    as _i13;
+import 'package:marketplace/presentation/pages/search_page.dart' as _i14;
+import 'package:marketplace/presentation/pages/signup_page.dart' as _i15;
+import 'package:marketplace/presentation/pages/welcome_page.dart' as _i16;
+import 'package:marketplace/presentation/routes/router.dart' as _i17;
 
-import '../../domain/entity/filter.dart' as _i20;
-import '../pages/cart_page.dart' as _i5;
-import '../pages/debug_page.dart' as _i1;
-import '../pages/desired_page.dart' as _i14;
-import '../pages/discover_page.dart' as _i13;
-import '../pages/filter_page.dart' as _i17;
-import '../pages/home_page.dart' as _i4;
-import '../pages/login_page.dart' as _i9;
-import '../pages/login_with_email_page.dart' as _i10;
-import '../pages/menu_page.dart' as _i15;
-import '../pages/notification_page.dart' as _i6;
-import '../pages/product_page.dart' as _i8;
-import '../pages/profile_page.dart' as _i7;
-import '../pages/reset_password_page.dart' as _i12;
-import '../pages/search_page.dart' as _i16;
-import '../pages/signup_page.dart' as _i11;
-import '../pages/welcome_page.dart' as _i2;
-
-class AppRouter extends _i18.RootStackRouter {
-  AppRouter([_i19.GlobalKey<_i19.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+abstract class $AppRouter extends _i18.RootStackRouter {
+  $AppRouter({super.navigatorKey});
 
   @override
   final Map<String, _i18.PageFactory> pagesMap = {
+    CartRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i1.CartPage(),
+      );
+    },
     DebugRoute.name: (routeData) {
       final args = routeData.argsAs<DebugRouteArgs>(
           orElse: () => const DebugRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.DebugPage(key: args.key),
+        child: _i2.DebugPage(key: args.key),
       );
     },
-    WelcomeRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
+    DesiredRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.WelcomePage(),
-      );
-    },
-    AuthEmpty.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i3.EmptyRouterPage(),
-      );
-    },
-    HomeRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i4.HomePage(key: args.key),
-      );
-    },
-    CartRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i5.CartPage(),
-      );
-    },
-    NotificationRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i6.NotificationPage(),
-      );
-    },
-    ProfileRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<ProfileRouteArgs>(
-          orElse: () => ProfileRouteArgs(id: pathParams.getString('id')));
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i7.ProfilePage(
-          key: args.key,
-          id: args.id,
-        ),
-      );
-    },
-    ProductRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<ProductRouteArgs>(
-          orElse: () => ProductRouteArgs(id: pathParams.getString('id')));
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i8.ProductPage(
-          key: args.key,
-          id: args.id,
-        ),
-      );
-    },
-    LoginRoute.name: (routeData) {
-      final args = routeData.argsAs<LoginRouteArgs>(
-          orElse: () => const LoginRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i9.LoginPage(key: args.key),
-      );
-    },
-    LoginWithEmailRoute.name: (routeData) {
-      final args = routeData.argsAs<LoginWithEmailRouteArgs>(
-          orElse: () => const LoginWithEmailRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i10.LoginWithEmailPage(key: args.key),
-      );
-    },
-    SignUpRoute.name: (routeData) {
-      final args = routeData.argsAs<SignUpRouteArgs>(
-          orElse: () => const SignUpRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i11.SignUpPage(key: args.key),
-      );
-    },
-    ResetPasswordRoute.name: (routeData) {
-      final args = routeData.argsAs<ResetPasswordRouteArgs>(
-          orElse: () => const ResetPasswordRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: _i12.ResetPasswordPage(key: args.key),
+        child: const _i3.DesiredPage(),
       );
     },
     DiscoverRoute.name: (routeData) {
       final args = routeData.argsAs<DiscoverRouteArgs>(
           orElse: () => const DiscoverRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i13.DiscoverPage(key: args.key),
+        child: _i4.DiscoverPage(key: args.key),
       );
     },
-    SearchEmpty.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
+    FilterRoute.name: (routeData) {
+      final args = routeData.argsAs<FilterRouteArgs>();
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.EmptyRouterPage(),
+        child: _i5.FilterPage(
+          key: args.key,
+          filter: args.filter,
+        ),
       );
     },
-    DesiredRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
+    HomeRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i14.DesiredPage(),
+        child: _i6.HomePage(key: args.key),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginRouteArgs>(
+          orElse: () => const LoginRouteArgs());
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i7.LoginPage(key: args.key),
+      );
+    },
+    LoginWithEmailRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginWithEmailRouteArgs>(
+          orElse: () => const LoginWithEmailRouteArgs());
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i8.LoginWithEmailPage(key: args.key),
       );
     },
     MenuRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<MenuRouteArgs>(
           orElse: () => MenuRouteArgs(path: pathParams.optString('path')));
-      return _i18.MaterialPageX<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i15.MenuPage(
+        child: _i9.MenuPage(
           key: args.key,
           path: args.path,
         ),
       );
     },
+    NotificationRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i10.NotificationPage(),
+      );
+    },
+    ProductRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ProductRouteArgs>(
+          orElse: () => ProductRouteArgs(id: pathParams.getString('id')));
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i11.ProductPage(
+          key: args.key,
+          id: args.id,
+        ),
+      );
+    },
+    ProfileRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ProfileRouteArgs>(
+          orElse: () => ProfileRouteArgs(id: pathParams.getString('id')));
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i12.ProfilePage(
+          key: args.key,
+          id: args.id,
+        ),
+      );
+    },
+    ResetPasswordRoute.name: (routeData) {
+      final args = routeData.argsAs<ResetPasswordRouteArgs>(
+          orElse: () => const ResetPasswordRouteArgs());
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i13.ResetPasswordPage(key: args.key),
+      );
+    },
     SearchRoute.name: (routeData) {
       final args = routeData.argsAs<SearchRouteArgs>(
           orElse: () => const SearchRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.SearchPage(
+        child: _i14.SearchPage(
           key: args.key,
           filter: args.filter,
         ),
       );
     },
-    FilterRoute.name: (routeData) {
-      final args = routeData.argsAs<FilterRouteArgs>();
-      return _i18.MaterialPageX<dynamic>(
+    SignUpRoute.name: (routeData) {
+      final args = routeData.argsAs<SignUpRouteArgs>(
+          orElse: () => const SignUpRouteArgs());
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i17.FilterPage(
-          key: args.key,
-          filter: args.filter,
-        ),
+        child: _i15.SignUpPage(key: args.key),
+      );
+    },
+    WelcomeRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i16.WelcomePage(),
+      );
+    },
+    EmptyRouter.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i17.EmptyRouterPage(),
       );
     },
   };
-
-  @override
-  List<_i18.RouteConfig> get routes => [
-        _i18.RouteConfig(
-          DebugRoute.name,
-          path: '/',
-        ),
-        _i18.RouteConfig(
-          WelcomeRoute.name,
-          path: '/welcome',
-        ),
-        _i18.RouteConfig(
-          AuthEmpty.name,
-          path: '/auth',
-          children: [
-            _i18.RouteConfig(
-              LoginRoute.name,
-              path: 'login',
-              parent: AuthEmpty.name,
-            ),
-            _i18.RouteConfig(
-              LoginWithEmailRoute.name,
-              path: 'email',
-              parent: AuthEmpty.name,
-            ),
-            _i18.RouteConfig(
-              SignUpRoute.name,
-              path: 'signup',
-              parent: AuthEmpty.name,
-            ),
-            _i18.RouteConfig(
-              ResetPasswordRoute.name,
-              path: 'reset_password',
-              parent: AuthEmpty.name,
-            ),
-          ],
-        ),
-        _i18.RouteConfig(
-          HomeRoute.name,
-          path: '/home',
-          children: [
-            _i18.RouteConfig(
-              DiscoverRoute.name,
-              path: 'discover',
-              parent: HomeRoute.name,
-            ),
-            _i18.RouteConfig(
-              SearchEmpty.name,
-              path: 'search',
-              parent: HomeRoute.name,
-              children: [
-                _i18.RouteConfig(
-                  SearchRoute.name,
-                  path: '',
-                  parent: SearchEmpty.name,
-                ),
-                _i18.RouteConfig(
-                  FilterRoute.name,
-                  path: 'filter',
-                  parent: SearchEmpty.name,
-                ),
-              ],
-            ),
-            _i18.RouteConfig(
-              DesiredRoute.name,
-              path: 'desired',
-              parent: HomeRoute.name,
-            ),
-            _i18.RouteConfig(
-              MenuRoute.name,
-              path: 'menu/:path',
-              parent: HomeRoute.name,
-            ),
-          ],
-        ),
-        _i18.RouteConfig(
-          CartRoute.name,
-          path: '/cart',
-        ),
-        _i18.RouteConfig(
-          NotificationRoute.name,
-          path: '/notification',
-        ),
-        _i18.RouteConfig(
-          ProfileRoute.name,
-          path: '/profile/:id',
-        ),
-        _i18.RouteConfig(
-          ProductRoute.name,
-          path: '/product/:id',
-        ),
-      ];
 }
 
 /// generated route for
-/// [_i1.DebugPage]
-class DebugRoute extends _i18.PageRouteInfo<DebugRouteArgs> {
-  DebugRoute({_i19.Key? key})
+/// [_i1.CartPage]
+class CartRoute extends _i18.PageRouteInfo<void> {
+  const CartRoute({List<_i18.PageRouteInfo>? children})
       : super(
+          CartRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CartRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.DebugPage]
+class DebugRoute extends _i18.PageRouteInfo<DebugRouteArgs> {
+  DebugRoute({
+    _i19.Key? key,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
           DebugRoute.name,
-          path: '/',
           args: DebugRouteArgs(key: key),
+          initialChildren: children,
         );
 
   static const String name = 'DebugRoute';
+
+  static const _i18.PageInfo<DebugRouteArgs> page =
+      _i18.PageInfo<DebugRouteArgs>(name);
 }
 
 class DebugRouteArgs {
@@ -308,258 +227,35 @@ class DebugRouteArgs {
 }
 
 /// generated route for
-/// [_i2.WelcomePage]
-class WelcomeRoute extends _i18.PageRouteInfo<void> {
-  const WelcomeRoute()
+/// [_i3.DesiredPage]
+class DesiredRoute extends _i18.PageRouteInfo<void> {
+  const DesiredRoute({List<_i18.PageRouteInfo>? children})
       : super(
-          WelcomeRoute.name,
-          path: '/welcome',
-        );
-
-  static const String name = 'WelcomeRoute';
-}
-
-/// generated route for
-/// [_i3.EmptyRouterPage]
-class AuthEmpty extends _i18.PageRouteInfo<void> {
-  const AuthEmpty({List<_i18.PageRouteInfo>? children})
-      : super(
-          AuthEmpty.name,
-          path: '/auth',
+          DesiredRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AuthEmpty';
+  static const String name = 'DesiredRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.HomePage]
-class HomeRoute extends _i18.PageRouteInfo<HomeRouteArgs> {
-  HomeRoute({
+/// [_i4.DiscoverPage]
+class DiscoverRoute extends _i18.PageRouteInfo<DiscoverRouteArgs> {
+  DiscoverRoute({
     _i19.Key? key,
     List<_i18.PageRouteInfo>? children,
   }) : super(
-          HomeRoute.name,
-          path: '/home',
-          args: HomeRouteArgs(key: key),
+          DiscoverRoute.name,
+          args: DiscoverRouteArgs(key: key),
           initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
-}
-
-class HomeRouteArgs {
-  const HomeRouteArgs({this.key});
-
-  final _i19.Key? key;
-
-  @override
-  String toString() {
-    return 'HomeRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i5.CartPage]
-class CartRoute extends _i18.PageRouteInfo<void> {
-  const CartRoute()
-      : super(
-          CartRoute.name,
-          path: '/cart',
-        );
-
-  static const String name = 'CartRoute';
-}
-
-/// generated route for
-/// [_i6.NotificationPage]
-class NotificationRoute extends _i18.PageRouteInfo<void> {
-  const NotificationRoute()
-      : super(
-          NotificationRoute.name,
-          path: '/notification',
-        );
-
-  static const String name = 'NotificationRoute';
-}
-
-/// generated route for
-/// [_i7.ProfilePage]
-class ProfileRoute extends _i18.PageRouteInfo<ProfileRouteArgs> {
-  ProfileRoute({
-    _i19.Key? key,
-    required String id,
-  }) : super(
-          ProfileRoute.name,
-          path: '/profile/:id',
-          args: ProfileRouteArgs(
-            key: key,
-            id: id,
-          ),
-          rawPathParams: {'id': id},
-        );
-
-  static const String name = 'ProfileRoute';
-}
-
-class ProfileRouteArgs {
-  const ProfileRouteArgs({
-    this.key,
-    required this.id,
-  });
-
-  final _i19.Key? key;
-
-  final String id;
-
-  @override
-  String toString() {
-    return 'ProfileRouteArgs{key: $key, id: $id}';
-  }
-}
-
-/// generated route for
-/// [_i8.ProductPage]
-class ProductRoute extends _i18.PageRouteInfo<ProductRouteArgs> {
-  ProductRoute({
-    _i19.Key? key,
-    required String id,
-  }) : super(
-          ProductRoute.name,
-          path: '/product/:id',
-          args: ProductRouteArgs(
-            key: key,
-            id: id,
-          ),
-          rawPathParams: {'id': id},
-        );
-
-  static const String name = 'ProductRoute';
-}
-
-class ProductRouteArgs {
-  const ProductRouteArgs({
-    this.key,
-    required this.id,
-  });
-
-  final _i19.Key? key;
-
-  final String id;
-
-  @override
-  String toString() {
-    return 'ProductRouteArgs{key: $key, id: $id}';
-  }
-}
-
-/// generated route for
-/// [_i9.LoginPage]
-class LoginRoute extends _i18.PageRouteInfo<LoginRouteArgs> {
-  LoginRoute({_i19.Key? key})
-      : super(
-          LoginRoute.name,
-          path: 'login',
-          args: LoginRouteArgs(key: key),
-        );
-
-  static const String name = 'LoginRoute';
-}
-
-class LoginRouteArgs {
-  const LoginRouteArgs({this.key});
-
-  final _i19.Key? key;
-
-  @override
-  String toString() {
-    return 'LoginRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i10.LoginWithEmailPage]
-class LoginWithEmailRoute extends _i18.PageRouteInfo<LoginWithEmailRouteArgs> {
-  LoginWithEmailRoute({_i19.Key? key})
-      : super(
-          LoginWithEmailRoute.name,
-          path: 'email',
-          args: LoginWithEmailRouteArgs(key: key),
-        );
-
-  static const String name = 'LoginWithEmailRoute';
-}
-
-class LoginWithEmailRouteArgs {
-  const LoginWithEmailRouteArgs({this.key});
-
-  final _i19.Key? key;
-
-  @override
-  String toString() {
-    return 'LoginWithEmailRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i11.SignUpPage]
-class SignUpRoute extends _i18.PageRouteInfo<SignUpRouteArgs> {
-  SignUpRoute({_i19.Key? key})
-      : super(
-          SignUpRoute.name,
-          path: 'signup',
-          args: SignUpRouteArgs(key: key),
-        );
-
-  static const String name = 'SignUpRoute';
-}
-
-class SignUpRouteArgs {
-  const SignUpRouteArgs({this.key});
-
-  final _i19.Key? key;
-
-  @override
-  String toString() {
-    return 'SignUpRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i12.ResetPasswordPage]
-class ResetPasswordRoute extends _i18.PageRouteInfo<ResetPasswordRouteArgs> {
-  ResetPasswordRoute({_i19.Key? key})
-      : super(
-          ResetPasswordRoute.name,
-          path: 'reset_password',
-          args: ResetPasswordRouteArgs(key: key),
-        );
-
-  static const String name = 'ResetPasswordRoute';
-}
-
-class ResetPasswordRouteArgs {
-  const ResetPasswordRouteArgs({this.key});
-
-  final _i19.Key? key;
-
-  @override
-  String toString() {
-    return 'ResetPasswordRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i13.DiscoverPage]
-class DiscoverRoute extends _i18.PageRouteInfo<DiscoverRouteArgs> {
-  DiscoverRoute({_i19.Key? key})
-      : super(
-          DiscoverRoute.name,
-          path: 'discover',
-          args: DiscoverRouteArgs(key: key),
-        );
-
   static const String name = 'DiscoverRoute';
+
+  static const _i18.PageInfo<DiscoverRouteArgs> page =
+      _i18.PageInfo<DiscoverRouteArgs>(name);
 }
 
 class DiscoverRouteArgs {
@@ -574,47 +270,151 @@ class DiscoverRouteArgs {
 }
 
 /// generated route for
-/// [_i3.EmptyRouterPage]
-class SearchEmpty extends _i18.PageRouteInfo<void> {
-  const SearchEmpty({List<_i18.PageRouteInfo>? children})
-      : super(
-          SearchEmpty.name,
-          path: 'search',
+/// [_i5.FilterPage]
+class FilterRoute extends _i18.PageRouteInfo<FilterRouteArgs> {
+  FilterRoute({
+    _i20.Key? key,
+    required _i21.Filter filter,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          FilterRoute.name,
+          args: FilterRouteArgs(
+            key: key,
+            filter: filter,
+          ),
           initialChildren: children,
         );
 
-  static const String name = 'SearchEmpty';
+  static const String name = 'FilterRoute';
+
+  static const _i18.PageInfo<FilterRouteArgs> page =
+      _i18.PageInfo<FilterRouteArgs>(name);
+}
+
+class FilterRouteArgs {
+  const FilterRouteArgs({
+    this.key,
+    required this.filter,
+  });
+
+  final _i20.Key? key;
+
+  final _i21.Filter filter;
+
+  @override
+  String toString() {
+    return 'FilterRouteArgs{key: $key, filter: $filter}';
+  }
 }
 
 /// generated route for
-/// [_i14.DesiredPage]
-class DesiredRoute extends _i18.PageRouteInfo<void> {
-  const DesiredRoute()
-      : super(
-          DesiredRoute.name,
-          path: 'desired',
+/// [_i6.HomePage]
+class HomeRoute extends _i18.PageRouteInfo<HomeRouteArgs> {
+  HomeRoute({
+    _i19.Key? key,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          HomeRoute.name,
+          args: HomeRouteArgs(key: key),
+          initialChildren: children,
         );
 
-  static const String name = 'DesiredRoute';
+  static const String name = 'HomeRoute';
+
+  static const _i18.PageInfo<HomeRouteArgs> page =
+      _i18.PageInfo<HomeRouteArgs>(name);
+}
+
+class HomeRouteArgs {
+  const HomeRouteArgs({this.key});
+
+  final _i19.Key? key;
+
+  @override
+  String toString() {
+    return 'HomeRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
-/// [_i15.MenuPage]
+/// [_i7.LoginPage]
+class LoginRoute extends _i18.PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    _i19.Key? key,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          LoginRoute.name,
+          args: LoginRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
+
+  static const _i18.PageInfo<LoginRouteArgs> page =
+      _i18.PageInfo<LoginRouteArgs>(name);
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({this.key});
+
+  final _i19.Key? key;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i8.LoginWithEmailPage]
+class LoginWithEmailRoute extends _i18.PageRouteInfo<LoginWithEmailRouteArgs> {
+  LoginWithEmailRoute({
+    _i19.Key? key,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          LoginWithEmailRoute.name,
+          args: LoginWithEmailRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginWithEmailRoute';
+
+  static const _i18.PageInfo<LoginWithEmailRouteArgs> page =
+      _i18.PageInfo<LoginWithEmailRouteArgs>(name);
+}
+
+class LoginWithEmailRouteArgs {
+  const LoginWithEmailRouteArgs({this.key});
+
+  final _i19.Key? key;
+
+  @override
+  String toString() {
+    return 'LoginWithEmailRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i9.MenuPage]
 class MenuRoute extends _i18.PageRouteInfo<MenuRouteArgs> {
   MenuRoute({
     _i19.Key? key,
     String? path,
+    List<_i18.PageRouteInfo>? children,
   }) : super(
           MenuRoute.name,
-          path: 'menu/:path',
           args: MenuRouteArgs(
             key: key,
             path: path,
           ),
           rawPathParams: {'path': path},
+          initialChildren: children,
         );
 
   static const String name = 'MenuRoute';
+
+  static const _i18.PageInfo<MenuRouteArgs> page =
+      _i18.PageInfo<MenuRouteArgs>(name);
 }
 
 class MenuRouteArgs {
@@ -634,21 +434,146 @@ class MenuRouteArgs {
 }
 
 /// generated route for
-/// [_i16.SearchPage]
+/// [_i10.NotificationPage]
+class NotificationRoute extends _i18.PageRouteInfo<void> {
+  const NotificationRoute({List<_i18.PageRouteInfo>? children})
+      : super(
+          NotificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NotificationRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i11.ProductPage]
+class ProductRoute extends _i18.PageRouteInfo<ProductRouteArgs> {
+  ProductRoute({
+    _i20.Key? key,
+    required String id,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          ProductRoute.name,
+          args: ProductRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
+          initialChildren: children,
+        );
+
+  static const String name = 'ProductRoute';
+
+  static const _i18.PageInfo<ProductRouteArgs> page =
+      _i18.PageInfo<ProductRouteArgs>(name);
+}
+
+class ProductRouteArgs {
+  const ProductRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final _i20.Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'ProductRouteArgs{key: $key, id: $id}';
+  }
+}
+
+/// generated route for
+/// [_i12.ProfilePage]
+class ProfileRoute extends _i18.PageRouteInfo<ProfileRouteArgs> {
+  ProfileRoute({
+    _i20.Key? key,
+    required String id,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          ProfileRoute.name,
+          args: ProfileRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static const _i18.PageInfo<ProfileRouteArgs> page =
+      _i18.PageInfo<ProfileRouteArgs>(name);
+}
+
+class ProfileRouteArgs {
+  const ProfileRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final _i20.Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'ProfileRouteArgs{key: $key, id: $id}';
+  }
+}
+
+/// generated route for
+/// [_i13.ResetPasswordPage]
+class ResetPasswordRoute extends _i18.PageRouteInfo<ResetPasswordRouteArgs> {
+  ResetPasswordRoute({
+    _i19.Key? key,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          ResetPasswordRoute.name,
+          args: ResetPasswordRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'ResetPasswordRoute';
+
+  static const _i18.PageInfo<ResetPasswordRouteArgs> page =
+      _i18.PageInfo<ResetPasswordRouteArgs>(name);
+}
+
+class ResetPasswordRouteArgs {
+  const ResetPasswordRouteArgs({this.key});
+
+  final _i19.Key? key;
+
+  @override
+  String toString() {
+    return 'ResetPasswordRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i14.SearchPage]
 class SearchRoute extends _i18.PageRouteInfo<SearchRouteArgs> {
   SearchRoute({
     _i19.Key? key,
-    _i20.Filter? filter,
+    _i21.Filter? filter,
+    List<_i18.PageRouteInfo>? children,
   }) : super(
           SearchRoute.name,
-          path: '',
           args: SearchRouteArgs(
             key: key,
             filter: filter,
           ),
+          initialChildren: children,
         );
 
   static const String name = 'SearchRoute';
+
+  static const _i18.PageInfo<SearchRouteArgs> page =
+      _i18.PageInfo<SearchRouteArgs>(name);
 }
 
 class SearchRouteArgs {
@@ -659,7 +584,7 @@ class SearchRouteArgs {
 
   final _i19.Key? key;
 
-  final _i20.Filter? filter;
+  final _i21.Filter? filter;
 
   @override
   String toString() {
@@ -668,35 +593,58 @@ class SearchRouteArgs {
 }
 
 /// generated route for
-/// [_i17.FilterPage]
-class FilterRoute extends _i18.PageRouteInfo<FilterRouteArgs> {
-  FilterRoute({
+/// [_i15.SignUpPage]
+class SignUpRoute extends _i18.PageRouteInfo<SignUpRouteArgs> {
+  SignUpRoute({
     _i19.Key? key,
-    required _i20.Filter filter,
+    List<_i18.PageRouteInfo>? children,
   }) : super(
-          FilterRoute.name,
-          path: 'filter',
-          args: FilterRouteArgs(
-            key: key,
-            filter: filter,
-          ),
+          SignUpRoute.name,
+          args: SignUpRouteArgs(key: key),
+          initialChildren: children,
         );
 
-  static const String name = 'FilterRoute';
+  static const String name = 'SignUpRoute';
+
+  static const _i18.PageInfo<SignUpRouteArgs> page =
+      _i18.PageInfo<SignUpRouteArgs>(name);
 }
 
-class FilterRouteArgs {
-  const FilterRouteArgs({
-    this.key,
-    required this.filter,
-  });
+class SignUpRouteArgs {
+  const SignUpRouteArgs({this.key});
 
   final _i19.Key? key;
 
-  final _i20.Filter filter;
-
   @override
   String toString() {
-    return 'FilterRouteArgs{key: $key, filter: $filter}';
+    return 'SignUpRouteArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [_i16.WelcomePage]
+class WelcomeRoute extends _i18.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i18.PageRouteInfo>? children})
+      : super(
+          WelcomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WelcomeRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i17.EmptyRouterPage]
+class EmptyRouter extends _i18.PageRouteInfo<void> {
+  const EmptyRouter({List<_i18.PageRouteInfo>? children})
+      : super(
+          EmptyRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyRouter';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }

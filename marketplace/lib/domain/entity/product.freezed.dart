@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'product.dart';
 
@@ -422,6 +422,7 @@ class _$_Product extends _Product {
   final List<Media> _media;
   @override
   List<Media> get media {
+    if (_media is EqualUnmodifiableListView) return _media;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_media);
   }
@@ -435,6 +436,7 @@ class _$_Product extends _Product {
   final List<String> _genre;
   @override
   List<String> get genre {
+    if (_genre is EqualUnmodifiableListView) return _genre;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_genre);
   }
@@ -442,6 +444,7 @@ class _$_Product extends _Product {
   final List<String> _stylistics;
   @override
   List<String> get stylistics {
+    if (_stylistics is EqualUnmodifiableListView) return _stylistics;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_stylistics);
   }
@@ -449,6 +452,7 @@ class _$_Product extends _Product {
   final List<Platform> _platforms;
   @override
   List<Platform> get platforms {
+    if (_platforms is EqualUnmodifiableListView) return _platforms;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_platforms);
   }
@@ -456,6 +460,7 @@ class _$_Product extends _Product {
   final List<String> _multiplayer;
   @override
   List<String> get multiplayer {
+    if (_multiplayer is EqualUnmodifiableListView) return _multiplayer;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_multiplayer);
   }
@@ -463,6 +468,7 @@ class _$_Product extends _Product {
   final List<LocalizationProduct> _localization;
   @override
   List<LocalizationProduct> get localization {
+    if (_localization is EqualUnmodifiableListView) return _localization;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_localization);
   }
@@ -476,6 +482,7 @@ class _$_Product extends _Product {
   final List<Link> _links;
   @override
   List<Link> get links {
+    if (_links is EqualUnmodifiableListView) return _links;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_links);
   }
@@ -483,6 +490,7 @@ class _$_Product extends _Product {
   final List<ProductDLC> _productDlc;
   @override
   List<ProductDLC> get productDlc {
+    if (_productDlc is EqualUnmodifiableListView) return _productDlc;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_productDlc);
   }
@@ -490,6 +498,7 @@ class _$_Product extends _Product {
   final List<Bundle> _bundles;
   @override
   List<Bundle> get bundles {
+    if (_bundles is EqualUnmodifiableListView) return _bundles;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_bundles);
   }
@@ -497,6 +506,8 @@ class _$_Product extends _Product {
   final List<SystemRequirement> _systemRequirement;
   @override
   List<SystemRequirement> get systemRequirement {
+    if (_systemRequirement is EqualUnmodifiableListView)
+      return _systemRequirement;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_systemRequirement);
   }
@@ -504,6 +515,7 @@ class _$_Product extends _Product {
   final List<ProductReview> _productReview;
   @override
   List<ProductReview> get productReview {
+    if (_productReview is EqualUnmodifiableListView) return _productReview;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_productReview);
   }
