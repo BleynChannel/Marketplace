@@ -44,6 +44,8 @@ class UserRepository {
     try {
       final result = await remoteDataSource.getProfile(userId: userId);
       return Right(result);
+    } on GetProfileFailure catch (e) {
+      return Left(e);
     } catch (_) {
       return const Left(GetProfileFailure.unknown());
     }

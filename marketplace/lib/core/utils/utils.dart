@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -119,43 +120,17 @@ class Utils {
     return value.toString();
   }
 
-  static Future<Media> getMediaImage({
-    required String path,
-    required MediaLocation mediaLocation,
-  }) async {
-    MediaData? data;
-    if (mediaLocation == MediaLocation.local) {
-      data =
-          MediaData(data: (await rootBundle.load(path)).buffer.asUint8List());
-    } else {
-      //TODO: Загружать картинку через базу данных
-      data =
-          MediaData(data: (await rootBundle.load(path)).buffer.asUint8List());
-    }
-
+  static Future<Media> getMediaImage({required String path}) async {
     return Future.value(Media(
       type: MediaType.image,
-      location: mediaLocation,
-      data: data,
+      data: (await rootBundle.load(path)).buffer.asUint8List() as dynamic,
     ));
   }
 
-  static Future<Media> getMediaVideo({
-    required String path,
-    required MediaLocation mediaLocation,
-  }) async {
-    MediaData? data;
-    if (mediaLocation == MediaLocation.local) {
-      data = MediaData(data: path);
-    } else {
-      //TODO: Загружать видео через базу данных
-      data = MediaData(data: path);
-    }
-
+  static Future<Media> getMediaVideo({required String path}) async {
     return Future.value(Media(
       type: MediaType.video,
-      location: mediaLocation,
-      data: data,
+      data: path as dynamic,
     ));
   }
 
@@ -166,5 +141,18 @@ class Utils {
     scaffoldMessenger.showSnackBar(SnackBar(
       content: Text(message),
     ));
+  }
+
+  static Future<Uint8List?> uploadImage(String path) {
+    return FirebaseStorage.instance.ref(path).getData();
+  }
+
+  static Future<Iterable<T>> futureMap<T, K>(
+      Iterable<K> iterable, Future<T> Function(K) toElement) async {
+    List<T> result = [];
+    for (final element in iterable) {
+      result.add(await toElement(element));
+    }
+    return result;
   }
 }

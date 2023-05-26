@@ -19,32 +19,45 @@ mixin _$GetProfileFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() notFound,
+    required TResult Function() productNotFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? notFound,
+    TResult? Function()? productNotFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? notFound,
+    TResult Function()? productNotFound,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetProfileFailureUnknown value) unknown,
+    required TResult Function(GetProfileFailureNotFound value) notFound,
+    required TResult Function(GetProfileFailureProductNotFound value)
+        productNotFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetProfileFailureUnknown value)? unknown,
+    TResult? Function(GetProfileFailureNotFound value)? notFound,
+    TResult? Function(GetProfileFailureProductNotFound value)? productNotFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetProfileFailureUnknown value)? unknown,
+    TResult Function(GetProfileFailureNotFound value)? notFound,
+    TResult Function(GetProfileFailureProductNotFound value)? productNotFound,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -108,6 +121,8 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() notFound,
+    required TResult Function() productNotFound,
   }) {
     return unknown();
   }
@@ -116,6 +131,8 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? notFound,
+    TResult? Function()? productNotFound,
   }) {
     return unknown?.call();
   }
@@ -124,6 +141,8 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? notFound,
+    TResult Function()? productNotFound,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -136,6 +155,9 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetProfileFailureUnknown value) unknown,
+    required TResult Function(GetProfileFailureNotFound value) notFound,
+    required TResult Function(GetProfileFailureProductNotFound value)
+        productNotFound,
   }) {
     return unknown(this);
   }
@@ -144,6 +166,8 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetProfileFailureUnknown value)? unknown,
+    TResult? Function(GetProfileFailureNotFound value)? notFound,
+    TResult? Function(GetProfileFailureProductNotFound value)? productNotFound,
   }) {
     return unknown?.call(this);
   }
@@ -152,6 +176,8 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetProfileFailureUnknown value)? unknown,
+    TResult Function(GetProfileFailureNotFound value)? notFound,
+    TResult Function(GetProfileFailureProductNotFound value)? productNotFound,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -163,4 +189,230 @@ class _$GetProfileFailureUnknown implements GetProfileFailureUnknown {
 
 abstract class GetProfileFailureUnknown implements GetProfileFailure {
   const factory GetProfileFailureUnknown() = _$GetProfileFailureUnknown;
+}
+
+/// @nodoc
+abstract class _$$GetProfileFailureNotFoundCopyWith<$Res> {
+  factory _$$GetProfileFailureNotFoundCopyWith(
+          _$GetProfileFailureNotFound value,
+          $Res Function(_$GetProfileFailureNotFound) then) =
+      __$$GetProfileFailureNotFoundCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetProfileFailureNotFoundCopyWithImpl<$Res>
+    extends _$GetProfileFailureCopyWithImpl<$Res, _$GetProfileFailureNotFound>
+    implements _$$GetProfileFailureNotFoundCopyWith<$Res> {
+  __$$GetProfileFailureNotFoundCopyWithImpl(_$GetProfileFailureNotFound _value,
+      $Res Function(_$GetProfileFailureNotFound) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetProfileFailureNotFound implements GetProfileFailureNotFound {
+  const _$GetProfileFailureNotFound();
+
+  @override
+  String toString() {
+    return 'GetProfileFailure.notFound()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetProfileFailureNotFound);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() notFound,
+    required TResult Function() productNotFound,
+  }) {
+    return notFound();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? notFound,
+    TResult? Function()? productNotFound,
+  }) {
+    return notFound?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? notFound,
+    TResult Function()? productNotFound,
+    required TResult orElse(),
+  }) {
+    if (notFound != null) {
+      return notFound();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetProfileFailureUnknown value) unknown,
+    required TResult Function(GetProfileFailureNotFound value) notFound,
+    required TResult Function(GetProfileFailureProductNotFound value)
+        productNotFound,
+  }) {
+    return notFound(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetProfileFailureUnknown value)? unknown,
+    TResult? Function(GetProfileFailureNotFound value)? notFound,
+    TResult? Function(GetProfileFailureProductNotFound value)? productNotFound,
+  }) {
+    return notFound?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetProfileFailureUnknown value)? unknown,
+    TResult Function(GetProfileFailureNotFound value)? notFound,
+    TResult Function(GetProfileFailureProductNotFound value)? productNotFound,
+    required TResult orElse(),
+  }) {
+    if (notFound != null) {
+      return notFound(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetProfileFailureNotFound implements GetProfileFailure {
+  const factory GetProfileFailureNotFound() = _$GetProfileFailureNotFound;
+}
+
+/// @nodoc
+abstract class _$$GetProfileFailureProductNotFoundCopyWith<$Res> {
+  factory _$$GetProfileFailureProductNotFoundCopyWith(
+          _$GetProfileFailureProductNotFound value,
+          $Res Function(_$GetProfileFailureProductNotFound) then) =
+      __$$GetProfileFailureProductNotFoundCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetProfileFailureProductNotFoundCopyWithImpl<$Res>
+    extends _$GetProfileFailureCopyWithImpl<$Res,
+        _$GetProfileFailureProductNotFound>
+    implements _$$GetProfileFailureProductNotFoundCopyWith<$Res> {
+  __$$GetProfileFailureProductNotFoundCopyWithImpl(
+      _$GetProfileFailureProductNotFound _value,
+      $Res Function(_$GetProfileFailureProductNotFound) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetProfileFailureProductNotFound
+    implements GetProfileFailureProductNotFound {
+  const _$GetProfileFailureProductNotFound();
+
+  @override
+  String toString() {
+    return 'GetProfileFailure.productNotFound()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetProfileFailureProductNotFound);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() notFound,
+    required TResult Function() productNotFound,
+  }) {
+    return productNotFound();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? notFound,
+    TResult? Function()? productNotFound,
+  }) {
+    return productNotFound?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? notFound,
+    TResult Function()? productNotFound,
+    required TResult orElse(),
+  }) {
+    if (productNotFound != null) {
+      return productNotFound();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetProfileFailureUnknown value) unknown,
+    required TResult Function(GetProfileFailureNotFound value) notFound,
+    required TResult Function(GetProfileFailureProductNotFound value)
+        productNotFound,
+  }) {
+    return productNotFound(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetProfileFailureUnknown value)? unknown,
+    TResult? Function(GetProfileFailureNotFound value)? notFound,
+    TResult? Function(GetProfileFailureProductNotFound value)? productNotFound,
+  }) {
+    return productNotFound?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetProfileFailureUnknown value)? unknown,
+    TResult Function(GetProfileFailureNotFound value)? notFound,
+    TResult Function(GetProfileFailureProductNotFound value)? productNotFound,
+    required TResult orElse(),
+  }) {
+    if (productNotFound != null) {
+      return productNotFound(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetProfileFailureProductNotFound implements GetProfileFailure {
+  const factory GetProfileFailureProductNotFound() =
+      _$GetProfileFailureProductNotFound;
 }

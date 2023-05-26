@@ -107,9 +107,10 @@ class __$$_PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res, _$_Price>
 
 /// @nodoc
 
-class _$_Price implements _Price {
+class _$_Price extends _Price {
   const _$_Price(
-      {required this.price, required this.oldPrice, required this.discount});
+      {required this.price, required this.oldPrice, required this.discount})
+      : super._();
 
   @override
   final double price;
@@ -145,11 +146,12 @@ class _$_Price implements _Price {
       __$$_PriceCopyWithImpl<_$_Price>(this, _$identity);
 }
 
-abstract class _Price implements Price {
+abstract class _Price extends Price {
   const factory _Price(
       {required final double price,
       required final double oldPrice,
       required final double discount}) = _$_Price;
+  const _Price._() : super._();
 
   @override
   double get price;

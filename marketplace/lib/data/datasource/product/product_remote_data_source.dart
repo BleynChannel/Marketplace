@@ -2,6 +2,7 @@ import 'package:marketplace/domain/entity/cart_product.dart';
 import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/desired.dart';
 import 'package:marketplace/domain/entity/filter.dart';
+import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/product.dart';
 import 'package:marketplace/presentation/debug_data.dart';
@@ -43,7 +44,19 @@ class ProductRemoteDataSource {
   Future<List<CompactProduct>> searchProducts({required Filter filter}) async {
     return Future.value(debugProductList
         .where((product) => Utils.isCorrectFilter(product, filter))
-        .map((product) => product.toCompactProduct())
+        .map((product) => CompactProduct(
+              id: product.id,
+              title: product.title,
+              banner: product.media
+                      .where((element) => element.type == MediaType.image)
+                      .isNotEmpty
+                  ? product.media
+                      .where((element) => element.type == MediaType.image)
+                      .first
+                  : null,
+              price: product.price,
+              platforms: product.platforms,
+            ))
         .toList());
   }
 }

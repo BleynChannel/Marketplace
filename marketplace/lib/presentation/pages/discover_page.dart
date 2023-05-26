@@ -106,8 +106,8 @@ class DiscoverPage extends StatelessWidget {
                     _buildProductsList(context, products: products),
                 error: (message) =>
                     _buildProductsList(context, message: message),
-                noNetwork: () => _buildProductsList(context,
-                    message: 'noInternet'.tr),
+                noNetwork: () =>
+                    _buildProductsList(context, message: 'noInternet'.tr),
               ),
             ),
           ),
@@ -237,8 +237,10 @@ class DiscoverPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
-                          image:
-                              Image.memory(product.banner.data.toImage()).image,
+                          image: (product.banner != null
+                                  ? Image.memory(product.banner!.toImage()!)
+                                  : Image.asset('assets/images/no-image.png'))
+                              .image,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -454,8 +456,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
                   loading: (products) =>
                       _buildMain(context, products: products['Main']),
                   error: (message) => _buildError(context, message),
-                  noNetwork: () =>
-                      _buildError(context, 'noInternet'.tr),
+                  noNetwork: () => _buildError(context, 'noInternet'.tr),
                 ),
               ),
             ),
@@ -492,7 +493,10 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: Image.memory(product.banner.data.toImage()).image,
+                    image: (product.banner != null
+                            ? Image.memory(product.banner!.toImage()!)
+                            : Image.asset('assets/images/no-image.png'))
+                        .image,
                     fit: BoxFit.cover,
                   ),
                 ),

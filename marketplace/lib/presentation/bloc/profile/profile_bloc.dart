@@ -18,13 +18,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(const ProfileState.load());
 
       var result = await userRepository.getProfile(userId: event.userId);
-      await Future.delayed(const Duration(milliseconds: 3000));
+      await Future.delayed(const Duration(milliseconds: 2000));
 
       result.fold((failure) {
         String message = '';
 
         failure.when(
           unknown: () => message = 'unknownError'.tr,
+          notFound: () => message = 'userNotFound'.tr,
+          productNotFound: () => message = 'productNotFound'.tr,
         );
 
         emit(ProfileState.error(message: message));

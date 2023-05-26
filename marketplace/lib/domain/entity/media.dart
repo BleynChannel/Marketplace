@@ -8,29 +8,15 @@ enum MediaType {
   video,
 }
 
-//Для картинок
-enum MediaLocation {
-  local,
-  remote,
-}
-
-@freezed
-class MediaData with _$MediaData {
-  const MediaData._();
-
-  const factory MediaData({
-    required dynamic data,
-  }) = _MediaData;
-
-  Uint8List toImage() => data as Uint8List;
-  String toVideo() => data as String;
-}
-
 @freezed
 class Media with _$Media {
+  const Media._();
+
   const factory Media({
     required MediaType type,
-    required MediaLocation location,
-    required MediaData data,
+    required dynamic data,
   }) = _Media;
+
+  Uint8List? toImage() => type == MediaType.image ? data as Uint8List : null;
+  String? toVideo() => type == MediaType.video ? data as String : null;
 }

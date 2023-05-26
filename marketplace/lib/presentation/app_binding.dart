@@ -78,7 +78,7 @@ class AppBinding implements Bindings {
 
   void providerDependencies() {
     Get.lazyPut(() => AuthProvider());
-    Get.lazyPut(() => HomeAvatarProvider(debugProfile.avatar.data.toImage()));
+    Get.lazyPut(() => HomeAvatarProvider(debugProfile.avatar.toImage()!));
   }
 
   void controllerDependencies() {

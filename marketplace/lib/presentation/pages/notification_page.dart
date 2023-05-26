@@ -116,7 +116,7 @@ class NotificationPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
                         image: Image.memory(
-                          notification.banner.data.toImage(),
+                          notification.banner.toImage()!,
                         ).image,
                         fit: BoxFit.cover,
                       ),

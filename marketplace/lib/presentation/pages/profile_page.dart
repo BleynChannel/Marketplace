@@ -271,7 +271,7 @@ class ProfilePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: SvgPicture.memory(
-                contact.icon.data.toImage(),
+                contact.icon.toImage()!,
                 fit: BoxFit.contain,
               ),
             ),
@@ -315,8 +315,8 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              achievement.icon,
+            SvgPicture.memory(
+              achievement.icon.toImage()!,
               fit: BoxFit.contain,
             ),
             const Expanded(child: SizedBox()),
@@ -360,7 +360,10 @@ class ProfilePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: Image.memory(product.banner.data.toImage()).image,
+                    image: (product.banner != null
+                            ? Image.memory(product.banner!.toImage()!)
+                            : Image.asset('assets/images/no-image.png'))
+                        .image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -394,8 +397,10 @@ class ProfilePage extends StatelessWidget {
     required DateTime lastActivity,
   }) {
     final informations = {
-      'profileOtherInformationRegistrationDate'.tr: Utils.dateTimeToString(registrationDate),
-      'profileOtherInformationLastActivity'.tr: Utils.dateTimeToString(lastActivity),
+      'profileOtherInformationRegistrationDate'.tr:
+          Utils.dateTimeToString(registrationDate),
+      'profileOtherInformationLastActivity'.tr:
+          Utils.dateTimeToString(lastActivity),
     };
 
     return Padding(
@@ -426,30 +431,28 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             child: Column(
-              children: informations.entries
-                  .map((info) {
-                    return ListTile(
-                      title: RichText(
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          text: "${info.key}: ",
+              children: informations.entries.map((info) {
+                return ListTile(
+                  title: RichText(
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      text: "${info.key}: ",
+                      style: GoogleFonts.roboto(
+                        fontSize: 16,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: info.value,
                           style: GoogleFonts.roboto(
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          children: [
-                            TextSpan(
-                              text: info.value,
-                              style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  })
-                  .toList(),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
             )),
       ),
     );
@@ -466,7 +469,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
   final String nickname;
   final Media avatar;
   final Media backgroundImage;
-  final Status status;
+  final Status? status;
 
   final int purchases;
   final int desired;
@@ -524,7 +527,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image:
-                            Image.memory(backgroundImage.data.toImage()).image,
+                            Image.memory(backgroundImage.toImage()!).image,
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -555,7 +558,7 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(60),
                                   child: Image.memory(
-                                    avatar.data.toImage(),
+                                    avatar.toImage()!,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -565,20 +568,26 @@ class _ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
                           const SizedBox(height: 8),
                           Text(
                             nickname,
-                            style:
-                                Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                      letterSpacing: 1,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  letterSpacing: 1,
+                                ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            status.title,
-                            style:
-                                Theme.of(context).textTheme.titleLarge?.copyWith(
-                                      letterSpacing: 1,
-                                      color: status.color,
-                                    ),
-                          ),
+                          status != null
+                              ? Text(
+                                  status!.title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        letterSpacing: 1,
+                                        color: status!.color,
+                                      ),
+                                )
+                              : const SizedBox(),
                         ],
                       ),
                     ),

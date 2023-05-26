@@ -202,9 +202,11 @@ class DesiredPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
-                          image: Image.memory(
-                            desired.product.banner.data.toImage(),
-                          ).image,
+                          image: (desired.product.banner != null
+                                  ? Image.memory(
+                                      desired.product.banner!.toImage()!)
+                                  : Image.asset('assets/images/no-image.png'))
+                              .image,
                           fit: BoxFit.cover,
                         ),
                       ),

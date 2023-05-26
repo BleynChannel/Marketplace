@@ -34,7 +34,7 @@ class ProductController extends GetxController {
         playerControllers.add(
           YoutubePlayerController(
             initialVideoId:
-                YoutubePlayer.convertUrlToId(media[i].data.toVideo())!,
+                YoutubePlayer.convertUrlToId(media[i].toVideo()!)!,
             flags: const YoutubePlayerFlags(
               autoPlay: false,
               disableDragSeek: true,

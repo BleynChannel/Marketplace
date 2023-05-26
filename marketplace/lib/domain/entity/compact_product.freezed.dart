@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CompactProduct {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  Media get banner => throw _privateConstructorUsedError;
+  Media? get banner => throw _privateConstructorUsedError;
   Price get price => throw _privateConstructorUsedError;
   List<Platform> get platforms => throw _privateConstructorUsedError;
 
@@ -36,11 +36,11 @@ abstract class $CompactProductCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      Media banner,
+      Media? banner,
       Price price,
       List<Platform> platforms});
 
-  $MediaCopyWith<$Res> get banner;
+  $MediaCopyWith<$Res>? get banner;
   $PriceCopyWith<$Res> get price;
 }
 
@@ -59,7 +59,7 @@ class _$CompactProductCopyWithImpl<$Res, $Val extends CompactProduct>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? banner = null,
+    Object? banner = freezed,
     Object? price = null,
     Object? platforms = null,
   }) {
@@ -72,10 +72,10 @@ class _$CompactProductCopyWithImpl<$Res, $Val extends CompactProduct>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: null == banner
+      banner: freezed == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
-              as Media,
+              as Media?,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -89,8 +89,12 @@ class _$CompactProductCopyWithImpl<$Res, $Val extends CompactProduct>
 
   @override
   @pragma('vm:prefer-inline')
-  $MediaCopyWith<$Res> get banner {
-    return $MediaCopyWith<$Res>(_value.banner, (value) {
+  $MediaCopyWith<$Res>? get banner {
+    if (_value.banner == null) {
+      return null;
+    }
+
+    return $MediaCopyWith<$Res>(_value.banner!, (value) {
       return _then(_value.copyWith(banner: value) as $Val);
     });
   }
@@ -115,12 +119,12 @@ abstract class _$$_CompactProductCopyWith<$Res>
   $Res call(
       {String id,
       String title,
-      Media banner,
+      Media? banner,
       Price price,
       List<Platform> platforms});
 
   @override
-  $MediaCopyWith<$Res> get banner;
+  $MediaCopyWith<$Res>? get banner;
   @override
   $PriceCopyWith<$Res> get price;
 }
@@ -138,7 +142,7 @@ class __$$_CompactProductCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? banner = null,
+    Object? banner = freezed,
     Object? price = null,
     Object? platforms = null,
   }) {
@@ -151,10 +155,10 @@ class __$$_CompactProductCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: null == banner
+      banner: freezed == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
-              as Media,
+              as Media?,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -173,7 +177,7 @@ class _$_CompactProduct extends _CompactProduct {
   const _$_CompactProduct(
       {required this.id,
       required this.title,
-      required this.banner,
+      this.banner,
       required this.price,
       required final List<Platform> platforms})
       : _platforms = platforms,
@@ -184,7 +188,7 @@ class _$_CompactProduct extends _CompactProduct {
   @override
   final String title;
   @override
-  final Media banner;
+  final Media? banner;
   @override
   final Price price;
   final List<Platform> _platforms;
@@ -228,7 +232,7 @@ abstract class _CompactProduct extends CompactProduct {
   const factory _CompactProduct(
       {required final String id,
       required final String title,
-      required final Media banner,
+      final Media? banner,
       required final Price price,
       required final List<Platform> platforms}) = _$_CompactProduct;
   const _CompactProduct._() : super._();
@@ -238,7 +242,7 @@ abstract class _CompactProduct extends CompactProduct {
   @override
   String get title;
   @override
-  Media get banner;
+  Media? get banner;
   @override
   Price get price;
   @override

@@ -122,8 +122,9 @@ class __$$_ContactCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Contact implements _Contact {
-  const _$_Contact({required this.name, required this.icon, required this.url});
+class _$_Contact extends _Contact {
+  const _$_Contact({required this.name, required this.icon, required this.url})
+      : super._();
 
   @override
   final String name;
@@ -157,11 +158,12 @@ class _$_Contact implements _Contact {
       __$$_ContactCopyWithImpl<_$_Contact>(this, _$identity);
 }
 
-abstract class _Contact implements Contact {
+abstract class _Contact extends Contact {
   const factory _Contact(
       {required final String name,
       required final Media icon,
       required final String url}) = _$_Contact;
+  const _Contact._() : super._();
 
   @override
   String get name;

@@ -368,7 +368,6 @@ class _MenuActions {
               isCorrect = false;
             },
             (data) {
-              debugProfile.nickname = nickname;
               message = 'changesSaved'.tr;
               isCorrect = true;
             },
@@ -390,7 +389,7 @@ class _MenuActions {
   void statusAction() {
     //TODO: Брать статус из user
     final inputController =
-        TextEditingController(text: debugProfile.status.title);
+        TextEditingController(text: debugProfile.status?.title);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     Color changeColor = Colors.black;
@@ -401,7 +400,7 @@ class _MenuActions {
       content: _MenuStatusContent(
         formKey: formKey,
         inputController: inputController,
-        color: debugProfile.status.color,
+        color: debugProfile.status?.color ?? Colors.white,
         onColorChanged: (color) => changeColor = color,
       ),
       onChangePressed: () async {
@@ -422,8 +421,6 @@ class _MenuActions {
               isCorrect = false;
             },
             (data) {
-              debugProfile.status.title = title;
-              debugProfile.status.color = changeColor;
               message = 'changesSaved'.tr;
               isCorrect = true;
             },
@@ -451,14 +448,9 @@ class _MenuActions {
           builder: (context) => _MenuImageCropWidget(
             initialImage: image,
             onCrop: (image) {
-              Media media = Media(
-                type: MediaType.image,
-                location: MediaLocation.remote,
-                data: MediaData(data: image),
-              );
-
               controller.userRepository
-                  .changeProfileAvatar(avatar: media)
+                  .changeProfileAvatar(
+                      avatar: Media(type: MediaType.image, data: image))
                   .then((result) async {
                 String message = '';
                 bool isCorrect = false;
@@ -471,7 +463,6 @@ class _MenuActions {
                     isCorrect = false;
                   },
                   (data) {
-                    debugProfile.avatar = media;
                     Get.find<HomeAvatarProvider>().image = image;
 
                     message = 'changesSaved'.tr;
@@ -502,14 +493,10 @@ class _MenuActions {
             initialImage: image,
             aspectRatio: 16.0 / 9.0,
             onCrop: (image) {
-              Media media = Media(
-                type: MediaType.image,
-                location: MediaLocation.remote,
-                data: MediaData(data: image),
-              );
-
               controller.userRepository
-                  .changeProfileBackgroundImage(backgroundImage: media)
+                  .changeProfileBackgroundImage(
+                      backgroundImage:
+                          Media(type: MediaType.image, data: image))
                   .then((result) async {
                 String message = '';
                 bool isCorrect = false;
@@ -522,8 +509,6 @@ class _MenuActions {
                     isCorrect = false;
                   },
                   (data) {
-                    debugProfile.backgroundImage = media;
-
                     message = 'changesSaved'.tr;
                     isCorrect = true;
                   },
@@ -582,7 +567,6 @@ class _MenuActions {
               isCorrect = false;
             },
             (data) {
-              debugProfile.nickname = newPassword;
               message = 'changesSaved'.tr;
               isCorrect = true;
             },
@@ -1086,7 +1070,7 @@ class _MenuStatusContentState extends State<_MenuStatusContent> {
                   ),
                   content: SingleChildScrollView(
                     child: ColorPicker(
-                      pickerColor: debugProfile.status.color,
+                      pickerColor: debugProfile.status?.color ?? Colors.white,
                       onColorChanged: (value) => setState(() {
                         _changeColor = value;
                         widget.onColorChanged(value);

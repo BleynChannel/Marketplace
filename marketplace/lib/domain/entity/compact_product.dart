@@ -1,9 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/domain/entity/media.dart';
 import 'package:marketplace/domain/entity/platform.dart';
 import 'package:marketplace/domain/entity/price.dart';
-import 'package:marketplace/domain/entity/product.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 
 part 'compact_product.freezed.dart';
 
@@ -14,12 +13,24 @@ class CompactProduct with _$CompactProduct {
   const factory CompactProduct({
     required String id,
     required String title,
-    required Media banner,
+    Media? banner,
     required Price price,
     required List<Platform> platforms,
   }) = _CompactProduct;
 
-  //TODO: Сделать преобразователи
-  Product toProduct() =>
-      debugProductList[debugCompactProductList.indexOf(this)];
+  factory CompactProduct.fromMap(Map<String, dynamic> json) => CompactProduct(
+        id: json['id'],
+        title: json['title'],
+        price: Price.fromMap(json['price']),
+        platforms: (json['platforms'] as List<dynamic>)
+            .map((p) => Utils.platformFromName(p))
+            .toList(),
+      );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'title': title,
+        'price': price.toMap(),
+        'platforms': platforms.map((p) => Utils.platformToName(p)).toList(),
+      };
 }

@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:marketplace/domain/entity/bundle.dart';
-import 'package:marketplace/domain/entity/compact_product.dart';
 import 'package:marketplace/domain/entity/link.dart';
 import 'package:marketplace/domain/entity/localization_product.dart';
 import 'package:marketplace/domain/entity/media.dart';
@@ -9,7 +8,6 @@ import 'package:marketplace/domain/entity/price.dart';
 import 'package:marketplace/domain/entity/product_dlc.dart';
 import 'package:marketplace/domain/entity/product_review.dart';
 import 'package:marketplace/domain/entity/system_requirement.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 
 part 'product.freezed.dart';
 
@@ -40,21 +38,4 @@ class Product with _$Product {
     required List<SystemRequirement> systemRequirement,
     required List<ProductReview> productReview,
   }) = _Product;
-
-  CompactProduct toCompactProduct() => CompactProduct(
-        id: id,
-        title: title,
-        banner: media
-                .where((element) => element.type == MediaType.image)
-                .isNotEmpty
-            ? media.where((element) => element.type == MediaType.image).first
-            : debugNoImage,
-        price: price,
-        platforms: platforms,
-      );
-
-  //TODO: Сделать, когда будет база данных
-  // Future<List<ProductDLC>> loadProductDlc() async {}
-  // Future<List<Bundle>> loadBundles() async {}
-  // Future<List<ProductReview>> loadReview() async {}
 }

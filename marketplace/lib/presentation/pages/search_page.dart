@@ -63,8 +63,7 @@ class SearchPage extends StatelessWidget {
               loading: (filterProducts) =>
                   _buildMain(context, filterProducts: filterProducts),
               error: (message) => _buildError(context, message: message),
-              noNetwork: () =>
-                  _buildError(context, message: 'noInternet'.tr),
+              noNetwork: () => _buildError(context, message: 'noInternet'.tr),
             );
           },
         ),
@@ -150,9 +149,10 @@ class SearchPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
-                          image: Image.memory(
-                            product.banner.data.toImage(),
-                          ).image,
+                          image: (product.banner != null
+                                  ? Image.memory(product.banner!.toImage()!)
+                                  : Image.asset('assets/images/no-image.png'))
+                              .image,
                           fit: BoxFit.cover,
                         ),
                       ),

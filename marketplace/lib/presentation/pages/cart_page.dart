@@ -257,9 +257,11 @@ class CartPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
-                          image: Image.memory(
-                            cartProduct.product.banner.data.toImage(),
-                          ).image,
+                          image: (cartProduct.product.banner != null
+                                  ? Image.memory(
+                                      cartProduct.product.banner!.toImage()!)
+                                  : Image.asset('assets/images/no-image.png'))
+                              .image,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -348,8 +350,7 @@ class CartPage extends StatelessWidget {
                             children: [
                               ...visiblePlatforms
                                   .map((platform) => Tooltip(
-                                        message:
-                                            Utils.platformToName(platform),
+                                        message: Utils.platformToName(platform),
                                         child: FaIcon(
                                           Utils.platformToIcon(platform),
                                           size: iconSize,

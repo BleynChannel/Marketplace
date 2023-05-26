@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Achievement {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get icon => throw _privateConstructorUsedError;
+  Media get icon => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AchievementCopyWith<Achievement> get copyWith =>
@@ -31,7 +31,9 @@ abstract class $AchievementCopyWith<$Res> {
           Achievement value, $Res Function(Achievement) then) =
       _$AchievementCopyWithImpl<$Res, Achievement>;
   @useResult
-  $Res call({String title, String description, String icon});
+  $Res call({String title, String description, Media icon});
+
+  $MediaCopyWith<$Res> get icon;
 }
 
 /// @nodoc
@@ -63,8 +65,16 @@ class _$AchievementCopyWithImpl<$Res, $Val extends Achievement>
       icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Media,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaCopyWith<$Res> get icon {
+    return $MediaCopyWith<$Res>(_value.icon, (value) {
+      return _then(_value.copyWith(icon: value) as $Val);
+    });
   }
 }
 
@@ -76,7 +86,10 @@ abstract class _$$_AchievementCopyWith<$Res>
       __$$_AchievementCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, String description, String icon});
+  $Res call({String title, String description, Media icon});
+
+  @override
+  $MediaCopyWith<$Res> get icon;
 }
 
 /// @nodoc
@@ -106,23 +119,24 @@ class __$$_AchievementCopyWithImpl<$Res>
       icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Media,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Achievement implements _Achievement {
+class _$_Achievement extends _Achievement {
   const _$_Achievement(
-      {required this.title, required this.description, required this.icon});
+      {required this.title, required this.description, required this.icon})
+      : super._();
 
   @override
   final String title;
   @override
   final String description;
   @override
-  final String icon;
+  final Media icon;
 
   @override
   String toString() {
@@ -150,18 +164,19 @@ class _$_Achievement implements _Achievement {
       __$$_AchievementCopyWithImpl<_$_Achievement>(this, _$identity);
 }
 
-abstract class _Achievement implements Achievement {
+abstract class _Achievement extends Achievement {
   const factory _Achievement(
       {required final String title,
       required final String description,
-      required final String icon}) = _$_Achievement;
+      required final Media icon}) = _$_Achievement;
+  const _Achievement._() : super._();
 
   @override
   String get title;
   @override
   String get description;
   @override
-  String get icon;
+  Media get icon;
   @override
   @JsonKey(ignore: true)
   _$$_AchievementCopyWith<_$_Achievement> get copyWith =>

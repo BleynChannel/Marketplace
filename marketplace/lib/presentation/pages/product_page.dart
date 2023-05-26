@@ -252,7 +252,7 @@ class ProductPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                      image: Image.memory(product.icon.data.toImage()).image,
+                      image: Image.memory(product.icon.toImage()!).image,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -515,7 +515,7 @@ class _ProductSliverAppBar extends SliverPersistentHeaderDelegate {
     switch (mediaItem.type) {
       case MediaType.image:
         return Image.memory(
-          mediaItem.data.toImage(),
+          mediaItem.toImage()!,
           fit: BoxFit.fitHeight,
         );
       case MediaType.video:
@@ -1091,7 +1091,10 @@ class _ProductTabBarState extends State<_ProductTabBar>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: Image.memory(product.banner.data.toImage()).image,
+                    image: (product.banner != null
+                            ? Image.memory(product.banner!.toImage()!)
+                            : Image.asset('assets/images/no-image.png'))
+                        .image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1302,7 +1305,7 @@ class _ProductTabBarState extends State<_ProductTabBar>
                       borderRadius: BorderRadius.circular(100),
                       image: DecorationImage(
                         image: Image.memory(
-                          productReview.user.avatar.data.toImage(),
+                          productReview.user.avatar.toImage()!,
                         ).image,
                         fit: BoxFit.fill,
                       ),
