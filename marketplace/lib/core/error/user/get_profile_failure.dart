@@ -6,5 +6,4 @@ part 'get_profile_failure.freezed.dart';
 class GetProfileFailure with _$GetProfileFailure {
   const factory GetProfileFailure.unknown() = GetProfileFailureUnknown;
   const factory GetProfileFailure.notFound() = GetProfileFailureNotFound;
-  const factory GetProfileFailure.productNotFound() = GetProfileFailureProductNotFound;
 }

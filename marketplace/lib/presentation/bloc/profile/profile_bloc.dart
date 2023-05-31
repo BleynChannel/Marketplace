@@ -26,7 +26,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         failure.when(
           unknown: () => message = 'unknownError'.tr,
           notFound: () => message = 'userNotFound'.tr,
-          productNotFound: () => message = 'productNotFound'.tr,
         );
 
         emit(ProfileState.error(message: message));

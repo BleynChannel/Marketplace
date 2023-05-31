@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:marketplace/core/error/user/get_profile_failure.dart';
 import 'package:marketplace/core/utils/utils.dart';
 import 'package:marketplace/domain/entity/achievement.dart';
@@ -12,73 +15,75 @@ import 'package:marketplace/domain/entity/status.dart';
 import 'package:marketplace/presentation/debug_data.dart';
 
 class UserRemoteDataSource {
+  static Future<Uint8List?> loadImage(String path) {
+    return FirebaseStorage.instance.ref(path).getData();
+  }
+
   Future<Profile> getProfile({required String userId}) async {
-    final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final user = FirebaseFirestore.instance.collection('users').doc(userId);
+    final userDoc = await user.get();
     if (!userDoc.exists) {
       throw const GetProfileFailure.notFound();
     }
 
-    final userDocData = userDoc.data()!;
-
-    final favoriteGamesDoc =
-        (userDocData['favorite_games'] as List<dynamic>).map((field) => (
-              field as String,
-              FirebaseFirestore.instance.collection('products').doc(field).get()
-            ));
-
-    final List<CompactProduct> favoriteGames = [];
-    for (final game in favoriteGamesDoc) {
-      final gameData = await game.$2.then((doc) {
-        if (!doc.exists) {
-          throw const GetProfileFailure.productNotFound();
-        }
-
-        return doc.data()!;
-      });
-
-      gameData['id'] = game.$1;
-      favoriteGames.add(CompactProduct.fromMap(gameData));
-    }
+    final userData = userDoc.data()!;
 
     return Profile(
       id: userId,
-      nickname: userDocData['nickname'] as String,
+      nickname: userData['nickname'] as String,
       avatar: Media(
           type: MediaType.image,
-          data: await Utils.uploadImage(userDocData['avatar'] as String)),
+          data: await loadImage(userData['avatar'] as String)),
       backgroundImage: Media(
           type: MediaType.image,
-          data: await Utils.uploadImage(userDocData['background'] as String)),
-      status: Status.fromMap(userDocData['status'] as Map<String, dynamic>),
-      purchases: (userDocData['purchases'] as List<dynamic>).length,
-      desired: (userDocData['desired'] as List<dynamic>).length,
+          data: await loadImage(userData['background'] as String)),
+      status: Status.fromMap(userData['status'] as Map<String, dynamic>),
+      purchases: (userData['purchases'] as List<dynamic>).length,
+      desired: (userData['desired'] as List<dynamic>).length,
       contacts: (await Utils.futureMap(
-        userDocData['contacts'] as List<dynamic>,
-        (field) async => Contact(
-          name: field['name'] as String,
-          icon: Media(
-              type: MediaType.image,
-              data: await Utils.uploadImage(field['icon'] as String)),
-          url: field['url'] as String,
-        ),
+        await user.collection('contacts').get().then((c) => c.docs),
+        (doc) async {
+          final data = doc.data();
+          return Contact(
+            name: doc.id,
+            icon: await Utils.getMediaImage(
+                Utils.contactsToPathToSvgIcons(doc.id)),
+            url: data['url'] as String,
+          );
+        },
       ))
           .toList(),
       achievements: (await Utils.futureMap(
-        userDocData['achievements'] as List<dynamic>,
-        (field) async => Achievement(
-          title: field['title'] as String,
-          description: field['description'] as String,
-          icon: Media(
-              type: MediaType.image,
-              data: await Utils.uploadImage(field['icon'] as String)),
-        ),
+        userData['achievements'] as List<dynamic>,
+        (field) async {
+          final data = await (field as DocumentReference)
+              .get()
+              .then((doc) => doc.data()! as Map<String, dynamic>);
+
+          return Achievement(
+            title: data['title'] as String,
+            description: data['description'] as String,
+            icon: Media(
+                type: MediaType.image,
+                data: await loadImage(data['icon'] as String)),
+          );
+        },
       ))
           .toList(),
-      favoriteGames: favoriteGames,
-      registrationDate:
-          (userDocData['registration_date'] as Timestamp).toDate(),
-      lastActivity: (userDocData['last_activity'] as Timestamp).toDate(),
+      favoriteGames: (await Utils.futureMap(
+        userData['favorite_games'] as List<dynamic>,
+        (field) async {
+          final gameData = await FirebaseFirestore.instance
+              .collection('products')
+              .doc(field)
+              .get()
+              .then((doc) => doc.data()!);
+          return CompactProduct.fromMap(field as String, gameData);
+        },
+      ))
+          .toList(),
+      registrationDate: (userData['registration_date'] as Timestamp).toDate(),
+      lastActivity: (userData['last_activity'] as Timestamp).toDate(),
     );
   }
 

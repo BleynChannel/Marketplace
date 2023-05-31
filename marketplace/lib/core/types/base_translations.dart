@@ -21,7 +21,6 @@ abstract class BaseTranslations {
     required String invalidContinueUri,
     required String unauthorizedContinueUri,
     required String emailAlreadyInUse,
-    required String productNotFound,
     required String refreshPage,
     required String questionAccount,
     required String passwordTooltip,
@@ -150,7 +149,6 @@ abstract class BaseTranslations {
           'invalidContinueUri': invalidContinueUri,
           'unauthorizedContinueUri': unauthorizedContinueUri,
           'emailAlreadyInUse': emailAlreadyInUse,
-          'productNotFound': productNotFound,
           //General text
           'refreshPage': refreshPage,
           'questionAccount': questionAccount,

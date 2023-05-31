@@ -1,4 +1,3 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -120,14 +119,14 @@ class Utils {
     return value.toString();
   }
 
-  static Future<Media> getMediaImage({required String path}) async {
+  static Future<Media> getMediaImage(String path) async {
     return Future.value(Media(
       type: MediaType.image,
       data: (await rootBundle.load(path)).buffer.asUint8List() as dynamic,
     ));
   }
 
-  static Future<Media> getMediaVideo({required String path}) async {
+  static Future<Media> getMediaVideo(String path) async {
     return Future.value(Media(
       type: MediaType.video,
       data: path as dynamic,
@@ -141,10 +140,6 @@ class Utils {
     scaffoldMessenger.showSnackBar(SnackBar(
       content: Text(message),
     ));
-  }
-
-  static Future<Uint8List?> uploadImage(String path) {
-    return FirebaseStorage.instance.ref(path).getData();
   }
 
   static Future<Iterable<T>> futureMap<T, K>(

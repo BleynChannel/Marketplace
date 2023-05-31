@@ -33,7 +33,6 @@ class Russia extends BaseTranslations {
               'Домен URL-адреса продолжение не внесен в белый список. Внесите домен в белый список в консоли Firebase',
           emailAlreadyInUse:
               'Учетная запись с этим электронным почтой уже существует',
-          productNotFound: 'Продукт не найден',
           refreshPage: 'Обновить страницу',
           questionAccount: "У вас нет учетной записи?",
           passwordTooltip:

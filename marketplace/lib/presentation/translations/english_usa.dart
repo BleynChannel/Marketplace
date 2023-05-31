@@ -28,7 +28,6 @@ class EnglishUSA extends BaseTranslations {
           unauthorizedContinueUri:
               'The domain of the continue URL is not whitelisted. Whitelist the domain in the Firebase console',
           emailAlreadyInUse: 'An account with this email already exists',
-          productNotFound: 'Product not found',
           refreshPage: 'Press to refresh page',
           questionAccount: "Don’t have an account?",
           passwordTooltip:
