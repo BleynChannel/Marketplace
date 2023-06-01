@@ -6,7 +6,7 @@ import 'package:marketplace/presentation/bloc/desired/desired_bloc.dart';
 import 'package:marketplace/presentation/bloc/desired/desired_event.dart';
 
 class DesiredController extends GetxController {
-  static const int shimerProductCount = 3;
+  static const int shimmerProductCount = 3;
 
   final bloc = DesiredBloc()..add(const DesiredEvent.onLoaded());
 

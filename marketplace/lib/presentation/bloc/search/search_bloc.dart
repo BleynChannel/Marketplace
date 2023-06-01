@@ -18,7 +18,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(const SearchState.load());
 
       var result = await productRepository.searchProducts(filter: event.filter);
-      await Future.delayed(const Duration(milliseconds: 1000));
 
       result.fold((failure) {
         String message = '';

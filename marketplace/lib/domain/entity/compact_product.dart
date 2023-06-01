@@ -18,9 +18,12 @@ class CompactProduct with _$CompactProduct {
     required List<Platform> platforms,
   }) = _CompactProduct;
 
-  factory CompactProduct.fromMap(String id, Map<String, dynamic> json) => CompactProduct(
-        id: id,
+  factory CompactProduct.fromMap(Map<String, dynamic> json) => CompactProduct(
+        id: json['id'],
         title: json['title'],
+        banner: json['banner'] != null
+            ? Media(type: MediaType.image, data: json['banner'])
+            : null,
         price: Price.fromMap(json['price']),
         platforms: (json['platforms'] as List<dynamic>)
             .map((p) => Utils.platformFromName(p))
@@ -29,6 +32,7 @@ class CompactProduct with _$CompactProduct {
 
   Map<String, dynamic> toMap() => {
         'title': title,
+        'banner': banner?.toImage(),
         'price': price.toMap(),
         'platforms': platforms.map((p) => Utils.platformToName(p)).toList(),
       };

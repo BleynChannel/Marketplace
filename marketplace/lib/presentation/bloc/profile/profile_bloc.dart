@@ -18,7 +18,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(const ProfileState.load());
 
       var result = await userRepository.getProfile(userId: event.userId);
-      await Future.delayed(const Duration(milliseconds: 2000));
 
       result.fold((failure) {
         String message = '';

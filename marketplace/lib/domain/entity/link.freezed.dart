@@ -96,8 +96,8 @@ class __$$_LinkCopyWithImpl<$Res> extends _$LinkCopyWithImpl<$Res, _$_Link>
 
 /// @nodoc
 
-class _$_Link implements _Link {
-  const _$_Link({required this.title, required this.url});
+class _$_Link extends _Link {
+  const _$_Link({required this.title, required this.url}) : super._();
 
   @override
   final String title;
@@ -128,9 +128,10 @@ class _$_Link implements _Link {
       __$$_LinkCopyWithImpl<_$_Link>(this, _$identity);
 }
 
-abstract class _Link implements Link {
+abstract class _Link extends Link {
   const factory _Link(
       {required final String title, required final String url}) = _$_Link;
+  const _Link._() : super._();
 
   @override
   String get title;

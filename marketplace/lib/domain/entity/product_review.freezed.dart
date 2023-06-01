@@ -19,6 +19,7 @@ mixin _$ProductReview {
   User get user => throw _privateConstructorUsedError;
   double get rating => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProductReviewCopyWith<ProductReview> get copyWith =>
@@ -31,7 +32,7 @@ abstract class $ProductReviewCopyWith<$Res> {
           ProductReview value, $Res Function(ProductReview) then) =
       _$ProductReviewCopyWithImpl<$Res, ProductReview>;
   @useResult
-  $Res call({User user, double rating, String description});
+  $Res call({User user, double rating, String description, DateTime createdAt});
 
   $UserCopyWith<$Res> get user;
 }
@@ -52,6 +53,7 @@ class _$ProductReviewCopyWithImpl<$Res, $Val extends ProductReview>
     Object? user = null,
     Object? rating = null,
     Object? description = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       user: null == user
@@ -66,6 +68,10 @@ class _$ProductReviewCopyWithImpl<$Res, $Val extends ProductReview>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -86,7 +92,7 @@ abstract class _$$_ProductReviewCopyWith<$Res>
       __$$_ProductReviewCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User user, double rating, String description});
+  $Res call({User user, double rating, String description, DateTime createdAt});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -106,6 +112,7 @@ class __$$_ProductReviewCopyWithImpl<$Res>
     Object? user = null,
     Object? rating = null,
     Object? description = null,
+    Object? createdAt = null,
   }) {
     return _then(_$_ProductReview(
       user: null == user
@@ -120,15 +127,23 @@ class __$$_ProductReviewCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ProductReview implements _ProductReview {
+class _$_ProductReview extends _ProductReview {
   const _$_ProductReview(
-      {required this.user, required this.rating, required this.description});
+      {required this.user,
+      required this.rating,
+      required this.description,
+      required this.createdAt})
+      : super._();
 
   @override
   final User user;
@@ -136,10 +151,12 @@ class _$_ProductReview implements _ProductReview {
   final double rating;
   @override
   final String description;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'ProductReview(user: $user, rating: $rating, description: $description)';
+    return 'ProductReview(user: $user, rating: $rating, description: $description, createdAt: $createdAt)';
   }
 
   @override
@@ -150,11 +167,14 @@ class _$_ProductReview implements _ProductReview {
             (identical(other.user, user) || other.user == user) &&
             (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user, rating, description);
+  int get hashCode =>
+      Object.hash(runtimeType, user, rating, description, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -163,11 +183,13 @@ class _$_ProductReview implements _ProductReview {
       __$$_ProductReviewCopyWithImpl<_$_ProductReview>(this, _$identity);
 }
 
-abstract class _ProductReview implements ProductReview {
+abstract class _ProductReview extends ProductReview {
   const factory _ProductReview(
       {required final User user,
       required final double rating,
-      required final String description}) = _$_ProductReview;
+      required final String description,
+      required final DateTime createdAt}) = _$_ProductReview;
+  const _ProductReview._() : super._();
 
   @override
   User get user;
@@ -175,6 +197,8 @@ abstract class _ProductReview implements ProductReview {
   double get rating;
   @override
   String get description;
+  @override
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_ProductReviewCopyWith<_$_ProductReview> get copyWith =>

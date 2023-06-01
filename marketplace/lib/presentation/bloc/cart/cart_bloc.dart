@@ -18,7 +18,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(const CartState.load());
 
       var result = await productRepository.getCartProducts();
-      await Future.delayed(const Duration(milliseconds: 2000));
 
       result.fold((failure) {
         String message = '';

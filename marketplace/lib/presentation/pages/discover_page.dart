@@ -14,7 +14,6 @@ import 'package:marketplace/presentation/bloc/discover/discover_bloc.dart';
 import 'package:marketplace/presentation/bloc/discover/discover_event.dart';
 import 'package:marketplace/presentation/bloc/discover/discover_state.dart';
 import 'package:marketplace/core/const/colors.dart';
-import 'package:marketplace/presentation/debug_data.dart';
 import 'package:marketplace/presentation/widgets/background_blur.dart';
 import 'package:marketplace/presentation/widgets/category_list.dart';
 import 'package:marketplace/presentation/widgets/platform_chips.dart';
@@ -26,8 +25,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 @RoutePage()
 // ignore: must_be_immutable
 class DiscoverPage extends StatelessWidget {
-  static const shimerCategoryCount = 3;
-  static const shimerProductCount = 3;
+  static const shimmerCategoryCount = 3;
+  static const shimmerProductCount = 3;
 
   final _bloc = DiscoverBloc()
     ..add(const DiscoverEvent.onLoaded(Platform.values));
@@ -76,6 +75,7 @@ class DiscoverPage extends StatelessWidget {
                 expandedHeight: MediaQuery.of(context).size.height / 3,
                 minExpandedHeight:
                     kToolbarHeight + MediaQuery.of(context).padding.top,
+                shimmerProductCount: shimmerProductCount,
                 cartCount: 7,
                 notificationCount: 15,
                 bloc: _bloc,
@@ -140,7 +140,7 @@ class DiscoverPage extends StatelessWidget {
       }
     } else {
       children = List.generate(
-          shimerCategoryCount,
+          shimmerCategoryCount,
           (_) => _buildCategoryProducts(
                 context,
                 category: null,
@@ -204,7 +204,7 @@ class DiscoverPage extends StatelessWidget {
           child: Row(
             children: (category?.value ??
                     List<CompactProduct?>.generate(
-                        shimerProductCount, (index) => null))
+                        shimmerProductCount, (index) => null))
                 .map((product) => _buildProductItem(
                       context,
                       itemWidth: itemWidth,
@@ -310,6 +310,8 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double minExpandedHeight;
 
+  final int shimmerProductCount;
+
   final int cartCount;
   final int notificationCount;
 
@@ -323,6 +325,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
   _HomeSliverAppBar({
     required this.minExpandedHeight,
     required this.expandedHeight,
+    required this.shimmerProductCount,
     required this.cartCount,
     required this.notificationCount,
     required this.bloc,
@@ -481,7 +484,7 @@ class _HomeSliverAppBar extends SliverPersistentHeaderDelegate {
     return DiscoverPageView(
       itemBuilder: (context, index) =>
           _buildProductItem(context, products?[index]),
-      itemCount: debugProductList.length,
+      itemCount: products?.length ?? shimmerProductCount,
     );
   }
 

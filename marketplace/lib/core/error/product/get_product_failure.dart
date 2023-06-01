@@ -6,4 +6,5 @@ part 'get_product_failure.freezed.dart';
 class GetProductFailure with _$GetProductFailure {
   const factory GetProductFailure.unknown() =
       GetProductFailureUnknown;
+  const factory GetProductFailure.notFound() = GetProductFailureNotFound;
 }

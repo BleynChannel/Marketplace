@@ -15,7 +15,7 @@ import 'package:shimmer/shimmer.dart';
 class NotificationPage extends StatelessWidget {
   const NotificationPage({Key? key}) : super(key: key);
 
-  static const int _shimerNotificationCount = 6;
+  static const int _shimmerNotificationCount = 6;
 
   void _onRefreshPage(BuildContext context) {
     context.read<NotificationBloc>().add(const NotificationEvent.onLoaded());
@@ -92,7 +92,7 @@ class NotificationPage extends StatelessWidget {
                 notification: notifications?[index],
               ),
               separatorBuilder: (context, index) => const SizedBox(height: 8),
-              itemCount: notifications?.length ?? _shimerNotificationCount,
+              itemCount: notifications?.length ?? _shimmerNotificationCount,
             ),
           ),
         ),

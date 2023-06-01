@@ -18,13 +18,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(const ProductState.load());
 
       var result = await productRepository.getProduct(id: event.id);
-      await Future.delayed(const Duration(milliseconds: 3000));
 
       result.fold((failure) {
         String message = '';
 
         failure.when(
           unknown: () => message = 'unknownError'.tr,
+          notFound: () => message = 'productNotFound'.tr,
         );
 
         emit(ProductState.error(message: message));

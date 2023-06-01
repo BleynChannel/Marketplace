@@ -115,12 +115,13 @@ class __$$_SystemRequirementCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SystemRequirement implements _SystemRequirement {
+class _$_SystemRequirement extends _SystemRequirement {
   const _$_SystemRequirement(
       {required this.type,
       required this.platform,
       required final List<String> params})
-      : _params = params;
+      : _params = params,
+        super._();
 
   @override
   final SystemRequirementType type;
@@ -162,11 +163,12 @@ class _$_SystemRequirement implements _SystemRequirement {
           this, _$identity);
 }
 
-abstract class _SystemRequirement implements SystemRequirement {
+abstract class _SystemRequirement extends SystemRequirement {
   const factory _SystemRequirement(
       {required final SystemRequirementType type,
       required final Platform platform,
       required final List<String> params}) = _$_SystemRequirement;
+  const _SystemRequirement._() : super._();
 
   @override
   SystemRequirementType get type;

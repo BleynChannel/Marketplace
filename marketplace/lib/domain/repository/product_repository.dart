@@ -52,6 +52,8 @@ class ProductRepository {
     try {
       final result = await remoteDataSource.getProduct(id: id);
       return Right(result);
+    } on GetProductFailure catch (e) {
+      return Left(e);
     } catch (_) {
       return const Left(GetProductFailure.unknown());
     }

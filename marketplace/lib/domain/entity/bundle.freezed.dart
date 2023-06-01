@@ -121,12 +121,13 @@ class __$$_BundleCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Bundle implements _Bundle {
+class _$_Bundle extends _Bundle {
   const _$_Bundle(
       {required this.title,
       required this.price,
       required final List<CompactProduct> products})
-      : _products = products;
+      : _products = products,
+        super._();
 
   @override
   final String title;
@@ -166,11 +167,12 @@ class _$_Bundle implements _Bundle {
       __$$_BundleCopyWithImpl<_$_Bundle>(this, _$identity);
 }
 
-abstract class _Bundle implements Bundle {
+abstract class _Bundle extends Bundle {
   const factory _Bundle(
       {required final String title,
       required final Price price,
       required final List<CompactProduct> products}) = _$_Bundle;
+  const _Bundle._() : super._();
 
   @override
   String get title;

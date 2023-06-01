@@ -18,7 +18,6 @@ class DesiredBloc extends Bloc<DesiredEvent, DesiredState> {
       emit(const DesiredState.load());
 
       var result = await productRepository.getDesired();
-      await Future.delayed(const Duration(milliseconds: 1000));
 
       result.fold((failure) {
         String message = '';

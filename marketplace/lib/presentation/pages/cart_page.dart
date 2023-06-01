@@ -218,7 +218,7 @@ class CartPage extends StatelessWidget {
       context,
       controller,
       cartProductList: null,
-      itemCount: CartController.shimerProductCount,
+      itemCount: CartController.shimmerProductCount,
     );
   }
 

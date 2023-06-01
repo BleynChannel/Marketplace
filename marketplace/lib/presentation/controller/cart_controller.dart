@@ -7,7 +7,7 @@ import 'package:marketplace/presentation/bloc/cart/cart_bloc.dart';
 import 'package:marketplace/presentation/bloc/cart/cart_event.dart';
 
 class CartController extends GetxController {
-  static const int shimerProductCount = 3;
+  static const int shimmerProductCount = 3;
 
   final bloc = CartBloc()..add(const CartEvent.onLoaded());
 

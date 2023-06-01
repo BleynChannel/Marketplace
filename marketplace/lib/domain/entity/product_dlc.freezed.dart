@@ -115,8 +115,8 @@ class __$$_ProductDLCCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ProductDLC implements _ProductDLC {
-  const _$_ProductDLC({required this.title, required this.price});
+class _$_ProductDLC extends _ProductDLC {
+  const _$_ProductDLC({required this.title, required this.price}) : super._();
 
   @override
   final String title;
@@ -147,10 +147,11 @@ class _$_ProductDLC implements _ProductDLC {
       __$$_ProductDLCCopyWithImpl<_$_ProductDLC>(this, _$identity);
 }
 
-abstract class _ProductDLC implements ProductDLC {
+abstract class _ProductDLC extends ProductDLC {
   const factory _ProductDLC(
       {required final String title,
       required final Price price}) = _$_ProductDLC;
+  const _ProductDLC._() : super._();
 
   @override
   String get title;

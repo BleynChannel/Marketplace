@@ -19,32 +19,38 @@ mixin _$GetProductFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() notFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? notFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? notFound,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetProductFailureUnknown value) unknown,
+    required TResult Function(GetProductFailureNotFound value) notFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetProductFailureUnknown value)? unknown,
+    TResult? Function(GetProductFailureNotFound value)? notFound,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetProductFailureUnknown value)? unknown,
+    TResult Function(GetProductFailureNotFound value)? notFound,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -108,6 +114,7 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unknown,
+    required TResult Function() notFound,
   }) {
     return unknown();
   }
@@ -116,6 +123,7 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unknown,
+    TResult? Function()? notFound,
   }) {
     return unknown?.call();
   }
@@ -124,6 +132,7 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unknown,
+    TResult Function()? notFound,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -136,6 +145,7 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetProductFailureUnknown value) unknown,
+    required TResult Function(GetProductFailureNotFound value) notFound,
   }) {
     return unknown(this);
   }
@@ -144,6 +154,7 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetProductFailureUnknown value)? unknown,
+    TResult? Function(GetProductFailureNotFound value)? notFound,
   }) {
     return unknown?.call(this);
   }
@@ -152,6 +163,7 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetProductFailureUnknown value)? unknown,
+    TResult Function(GetProductFailureNotFound value)? notFound,
     required TResult orElse(),
   }) {
     if (unknown != null) {
@@ -163,4 +175,108 @@ class _$GetProductFailureUnknown implements GetProductFailureUnknown {
 
 abstract class GetProductFailureUnknown implements GetProductFailure {
   const factory GetProductFailureUnknown() = _$GetProductFailureUnknown;
+}
+
+/// @nodoc
+abstract class _$$GetProductFailureNotFoundCopyWith<$Res> {
+  factory _$$GetProductFailureNotFoundCopyWith(
+          _$GetProductFailureNotFound value,
+          $Res Function(_$GetProductFailureNotFound) then) =
+      __$$GetProductFailureNotFoundCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetProductFailureNotFoundCopyWithImpl<$Res>
+    extends _$GetProductFailureCopyWithImpl<$Res, _$GetProductFailureNotFound>
+    implements _$$GetProductFailureNotFoundCopyWith<$Res> {
+  __$$GetProductFailureNotFoundCopyWithImpl(_$GetProductFailureNotFound _value,
+      $Res Function(_$GetProductFailureNotFound) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetProductFailureNotFound implements GetProductFailureNotFound {
+  const _$GetProductFailureNotFound();
+
+  @override
+  String toString() {
+    return 'GetProductFailure.notFound()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetProductFailureNotFound);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unknown,
+    required TResult Function() notFound,
+  }) {
+    return notFound();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? unknown,
+    TResult? Function()? notFound,
+  }) {
+    return notFound?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unknown,
+    TResult Function()? notFound,
+    required TResult orElse(),
+  }) {
+    if (notFound != null) {
+      return notFound();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetProductFailureUnknown value) unknown,
+    required TResult Function(GetProductFailureNotFound value) notFound,
+  }) {
+    return notFound(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetProductFailureUnknown value)? unknown,
+    TResult? Function(GetProductFailureNotFound value)? notFound,
+  }) {
+    return notFound?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetProductFailureUnknown value)? unknown,
+    TResult Function(GetProductFailureNotFound value)? notFound,
+    required TResult orElse(),
+  }) {
+    if (notFound != null) {
+      return notFound(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetProductFailureNotFound implements GetProductFailure {
+  const factory GetProductFailureNotFound() = _$GetProductFailureNotFound;
 }

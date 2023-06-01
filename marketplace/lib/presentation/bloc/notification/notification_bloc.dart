@@ -18,7 +18,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       emit(const NotificationState.load());
 
       var result = await userRepository.getNotifications();
-      await Future.delayed(const Duration(milliseconds: 1000));
 
       result.fold((failure) {
         String message = '';

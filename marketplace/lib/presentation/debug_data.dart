@@ -25,7 +25,7 @@ const debugIsNetwork = true;
 Future debugInit() async {
   debugCompactProductList = [
     CompactProduct(
-      id: 'First',
+      id: 'D2rTSnrNE8ppYBLGzLih',
       title: 'Cyberpunk 2077',
       banner: await Utils.getMediaImage(
           'assets/images/products/cyberpunk/preview_1.jpg'),
@@ -41,7 +41,7 @@ Future debugInit() async {
       ],
     ),
     CompactProduct(
-      id: 'Second',
+      id: 'mQMiXwYMfIq721yvXK29',
       title: 'Stray',
       banner: await Utils.getMediaImage(
           'assets/images/products/stray/preview_1.jpg'),
@@ -60,7 +60,7 @@ Future debugInit() async {
       ],
     ),
     CompactProduct(
-      id: 'Third',
+      id: 'SQQDY7JhWJk8itBYYMVt',
       title: 'Minecraft',
       banner: await Utils.getMediaImage(
           'assets/images/products/minecraft/preview_1.jpg'),
@@ -85,7 +85,7 @@ Future debugInit() async {
 
   debugProductList = [
     Product(
-      id: 'First',
+      id: debugCompactProductList[0].id,
       title: debugCompactProductList[0].title,
       description:
           '''Deserunt consectetur eu non adipisicing eiusmod aliquip sint eiusmod. Ea eu cillum cillum reprehenderit fugiat nulla elit pariatur ex dolor culpa mollit occaecat cupidatat. Irure id qui exercitation voluptate. Adipisicing ad anim nostrud amet eu commodo ut dolore consequat labore. Voluptate cupidatat adipisicing Lorem amet adipisicing exercitation nisi laborum commodo nostrud do. Amet dolore dolore minim adipisicing qui Lorem non commodo labore.
@@ -225,6 +225,7 @@ Reprehenderit sint sunt laboris esse. Anim velit in incididunt tempor tempor id 
           description:
               '''Consequat est irure in occaecat sunt labore adipisicing cillum incididunt esse elit qui nostrud dolore.
 Non non magna nisi irure exercitation aliquip minim exercitation eiusmod veniam voluptate consectetur voluptate.''',
+          createdAt: DateTime.now(),
         ),
         ProductReview(
           user: User(
@@ -236,11 +237,12 @@ Non non magna nisi irure exercitation aliquip minim exercitation eiusmod veniam 
           description:
               '''Deserunt enim laborum labore aliqua aliqua. Irure cupidatat anim ut eiusmod. Deserunt anim excepteur irure ipsum minim id labore nostrud sint. Magna sunt occaecat officia eiusmod laboris id anim enim nisi et enim sit nostrud. Ut ea voluptate in ut.
 Labore exercitation cupidatat est eiusmod proident. Quis ullamco non ea nisi consectetur et consequat commodo ad labore. Eiusmod quis dolore elit dolore Lorem ullamco aute. Eu sit amet fugiat ex. Voluptate mollit officia do dolor. Lorem pariatur ipsum duis commodo.''',
+          createdAt: DateTime.now(),
         ),
       ],
     ),
     Product(
-      id: 'Second',
+      id: debugCompactProductList[1].id,
       title: debugCompactProductList[1].title,
       description:
           '''Id cillum excepteur officia incididunt velit ex minim reprehenderit nulla. Pariatur irure sunt fugiat laborum. Consequat cupidatat commodo non nulla incididunt dolor exercitation quis nulla adipisicing occaecat voluptate ullamco. Enim dolore aute tempor irure Lorem fugiat dolor pariatur consectetur do. Id sunt deserunt qui ut.
@@ -275,7 +277,7 @@ Culpa mollit elit dolor labore laborum reprehenderit veniam eu duis duis elit do
       productReview: [],
     ),
     Product(
-      id: 'Third',
+      id: debugCompactProductList[2].id,
       title: debugCompactProductList[2].title,
       description:
           '''Labore ex voluptate amet occaecat non nostrud magna cupidatat. Irure deserunt ad amet ullamco reprehenderit eu reprehenderit do. Excepteur eu duis velit deserunt qui commodo aliqua et pariatur quis dolore. Cupidatat aliqua fugiat veniam incididunt duis sit magna mollit quis anim officia. Sit in occaecat laborum Lorem tempor voluptate nisi do enim aliquip amet incididunt minim. Excepteur ipsum non proident amet deserunt incididunt reprehenderit esse aute adipisicing magna consequat. Mollit sit do qui minim aliqua nisi qui eu.

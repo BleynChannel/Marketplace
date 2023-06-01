@@ -19,7 +19,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
 
       var result = await productRepository.discoverGetProducts(
           platforms: event.platforms);
-      await Future.delayed(const Duration(milliseconds: 1000));
 
       result.fold((failure) {
         String message = '';

@@ -163,7 +163,7 @@ class DesiredPage extends StatelessWidget {
       context,
       controller,
       desiredProductList: null,
-      itemCount: DesiredController.shimerProductCount,
+      itemCount: DesiredController.shimmerProductCount,
     );
   }
 

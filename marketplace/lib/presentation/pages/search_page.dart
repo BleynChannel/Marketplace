@@ -29,7 +29,7 @@ class SearchPage extends StatelessWidget {
     bloc = SearchBloc()..add(SearchEvent.onLoaded(_filter));
   }
 
-  static const int _shimerProductCount = 3;
+  static const int _shimmerProductCount = 3;
 
   void _onRefreshPage(BuildContext context) {
     bloc.add(SearchEvent.onLoaded(_filter));
@@ -102,7 +102,7 @@ class SearchPage extends StatelessWidget {
               children: [
                 ...(filterProducts ??
                         List<CompactProduct?>.generate(
-                            _shimerProductCount, (index) => null))
+                            _shimmerProductCount, (index) => null))
                     .map((product) => _buildProductItem(context, product))
                     .expand((element) => [element, const SizedBox(height: 8)]),
                 const SizedBox(height: 30),

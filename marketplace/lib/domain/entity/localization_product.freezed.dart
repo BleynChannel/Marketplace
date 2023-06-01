@@ -132,12 +132,13 @@ class __$$_LocalizationProductCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LocalizationProduct implements _LocalizationProduct {
+class _$_LocalizationProduct extends _LocalizationProduct {
   const _$_LocalizationProduct(
       {required this.language,
       required this.enabledSound,
       required this.enabledInterface,
-      required this.enabledSubtitles});
+      required this.enabledSubtitles})
+      : super._();
 
   @override
   final String language;
@@ -180,12 +181,13 @@ class _$_LocalizationProduct implements _LocalizationProduct {
           this, _$identity);
 }
 
-abstract class _LocalizationProduct implements LocalizationProduct {
+abstract class _LocalizationProduct extends LocalizationProduct {
   const factory _LocalizationProduct(
       {required final String language,
       required final bool enabledSound,
       required final bool enabledInterface,
       required final bool enabledSubtitles}) = _$_LocalizationProduct;
+  const _LocalizationProduct._() : super._();
 
   @override
   String get language;
